@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Name",
+        "tag":  "name",
+        "style": "width: 5%",
+        "display": true,
+        "type": {
+            "tag":"text"
+            },
+        "valign": "top"    
+    },
+    {
+        "name": "Porperties 1",
+        "tag":  "properties1",
+        "style": "width: 5%",
+        "display": false,
+        "type": {
+            "tag": "label",
+            "class": "label label-info"
+        }
+    },
+    {
+        "name": "Description",
+        "tag":  "description",
+        "style": "width: 25%",
+        "display": true,
+        "type": {
+            "tag": "text"
+        }
+    },
+    {
+        "name": "Properties 2",
+        "tag": "properties2",
+        "style": "width: 5%",
+        "display": true,
+        "type": {
+            "tag": "label",
+            "class": "label",
+            "ngClass": {
+                "label-success": "p21",
+                "label-warning": "p22",
+                "label-danger": "p23"
+            }
+        }
+        
+    },
+    {
+        "name": "Porperties 3",
+        "tag":  "properties3",
+        "style": "width: 5%",
+        "display": true,
+        "type": {
+            "tag": "label",
+            "class": "label label-info"
+        }
+    }
+]

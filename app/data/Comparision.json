@@ -1,0 +1,16 @@
+{
+    "title": "Ultimate-Comparision",
+    "subtitle": "Ultimate comparision framework",
+    "selecttitle": "Criteria",
+    "tabletitle": "Database Systems",
+    "details": {
+        "header": "name",
+        "header-label": "properties1",
+        "header-url": "url",
+        "body-main-title": "Description",
+        "body-attachment-tags": [
+            "properties2",
+            "properties3"
+        ]
+    }
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Properties 1",
+    "description": "Current available properties of type 1",
+    "placeholder": "Select dummy properties of type 1...",
+    "tag": "properties1",
+    "selectOption": false,
+    "values": [
+      {
+        "name": "p11"
+      },
+      {
+        "name": "p12"
+      }
+    ]
+  },
+  {
+    "name": "Properties 2",
+    "description": "Current available properties of type 2",
+    "placeholder": "Select dummy properties of type 2...",
+    "tag": "properties2",
+    "selectOption": false,
+    "values": [
+      {
+        "name": "p21"
+      },
+      {
+        "name": "p22"
+      },
+      {
+        "name": "p23"
+      }
+    ]
+  }
+]

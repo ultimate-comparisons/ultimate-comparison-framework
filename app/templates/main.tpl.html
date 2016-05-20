@@ -1,0 +1,76 @@
+<nav class="navbar">
+    <div class="container">
+        <div class="page-header">
+            <h1>{{comparision.title}}
+                <small>{{comparision.subtitle}}</small>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{comparision.selecttitle}}</h3>
+                    </div>
+                    <div class="panel panel-body" *ngIf="criteriaLoaded">
+                        <div class="row">
+                            <template ngFor let-crit [ngForOf]="criteria">
+                            <div class="col-md-6">
+                                <form>
+                                    <div class=" form-group ">
+                                        <label>
+                                            {{crit.name}}
+                                        </label>
+                                        <JQSelect [items]="crit.values" [placeholder]="crit.placeholder" [option]="'select2'" (result)="CriteriaChanged($event, crit)" [id]="crit.id + 'id'"></JQSelect>
+                                    </div>
+                                </form>
+                            </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-12 ">
+                <div class="panel panel-default ">
+                    <div class="panel-heading ">
+                        <h3 class="panel-title ">{{comparision.tabletitle}}</h3>
+                    </div>
+                    <table class="table table-bordered table-hover " *ngIf="dataLoaded ">
+                        <thead>
+                            <tr>
+                                <template ngFor let-column [ngForOf]="table | tablefilter">
+                                    <th valign=column.valign style=column.style name=column.tag>{{column.name}}</th>
+                                </template>
+                                <th style="width: 3% " name="details "></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let dat of data | datafilter: query ">
+                                <template ngFor let-column [ngForOf]="table | tablefilter">
+                                    <td *ngIf="column.type?.tag==='text'">{{dat[column.tag]}}</td>
+                                    <td *ngIf="column.type?.tag==='label'">
+                                        <template ngFor let-sitem [ngForOf]="dat[column.tag]" *ngIf="!column.type?.ngClass">
+                                            <span class="{{column.type.class}} mylabel">{{sitem}}</span>
+                                        </template>
+                                        <template ngFor let-sitem [ngForOf]="dat[column.tag]" *ngIf="column.type?.ngClass">
+                                            <span class="{{column.type.class}} mylabel" [ngClass]="{'label-success':sitem==column.type.ngClass['label-success'], 'label-warning':sitem==column.type.ngClass['label-warning'],'label-danger':sitem==column.type.ngClass['label-danger']}">{{sitem}}</span>
+                                        </template>
+                                    </td>
+                                </template>
+                                <td>
+                                    <button class="btn btn-primary btn-xs pull-right " (click)="onShowDetails(dat) ">
+                                        <!-- uib-tooltip="Show Details "
+                                        tooltip-popup-delay="1000 " tooltip-placement="bottom " -->
+                                        <span class="glyphicon glyphicon-info-sign " aria-hidden="false "></span>
+                                    </button> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<modalcomponent style="display:none"> </modalcomponent>

@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Ultimate-Comparision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 1. Load Style sheets -->
+    <link rel="stylesheet" href="app/css/Compare.css">
+    <link rel="stylesheet" href="app/css/ng2-select.css">
+    <link rel="stylesheet" href="app/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/css/select2.min.css">
+    <!-- 2. Load libraries -->
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+   
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/select2.min.js"></script>
+    <script src="libs/showdown.min.js"></script>
+    <style>
+        .select2-container--default {
+            display: table!important;
+            table-layout: fixed!important;
+        }
+        .select2-container {
+            display: block;
+            width:100%!important;
+        }
+    </style>
+    <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+         System.import('app').catch(function(err){ console.error(err);  });
+    </script>
+
+
+</head>
+
+<!-- 3. Display the application -->
+
+<body>
+    <my-app>Loading...</my-app>
+</body>
+
+</html>
