@@ -50,11 +50,11 @@
                                 <template ngFor let-column [ngForOf]="table | tablefilter">
                                     <td *ngIf="column.type?.tag==='text'">{{dat[column.tag]}}</td>
                                     <td *ngIf="column.type?.tag==='label'">
-                                        <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="!column.type?.ngClass && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
-                                            <span class="{{column.type.class}} mylabel">{{sitem}}</span>
+                                        <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="!column.type?.ngCls && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
+                                            <span class="{{column.type.cls}} mylabel">{{sitem}}</span>
                                         </template>
-                                        <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="column.type?.ngClass && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
-                                            <span class="{{column.type.class}} mylabel" [ngClass]="{'label-success':sitem==column.type.ngClass['label-success'], 'label-warning':sitem==column.type.ngClass['label-warning'],'label-danger':sitem==column.type.ngClass['label-danger']}">{{sitem}}</span>
+                                        <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="column.type?.ngCls && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
+                                            <span class="{{column.type.cls}} {{getLabelClass(sitem,column)}}  mylabel">{{sitem}}</span>
                                         </template>
                                     </td>
                                 </template>

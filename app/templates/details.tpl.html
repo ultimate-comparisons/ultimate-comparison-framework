@@ -1,10 +1,10 @@
 <div id="header" *ngIf="data">
     <h3 class="modal-title">{{header.text}}
-        <template ngFor let-sitem [ngForOf]="data[detail['header-label']].childs[0][0]" *ngIf="!header.label?.ngClass && data[detail['header-label']] && data[detail['header-label']].childs && data[detail['header-label']].childs[0] && data[detail['header-label']].childs[0][0]">
-            <span class="{{header.label.class}}">{{sitem}}</span>
+        <template ngFor let-sitem [ngForOf]="data[detail['header-label']].childs[0][0]" *ngIf="!header.label?.ngCls && data[detail['header-label']] && data[detail['header-label']].childs && data[detail['header-label']].childs[0] && data[detail['header-label']].childs[0][0]">
+            <span class="{{header.label.cls}}">{{sitem}}</span>
         </template>
-        <template ngFor let-sitem [ngForOf]="data[detail['header-label']].childs[0][0]" *ngIf="header.label?.ngClass && data[detail['header-label']] && data[detail['header-label']].childs && data[detail['header-label']].childs[0] && data[detail['header-label']].childs[0][0]">
-            <span class="{{header.label.class}}" [ngClass]="{'label-success':sitem==header.label.ngClass['label-success'], 'label-warning':sitem==header.label.ngClass['label-warning'],'label-danger':sitem==header.label.ngClass['label-danger']}">{{sitem}}</span>
+        <template ngFor let-sitem [ngForOf]="data[detail['header-label']].childs[0][0]" *ngIf="header.label?.ngCls && data[detail['header-label']] && data[detail['header-label']].childs && data[detail['header-label']].childs[0] && data[detail['header-label']].childs[0][0]">
+            <span class="{{header.label.cls}} {{header.label.ngCls.getCls(sitem)}}">{{sitem}}</span>
         </template>
         <small><a href="{{header.url}}" target="_blank">{{header.url}}</a></small>
     </h3>
@@ -19,11 +19,11 @@
             <div class="col-sm-12">
             <h3>{{(table | arrayfilter : ['tag', atag])?.name}}</h3>
             <p class="lead">
-            <template ngFor let-sitem [ngForOf]="data[atag].childs[0][0]" *ngIf="(table | arrayfilter : ['tag', atag])?.type?.ngClass && data[atag] && data[atag].childs && data[atag].childs[0] && data[atag].childs[0][0]">
-                <span class="{{(table | arrayfilter : ['tag', atag])?.type?.class}} mylabel" [ngClass]="{'label-success':sitem==(table | arrayfilter : ['tag', atag])?.type?.ngClass['label-success'], 'label-warning':sitem==(table | arrayfilter : ['tag', atag])?.type?.ngClass['label-warning'],'label-danger':sitem==(table | arrayfilter : ['tag', atag])?.type?.ngClass['label-danger']}">{{sitem}}</span>
+            <template ngFor let-sitem [ngForOf]="data[atag].childs[0][0]" *ngIf="(table | arrayfilter : ['tag', atag])?.type?.ngCls && data[atag] && data[atag].childs && data[atag].childs[0] && data[atag].childs[0][0]">
+                <span class="{{(table | arrayfilter : ['tag', atag])?.type?.cls}} {{(table | arrayfilter : ['tag', atag])?.type?.ngCls.getCls(sitem)}} mylabel">{{sitem}}</span>
             </template>
-            <template ngFor let-sitem [ngForOf]="data[atag].childs[0][0]" *ngIf="!(table | arrayfilter : ['tag', atag])?.type?.ngClass && data[atag] && data[atag].childs && data[atag].childs[0] && data[atag].childs[0][0]">
-                <span class="{{(table | arrayfilter : ['tag', atag])?.type?.class}} mylabel">{{sitem}}</span>
+            <template ngFor let-sitem [ngForOf]="data[atag].childs[0][0]" *ngIf="!(table | arrayfilter : ['tag', atag])?.type?.ngCls && data[atag] && data[atag].childs && data[atag].childs[0] && data[atag].childs[0][0]">
+                <span class="{{(table | arrayfilter : ['tag', atag])?.type?.cls}} mylabel">{{sitem}}</span>
             </template>
             </p>
             </div>

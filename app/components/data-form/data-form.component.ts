@@ -1,17 +1,12 @@
-import {Component, ContentChild, ViewChild}          from '@angular/core';
-import { Title }            from '@angular/platform-browser'
-import {NgForm}             from '@angular/common';
-import {NgClass}            from '@angular/common';
-import {HTTP_PROVIDERS}     from '@angular/http';
-import {Http}               from '@angular/http';
-import {DataFilter}         from '../../pipes/datafilter.pipe';
-import {JQSelect}           from '../select/jq-select';
-import {ModalComponentMarkdown} from '../modal/modal';
-import {Directive, ElementRef, Renderer, Input,AfterViewInit} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser'
+import { Http, HTTP_PROVIDERS } from '@angular/http';
+
+import { DataFilter } from '../../pipes/datafilter.pipe';
+import { JQSelect } from '../select/jq-select';
+import { ModalComponentMarkdown } from '../modal/modal';
 import { TableFilter }      from '../../pipes/tablefilter.pipe';
-
-import {Injectable} from '@angular/core';
-
+import { TableData, Type, LabelCls } from './../shared/index';
 
 @Component({
     selector: 'data-form',
@@ -24,7 +19,7 @@ export class DataFormComponent {
     data: Array<any> = new Array<any>();
     dataLoaded: boolean = false;
     
-    table = []
+    table: Array<TableData> = new Array<TableData>();
     tableLoaded: boolean = false;
     
     criteria = []
@@ -60,7 +55,30 @@ export class DataFormComponent {
                 
         http.request('app/data/Table.json')
         .subscribe(res => {
-            this.table = res.json();
+            res.json().forEach(obj => {
+                let lcls: LabelCls = new LabelCls();
+                if(obj.type.ngClass){
+                    lcls.label_success = obj.type.ngClass["label-success"] ? obj.type.ngClass["label-success"] : new Array<String>();
+                    lcls.label_warning = obj.type.ngClass["label-warning"] ? obj.type.ngClass["label-warning"] : new Array<String>();
+                    lcls.label_danger = obj.type.ngClass["label-danger"] ? obj.type.ngClass["label-danger"] : new Array<String>();
+                    lcls.label_default = obj.type.ngClass["label-default"] ? obj.type.ngClass["label-default"] : new Array<String>();
+                    lcls.label_info = obj.type.ngClass["label-info"] ? obj.type.ngClass["label-info"] : new Array<String>();
+                    lcls.label_primary = obj.type.ngClass["label-primary"] ? obj.type.ngClass["label-primary"] : new Array<String>();
+                }
+                let type: Type = new Type(
+                    obj.type.tag,
+                    obj.type.class,
+                    lcls    
+                )
+                let td: TableData = new TableData(
+                    obj.name,
+                    obj.tag,
+                    obj.style,
+                    obj.display,
+                    type
+                )
+                this.table.push(td);
+            })
             this.tableLoaded = true;
         });
         
@@ -96,5 +114,9 @@ export class DataFormComponent {
     @ViewChild(ModalComponentMarkdown) modalcomponent: ModalComponentMarkdown;
     private onShowDetails(data:any){
         this.modalcomponent.open(data, this.detail, this.table);
+    }
+    
+    public getLabelClass(item:string, column:TableData): string{
+        return column.type.ngCls.getCls(item);
     }
 }

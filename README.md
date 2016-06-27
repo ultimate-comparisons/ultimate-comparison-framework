@@ -123,9 +123,9 @@ Defines the styling for each property. Available display types are `text` and `l
                 "tag": "label",
                 "class": "label",
                 "ngClass": {
-                    "label-success": "p21",
-                    "label-warning": "p22",
-                    "label-danger": "p23"
+                    "label-success": ["p21"],
+                    "label-warning": ["p22"],
+                    "label-danger": ["p23"]
                 }
             }
             
