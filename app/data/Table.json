@@ -1,7 +1,7 @@
 [
     {
         "name": "Name",
-        "tag":  "name",
+        "tag":  "tag",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -10,8 +10,8 @@
         "valign": "top"    
     },
     {
-        "name": "Porperties 1",
-        "tag":  "properties1",
+        "name": "Prop. 1 Name",
+        "tag":  "Property 1",
         "style": "width: 5%",
         "display": false,
         "type": {
@@ -20,8 +20,8 @@
         }
     },
     {
-        "name": "Description",
-        "tag":  "description",
+        "name": "Short Description",
+        "tag":  "descr",
         "style": "width: 25%",
         "display": true,
         "type": {
@@ -29,8 +29,8 @@
         }
     },
     {
-        "name": "Properties 2",
-        "tag": "properties2",
+        "name": "Property 2",
+        "tag": "Property 2",
         "style": "width: 5%",
         "display": true,
         "type": {
@@ -45,8 +45,8 @@
         
     },
     {
-        "name": "Porperties 3",
-        "tag":  "properties3",
+        "name": "P3",
+        "tag":  "Property 3",
         "style": "width: 5%",
         "display": true,
         "type": {

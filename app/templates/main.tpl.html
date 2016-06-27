@@ -1,15 +1,15 @@
 <nav class="navbar">
     <div class="container">
         <div class="page-header">
-            <h1>{{comparision.title}}
-                <small>{{comparision.subtitle}}</small>
+            <h1>{{comparison.title}}
+                <small>{{comparison.subtitle}}</small>
             </h1>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{comparision.selecttitle}}</h3>
+                        <h3 class="panel-title">{{comparison.selecttitle}}</h3>
                     </div>
                     <div class="panel panel-body" *ngIf="criteriaLoaded">
                         <div class="row">
@@ -34,7 +34,7 @@
             <div class="col-md-12 ">
                 <div class="panel panel-default ">
                     <div class="panel-heading ">
-                        <h3 class="panel-title ">{{comparision.tabletitle}}</h3>
+                        <h3 class="panel-title ">{{comparison.tabletitle}}</h3>
                     </div>
                     <table class="table table-bordered table-hover " *ngIf="dataLoaded ">
                         <thead>
@@ -50,10 +50,10 @@
                                 <template ngFor let-column [ngForOf]="table | tablefilter">
                                     <td *ngIf="column.type?.tag==='text'">{{dat[column.tag]}}</td>
                                     <td *ngIf="column.type?.tag==='label'">
-                                        <template ngFor let-sitem [ngForOf]="dat[column.tag]" *ngIf="!column.type?.ngClass">
+                                        <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="!column.type?.ngClass && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
                                             <span class="{{column.type.class}} mylabel">{{sitem}}</span>
                                         </template>
-                                        <template ngFor let-sitem [ngForOf]="dat[column.tag]" *ngIf="column.type?.ngClass">
+                                        <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="column.type?.ngClass && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
                                             <span class="{{column.type.class}} mylabel" [ngClass]="{'label-success':sitem==column.type.ngClass['label-success'], 'label-warning':sitem==column.type.ngClass['label-warning'],'label-danger':sitem==column.type.ngClass['label-danger']}">{{sitem}}</span>
                                         </template>
                                     </td>

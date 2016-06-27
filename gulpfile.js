@@ -15,7 +15,9 @@ var gulp = require('gulp'),
     markdown = require('gulp-markdown-to-json'),
     jsontransform = require('gulp-json-transform'),
     concatjson = require('gulp-concat-json'),
-    run = require('run-sequence');
+    run = require('run-sequence'),
+    md2json = require('md-to-json'),
+    exec = require('gulp-exec');
 
 var paths = {
     src: 'app',
@@ -36,19 +38,22 @@ var files = {
     },
     scripts: {
        main: 'gulpfile.js',
-       watch: ['./app/js/*.js']
+       watch: [
+           './app/**/*.js',
+           './app/**/*.js.map',
+           './app/**/*.ts'],
+       setup: ['systemjs.config.js']
     },
     node_modules_scripts: [
-        './node_modules/angular2/**/shims_for_IE.js',
-        './node_modules/angular2/**/angular2.dev.js',
-        './node_modules/angular2/**/http.dev.js',
-        './node_modules/angular2/**/angular2-polyfills.js',
         './node_modules/es6-shim/**/es6-shim.min.js',
-        './node_modules/systemjs/**/system-polyfills.js',
-        './node_modules/systemjs/**/system.src.js',
-        './node_modules/rxjs/**/Rx.js',
-        './node_modules/angular2-modal/**/*.js',
+        './node_modules/zone.js/dist/zone.js',
+        './node_modules/reflect-metadata/Reflect.js',
+        './node_modules/systemjs/dist/system.src.js',
+        './node_modules/rxjs/**/*.js',
+        './node_modules/angular2-in-memory-web-api/**/*.js',
+        './node_modules/@angular/**/*.js',
         './node_modules/ng2-select/**/*.js',
+        './node_modules/angular2-modal/**/*.js'
     ],
     min_node_modules_scripts: [
         './node_modules/jquery/**/jquery.min.js',
@@ -72,7 +77,7 @@ var files = {
     json: ['./app/data/json/*.json'],
     typescripts:{
       watch: './app/**/*.ts'  
-    } 
+    }
 }
 
 var destfiles = {
@@ -112,11 +117,18 @@ gulp.task('css', ['sass', 'npm:css'], function() {
         .pipe(gulp.dest(destfiles.css)); 
 });
 
-gulp.task('scripts', ['ts'], function() {
+gulp.task('scripts', ['ts', 'setup:scripts'], function() {
     return gulp.src(files.scripts.watch)
         .pipe(changed(destfiles.scripts))
         //.pipe(uglify().on('error', gulpUtil.log))
         .pipe(gulp.dest(destfiles.scripts)); 
+});
+
+gulp.task('setup:scripts', function() {
+    return gulp.src(files.scripts.setup)
+        .pipe(changed(destfiles.scripts))
+        //.pipe(uglify().on('error', gulpUtil.log))
+        .pipe(gulp.dest(destfiles.index)); 
 });
 
 gulp.task('npm:scripts', ['min:npm:scripts'], function() {
@@ -165,15 +177,32 @@ gulp.task('sass', function () {
 })
 
 gulp.task('markdown', function(callback){
-   return gulp.src(files.markdown.watch)
-        .pipe(markdown({
-            pedantic: true,
-            smartypants: false
-        }))
-        .pipe(jsontransform(function(data){
-            return data;
-        }, 2))
-        .pipe(gulp.dest('./app/data/json'))
+   /*return gulp.src(files.markdown.watch)
+        .pipe(md2json()
+            //markdown({pedantic: true,smartypants: false})
+            )
+        //.pipe(jsontransform(function(data){
+        //    return data;
+        //}, 2))
+        .pipe(gulp.dest('./app/data/json'))*/
+    var options = {
+      continueOnError: false,
+      pipeStdout: true
+    }
+    return gulp.src(files.markdown.watch)
+    .pipe(exec('gradle -q -b ./app/java/md-to-json/build.gradle run -PappArgs=\'["""\n<%= file.contents %>\n""", 1, true]\'', options))
+    .pipe(rename({extname: ".json"}))
+    .pipe(gulp.dest('./app/data/json/'));
+});
+
+gulp.task('testmd', function() {
+  var options = {
+      continueOnError: false,
+      pipeStdout: true
+  }
+  return gulp.src(files.markdown.watch)
+  .pipe(exec('gradle -q -b ./app/java/md-to-json/build.gradle run -PappArgs=\'["""\n<%= file.contents %>\n""", 1, true]\'', options))
+  .pipe(gulp.dest('./app/data/jsonTest/'));
 });
 
 gulp.task('json', function(){
@@ -186,7 +215,7 @@ gulp.task('json', function(){
 })
 
 gulp.task('build-json', function(callback){
-    run('markdown', 'json', callback);
+    run('markdown', 'json', 'data', callback);
 })
 
 gulp.task('clean', function() {
@@ -194,9 +223,10 @@ gulp.task('clean', function() {
         .pipe(clean());
 });
 
-gulp.task('default', ['index', 'scripts', 'npm:scripts', 'templates', 'css', 'fonts', 'data', 'build-json'], function(){});
+gulp.task('default', ['index', 'scripts', 'npm:scripts', 'templates', 'css', 'fonts', 'build-json'], function(){});
 gulp.task('dev', ['default'], function() {
     gulp.watch(files.typescripts.watch, ['scripts']);
     gulp.watch(files.sass.watch, ['css']);
     gulp.watch(files.markdown.watch, ['build-json']);
 });
+

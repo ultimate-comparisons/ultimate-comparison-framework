@@ -7,6 +7,7 @@
 www/
 .idea/
 id_rsa
+id_rsa.pub
 *.iml
 npm*.log
 .project
@@ -15,5 +16,6 @@ npm*.log
 /typings/
 /app/**/*.js.map
 /app/**/*.js
-/app/data/json/*.json
 .vscode/
+/app/data/json/*.json
+/app/data/Data.json

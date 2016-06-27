@@ -1,9 +1,9 @@
 [
   {
-    "name": "Properties 1",
+    "name": "Property 1 Name",
     "description": "Current available properties of type 1",
-    "placeholder": "Select dummy properties of type 1...",
-    "tag": "properties1",
+    "placeholder": "Select dummy property 1 ...",
+    "tag": "Property 1",
     "selectOption": false,
     "values": [
       {
@@ -15,10 +15,10 @@
     ]
   },
   {
-    "name": "Properties 2",
+    "name": "Prop 2",
     "description": "Current available properties of type 2",
-    "placeholder": "Select dummy properties of type 2...",
-    "tag": "properties2",
+    "placeholder": "Select dummy property 2 ...",
+    "tag": "Property 2",
     "selectOption": false,
     "values": [
       {

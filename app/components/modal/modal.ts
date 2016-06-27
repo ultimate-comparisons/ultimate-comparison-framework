@@ -15,6 +15,7 @@ import { ObjectFilter } from  '../../pipes/objectfilter.pipe';
 export class ModalComponentMarkdown{
     private modalSelected: string;
     private selected: string;
+    private converter: any;
     private template: string;
     private data;
     private body: string;
@@ -29,6 +30,7 @@ export class ModalComponentMarkdown{
     };
     
     constructor(private modal:Modal, private elementRef:ElementRef, private ref: ApplicationRef, viewContainer: ViewContainerRef) {
+        this.converter = new showdown.Converter();
         modal.defaultViewContainer = viewContainer;
     }
     
@@ -46,7 +48,8 @@ export class ModalComponentMarkdown{
         } else {
             this.table = table;
             this.detail = detail;
-            this.description = data.body;
+            let dataBody: string = data[detail.body] ? data[detail.body].plain : ""; 
+            this.description = this.converter.makeHtml(dataBody);
             this.data= data;
             this.header.text = data[detail.header];
             this.header.label = table.find(obj => obj.tag == detail["header-label"]).type;

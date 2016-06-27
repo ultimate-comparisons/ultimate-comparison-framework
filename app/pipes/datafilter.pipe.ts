@@ -14,7 +14,12 @@ export class DataFilter implements PipeTransform {
         }
         return value.filter((item) => {               
             return this.query.every(cont => {
-                return (cont.value.length < 1) || this.intersect(cont.value, item[cont.crit.tag], cont.crit.selectOption)
+                return (cont.value.length < 1) || 
+                    ( item[cont.crit.tag] && 
+                    item[cont.crit.tag].childs && 
+                    item[cont.crit.tag].childs[0] && 
+                    item[cont.crit.tag].childs[0][0] && 
+                    this.intersect(cont.value, item[cont.crit.tag].childs[0][0], cont.crit.selectOption))
             })
         })   
     }

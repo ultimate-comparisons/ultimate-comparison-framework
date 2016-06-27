@@ -20,9 +20,8 @@ import {Injectable} from '@angular/core';
     pipes: [DataFilter, TableFilter],
     directives: [JQSelect, ModalComponentMarkdown]
 })
-
 export class DataFormComponent {
-    data = {}
+    data: Array<any> = new Array<any>();
     dataLoaded: boolean = false;
     
     table = []
@@ -34,20 +33,28 @@ export class DataFormComponent {
     detail = {}
     detailLoaded: boolean = false;
     
-    comparision = {}
-    comparisionLoaded: boolean = false;
+    comparison = {
+        details: "",
+        title: ""
+    }
+    comparisonLoaded: boolean = false;
     
     criteriaSelection = [];
-    title: Title;;
     query = [];
     counter : number;
     
-    constructor(http: Http, title: Title){
+    constructor(http: Http, public title: Title){
         this.counter = 0;
-        this.title = title;
         http.request('app/data/Data.json')
         .subscribe(res => {
             this.data = res.json();
+            this.data.forEach(entry => {
+                if (entry.tag){
+                    let regArray = /^((?:(?:\w+\s*)(?:-?\s*\w+)*)+)\s*-?\s*((?:http|ftp|https)(?::\/\/)(?:[\w_-]+(?:(?:\.[\w_-]+)+))(?:[\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)$/gi.exec(entry.tag);
+                    entry.url = regArray ? regArray[2]: "";
+                    entry.tag = regArray ? regArray[1]: entry.tag;
+                }
+            })
             this.dataLoaded = true;
         });
                 
@@ -57,13 +64,13 @@ export class DataFormComponent {
             this.tableLoaded = true;
         });
         
-        http.request('app/data/Comparision.json')
+        http.request('app/data/Comparison.json')
         .subscribe(res => {
-            this.comparision = res.json();
-            this.comparisionLoaded = true;
-            this.detail = this.comparision.details
+            this.comparison = res.json();
+            this.comparisonLoaded = true;
+            this.detail = this.comparison.details
             this.detailLoaded = true;
-            this.title.setTitle(this.comparision.title);
+            this.title.setTitle(this.comparison.title);
         });
         
         http.request('app/data/Criteria.json')

@@ -1,0 +1,12 @@
+{
+  "undef": true,
+  "unused": true,
+  "globals": {
+    "angular": false,
+    "require": false,
+    "console": false,
+    "process": false,
+    "connect": false,
+    "_": false
+  }
+}

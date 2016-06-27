@@ -1,5 +1,5 @@
 {
-  "name": "ultimate-comparision-framework",
+  "name": "ultimate-comparison-framework",
   "version": "1.0.0",
   "scripts": {
     "start": "concurrently \"npm run compile\" \"npm run lite\" ",
@@ -7,7 +7,8 @@
     "typings": "typings",
     "postinstall": "typings install",
     "compile": "./node_modules/gulp/bin/gulp.js default",
-    "dev": "concurrently \"npm run lite\" \"./node_modules/gulp/bin/gulp.js dev\" "
+    "dev": "concurrently \"npm run lite\" \"./node_modules/gulp/bin/gulp.js dev\" ",
+    "test": "./node_modules/gulp/bin/gulp.js default"
   },
   "license": "ISC",
   "devDependencies": {
@@ -20,6 +21,7 @@
     "gulp-clean-css": "^2.0.7",
     "gulp-concat": "^2.6.0",
     "gulp-concat-json": "^1.0.0",
+    "gulp-exec": "^2.1.2",
     "gulp-imagemin": "^3.0.0",
     "gulp-jshint": "^2.0.0",
     "gulp-json-transform": "^0.3.0",
@@ -35,6 +37,7 @@
     "gulp-util": "^3.0.7",
     "jshint": "^2.9.1",
     "lite-server": "^2.1.0",
+    "md-to-json": "^1.0.1",
     "run-sequence": "^1.1.5",
     "typescript": "^1.8.9",
     "typings": "^0.7.11"

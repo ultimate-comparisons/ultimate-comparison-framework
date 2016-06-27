@@ -1,0 +1,17 @@
+{
+    "title": "Ultimate-Comparison",
+    "subtitle": "Ultimate comparison framework",
+    "selecttitle": "Criteria",
+    "tabletitle": "Comparison Elements",
+    "details": {
+        "header": "tag",
+        "header-label": "Property 1",
+        "header-url": "url",
+        "body-main-title": "Description",
+        "body": "Description",
+        "body-attachment-tags": [
+            "Property 2",
+            "Property 3"
+        ]
+    }
+}
