@@ -177,32 +177,14 @@ gulp.task('sass', function () {
 })
 
 gulp.task('markdown', function(callback){
-   /*return gulp.src(files.markdown.watch)
-        .pipe(md2json()
-            //markdown({pedantic: true,smartypants: false})
-            )
-        //.pipe(jsontransform(function(data){
-        //    return data;
-        //}, 2))
-        .pipe(gulp.dest('./app/data/json'))*/
     var options = {
       continueOnError: false,
       pipeStdout: true
     }
     return gulp.src(files.markdown.watch)
-    .pipe(exec('gradle -q -b ./app/java/md-to-json/build.gradle run -PappArgs=\'["""\n<%= file.contents %>\n""", 1, true]\'', options))
+    .pipe(exec("gradle -q -b ./app/java/md-to-json/build.gradle run -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
     .pipe(rename({extname: ".json"}))
     .pipe(gulp.dest('./app/data/json/'));
-});
-
-gulp.task('testmd', function() {
-  var options = {
-      continueOnError: false,
-      pipeStdout: true
-  }
-  return gulp.src(files.markdown.watch)
-  .pipe(exec('gradle -q -b ./app/java/md-to-json/build.gradle run -PappArgs=\'["""\n<%= file.contents %>\n""", 1, true]\'', options))
-  .pipe(gulp.dest('./app/data/jsonTest/'));
 });
 
 gulp.task('json', function(){
