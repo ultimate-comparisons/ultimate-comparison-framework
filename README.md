@@ -1,4 +1,4 @@
-# Ultimate TSDB Comparison
+# Ultimate Comparison BASE
 
 [![Build Status](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE.svg?branch=master)](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE)
 
@@ -38,7 +38,7 @@ Defines properties for the webseite. The object `details` defines the interface 
             ]
         }
     }
-The tags `name, properties1, properties2, properties3` and  `url` must match tags in the data specification!
+The tags `Property 1, Property 2, Property 3` and `Description` must match tags in the data specification!
 
 ## Example for Criteria.json
 Criteria.json defines the selection fields. The tag `selectOption` specifies if it at least one (false) selected option or all (true) options must be true.
@@ -51,12 +51,12 @@ Criteria.json defines the selection fields. The tag `selectOption` specifies if 
             "tag": "Property 1",
             "selectOption": false,
             "values": [
-            {
-                "name": "p11"
-            },
-            {
-                "name": "p12"
-            }
+                {
+                    "name": "p11"
+                },
+                {
+                    "name": "p12"
+                }
             ]
         },
         {
@@ -66,15 +66,15 @@ Criteria.json defines the selection fields. The tag `selectOption` specifies if 
             "tag": "Property 2",
             "selectOption": false,
             "values": [
-            {
-                "name": "p21"
-            },
-            {
-                "name": "p22"
-            },
-            {
-                "name": "p23"
-            }
+                {
+                    "name": "p21"
+                },
+                {
+                    "name": "p22"
+                },
+                {
+                    "name": "p23"
+                }
             ]
         }
     ]
