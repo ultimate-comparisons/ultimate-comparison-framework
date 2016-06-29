@@ -9,9 +9,11 @@ This is an ultimate comparison framework written in angular2.
 2. intall java + gradle
 3. update npm (sudo): `npm install -g npm`
 4. test dependencies:
+
         java -version
         gradle -version
-        npm -version        
+        npm -version
+
 4. `npm install`
 5. `npm start` (starts the web page)
 5. alternatively open `www/index.html`
