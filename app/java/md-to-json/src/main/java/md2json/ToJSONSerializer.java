@@ -334,10 +334,35 @@ public class ToJSONSerializer implements Visitor {
 
 	@Override
 	public void visit(ListItemNode node) {
-		printer.printcm();
+		/*printer.printcm();
 		printer.print('"');
 		visitChildren(node);
 		printer.print('"');
+		*/
+		printer.printcm();
+		printer.print('{');
+		printer.print("\"content\":\"");
+		visitChildrenFirstN(node, 1);
+		printer.print('"');
+		printer.printcm();
+		
+		printer.print("\"plain\":\"");
+		printChildrenRawN(node, 0);
+		printer.print('"');
+		printer.printcm();
+		
+		printer.print("\"plainChilds\":\"");
+		printChildrenRawSkip(node, 1);
+		printer.print('"');
+		printer.printcm();
+		
+		printer.print("\"childs\":");
+		visitChildrenSkipN(node, 1);
+		if(node.getChildren().size() <= 1){
+			printer.print("[]");
+		}
+		
+		printer.print('}');
 	}
 
 	@Override
@@ -564,6 +589,15 @@ public class ToJSONSerializer implements Visitor {
 		int skip = 0;
 		for (Node child : node.getChildren()) {
 			if (skip++ >= N) {
+				printer.print(String.valueOf(Arrays.copyOfRange(raw, child.getStartIndex(), child.getEndIndex())));
+			}
+		}
+	}
+	
+	protected void printChildrenRawN(Node node, int N) {
+		int skip = 0;
+		for (Node child : node.getChildren()) {
+			if (skip++ == N) {
 				printer.print(String.valueOf(Arrays.copyOfRange(raw, child.getStartIndex(), child.getEndIndex())));
 			}
 		}

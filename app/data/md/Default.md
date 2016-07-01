@@ -1,20 +1,28 @@
-# Dummy - http://dummy.com
-Dummy short description
+# Default ALL - http://default-0-entry.com
+Default short description
 
-## Property 1
-- p11
-- p12
+## Performance
+- slow
+- fast
 
-## Property 2
-- p21
-- p22
-- p23
+## License
+- MIT
+- Apache 2.0
+- MPL 2.0
 
-## Property 3 
-- p31
-- p32
-- p33
-- p34
+## Showcase 2.0
+- red 1
+- red 2
+- green
+    - green property
+        - Nous sommes __markdown__
+    - green property
+    - third green property
+- yellow
+    - yellow property
+- dark blue
+- grey
+- light blue
 
 ## Description
-> #### Dummy Markdown
+Default long description in __markdown__.

@@ -2,16 +2,17 @@
     "title": "Ultimate-Comparison",
     "subtitle": "Ultimate comparison framework",
     "selecttitle": "Criteria",
-    "tabletitle": "Comparison Elements",
+    "tabletitle": "Comparison of DOM manipulation libraries",
     "details": {
         "header": "tag",
-        "header-label": "Property 1",
+        "header-label": "Performance",
         "header-url": "url",
         "body-main-title": "Description",
         "body": "Description",
         "body-attachment-tags": [
-            "Property 2",
-            "Property 3"
+            "Performance",
+            "License",
+            "Showcase 2.0"
         ]
     }
 }

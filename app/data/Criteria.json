@@ -1,35 +1,35 @@
 [
-  {
-    "name": "Property 1 Name",
-    "description": "Current available properties of type 1",
-    "placeholder": "Select dummy property 1 ...",
-    "tag": "Property 1",
-    "selectOption": false,
-    "values": [
-      {
-        "name": "p11"
-      },
-      {
-        "name": "p12"
-      }
-    ]
-  },
-  {
-    "name": "Prop 2",
-    "description": "Current available properties of type 2",
-    "placeholder": "Select dummy property 2 ...",
-    "tag": "Property 2",
-    "selectOption": false,
-    "values": [
-      {
-        "name": "p21"
-      },
-      {
-        "name": "p22"
-      },
-      {
-        "name": "p23"
-      }
-    ]
-  }
+    {
+        "name": "Performance",
+        "tag": "Performance",
+        "description": "Performace of entry.",
+        "placeholder": "Select performace rating ...",
+        "and_search": true,
+        "values": [
+            {
+                "name": "slow"
+            },
+            {
+                "name": "fast"    
+            }
+        ]
+    },
+    {
+        "name": "Licenses",
+        "tag": "License",
+        "description": "Popular licenses for DOM manipulation libraries.",
+        "placeholder": "Select license ...",
+        "and_search": false,
+        "values": [
+            {
+                "name": "MIT"
+            },
+            {
+                "name": "Apache 2.0"
+            },
+            {
+                "name": "MPL 2.0"
+            }
+        ]
+    }
 ]

@@ -4,6 +4,6 @@ export class Type {
     constructor(
         public tag: string = "",
         public cls: string = "",
-        public ngCls: LabelCls = new LabelCls()     
+        public labelCls: LabelCls = new LabelCls()     
     ){}
 }
