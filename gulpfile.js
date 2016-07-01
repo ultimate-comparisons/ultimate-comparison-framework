@@ -1,49 +1,60 @@
 var gulp = require('gulp'),
-    changed = require('gulp-changed'),
-    concat = require('gulp-concat'),
-    uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     clean = require('gulp-clean'),
-    minifyhtml = require('gulp-minify-html'),
-    minifyCss = require('gulp-clean-css'),
-    autoprefixer = require('gulp-autoprefixer')
     ts = require('gulp-typescript'),
     sass = require('gulp-sass'),
-    del = require('del'),
     sourcemaps = require('gulp-sourcemaps'),
-    gulpUtil = require('gulp-util'),
-    markdown = require('gulp-markdown-to-json'),
     jsontransform = require('gulp-json-transform'),
     concatjson = require('gulp-concat-json'),
     run = require('run-sequence'),
-    md2json = require('md-to-json'),
     exec = require('gulp-exec');
 
 var paths = {
     src: 'app',
     dev: 'www',
-    dist: 'dist',
-    tmp: '.tmp',
-    scripts: 'app/js',
     css: 'app/css',
     sass: 'app/sass',
     templates: 'app/templates',
-    fonts: 'app/fonts'
+    fonts: 'app/fonts',
+    libs: 'libs'
 };
 
 var files = {
     index: './index.html',
-    sass: {
-        watch: './app/sass/**/*scss'
-    },
-    scripts: {
-       main: 'gulpfile.js',
-       watch: [
-           './app/**/*.js',
-           './app/**/*.js.map',
-           './app/**/*.ts'],
-       setup: ['systemjs.config.js']
-    },
+    systemjs: [
+        './systemjs.config.js',
+    ],
+    fonts: [
+        './app/fonts/*'
+    ],
+    libs: [
+        './libs/*'
+    ],
+    sass: [
+        './app/sass/**/*scss'
+    ],
+    typescripts: [
+        './app/**/*.ts'
+    ],
+    scripts: [
+        './app/**/*.js',
+        './app/**/*.js.map',
+    ],
+    templates: [
+        './app/templates/**/*tpl.html'
+    ],
+    css: [
+        './app/css/*.css'
+    ],
+    data: [
+        './app/data/*.json'
+    ],
+    markdown: [
+        './app/data/md/*.md'
+    ],
+    json: [
+        './app/data/json/*.json'
+    ],
     node_modules_scripts: [
         './node_modules/es6-shim/**/es6-shim.min.js',
         './node_modules/zone.js/dist/zone.js',
@@ -67,98 +78,48 @@ var files = {
     ],
     node_modules_fonts: [
         './node_modules/bootstrap/fonts/*'
-    ],
-    templates: ['./app/templates/**/*tpl.html'],
-    css: ['./app/css/*.css'],
-    data: ['./app/data/*.json'],
-    markdown: {
-        watch: './app/data/md/*.md'
-    },
-    json: ['./app/data/json/*.json'],
-    typescripts:{
-      watch: './app/**/*.ts'  
-    }
+    ]
 }
 
 var destfiles = {
     index: './www',
+    app: './www/app',
     templates: './www/app/templates',
-    scripts: './www/app',
     css: './www/app/css',
-    fonts: './www/app/fonts'
+    fonts: './www/app/fonts',
+    data: './www/app/data',
+    libs: './www/libs'
 }
 
-gulp.task('index', function(){
-    return gulp.src(files.index)
-        .pipe(changed(destfiles.index))
-        .pipe(minifyhtml())
-        .pipe(gulp.dest(destfiles.index)); 
-});
+// BUILD / UPDATE standard files ---------------------------------<
+gulp.task('build-standard', ['ts', 'sass', 'npm:fonts', 'npm:css', 'npm:libs'], function () {})
 
-gulp.task('templates', function() {
-    return gulp.src(files.templates)
-        //.pipe(changed(destfiles.templates))
-        //.pipe(minifyhtml())
-        .pipe(gulp.dest(destfiles.templates)); 
-});
+gulp.task('update-standard', function () {
+    gulp.watch(files.typescripts, ['ts']);
+    gulp.watch(files.sass, ['sass']);  
+})
 
-gulp.task('fonts', function() {
-    return gulp.src(files.node_modules_fonts)
-        .pipe(rename({dirname: ''}))
-        .pipe(gulp.dest(destfiles.fonts))
-        .pipe(gulp.dest(paths.fonts))
-});
-
-gulp.task('css', ['sass', 'npm:css'], function() {
-    return gulp.src(files.css)
-        .pipe(rename({dirname: ''}))
-        //.pipe(changed(destfiles.css))
-        .pipe(minifyCss())
-        .pipe(gulp.dest(destfiles.css)); 
-});
-
-gulp.task('scripts', ['ts', 'setup:scripts'], function() {
-    return gulp.src(files.scripts.watch)
-        .pipe(changed(destfiles.scripts))
-        //.pipe(uglify().on('error', gulpUtil.log))
-        .pipe(gulp.dest(destfiles.scripts)); 
-});
-
-gulp.task('setup:scripts', function() {
-    return gulp.src(files.scripts.setup)
-        .pipe(changed(destfiles.scripts))
-        //.pipe(uglify().on('error', gulpUtil.log))
-        .pipe(gulp.dest(destfiles.index)); 
-});
-
-gulp.task('npm:scripts', ['min:npm:scripts'], function() {
-    return gulp.src(files.node_modules_scripts, {base: '.'})
-        .pipe(gulp.dest('./www'));
-});
-
-gulp.task('min:npm:scripts', function() {
-    return gulp.src(files.min_node_modules_scripts, {base: '.'})
-        .pipe(rename({dirname: ''}))
-        .pipe(gulp.dest('./www/libs'))
-        .pipe(gulp.dest('./libs'));
-});
-
-gulp.task('data', function() {
-    return gulp.src(files.data)
-        //.pipe(rename({dirname: ''}))
-        .pipe(gulp.dest('./www/app/data')); 
-});
-
-// Compiler:
 var tsProject = ts.createProject('tsconfig.json');
 gulp.task('ts', function () {
-    return gulp.src(files.typescripts.watch)
+    return gulp.src(files.typescripts)
         .pipe(sourcemaps.init())
         .pipe(ts(tsProject))
-        //.pipe(rename({dirname: ''}))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(paths.src));
 });
+
+gulp.task('npm:fonts', function() {
+    return gulp.src(files.node_modules_fonts)
+        .pipe(rename({dirname: ''}))
+        .pipe(gulp.dest(paths.fonts))
+});
+
+gulp.task('sass', function () {
+    return gulp.src(files.sass)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(rename({dirname: ''}))
+        .pipe(gulp.dest(paths.css));
+})
 
 gulp.task('npm:css', function () {
     return gulp.src(files.node_modules_styles)
@@ -166,14 +127,20 @@ gulp.task('npm:css', function () {
         .pipe(gulp.dest(paths.css));
 })
 
-gulp.task('sass', function () {
-    return gulp.src(files.sass.watch)
-        .pipe(sass().on('error', sass.logError))
-        .pipe(minifyCss({
-            compatibility: 'ie8'
-        }))
+gulp.task('npm:libs', function() {
+    return gulp.src(files.min_node_modules_scripts, {base: '.'})
         .pipe(rename({dirname: ''}))
-        .pipe(gulp.dest(paths.src + '/css/'));
+        .pipe(gulp.dest(paths.libs));
+});
+// END BUILD standard files -------------------------------------->
+
+// BUILD / UPDATE data files -------------------------------------<
+gulp.task('build-data', function (callback) {
+    run('markdown', 'json', callback);
+})
+
+gulp.task('update-data', function () {
+    gulp.watch(files.markdown, ['build-data']);
 })
 
 gulp.task('markdown', function(callback){
@@ -181,7 +148,7 @@ gulp.task('markdown', function(callback){
       continueOnError: false,
       pipeStdout: true
     }
-    return gulp.src(files.markdown.watch)
+    return gulp.src(files.markdown)
     .pipe(exec("gradle -q -b ./app/java/md-to-json/build.gradle run -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
     .pipe(rename({extname: ".json"}))
     .pipe(gulp.dest('./app/data/json/'));
@@ -195,20 +162,96 @@ gulp.task('json', function(){
         }, 2))
         .pipe(gulp.dest('./app/data/'))
 })
+// --------------------------------------------------------------->
 
-gulp.task('build-json', function(callback){
-    run('markdown', 'json', 'data', callback);
+// BUILD / UPDATE www folder -------------------------------------<
+gulp.task('build-www', ['index', 'systemjs', 'typescripts', 'scripts', 'css', 'templates', 'data', 'libs', 'fonts', 'npm:scripts'], function () {})
+
+gulp.task('update-www', function () {
+    gulp.watch(files.index, ['index']);
+    gulp.watch(files.typescripts, ['typescripts']);
+    gulp.watch(files.index, ['index']);
+    gulp.watch(files.css, ['css']);
+    gulp.watch(files.templates, ['templates']);
+    gulp.watch(files.data, ['data']);
 })
 
-gulp.task('clean', function() {
-    gulp.src(paths.dev, {read: false})
+gulp.task('index', function(){
+    return gulp.src(files.index)
+        .pipe(gulp.dest(destfiles.index)); 
+});
+
+gulp.task('systemjs', function(){
+    return gulp.src(files.systemjs)
+        .pipe(gulp.dest(destfiles.index))
+})
+
+gulp.task('typescripts', function() {
+    return gulp.src(files.typescripts)
+        .pipe(gulp.dest(destfiles.app)); 
+});
+
+gulp.task('scripts', function() {
+    return gulp.src(files.scripts)
+        .pipe(gulp.dest(destfiles.app));
+});
+
+gulp.task('npm:scripts', function() {
+    return gulp.src(files.node_modules_scripts, {base: '.'})
+        .pipe(gulp.dest(destfiles.index));
+});
+
+gulp.task('libs', function(){
+    return gulp.src(files.libs)
+        .pipe(gulp.dest(destfiles.libs))
+})
+
+gulp.task('fonts', function(){
+    return gulp.src(files.fonts)
+        .pipe(gulp.dest(destfiles.fonts))
+})
+
+gulp.task('css', function() {
+    return gulp.src(files.css)
+        .pipe(rename({dirname: ''}))
+        .pipe(gulp.dest(destfiles.css)); 
+});
+
+gulp.task('templates', function() {
+    return gulp.src(files.templates)
+        .pipe(gulp.dest(destfiles.templates)); 
+});
+
+gulp.task('data', function() {
+    return gulp.src(files.data, {base: '.'})
+        .pipe(gulp.dest(destfiles.index)); 
+});
+// --------------------------------------------------------------->
+
+// DELETE www folder ---------------------------------------------<
+gulp.task('delete-www', function() {
+    return gulp.src(paths.dev, {read: false})
         .pipe(clean());
 });
+// --------------------------------------------------------------->
 
-gulp.task('default', ['index', 'scripts', 'npm:scripts', 'templates', 'css', 'fonts', 'build-json'], function(){});
-gulp.task('dev', ['default'], function() {
-    gulp.watch(files.typescripts.watch, ['scripts']);
-    gulp.watch(files.sass.watch, ['css']);
-    gulp.watch(files.markdown.watch, ['build-json']);
+// DEFAULT and DEV tasks -----------------------------------------<
+gulp.task('default', function(callback){
+    run(/*'build-data',*/ 'angular2-modal-fix', 'build-standard', 'delete-www','build-www', callback);
 });
 
+gulp.task('dev', ['default'], function(callback) {
+    run('update-standard', 'update-data', 'update-www', callback);
+});
+// --------------------------------------------------------------->
+
+
+// FIXES ---------------------------------------------------------<
+gulp.task('angular2-modal-fix', function () {
+    return gulp.src('./node_modules/angular2-modal/src/components/angular2-modal/**/*.ts')
+        .pipe(sourcemaps.init())
+        .pipe(ts(tsProject))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('./node_modules/angular2-modal/src/components/angular2-modal'));
+});
+// --------------------------------------------------------------->

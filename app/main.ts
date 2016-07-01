@@ -1,6 +1,5 @@
-///<reference path="../node_modules/angular2/typings/browser.d.ts"/>
+import { bootstrap }    from '@angular/platform-browser-dynamic';
+import { AppComponent } from './app.component';
+import { MODAL_BROWSER_PROVIDERS } from 'angular2-modal/src/components/angular2-modal/platform-browser/index';
 
-import {bootstrap}    from '@angular/platform-browser-dynamic';
-import {AppComponent} from './app.component';
-
-bootstrap(AppComponent);
+bootstrap(AppComponent, [...MODAL_BROWSER_PROVIDERS]);

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, ApplicationRef, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { Modal, MODAL_PROVIDERS } from 'angular2-modal/angular2-modal';
+import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/src/components/angular2-modal/plugins/bootstrap/index';
 import {RouteConfig, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import { ArrayFilter } from  '../../pipes/arrayfilter.pipe';
 import { ObjectFilter } from  '../../pipes/objectfilter.pipe';
@@ -9,7 +9,7 @@ import { ObjectFilter } from  '../../pipes/objectfilter.pipe';
     selector: 'modalcomponent',
     templateUrl: 'app/templates/details.tpl.html',
     directives: [ ...ROUTER_DIRECTIVES],
-    providers: [...MODAL_PROVIDERS],
+    viewProviders: [...BS_MODAL_PROVIDERS],
     pipes: [ArrayFilter, ObjectFilter]
 })
 export class ModalComponentMarkdown{
