@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     jsontransform = require('gulp-json-transform'),
     concatjson = require('gulp-concat-json'),
     run = require('run-sequence'),
-    exec = require('gulp-exec');
+    exec = require('gulp-exec'),
+    tsConfig = require('./tsconfig');
 
 var paths = {
     src: 'app',
@@ -99,13 +100,14 @@ gulp.task('update-standard', function () {
     gulp.watch(files.sass, ['sass']);  
 })
 
-var tsProject = ts.createProject('tsconfig.json');
+
 gulp.task('ts', function () {
-    return gulp.src(files.typescripts)
-        .pipe(sourcemaps.init())
-        .pipe(ts(tsProject))
+    var tsProject = ts.createProject('tsconfig.json');
+    return tsProject.src()
+        .pipe(sourcemaps.init()) 
+        .pipe(ts(tsConfig.compilerOptions))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(paths.src));
+        .pipe(gulp.dest(paths.src));     
 });
 
 gulp.task('npm:fonts', function() {
