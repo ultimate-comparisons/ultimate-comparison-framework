@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser'
 import { Http, HTTP_PROVIDERS } from '@angular/http';
+import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/components/tooltip';
 
 import { DataFilter } from '../../pipes/datafilter.pipe';
 import { JQSelect } from '../select/jq-select';
@@ -13,7 +14,7 @@ import { TableData, Type, LabelCls, Value } from './../shared/index';
     templateUrl: 'app/templates/main.tpl.html',
     providers: [HTTP_PROVIDERS, Title],
     pipes: [DataFilter, TableFilter],
-    directives: [JQSelect, ModalComponentMarkdown]
+    directives: [JQSelect, ModalComponentMarkdown, TOOLTIP_DIRECTIVES]
 })
 export class DataFormComponent {
     data: Array<any> = new Array<any>();
@@ -57,9 +58,11 @@ export class DataFormComponent {
         .subscribe(res => {
             res.json().forEach(obj => {
                 let lcls: LabelCls = new LabelCls();
+                var values: {[name: string]: string;} = { };
                 if(obj.type.values){
                     obj.type.values.forEach(val => {
                         let value: Value = new Value(val.name, val.description);
+                        values[val.name] = val.description;
                         switch(val.class){
                             case "label-success": 
                                 lcls.label_success.push(value);
@@ -92,7 +95,8 @@ export class DataFormComponent {
                     obj.tag,
                     obj.style,
                     obj.display,
-                    type
+                    type,
+                    values
                 )
                 this.table.push(td);
             })

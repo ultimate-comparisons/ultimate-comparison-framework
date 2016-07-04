@@ -50,11 +50,8 @@
                                 <template ngFor let-column [ngForOf]="table | tablefilter">
                                     <td *ngIf="column.type?.tag==='text'">{{dat[column.tag]}}</td>
                                     <td *ngIf="column.type?.tag==='label'">
-                                        <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="!column.type?.labelCls && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
-                                            <span class="{{column.type.cls}} mylabel">{{sitem.content}}</span>
-                                        </template>
                                         <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="column.type?.labelCls && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
-                                            <span class="{{column.type.cls}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel">{{sitem.content}}</span>
+                                            <span class="{{column.type.cls}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel"><tootltip [tooltip]="column.values[sitem.content]">{{sitem.content}}</tootltip></span>
                                         </template>
                                     </td>
                                 </template>

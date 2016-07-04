@@ -6,6 +6,7 @@ export class TableData {
         public tag:string = "",
         public style: string = "",
         public display:boolean = false,
-        public type: Type = new Type()
+        public type: Type = new Type(),
+        public values: {[name: string]: string;} = { }
         ){}
 }

@@ -7,10 +7,12 @@
         "and_search": true,
         "values": [
             {
-                "name": "slow"
+                "name": "slow",
+                "description": "I am slow!"
             },
             {
-                "name": "fast"    
+                "name": "fast",
+                "description": "I am fast!"    
             }
         ]
     },

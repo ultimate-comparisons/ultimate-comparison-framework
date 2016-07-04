@@ -65,7 +65,8 @@ var files = {
         './node_modules/angular2-in-memory-web-api/**/*.js',
         './node_modules/@angular/**/*.js',
         './node_modules/ng2-select/**/*.js',
-        './node_modules/angular2-modal/**/*.js'
+        './node_modules/angular2-modal/**/*.js',
+        './node_modules/ng2-bootstrap/**/*.js'
     ],
     min_node_modules_scripts: [
         './node_modules/jquery/**/jquery.min.js',
@@ -250,6 +251,7 @@ gulp.task('dev', ['default'], function(callback) {
 
 // FIXES ---------------------------------------------------------<
 gulp.task('angular2-modal-fix', function () {
+    var tsProject = ts.createProject('tsconfig.json');
     return gulp.src('./node_modules/angular2-modal/src/components/angular2-modal/**/*.ts')
         .pipe(sourcemaps.init())
         .pipe(ts(tsProject))
