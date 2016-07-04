@@ -27,61 +27,65 @@ Defines properties for the webseite. The object `details` defines the interface 
         "title": "Ultimate-Comparison",
         "subtitle": "Ultimate comparison framework",
         "selecttitle": "Criteria",
-        "tabletitle": "Comparison Elements",
+        "tabletitle": "Comparison of DOM manipulation libraries",
         "details": {
             "header": "tag",
-            "header-label": "Property 1",
+            "header-label": "Performance",
             "header-url": "url",
             "body-main-title": "Description",
             "body": "Description",
             "body-attachment-tags": [
-                "Property 2",
-                "Property 3"
+                "Performance",
+                "License",
+                "Showcase 2.0"
             ]
         }
     }
-The tags `Property 1, Property 2, Property 3` and `Description` must match tags in the data specification!
+    
+The tags `Performance, License, Showcase 2.0` and `Description` must match tags in the data specification!
 
 ## Example for Criteria.json
 Criteria.json defines the selection fields. The tag `selectOption` specifies if it at least one (false) selected option or all (true) options must be true.
 
     [
         {
-            "name": "Property 1 Name",
-            "description": "Current available properties of type 1",
-            "placeholder": "Select dummy property 1 ...",
-            "tag": "Property 1",
-            "selectOption": false,
+            "name": "Performance",
+            "tag": "Performance",
+            "description": "Performace of entry.",
+            "placeholder": "Select performace rating ...",
+            "and_search": true,
             "values": [
                 {
-                    "name": "p11"
+                    "name": "slow",
+                    "description": "I am slow!"
                 },
                 {
-                    "name": "p12"
+                    "name": "fast",
+                    "description": "I am fast!"    
                 }
             ]
         },
         {
-            "name": "Prop 2",
-            "description": "Current available properties of type 2",
-            "placeholder": "Select dummy property 2 ...",
-            "tag": "Property 2",
-            "selectOption": false,
+            "name": "Licenses",
+            "tag": "License",
+            "description": "Popular licenses for DOM manipulation libraries.",
+            "placeholder": "Select license ...",
+            "and_search": false,
             "values": [
                 {
-                    "name": "p21"
+                    "name": "MIT"
                 },
                 {
-                    "name": "p22"
+                    "name": "Apache 2.0"
                 },
                 {
-                    "name": "p23"
+                    "name": "MPL 2.0"
                 }
             ]
         }
     ]
 
-The tag `tag` must match a tag in the data specification.
+The tag `tag:...` must match a tag in the data specification.
 
 ## Example for Table.json
 Defines the styling for each property. Available display types are `text` and `label`. For the `label` type it is possible to use a value dependend styling (Property 2: `ngClass`).
@@ -98,16 +102,6 @@ Defines the styling for each property. Available display types are `text` and `l
             "valign": "top"    
         },
         {
-            "name": "Prop. 1 Name",
-            "tag":  "Property 1",
-            "style": "width: 5%",
-            "display": false,
-            "type": {
-                "tag": "label",
-                "class": "label label-info"
-            }
-        },
-        {
             "name": "Short Description",
             "tag":  "descr",
             "style": "width: 25%",
@@ -117,59 +111,134 @@ Defines the styling for each property. Available display types are `text` and `l
             }
         },
         {
-            "name": "Property 2",
-            "tag": "Property 2",
+            "name": "Performance",
+            "tag":  "Performance",
             "style": "width: 5%",
             "display": true,
             "type": {
                 "tag": "label",
                 "class": "label",
-                "ngClass": {
-                    "label-success": ["p21"],
-                    "label-warning": ["p22"],
-                    "label-danger": ["p23"]
-                }
+                "values": [
+                    {
+                        "name": "slow",
+                        "description": "Overall performance above 200ms.",
+                        "class": "label-danger"
+                    },
+                    {
+                        "name": "fast",
+                        "description": "Overall performance below 200ms.",
+                        "class": "label-success"
+                    }   
+                ]
+            }
+        },
+        {
+            "name": "License",
+            "tag": "License",
+            "display": false,
+            "type": {
+                "tag": "label",
+                "class": "label label-info",
+                "values": [
+                    {
+                        "name": "MIT",
+                        "description": "http://choosealicense.com/licenses/mit/"
+                    },
+                    {
+                        "name": "Apache 2.0",
+                        "description": "http://choosealicense.com/licenses/apache-2.0/"
+                    },
+                    {
+                        "name": "MPL 2.0",
+                        "description": "http://choosealicense.com/licenses/mpl-2.0/"
+                    }
+                ]
             }
             
         },
         {
-            "name": "P3",
-            "tag":  "Property 3",
+            "name": "Showcase",
+            "tag":  "Showcase 2.0",
             "style": "width: 5%",
             "display": true,
             "type": {
                 "tag": "label",
-                "class": "label label-info"
+                "class": "label",
+                "values": [
+                    {
+                        "name": "red 1",
+                        "description": "Show case for red label 1",
+                        "class": "label-danger"
+                    },
+                    {
+                        "name": "red 2",
+                        "description": "Show case for red label 2",
+                        "class": "label-danger"
+                    },
+                    {
+                        "name": "green",
+                        "description": "Show case for green label",
+                        "class": "label-success"
+                    },
+                    {
+                        "name": "yellow",
+                        "description": "Show case for yellow label",
+                        "class": "label-warning"
+                    },
+                    {
+                        "name": "dark blue",
+                        "description": "Show case for dark blue label",
+                        "class": "label-primary"
+                    },
+                    {
+                        "name": "grey",
+                        "description": "Show case for grey label",
+                        "class": "label-default"
+                    },
+                    {
+                        "name": "light blue",
+                        "description": "Show case for light blue label",
+                        "class": "label-info"
+                    }
+                ]
             }
         }
     ]
 
-The tags `Property 1, Property 2, Property 3` must match a section title (level 2).
+The tags `Performance, License, Showcase 2.0` must match a section title (level 2).
 
 # Data Specification
 
 The code below shows a sample data specification.
 
-    # Dummy - http://dummy.com
-    Dummy short description
+    # Default ALL - http://default-0-entry.com
+    Default short description
 
-    ## Property 1
-    - p11
-    - p12
+    ## Performance
+    - slow
+    - fast
 
-    ## Property 2
-    - p21
-    - p22
-    - p23
+    ## License
+    - MIT
+    - Apache 2.0
+    - MPL 2.0
 
-    ## Property 3 
-    - p31
-    - p32
-    - p33
-    - p34
+    ## Showcase 2.0
+    - red 1
+    - red 2
+    - green
+        - green property
+            - Nous sommes __markdown__
+        - green property
+        - third green property
+    - yellow
+        - yellow property
+    - dark blue
+    - grey
+    - light blue
 
     ## Description
-    > #### Dummy Markdown
+    Default long description in __markdown__.
 
 ## License
 
