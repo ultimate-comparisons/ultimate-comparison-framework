@@ -62,7 +62,10 @@ var files = {
         './node_modules/@angular/**/*.js',
         './node_modules/ng2-select/**/*.js',
         './node_modules/angular2-modal/**/*.js',
-        './node_modules/ng2-bootstrap/**/*.js'
+        './node_modules/ng2-bootstrap/**/*.js',
+        './node_modules/select2/**/*.js',
+        './node_modules/jquery/**/*.js',
+        './node_modules/showdown/**/*.js'
     ],
     node_modules_styles: [
         './node_modules/ng2-select/**/*.css',
