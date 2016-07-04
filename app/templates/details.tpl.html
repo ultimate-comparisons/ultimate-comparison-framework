@@ -1,10 +1,7 @@
 <div id="header" *ngIf="data">
     <h3 class="modal-title">{{header.text}}
-        <template ngFor let-sitem [ngForOf]="data[detail['header-label']].childs[0][0]" *ngIf="!header.label?.labelCls && data[detail['header-label']] && data[detail['header-label']].childs && data[detail['header-label']].childs[0] && data[detail['header-label']].childs[0][0]">
-            <span class="{{header.label.cls}}">{{sitem.content}}</span>
-        </template>
-        <template ngFor let-sitem [ngForOf]="data[detail['header-label']].childs[0][0]" *ngIf="header.label?.labelCls && data[detail['header-label']] && data[detail['header-label']].childs && data[detail['header-label']].childs[0] && data[detail['header-label']].childs[0][0]">
-            <span class="{{header.label.cls}} {{header.label.labelCls.getCls(sitem.content)}}">{{sitem.content}}</span>
+        <template ngFor let-sitem [ngForOf]="data.getPropertyListItems(detail['header-label'])">
+            <div class="{{header?.label?.cls}} {{header?.label?.labelCls?.getCls(sitem.content)}}  mylabel">{{sitem.content}}</div>
         </template>
         <small><a href="{{header.url}}" target="_blank">{{header.url}}</a></small>
     </h3>
@@ -19,12 +16,9 @@
             <div class="col-sm-12">
             <h3>{{(table | arrayfilter : ['tag', atag])?.name}}</h3>
             <p class="lead">
-            <template ngFor let-sitem [ngForOf]="data[atag].childs[0][0]" *ngIf="(table | arrayfilter : ['tag', atag])?.type?.labelCls && data[atag] && data[atag].childs && data[atag].childs[0] && data[atag].childs[0][0]">
-                <span class="{{(table | arrayfilter : ['tag', atag])?.type?.cls}} {{(table | arrayfilter : ['tag', atag])?.type?.labelCls.getCls(sitem.content)}} mylabel">{{sitem.content}}</span>
-            </template>
-            <template ngFor let-sitem [ngForOf]="data[atag].childs[0][0]" *ngIf="!(table | arrayfilter : ['tag', atag])?.type?.labelCls && data[atag] && data[atag].childs && data[atag].childs[0] && data[atag].childs[0][0]">
-                <span class="{{(table | arrayfilter : ['tag', atag])?.type?.cls}} mylabel">{{sitem.content}}</span>
-            </template>
+            <template ngFor let-sitem [ngForOf]="data.getPropertyListItems(atag)">
+            <span class="{{(table | arrayfilter : ['tag', atag])?.type?.cls}} {{(table | arrayfilter : ['tag', atag])?.type?.labelCls?.getCls(sitem.content)}}  mylabel">{{sitem.content}}</span>
+        </template>
             </p>
             </div>
         </template>

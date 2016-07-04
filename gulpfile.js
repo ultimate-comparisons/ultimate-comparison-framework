@@ -222,7 +222,7 @@ gulp.task('delete-www', function() {
 
 // DEFAULT and DEV tasks -----------------------------------------<
 gulp.task('default', function(callback){
-    run(/*'build-data', */'build-standard', 'delete-www','build-www', callback);
+    run('build-data', 'build-standard', 'delete-www','build-www', callback);
 });
 
 gulp.task('dev', ['default'], function(callback) {

@@ -1,15 +1,19 @@
 import { Component, ViewChild, ElementRef, ApplicationRef, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/plugins/bootstrap/index';
-import {RouteConfig, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/components/tooltip';
+import * as showdown from 'showdown';
+
 import { ArrayFilter } from  '../../pipes/arrayfilter.pipe';
 import { ObjectFilter } from  '../../pipes/objectfilter.pipe';
-import * as showdown from 'showdown';
+import { TableData, Type, LabelCls, Value, Data, Property, ListItem } from './../shared/index';
+
 
 @Component({
     selector: 'modalcomponent',
     templateUrl: 'app/templates/details.tpl.html',
-    directives: [ ...ROUTER_DIRECTIVES],
+    directives: [ ...ROUTER_DIRECTIVES, TOOLTIP_DIRECTIVES],
     viewProviders: [...BS_MODAL_PROVIDERS],
     pipes: [ArrayFilter, ObjectFilter]
 })
@@ -43,7 +47,7 @@ export class ModalComponentMarkdown{
         this.selected='(dismissed)';
     }
     
-    open(data:any, detail:any, table:any){
+    open(data:Data, detail:any, table:Array<TableData>){
         if (this.data==data){
             this.openModal();
         } else {
@@ -66,7 +70,6 @@ export class ModalComponentMarkdown{
         this.modal.alert()
             .titleHtml(this.header.html)
             .size('lg')
-            //.dialogClass('modal-dialog')
             .body(this.body)
             .open();
     }

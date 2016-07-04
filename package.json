@@ -2,14 +2,15 @@
   "name": "ultimate-comparison-framework",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"npm run compile\" \"npm run lite\" ",
+    "start": "npm run gulp:compile && npm run lite",
     "lite": "lite-server",
     "typings": "typings",
     "postinstall": "typings install",
-    "compile": "./node_modules/gulp/bin/gulp.js default",
-    "dev": "concurrently \"npm run lite\" \"./node_modules/gulp/bin/gulp.js dev\" ",
+    "gulp:compile": "./node_modules/gulp/bin/gulp.js default",
+    "gulp:development": "./node_modules/gulp/bin/gulp.js dev",
+    "dev": "concurrently \"npm run gulp:development\" \"npm run lite\" ",
     "test": "./node_modules/gulp/bin/gulp.js default",
-    "start:serial": "npm run compile && npm run lite"
+    "start:concurrently": "concurrently \"npm run gulp:compile\" \"npm run lite\" "
   },
   "license": "Apache-2.0",
   "repository": {

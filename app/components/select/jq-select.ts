@@ -4,10 +4,6 @@ import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/components/tooltip';
 import * as jQuery from 'jquery';
 import 'select2';
 
-
-
-
-
 @Component({
 selector: 'JQSelect',
 inputs: ['items', 'option', 'placeholder', 'id', 'maximumSelectionLength'],
@@ -23,12 +19,8 @@ export class JQSelect implements AfterViewInit {
     private placeholder: string;
     private maximumSelectionLength: number = 0;
     
-    //private jQuery: JQueryStatic = jquery;
-    //private test: any = select2;
-    
     private selectedFunction (){
         this.result.emit(this.value);
-        //console.log(this.value)
     }
     
     private mapme(value:any) {
@@ -56,9 +48,5 @@ export class JQSelect implements AfterViewInit {
     private ngselected(value:any) {
         this.value = value.text;
         this.result.emit(this.value);
-    }
-    
-    private dummy() {
-        //console.log("dummy");
     }
 }

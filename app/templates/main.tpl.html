@@ -48,17 +48,15 @@
                         <tbody>
                             <tr *ngFor="let dat of data | datafilter: query ">
                                 <template ngFor let-column [ngForOf]="table | tablefilter">
-                                    <td *ngIf="column.type?.tag==='text'">{{dat[column.tag]}}</td>
+                                    <td *ngIf="column.type?.tag==='text'">{{dat.getProperty(column.tag).text}}</td>
                                     <td *ngIf="column.type?.tag==='label'">
-                                        <template ngFor let-sitem [ngForOf]="dat[column.tag].childs[0][0]" *ngIf="column.type?.labelCls && dat[column.tag] && dat[column.tag].childs && dat[column.tag].childs[0] && dat[column.tag].childs[0][0]">
-                                            <span class="{{column.type.cls}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel"><tootltip [tooltip]="column.values[sitem.content]">{{sitem.content}}</tootltip></span>
+                                        <template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" *ngIf="column.type?.labelCls">
+                                            <div class="{{column.type.cls}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel"><tooltip [tooltipPlacement]="'bottom'" [tooltip]="'<p>' + column.values[sitem.content] + '</p><p>' + sitem.htmlChilds + '</p>'" [tooltipAppendToBody]=true>{{sitem.content}}</tooltip></div>
                                         </template>
                                     </td>
                                 </template>
                                 <td>
                                     <button class="btn btn-primary btn-xs pull-right " (click)="onShowDetails(dat) ">
-                                        <!-- uib-tooltip="Show Details "
-                                        tooltip-popup-delay="1000 " tooltip-placement="bottom " -->
                                         <span class="glyphicon glyphicon-info-sign " aria-hidden="false "></span>
                                     </button> 
                                 </td>

@@ -1,4 +1,6 @@
-import {Pipe, PipeTransform}    from '@angular/core';
+import { Pipe, PipeTransform }    from '@angular/core';
+
+import { Data, Property } from './../components/shared/index';
 
 @Pipe({ 
     name: 'datafilter',
@@ -7,29 +9,16 @@ import {Pipe, PipeTransform}    from '@angular/core';
 })
 export class DataFilter implements PipeTransform {
     private query: any[];
-    transform(value: Array<any>, args: Array<any> = []){
+    transform(value: Array<Data>, args: Array<any> = []){
         this.query = args;
         if(!this.query){
             return value;
         }
         return value.filter((item) => {               
             return this.query.every(cont => {
-                let values: Array<string> = new Array<string>();
-                if(item[cont.crit.tag] && 
-                    item[cont.crit.tag].childs && 
-                    item[cont.crit.tag].childs[0] && 
-                    item[cont.crit.tag].childs[0][0]){
-                        item[cont.crit.tag].childs[0][0].forEach(val => {
-                        values.push(val.content);
-                    });
-                }
-                
+                let values: Array<string> = item.getPropertyTags(cont.crit.tag); 
                 return (cont.value.length < 1) || 
-                    ( item[cont.crit.tag] && 
-                    item[cont.crit.tag].childs && 
-                    item[cont.crit.tag].childs[0] && 
-                    item[cont.crit.tag].childs[0][0] && 
-                    this.intersect(cont.value, values, cont.crit.and_search))
+                    (this.intersect(cont.value, values, cont.crit.and_search));
             })
         })   
     }
