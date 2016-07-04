@@ -53,8 +53,7 @@ export class ModalComponentMarkdown{
         } else {
             this.table = table;
             this.detail = detail;
-            let dataBody: string = data[detail.body] ? data[detail.body].plain : ""; 
-            this.description = this.converter.makeHtml(dataBody);
+            this.description = this.converter.makeHtml(data.getProperty(detail.body).plain);
             this.data= data;
             this.header.text = data[detail.header];
             this.header.label = table.find(obj => obj.tag == detail["header-label"]).type;
