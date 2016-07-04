@@ -44,20 +44,20 @@
     "@angular/router": "3.0.0-beta.2",
     "@angular/router-deprecated": "2.0.0-rc.2",
     "@angular/upgrade": "2.0.0-rc.4",
-    "systemjs": "0.19.31",
-    "core-js": "^2.4.0",
-    "reflect-metadata": "^0.1.3",
-    "rxjs": "5.0.0-beta.6",
-    "zone.js": "^0.6.12",
-    "es6-shim": "^0.35.0",
     "angular2-in-memory-web-api": "0.0.14",
+    "angular2-modal": "^1.0.8",
     "bootstrap": "^3.3.6",
-    "angular2-modal": "https://github.com/jFensch/angular2-modal.git#bca69147b89bf94c171c041d3231de9666a4377a",
+    "core-js": "^2.4.0",
+    "es6-shim": "^0.35.0",
     "http": "^0.0.0",
     "jquery": "^3.0.0",
     "ng2-bootstrap": "^1.0.17",
     "ng2-select": "^1.0.3",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "5.0.0-beta.6",
     "select2": "^4.0.3",
-    "showdown": "^1.4.2"
+    "showdown": "^1.4.2",
+    "systemjs": "0.19.31",
+    "zone.js": "^0.6.12"
   }
 }

@@ -24,3 +24,12 @@ body, input[text], button {
    margin:2px;
    display:inline-block!important;
 }
+
+.select2-container--default {
+    display: table!important;
+    table-layout: fixed!important;
+}
+.select2-container {
+    display: block;
+    width:100%!important;
+}

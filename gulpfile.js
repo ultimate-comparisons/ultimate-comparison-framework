@@ -16,8 +16,7 @@ var paths = {
     css: 'app/css',
     sass: 'app/sass',
     templates: 'app/templates',
-    fonts: 'app/fonts',
-    libs: 'libs'
+    fonts: 'app/fonts'
 };
 
 var files = {
@@ -27,9 +26,6 @@ var files = {
     ],
     fonts: [
         './app/fonts/*'
-    ],
-    libs: [
-        './libs/*'
     ],
     sass: [
         './app/sass/**/*scss'
@@ -68,11 +64,6 @@ var files = {
         './node_modules/angular2-modal/**/*.js',
         './node_modules/ng2-bootstrap/**/*.js'
     ],
-    min_node_modules_scripts: [
-        './node_modules/jquery/**/jquery.min.js',
-        './node_modules/select2/**/select2.min.js',
-        './node_modules/showdown/**/*.js'
-    ],
     node_modules_styles: [
         './node_modules/ng2-select/**/*.css',
         './node_modules/bootstrap/**/*.css',
@@ -89,12 +80,11 @@ var destfiles = {
     templates: './www/app/templates',
     css: './www/app/css',
     fonts: './www/app/fonts',
-    data: './www/app/data',
-    libs: './www/libs'
+    data: './www/app/data'
 }
 
 // BUILD / UPDATE standard files ---------------------------------<
-gulp.task('build-standard', ['ts', 'sass', 'npm:fonts', 'npm:css', 'npm:libs'], function () {})
+gulp.task('build-standard', ['ts', 'sass', 'npm:fonts', 'npm:css'], function () {})
 
 gulp.task('update-standard', function () {
     gulp.watch(files.typescripts, ['ts']);
@@ -129,12 +119,6 @@ gulp.task('npm:css', function () {
         .pipe(rename({dirname: ''}))
         .pipe(gulp.dest(paths.css));
 })
-
-gulp.task('npm:libs', function() {
-    return gulp.src(files.min_node_modules_scripts, {base: '.'})
-        .pipe(rename({dirname: ''}))
-        .pipe(gulp.dest(paths.libs));
-});
 // END BUILD standard files -------------------------------------->
 
 // BUILD / UPDATE data files -------------------------------------<
@@ -168,7 +152,7 @@ gulp.task('json', function(){
 // --------------------------------------------------------------->
 
 // BUILD / UPDATE www folder -------------------------------------<
-gulp.task('build-www', ['index', 'systemjs', 'typescripts', 'scripts', 'css', 'templates', 'data', 'libs', 'fonts', 'npm:scripts'], function () {})
+gulp.task('build-www', ['index', 'systemjs', 'typescripts', 'scripts', 'css', 'templates', 'data', 'fonts', 'npm:scripts'], function () {})
 
 gulp.task('update-www', function () {
     gulp.watch(files.index, ['index']);
@@ -204,11 +188,6 @@ gulp.task('npm:scripts', function() {
         .pipe(gulp.dest(destfiles.index));
 });
 
-gulp.task('libs', function(){
-    return gulp.src(files.libs)
-        .pipe(gulp.dest(destfiles.libs))
-})
-
 gulp.task('fonts', function(){
     return gulp.src(files.fonts)
         .pipe(gulp.dest(destfiles.fonts))
@@ -240,23 +219,10 @@ gulp.task('delete-www', function() {
 
 // DEFAULT and DEV tasks -----------------------------------------<
 gulp.task('default', function(callback){
-    run(/*'build-data', */'angular2-modal-fix', 'build-standard', 'delete-www','build-www', callback);
+    run(/*'build-data', */'build-standard', 'delete-www','build-www', callback);
 });
 
 gulp.task('dev', ['default'], function(callback) {
     run('update-standard', 'update-data', 'update-www', callback);
-});
-// --------------------------------------------------------------->
-
-
-// FIXES ---------------------------------------------------------<
-// - angular2-modal fix for angular2 rc4
-gulp.task('angular2-modal-fix', function () {
-    var tsProject = ts.createProject('tsconfig.json');
-    return gulp.src('./node_modules/angular2-modal/src/components/angular2-modal/**/*.ts')
-        .pipe(sourcemaps.init())
-        .pipe(ts(tsProject))
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('./node_modules/angular2-modal/src/components/angular2-modal'));
 });
 // --------------------------------------------------------------->
