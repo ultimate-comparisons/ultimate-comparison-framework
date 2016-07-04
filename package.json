@@ -8,7 +8,8 @@
     "postinstall": "typings install",
     "compile": "./node_modules/gulp/bin/gulp.js default",
     "dev": "concurrently \"npm run lite\" \"./node_modules/gulp/bin/gulp.js dev\" ",
-    "test": "./node_modules/gulp/bin/gulp.js default"
+    "test": "./node_modules/gulp/bin/gulp.js default",
+    "start:serial": "npm run compile && npm run lite"
   },
   "license": "Apache-2.0",
   "repository": {

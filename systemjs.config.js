@@ -8,16 +8,22 @@
     'ng2-select/ng2-select':        'node_modules/ng2-select/ng2-select',
     'angular2-modal':               'node_modules/angular2-modal',
     'angular2':                     'node_modules/@angular',
-    'ng2-bootstrap':                'node_modules/ng2-bootstrap'
+    'ng2-bootstrap':                'node_modules/ng2-bootstrap',
+    'showdown':                     'node_modules/showdown',
+    'jquery':                       'node_modules/jquery',
+    'select2':                      'node_modules/select2'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
-    'app':                        { main: 'main.js',  defaultExtension: 'js' },
-    'rxjs':                       { defaultExtension: 'js' },
-    'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
-    "node_modules/ng2-select":    { defaultExtension: 'js' },
-    "node_modules/angular2-modal":{ defaultExtension: 'js' },
-    'node_modules/ng2-bootstrap': { defaultExtension: 'js' }
+    'app':                          { main: 'main.js',  defaultExtension: 'js' },
+    'rxjs':                         { defaultExtension: 'js' },
+    'angular2-in-memory-web-api':   { main: 'index.js', defaultExtension: 'js' },
+    'node_modules/ng2-select':      { defaultExtension: 'js' },
+    'node_modules/angular2-modal':  { defaultExtension: 'js' },
+    'node_modules/ng2-bootstrap':   { defaultExtension: 'js' },
+    'node_modules/showdown':        { main: './dist/showdown.js', defaultExtension: 'js' },
+    'node_modules/jquery':          { main: './dist/jquery.js', defaultExtension: 'js' },
+    'node_modules/select2':         { main: './dist/js/select2.full.js', defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',

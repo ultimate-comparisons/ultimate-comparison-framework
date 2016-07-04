@@ -589,7 +589,14 @@ public class ToJSONSerializer implements Visitor {
 		int skip = 0;
 		for (Node child : node.getChildren()) {
 			if (skip++ >= N) {
-				printer.print(String.valueOf(Arrays.copyOfRange(raw, child.getStartIndex(), child.getEndIndex())));
+				int index = child.getStartIndex();
+				while(index > 0 && (raw[index] != '\n')){
+					index--;
+				}
+				if(raw[index] == '\n'){
+					index++;
+				}
+				printer.print(String.valueOf(Arrays.copyOfRange(raw, index, child.getEndIndex())));
 			}
 		}
 	}

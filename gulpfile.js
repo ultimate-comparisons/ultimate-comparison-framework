@@ -240,7 +240,7 @@ gulp.task('delete-www', function() {
 
 // DEFAULT and DEV tasks -----------------------------------------<
 gulp.task('default', function(callback){
-    run(/*'build-data',*/ 'angular2-modal-fix', 'build-standard', 'delete-www','build-www', callback);
+    run(/*'build-data', */'angular2-modal-fix', 'build-standard', 'delete-www','build-www', callback);
 });
 
 gulp.task('dev', ['default'], function(callback) {
@@ -250,6 +250,7 @@ gulp.task('dev', ['default'], function(callback) {
 
 
 // FIXES ---------------------------------------------------------<
+// - angular2-modal fix for angular2 rc4
 gulp.task('angular2-modal-fix', function () {
     var tsProject = ts.createProject('tsconfig.json');
     return gulp.src('./node_modules/angular2-modal/src/components/angular2-modal/**/*.ts')

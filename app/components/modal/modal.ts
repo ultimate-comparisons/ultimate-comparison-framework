@@ -4,6 +4,7 @@ import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/src/components/angular
 import {RouteConfig, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import { ArrayFilter } from  '../../pipes/arrayfilter.pipe';
 import { ObjectFilter } from  '../../pipes/objectfilter.pipe';
+import * as showdown from 'showdown';
 
 @Component({
     selector: 'modalcomponent',
@@ -65,7 +66,7 @@ export class ModalComponentMarkdown{
         this.modal.alert()
             .titleHtml(this.header.html)
             .size('lg')
-            .dialogClass('modal-dialog')
+            //.dialogClass('modal-dialog')
             .body(this.body)
             .open();
     }
