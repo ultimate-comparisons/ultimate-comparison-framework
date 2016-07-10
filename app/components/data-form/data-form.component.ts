@@ -140,12 +140,14 @@ export class DataFormComponent {
                             if (this.getTableData(key) && this.getTableData(key).type.tag == "text"){
                                 p.text == obj[key].text
                             } else {
-                                obj[key].childs[0][0].forEach(item => {
-                                    let content: string = item.content;
-                                    let plainChilds: string = item.plainChilds;
-                                    let itm: ListItem = new ListItem(content, plainChilds, this.converter);
-                                    p.list.push(itm);
-                                })
+                                if(typeof obj[key].childs[0][0] != 'string'){
+                                    obj[key].childs[0][0].forEach(item => {
+                                        let content: string = item.content;
+                                        let plainChilds: string = item.plainChilds;
+                                        let itm: ListItem = new ListItem(content, plainChilds, this.converter);
+                                        p.list.push(itm);
+                                    });    
+                                }
                             }
                             data.properties[key] = p;
                             break;
