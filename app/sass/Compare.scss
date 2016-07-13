@@ -23,6 +23,7 @@ body, input[text], button {
 .mylabel {
    margin:2px;
    display:inline-block!important;
+   cursor:pointer;
 }
 
 .select2-container--default {
@@ -48,19 +49,4 @@ body, input[text], button {
     .github-corner .octo-arm{
         animation:octocat-wave 560ms ease-in-out
     }
-}
-
-
-a.svg {
-    z-index: -1;
-    display: block;
-    width: 80;
-    height: 80;
-    margin: auto;
-    margin-right: 0;
-}
-
-.navbar {
-    z-index: -2;
-    margin-top: -80;
 }

@@ -32,6 +32,7 @@ export class ModalComponentMarkdown{
         text:"",
         label:{},
         url:"",
+        column:new TableData(),
     };
     
     constructor(private modal:Modal, private elementRef:ElementRef, private ref: ApplicationRef, viewContainer: ViewContainerRef) {
@@ -56,8 +57,11 @@ export class ModalComponentMarkdown{
             this.description = this.converter.makeHtml(data.getProperty(detail.body).plain);
             this.data= data;
             this.header.text = data[detail.header];
-            this.header.label = table.find(obj => obj.tag == detail["header-label"]).type;
             this.header.url = data[detail["header-url"]];
+            
+            this.header.column =  table.find(obj => obj.tag == detail["header-label"]);
+            this.header.label = this.header.column.type;
+            
             this.ref.tick();
             this.header.html = this.elementRef.nativeElement.children.header.innerHTML;
             this.body = this.elementRef.nativeElement.children.body.innerHTML;
