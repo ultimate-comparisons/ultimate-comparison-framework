@@ -1,21 +1,39 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ContentChild, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser'
 import { Http, HTTP_PROVIDERS } from '@angular/http';
 import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/components/tooltip';
 import * as showdown from 'showdown';
+
+import { PolymerElement } from '@vaadin/angular2-polymer';
 
 import { DataFilter } from '../../pipes/datafilter.pipe';
 import { JQSelect } from '../select/jq-select';
 import { ModalComponentMarkdown } from '../modal/modal';
 import { TableFilter }      from '../../pipes/tablefilter.pipe';
 import { TableData, Type, LabelCls, Value, Data, Property, ListItem } from './../shared/index';
+import { PaperChechboxDirective  } from '../select/checkbox.component';
+import { PaperDialogDirective } from '../modal/dialog.component';
+import { ModalDialog } from '../modal/modal.component';
 
 @Component({
     selector: 'data-form',
     templateUrl: 'app/templates/main.tpl.html',
     providers: [HTTP_PROVIDERS, Title],
     pipes: [DataFilter, TableFilter],
-    directives: [JQSelect, ModalComponentMarkdown, TOOLTIP_DIRECTIVES]
+    directives: [
+        JQSelect, 
+        ModalComponentMarkdown, 
+        TOOLTIP_DIRECTIVES, 
+        PolymerElement('paper-header-panel'),
+        PolymerElement('paper-dialog'),
+        PolymerElement('paper-toolbar'),
+        PolymerElement('paper-card'),
+        PolymerElement('paper-listbox'),
+        PolymerElement('paper-item'),
+        PolymerElement('paper-checkbox'),
+        PaperDialogDirective,
+        ModalDialog
+    ]
 })
 export class DataFormComponent {
     data: Array<Data> = new Array<Data>();
@@ -183,5 +201,11 @@ export class DataFormComponent {
     @ViewChild(ModalComponentMarkdown) modalcomponent: ModalComponentMarkdown;
     private onShowDetails(data:Data){
         this.modalcomponent.open(data, this.detail, this.table);
+    }
+    
+    
+    @ViewChild('settings') tprop: ModalDialog;
+    private showTableProperties(){
+        this.tprop.open();
     }
 }

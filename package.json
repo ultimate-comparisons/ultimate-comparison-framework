@@ -59,6 +59,8 @@
     "select2": "^4.0.3",
     "showdown": "^1.4.2",
     "systemjs": "0.19.31",
-    "zone.js": "^0.6.12"
+    "zone.js": "^0.6.12",
+    "@vaadin/angular2-polymer": "^1.0.0-beta2",
+    "npm-polymer-elements": "0.0.1"
   }
 }

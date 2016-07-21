@@ -19,7 +19,7 @@
     
     <div *ngIf="option=='select2'">
         <form let some_form="ngForm" (ngSubmit)="onSubmit()">
-            <select id={{id}} class="form-control" multiple="multiple">
+            <select #select2 class="form-control" multiple="multiple">
             <option *ngFor="let p of items" [value]="p.name" ><tootltip [tooltip]="test">{{p.name}}</tootltip></option>
             </select>
         </form>

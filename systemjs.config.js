@@ -11,7 +11,8 @@
     'ng2-bootstrap':                'node_modules/ng2-bootstrap',
     'showdown':                     'node_modules/showdown',
     'jquery':                       'node_modules/jquery',
-    'select2':                      'node_modules/select2'
+    'select2':                      'node_modules/select2',
+    "@vaadin/angular2-polymer":     'node_modules/@vaadin/angular2-polymer'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -23,7 +24,8 @@
     'node_modules/ng2-bootstrap':   { defaultExtension: 'js' },
     'node_modules/showdown':        { main: './dist/showdown.js', defaultExtension: 'js' },
     'node_modules/jquery':          { main: './dist/jquery.js', defaultExtension: 'js' },
-    'node_modules/select2':         { main: './dist/js/select2.full.js', defaultExtension: 'js' }
+    'node_modules/select2':         { main: './dist/js/select2.full.js', defaultExtension: 'js' },
+    '@vaadin/angular2-polymer':     { main: 'index.js', defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',

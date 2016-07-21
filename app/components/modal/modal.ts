@@ -1,9 +1,9 @@
-import { Component, ViewChild, ElementRef, ApplicationRef, ViewContainerRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { Modal, BS_MODAL_PROVIDERS } from 'angular2-modal/plugins/bootstrap/index';
-import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { Component, ViewChild, ElementRef} from '@angular/core';
 import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/components/tooltip';
 import * as showdown from 'showdown';
+import {DomSanitizationService} from '@angular/platform-browser';
+
+import { PolymerElement } from '@vaadin/angular2-polymer';
 
 import { ArrayFilter } from  '../../pipes/arrayfilter.pipe';
 import { ObjectFilter } from  '../../pipes/objectfilter.pipe';
@@ -12,12 +12,21 @@ import { TableData, Type, LabelCls, Value, Data, Property, ListItem } from './..
 
 @Component({
     selector: 'modalcomponent',
-    templateUrl: 'app/templates/details.tpl.html',
-    directives: [ ...ROUTER_DIRECTIVES, TOOLTIP_DIRECTIVES],
-    viewProviders: [...BS_MODAL_PROVIDERS],
-    pipes: [ArrayFilter, ObjectFilter]
+    templateUrl: '../../templates/details.tpl.html',
+    directives: [
+        TOOLTIP_DIRECTIVES,
+        PolymerElement('paper-dialog'), 
+        PolymerElement('paper-button'), 
+        PolymerElement('paper-card')
+    ],
+    pipes: [ArrayFilter, ObjectFilter],
+    styleUrls: ['./style.css'],
+    moduleId: module.id
 })
 export class ModalComponentMarkdown{
+    @ViewChild('details') dialog: ElementRef;
+    @ViewChild('modalcontainer') container: ElementRef;
+    private opened: boolean = false;
     private modalSelected: string;
     private selected: string;
     private converter: any;
@@ -35,18 +44,10 @@ export class ModalComponentMarkdown{
         column:new TableData(),
     };
     
-    constructor(private modal:Modal, private elementRef:ElementRef, private ref: ApplicationRef, viewContainer: ViewContainerRef) {
+    constructor(private _sanitizer: DomSanitizationService) {
         this.converter = new showdown.Converter();
-        modal.defaultViewContainer = viewContainer;
     }
-    
-    closed(){
-        this.selected='(closed) '+ this.modalSelected;
-    }
-    
-    dismissed(){
-        this.selected='(dismissed)';
-    }
+ 
     
     open(data:Data, detail:any, table:Array<TableData>){
         if (this.data==data){
@@ -61,19 +62,24 @@ export class ModalComponentMarkdown{
             
             this.header.column =  table.find(obj => obj.tag == detail["header-label"]);
             this.header.label = this.header.column.type;
-            
-            this.ref.tick();
-            this.header.html = this.elementRef.nativeElement.children.header.innerHTML;
-            this.body = this.elementRef.nativeElement.children.body.innerHTML;
             this.openModal();
         }
     }
     
     openModal(){
-        this.modal.alert()
-            .titleHtml(this.header.html)
-            .size('lg')
-            .body(this.body)
-            .open();
+        if(this.dialog){
+            document.body.classList.add('modal-open');
+            this.container.nativeElement.classList.add('mc-opened');
+            this.dialog.nativeElement.open(); 
+            this.dialog.nativeElement.modal = true;
+        }
+    }
+    
+    closeModal(){
+        if(this.dialog){
+            document.body.classList.remove('modal-open');
+            this.container.nativeElement.classList.remove('mc-opened');
+            this.dialog.nativeElement.close();
+        }
     }
 }

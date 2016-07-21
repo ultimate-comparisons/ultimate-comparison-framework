@@ -1,4 +1,4 @@
-import {Component, EventEmitter, AfterViewInit} from '@angular/core';
+import {Component, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import {SELECT_DIRECTIVES}  from 'ng2-select/ng2-select';
 import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/components/tooltip';
 import * as jQuery from 'jquery';
@@ -18,6 +18,7 @@ export class JQSelect implements AfterViewInit {
     private id: string;
     private placeholder: string;
     private maximumSelectionLength: number = 0;
+    @ViewChild('select2') el:ElementRef;
     
     private selectedFunction (){
         this.result.emit(this.value);
@@ -33,12 +34,12 @@ export class JQSelect implements AfterViewInit {
         });
     }
     ngAfterViewInit(){
-        jQuery('#'+this.id).select2({
+        jQuery(this.el.nativeElement).select2({
             placeholder: this.placeholder,
             allowClear: true,
             tags: true    
         });
-        jQuery('#'+this.id).on(
+        jQuery(this.el.nativeElement).on(
           'change',
           (e) => (this.value = jQuery(e.target).val() ? jQuery(e.target).val():[], this.result.emit(this.value)) 
         )

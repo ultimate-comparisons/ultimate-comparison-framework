@@ -65,7 +65,9 @@ var files = {
         './node_modules/ng2-bootstrap/**/*.js',
         './node_modules/select2/**/*.js',
         './node_modules/jquery/**/*.js',
-        './node_modules/showdown/**/*.js'
+        './node_modules/showdown/**/*.js',
+        './node_modules/npm-polymer-elements/**/*',
+         "./node_modules/@vaadin/angular2-polymer/**/*"
     ],
     node_modules_styles: [
         './node_modules/ng2-select/**/*.css',
