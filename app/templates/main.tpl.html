@@ -5,7 +5,7 @@
             <small>{{comparison.subtitle}}</small>
         </h1>
     </div>
-    <paper-card heading="{{comparison.selecttitle}}" style="margin-bottom: 20px;padding-bottom: 10px;">
+    <paper-card heading="{{comparison.selecttitle}}"  style="width: 100%; margin-bottom: 20px;padding-bottom: 10px;">
         <div class="card-content">
         <template ngFor let-crit [ngForOf]="criteria">
             <div class="col-md-6" *ngIf="criteriaLoaded">
@@ -21,7 +21,7 @@
         </template>
         </div>
     </paper-card>
-    <paper-card heading="{{comparison.tabletitle}}" style="margin-bottom: 20px;">
+    <paper-card heading="{{comparison.tabletitle}}" style="width: 100%; margin-bottom: 20px;">
         <div class="card-content">
             <table class="table table-hover " *ngIf="dataLoaded ">
                 <thead>

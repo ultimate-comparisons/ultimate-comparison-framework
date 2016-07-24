@@ -41,7 +41,7 @@ var files = {
         './app/templates/**/*tpl.html'
     ],
     css: [
-        './app/css/*.css'
+        './app/**/*.css'
     ],
     data: [
         './app/data/*.json'

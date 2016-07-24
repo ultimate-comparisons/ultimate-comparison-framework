@@ -7,8 +7,11 @@ import { PaperDialogDirective } from './dialog.component';
     selector: 'modaldialog',
     template: `
     <div class="modal-container" #container>
-        <paper-dialog (openedChange)="toggleOpen($event)" role="dialog" #dialog>
+        <paper-dialog (openedChange)="toggleOpen($event)" role="dialog" #dialogPaper>
             <ng-content></ng-content>
+            <div class="buttons">
+            <paper-button dialog-confirm raised (click)="close()">Close</paper-button>
+        </div>
         </paper-dialog>
     </div>
     `,
@@ -29,14 +32,21 @@ export class ModalDialog {
             this.container.nativeElement.classList.add('mc-opened');
         } else {
             this.container.nativeElement.classList.remove('mc-opened');
+            document.body.classList.remove('modal-open');
         }
     }
     
-    @ViewChild('dialog') dia: ElementRef;
+    @ViewChild('dialogPaper') dia: ElementRef;
     public open(){
-        this.dia.nativeElement.open();
+        document.body.classList.add('modal-open');
+        this.container.nativeElement.classList.add('mc-opened');
+        if(this.dia && this.dia.nativeElement.open)
+            this.dia.nativeElement.open();
     }
     public close(){
-        this.dia.nativeElement.close();
+        document.body.classList.remove('modal-open');
+        this.container.nativeElement.classList.remove('mc-opened');
+        if(this.dia && this.dia.nativeElement.close)
+            this.dia.nativeElement.close();
     }
 }

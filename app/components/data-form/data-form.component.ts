@@ -204,7 +204,7 @@ export class DataFormComponent {
     }
     
     
-    @ViewChild('settings') tprop: ModalDialog;
+    @ViewChild(ModalDialog) tprop: ModalDialog;
     private showTableProperties(){
         this.tprop.open();
     }
