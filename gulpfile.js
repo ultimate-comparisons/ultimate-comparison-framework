@@ -199,8 +199,7 @@ gulp.task('fonts', function(){
 })
 
 gulp.task('css', function() {
-    return gulp.src(files.css)
-        .pipe(rename({dirname: ''}))
+    return gulp.src(files.css, {base: './www/app'})
         .pipe(gulp.dest(destfiles.css)); 
 });
 
