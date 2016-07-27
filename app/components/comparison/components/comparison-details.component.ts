@@ -1,5 +1,4 @@
 import { Component, Input, Output } from '@angular/core';
-import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/components/tooltip';
 import * as showdown from 'showdown';
 
 import { PolymerElement } from '@vaadin/angular2-polymer';
@@ -15,7 +14,7 @@ import { ComparisonService } from './comparison.service';
     selector: 'comparison-details',
     templateUrl: '../templates/comparison-details.template.html',
     directives: [
-        TOOLTIP_DIRECTIVES
+        PolymerElement('paper-tooltip')
     ],
     pipes: [COMPARISON_PIPES],
     styleUrls: ['../styles/style.css'],

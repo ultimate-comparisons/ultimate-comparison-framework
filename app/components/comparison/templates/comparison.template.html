@@ -41,7 +41,13 @@
                             <td *ngIf="column.type?.tag==='text'">{{dat.getProperty(column.tag).text}}</td>
                             <td *ngIf="column.type?.tag==='label'">
                                 <template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" *ngIf="column.type?.labelCls">
-                                    <div class="{{column.type.cls}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel"><tooltip [tooltipPlacement]="'bottom'" [tooltip]="'<p>' + column.values[sitem.content] + '</p><p>' + sitem.htmlChilds + '</p>'" [tooltipAppendToBody]=true>{{sitem.content}}</tooltip></div>
+                                    <div class="{{column.type.cls}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel">
+                                        {{sitem.content}}
+                                        <paper-tooltip position="top">
+                                            <p>{{column.values[sitem.content]}}</p>
+                                            <div [innerHtml]="serv._sanitizer.bypassSecurityTrustHtml(sitem.htmlChilds)"></div>
+                                        </paper-tooltip>
+                                    </div>
                                 </template>
                             </td>
                         </template>

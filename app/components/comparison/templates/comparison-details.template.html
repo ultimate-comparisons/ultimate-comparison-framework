@@ -2,7 +2,12 @@
     <h2>{{getHeaderText()}}
     <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)" *ngIf="confServ.comparison">
         <div class="{{getHeaderLabel()?.cls}} {{getHeaderLabel()?.labelCls?.getCls(sitem.content)}}  mylabel">
-            <tooltip [tooltipPlacement]="'bottom'" [tooltip]="'<p>' + getHeaderColumn()?.values[sitem.content] + '</p><p>' + sitem.htmlChilds + '</p>'" [tooltipAppendToBody]=true>{{sitem.content}}</tooltip></div>
+            {{sitem.content}}
+            <paper-tooltip position="bottom">
+                <p>{{getHeaderColumn()?.values[sitem.content]}}</p>
+                <div [innerHtml]="serv._sanitizer.bypassSecurityTrustHtml(sitem.htmlChilds)"></div>
+            </paper-tooltip>
+        </div>
     </template>
     <small><a href="{{getHeaderUrl()}}" target="_blank">{{getHeaderUrl()}}</a></small> 
     </h2>
@@ -16,7 +21,13 @@
         <paper-card heading="{{getTable(atag).name}}">
             <p class="card-content">
             <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(atag)">
-                <span class="{{getTable(atag)?.type?.cls}} {{getTable(atag)?.type?.labelCls?.getCls(sitem.content)}}  mylabel"><tooltip [tooltipPlacement]="'bottom'" [tooltip]="'<p>' + getTable(atag)?.values[sitem.content] + '</p><p>' + sitem.htmlChilds + '</p>'" [tooltipAppendToBody]=true>{{sitem.content}}</tooltip></span>
+                <span class="{{getTable(atag)?.type?.cls}} {{getTable(atag)?.type?.labelCls?.getCls(sitem.content)}}  mylabel">
+                    {{sitem.content}}
+                    <paper-tooltip position="top">
+                        <p>{{getTable(atag)?.values[sitem.content]}}</p>
+                        <div [innerHtml]="serv._sanitizer.bypassSecurityTrustHtml(sitem.htmlChilds)"></div>
+                    </paper-tooltip>
+                </span>
             </template>
             </p>
         </paper-card>

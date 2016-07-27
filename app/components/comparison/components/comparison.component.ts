@@ -1,5 +1,4 @@
-import { Component, ViewChild, ContentChild, ElementRef } from '@angular/core';
-import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/components/tooltip';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 import { PolymerElement } from '@vaadin/angular2-polymer';
 
@@ -22,8 +21,7 @@ import { ComparisonService } from './comparison.service';
     directives: [
         ComparisonDetailsComponent,
         INPUT_COMPONENTS,
-        INPUT_COMPONENTS,
-        TOOLTIP_DIRECTIVES,
+        INPUT_DIRECTIVES,
         ModalDialogComponent,
         PolymerElement('paper-header-panel'),
         PolymerElement('paper-dialog'),
@@ -32,6 +30,7 @@ import { ComparisonService } from './comparison.service';
         PolymerElement('paper-listbox'),
         PolymerElement('paper-item'),
         PolymerElement('paper-checkbox'),
+        PolymerElement('paper-tooltip')
     ],
     styleUrls: ['../styles/style.css'],
     moduleId: module.id

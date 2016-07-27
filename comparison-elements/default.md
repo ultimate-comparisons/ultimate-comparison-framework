@@ -15,7 +15,7 @@ Default short description
 - red 2
 - green
     - green property
-        - Nous sommes __markdown__
+        1. Nous sommes __markdown__
     - green property
     - third green property
 - yellow

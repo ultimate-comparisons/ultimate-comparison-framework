@@ -11,7 +11,7 @@ export class ListItem{
     }
     
     public convertChilds(){
-        this.htmlChilds = this.converter.makeHtml(this.plainChilds.replace(/^[\s]{3}/, ""));
+        this.htmlChilds = this.converter.makeHtml(this.plainChilds.replace(/^[\s]{3}/gm, ""));
     }
     
     public getLabel(){

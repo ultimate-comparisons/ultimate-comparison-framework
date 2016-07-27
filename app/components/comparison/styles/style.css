@@ -55,3 +55,12 @@ paper-icon-button {
 .card-content::-webkit-scrollbar {
     display: none;
 }
+
+paper-tooltip p, paper-tooltip div {
+    font-size: 14px;
+}
+
+paper-tooltip ul, paper-tooltip ol {
+    text-align: left;
+    padding-left: 20px;
+}
