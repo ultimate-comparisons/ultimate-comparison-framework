@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
-import {DataFormComponent} from './components/data-form/data-form.component';
+import { Component } from '@angular/core';
+import { COMPARISON_DIRECTIVES, COMPARISON_PROVIDERS } from './components/comparison/index';
 
 @Component({
     selector: 'my-app',
-    template: '<data-form></data-form>',
-    directives: [DataFormComponent]
+    template: '<comparison></comparison>',
+    directives: [COMPARISON_DIRECTIVES],
+    providers: [COMPARISON_PROVIDERS]
 })
 export class AppComponent { }
     

@@ -1,0 +1,57 @@
+.mylabel {
+    margin: 2px;
+    display: inline-block !important;
+    cursor: pointer;
+    font-size: 14px !important; 
+}
+
+.github-corner {
+    z-index: 1000;
+}
+
+.github-corner svg {
+    z-index: 999;
+}
+
+.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out; 
+}
+
+@keyframes octocat-wave {
+    0%,
+    100% {
+        transform: rotate(0); 
+    }
+    20%,
+    60% {
+        transform: rotate(-25deg); 
+    }
+    40%,
+    80% {
+        transform: rotate(10deg); 
+    } 
+}
+
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none; 
+    }
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out; 
+    } 
+}
+
+paper-card.paper-card-0 {
+    margin-bottom: 20px;
+    padding-bottom: 10px; 
+}
+
+paper-icon-button {
+    padding: 0px;
+    width: 20px;
+    height: 20px; 
+}
+
+.card-content::-webkit-scrollbar {
+    display: none;
+}
