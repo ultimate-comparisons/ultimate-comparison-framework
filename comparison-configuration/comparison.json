@@ -4,9 +4,7 @@
     "selecttitle": "Criteria",
     "tabletitle": "Comparison of DOM manipulation libraries",
     "details": {
-        "header": "tag",
         "header-label": "Performance",
-        "header-url": "url",
         "body-main-title": "Description",
         "body": "Description",
         "body-attachment-tags": [
