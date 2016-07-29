@@ -18,7 +18,7 @@ export class ComparisonConfigService {
         ){}
         
     public loadTableData(){
-        this.http.request('comparison-configuration/Table.json')
+        this.http.request('comparison-configuration/table.json')
         .subscribe(res => {
             this.tableDataSet = new TableDataSet(res.json());
             this.comparisonDataService.loadData(this.tableDataSet);
@@ -26,14 +26,14 @@ export class ComparisonConfigService {
     }
     
     public loadCriteria(){       
-        this.http.request('comparison-configuration/Criteria.json')
+        this.http.request('comparison-configuration/criteria.json')
         .subscribe(res => {
             this.criteriaSet = new CriteriaSet(res.json());
         });
     }
     
     public loadComparison(){
-        this.http.request('comparison-configuration/Comparison.json')
+        this.http.request('comparison-configuration/comparison.json')
         .subscribe(res => {
             this.comparison = new Comparison(res.json());
             this.title.setTitle(this.comparison.title);

@@ -15,7 +15,7 @@ export class ComparisonDataService {
         ){}
     
     public loadData(tableDataSet: TableDataSet){
-        this.http.request('app/components/comparison/data/Data.json')
+        this.http.request('app/components/comparison/data/data.json')
         .subscribe(res => {
             res.json().forEach(obj => {
                 let data: Data = new Data();

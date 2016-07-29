@@ -106,7 +106,7 @@ gulp.task('markdown', function(callback){
 
 gulp.task('json', function(){
     return gulp.src(files.json)
-        .pipe(concatjson("Data.json"))
+        .pipe(concatjson("data.json"))
         .pipe(jsontransform(function(data){
             return data;
         }, 2))
