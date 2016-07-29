@@ -1,5 +1,5 @@
 export * from './components/data';
-export * from './components/label-class';
+export * from './components/labelcls';
 export * from './components/list-item';
 export * from './components/property';
 export * from './components/table-data';

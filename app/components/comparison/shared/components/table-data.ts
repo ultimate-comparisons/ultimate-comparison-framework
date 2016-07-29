@@ -1,4 +1,4 @@
-import { Type } from './Type';
+import { Type } from './type';
 
 export class TableData {
     constructor(

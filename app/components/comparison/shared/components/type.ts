@@ -1,4 +1,4 @@
-import { LabelCls } from './LabelCls';
+import { LabelCls } from './labelcls';
 
 export class Type {
     constructor(

@@ -1,4 +1,4 @@
-import { ListItem } from './ListItem';
+import { ListItem } from './list-item';
 
 export class Property{
     constructor(

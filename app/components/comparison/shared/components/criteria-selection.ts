@@ -1,4 +1,4 @@
-import { Value } from './Value';
+import { Value } from './value';
 import { Criteria } from './criteria';
 
 export class CriteriaSelection {
