@@ -40,8 +40,8 @@
      id="namedview2162"
      showgrid="false"
      inkscape:zoom="1.1820183"
-     inkscape:cx="326.34616"
-     inkscape:cy="640.14653"
+     inkscape:cx="292.50574"
+     inkscape:cy="720.00888"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -7916,6 +7916,13 @@
      id="g11151"
      stroke-miterlimit="2"
      style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:2;stroke-opacity:1" />
+  <rect
+     style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1.5, 4.5;stroke-dashoffset:0;stroke-opacity:1"
+     id="rect23870"
+     width="670.88641"
+     height="870.54492"
+     x="-2.5380318"
+     y="-1.2041157" />
   <g
      transform="matrix(0.66395865,0,0,0.66395865,0.12241,3.185986)"
      style="fill:#eeeeee;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:square;stroke-linejoin:bevel"
