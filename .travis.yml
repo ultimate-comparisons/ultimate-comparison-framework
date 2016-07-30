@@ -1,4 +1,4 @@
-language: java
+language: node_js
 node_js:
 - '0.10'
 env:
@@ -13,7 +13,6 @@ after_success:
 - "./deploy.sh"
 before_install:
 - npm install -g npm
-- gradle -version
 - java -version
 - npm -version
 - npm install
