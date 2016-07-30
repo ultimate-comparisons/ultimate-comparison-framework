@@ -5,17 +5,18 @@
 This is an ultimate comparison framework written in angular2.
 
 ## Create your own ultimate comparison 
-1. Become member of the [ultimate-comparisons organization](https://github.com/ultimate-comparisons) ...
-2. Create local repository:
+1. Create a new repository on GitHub. In the following called "ultimate-THING-comparison" and located at https://github.com/example.com/ultimate-THING-comparison, replace `THING` by your comparison (e.g., `web-framework`).
+2. Create local repository (in a git bash, Windows shell does not work)
 
-        cd ultimate-...-comparison
+        mkdir ultimate-THING-comparison
+        cd ultimate-THNG-comparison
         git init
         git fetch --depth=1 -n https://github.com/ultimate-comparisons/ultimate-comparison-BASE.git
         git reset --hard $(git commit-tree FETCH_HEAD^{tree} -m "initial commit")
 
-3. Create new git repository
+3. Create push to your GitHub repository
         
-        git remote add origin https://github.com/ultimate-comparisons/ultimate-...-comparison.git
+        git remote add origin git@github.com:example.com/ultimate-THING-comparison.git
         git push -u origin master
         
 ### Setup comparison
@@ -25,65 +26,48 @@ This is an ultimate comparison framework written in angular2.
 3. `comparison-configuration/criteria`
 
 ### Define comparison elements
-`comparison-elements/default.md`:
-
-        # Default ALL - http://default-0-entry.example.com
-        Default short description
-        
-"tag": "Default ALL",
-"url": "http://default-0-entry.example.com",
-"descr": "Default short description",
-
-        ## Description
-        Default long description in __markdown__.
-
-"Description": {...}
-
-        ## Performance
-        - slow
-        - fast
-        
-"Performance": {...}
-
-        ## License
-        - MIT
-        - Apache 2.0
-        - MPL 2.0
-        
-"License": {...}
-
-        ## Showcase 2.0
-        - red 1
-        - red 2
-        - green
-            - green property
-                1. Nous sommes __markdown__
-            - green property
-            - third green property
-        - yellow
-            - yellow property
-        - dark blue
-        - grey
-        - light blue
-        
-"Showcase 2.0": {...}
+For each thing, create a markdown file in `comparison-elements`.
+You can base it on `defaeult.md`.
 
 ## Test it
-1. Install node.js
-2. Intall java + gradle
+1. Install [node.js](https://nodejs.org/en/)
+2. Intall [Java JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 3. Update npm (sudo): `npm install -g npm`
 4. Test dependencies:
 
         java -version
-        gradle -version
         npm -version
 
 4. `npm install`
 5. `npm start` (starts the web page)
-6. Deploy `www` directory
+6. [Setup automatic deployment of `www` directory using Travis CI](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/wiki/Build-and-deploy-project-with-Travis-CI)
 
 ## License
 
-The code and all content is licensed under [Apache 2.0]
+The code is licensed under [Apache 2.0], the content (located at `comparison-elements`) under [CC0-1.0].
+
+  [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
+
+<hr />
+
+Here follows a skeletton for a README.md for your ultimate-THING-comparison.
+
+
+
+
+
+
+# Ultimate THING comparision
+
+This a ultimate comparison of THINGs.
+
+See [ultimate-comparisons.org](http://ultimate-comparisons.org) for a list of ulimate comparisons.
+
+...describe THING and the intention of the comparison here...
+
+## License
+
+The code is licensed under [Apache 2.0], the content (located at `comparison-elements`) under [CC-BY-SA-4.0]
 
   [Apache 2.0]: http://www.apache.org/licenses/LICENSE-2.0
+  [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
