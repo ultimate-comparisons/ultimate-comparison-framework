@@ -19,10 +19,32 @@ This is an ultimate comparison framework written in angular2.
         git push -u origin master
         
 ### Setup comparison
-1. `comparison-configuration/comparison.json`
-    ![comparison.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/comparison.svg)
-2. `comparison-configuration/table.json`
-3. `comparison-configuration/criteria`
+1. The file `comparison-configuration/comparison.json` defines the main properties of the comparison and the details dialog.
+![comparison.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/comparison.svg)
+In the details dialog the values of the keys `header-label`, `body`, and `body-attachment-tags` matches level 2 headers in the comparison-elements files. The type of the `body-attachment-tags` must be labels and `body` will be parsed as markdown formated text.  
+2. The file `comparison-configuration/table.json` defines the table columns. 
+        - `tag:` References a level 2 header of the comparison elements (`Performance`, `Description`, `License`, `Showcase`) or the level 1 header and its content (`tag`, `url`, `descr`).
+        - `display:` Allows the user to hide a colum by default. It is possible to dynamically hide or display column by clicking on the configuration button and toggle the columns on/off.
+        - `name:` Allows the user to change the display name (default display name is defined by `tag`).
+        - `type:` Style of the content. 
+        - `type.tag:` Either a label or a text. 
+        - `type.class:` A label must have at least a class (`label label-info`).
+        - `type.values:`
+                {
+                    "name": "slow",
+                    "description": "Overall performance above 200ms",
+                    "class": "label-danger"
+                }
+          The label with the value "slow" has the tooltip "overall performance above 200ms", and will be red ("label-danger")
+![comparison.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/table.svg)        
+3. The file `comparison-configuration/criteria.json` defines filter criterias for the table data.
+        - `tag:` References a level 2 header of the comparison elements (`Performance`, `Description`, `License`, `Showcase`)
+        - `name:` Display name (replaces `tag`).
+        - `placeholder:` Placeholder for the select box.
+        - `values:` Filter values.
+        - `and_search:` Defines if all filter value must match or at least one.
+![comparison.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/criteria.svg)       
+        
 
 ### Define comparison elements
 `comparison-elements/default.md`:
