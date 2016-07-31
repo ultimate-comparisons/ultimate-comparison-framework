@@ -9,7 +9,7 @@ This is an ultimate comparison framework written in angular2.
 2. Create local repository (in a git bash, Windows shell does not work)
 
         mkdir ultimate-THING-comparison
-        cd ultimate-THNG-comparison
+        cd ultimate-THING-comparison
         git init
         git fetch --depth=1 -n https://github.com/ultimate-comparisons/ultimate-comparison-BASE.git
         git reset --hard $(git commit-tree FETCH_HEAD^{tree} -m "initial commit")
