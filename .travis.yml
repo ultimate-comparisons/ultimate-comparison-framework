@@ -11,8 +11,12 @@ after_success:
 - chmod 600 id_rsa
 - ssh-add id_rsa
 - "./deploy.sh"
+- "./update.sh"
 before_install:
 - npm install -g npm
 - java -version
 - npm -version
 - npm install
+branches:
+  only:
+  - master
