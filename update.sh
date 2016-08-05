@@ -57,6 +57,7 @@ remove_files(){
     git rm -r --cached comparison-elements
     git rm --cached README.md
     git rm --cached README-THING.template.md
+    git rm --cached .travis.yml
 }
 
 initial_deploy() {
