@@ -2,10 +2,11 @@
     {
         "name": "Name",
         "tag":  "tag",
+        "urlTag": "url",
         "style": "width: 5%",
         "display": true,
         "type": {
-            "tag":"text"
+            "tag":"url"
             },
         "valign": "top"    
     },

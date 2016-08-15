@@ -4,6 +4,7 @@ export class TableData {
     constructor(
         public name:string = "",
         public tag:string = "",
+        public url:string = "",
         public style: string = "",
         public display:boolean = false,
         public type: Type = new Type(),

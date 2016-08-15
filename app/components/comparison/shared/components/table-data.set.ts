@@ -40,6 +40,7 @@ export class TableDataSet {
             let td: TableData = new TableData(
                 obj.name,
                 obj.tag,
+                obj.urlTag,
                 obj.style,
                 obj.display,
                 type,
