@@ -22,7 +22,7 @@
         </div>
     </paper-card>
     
-    <paper-card heading="{{confServ.comparison?.tabletitle}}" style="width: 100%; margin-bottom: 60px;">
+    <paper-card heading="{{confServ.comparison?.tabletitle}}" style="width: 100%;">
         <div class="card-content" style="overflow: auto;">
             <table class="table table-hover" *ngIf="confServ.tableDataSet" style="min-width: 600px;">
                 <thead>
@@ -59,11 +59,11 @@
             </table>
         </div>
     </paper-card>
-
-    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-      This is an <a href="http://ultimate-comparison.org/">Ultimate Comparison</a> | content licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License CC-BY-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
-    </nav>
-
+</div>
+<div class="footer">
+    <div class="container">
+    This is an <a href="http://ultimate-comparison.org/">Ultimate Comparison</a> | content licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License CC-BY-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>    
+    </div>
 </div>
 
 <modal-dialog #details>
