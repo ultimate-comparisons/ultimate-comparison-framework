@@ -8,6 +8,7 @@ import { ComparisonService } from './comparison.service';
 @Injectable()
 export class ComparisonDataService {
     private data: Array<Data> = new Array<Data>();
+    private tags: {[name: string]: string;} = { };
     
     constructor(
             private http: Http,
@@ -37,6 +38,7 @@ export class ComparisonDataService {
                             break;
                         default:
                             let p:Property = new Property();
+                            this.tags[key] = key;
                             p.plain = obj[key].plain
                             if (tableDataSet.getTableData(key).type.tag == "text"){
                                 p.text == obj[key].text
@@ -58,4 +60,13 @@ export class ComparisonDataService {
             });
     });
 }
+
+    public getDefaultAttachmentTags(): Array<string>{
+        let tags: Array<string> = new Array<string>();
+        for(let key in this.tags){
+            if (!this.tags.hasOwnProperty(key) || key == "tag" || key == "url" || key == "descr" ) continue;
+            tags.push(this.tags[key]);
+        }
+        return tags;
+    }
 }

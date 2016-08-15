@@ -17,7 +17,7 @@
         <div class="card-content" [innerHTML]="serv._sanitizer.bypassSecurityTrustHtml(getBody())"></div>
     </paper-card>
 
-    <template ngFor let-atag [ngForOf]="confServ.comparison.details.bodyAttachmentTags" *ngIf="confServ.comparison">
+    <template ngFor let-atag [ngForOf]="confServ.getBodyAttachmentTags()" *ngIf="confServ.comparison">
         <paper-card heading="{{getTable(atag).name}}">
             <p class="card-content">
             <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(atag)">

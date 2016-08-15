@@ -39,4 +39,11 @@ export class ComparisonConfigService {
             this.title.setTitle(this.comparison.title);
         });
     }
+    
+    public getBodyAttachmentTags(): Array<string> {
+        if (!this.comparison) return new Array<string>();
+        let tags: Array<string> = this.comparison.details.bodyAttachmentTags;
+        if (tags.length == 0) tags = this.comparisonDataService.getDefaultAttachmentTags();
+        return tags;
+    }
 }
