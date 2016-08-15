@@ -20,8 +20,9 @@ export class ComparisonDataService {
             res.json().forEach(obj => {
                 let data: Data = new Data();
                 data.tag = obj.tag;
-                let regArray = /^((?:(?:\w+\s*)(?:-?\s*\w+.)*)+)\s*-?\s*((?:http|ftp|https)(?::\/\/)(?:[\w_-]+(?:(?:\.[\w_-]+)+))(?:[\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)$/gi.exec(data.tag);
+                let regArray = /^((?:(?:\w+\s*)(?:-?\s*\w+.)*)+)\s*-?\s*((?:(?:http|ftp|https)(?::\/\/)(?:[\w_-]+(?:(?:\.[\w_-]+)+))|(?:www.))(?:[\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)$/gi.exec(data.tag);
                 data.url = regArray ? regArray[2]: "";
+                if (/^(www)/.test(data.url)) data.url = "http://" + data.url;
                 data.tag = regArray ? regArray[1]: data.tag;
                 for(let key in obj){
                     if (!obj.hasOwnProperty(key)) continue;
