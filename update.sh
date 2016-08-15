@@ -59,6 +59,7 @@ remove_files(){
     git rm --cached README-THING.template.md
     git rm --cached .travis.yml
     git rm --cached id_rsa.enc
+    git rm --cached LICENSE
 }
 
 initial_deploy() {
