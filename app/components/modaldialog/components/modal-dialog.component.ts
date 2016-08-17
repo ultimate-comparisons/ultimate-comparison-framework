@@ -18,6 +18,7 @@ export class ModalDialogComponent {
     private toggleOpen(opened:boolean){
         if(opened){
             this.container.nativeElement.classList.add('mc-opened');
+            this.container.nativeElement.scrollTop = -25;
         } else {
             this.container.nativeElement.classList.remove('mc-opened');
             document.body.classList.remove('modal-open');
@@ -28,8 +29,10 @@ export class ModalDialogComponent {
     public open(){
         document.body.classList.add('modal-open');
         this.container.nativeElement.classList.add('mc-opened');
-        if(this.dia && this.dia.nativeElement.open)
+        if(this.dia && this.dia.nativeElement.open){
             this.dia.nativeElement.open();
+            this.container.nativeElement.scrollTop = -25;
+        }        
     }
     public close(){
         document.body.classList.remove('modal-open');

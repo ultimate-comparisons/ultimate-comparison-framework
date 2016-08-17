@@ -1,4 +1,4 @@
-<div class="page-header" style="padding-left: 15px; padding-top: 0px; margin-top: 0px;">
+<div class="page-header" style="padding: 15 15 8 15;margin: 0 0 20 0;">
     <h2>{{getHeaderText()}}
     <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)" *ngIf="confServ.comparison">
         <div class="{{getHeaderLabel()?.cls}} {{getHeaderLabel()?.labelCls?.getCls(sitem.content)}}  mylabel">

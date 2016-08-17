@@ -12,6 +12,11 @@ comparison {
     overflow: hidden;
 }
 
+comparison-details {
+    display: block;
+    padding: 0;
+}
+
 .container {
     padding-bottom: 50px; 
 }
