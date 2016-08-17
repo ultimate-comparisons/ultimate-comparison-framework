@@ -30,7 +30,7 @@
     
     <paper-card heading="{{confServ.comparison?.tabletitle}}" style="width: 100%;padding-bottom: 0px;">
         <div class="card-content" style="overflow: auto;">
-            <table class="table table-hover" *ngIf="confServ.tableDataSet" style="min-width: 600px;">
+            <table class="table table-hover" *ngIf="confServ.tableDataSet" style="min-width: 600px;margin-bottom: 0px;">
                 <thead>
                     <tr>
                         <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter">
