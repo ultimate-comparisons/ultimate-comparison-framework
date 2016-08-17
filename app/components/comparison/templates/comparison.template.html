@@ -5,6 +5,12 @@
             <small>{{confServ.comparison?.subtitle}}</small>
         </h1>
     </div>
+    <paper-card style="width: 100%; margin-bottom: 20px;padding-bottom: 0px;" *ngIf="confServ.description">
+        <div class="card-content">
+            <div [innerHtml]=serv._sanitizer.bypassSecurityTrustHtml(confServ.description) class="description"></div>
+        </div>
+    </paper-card>
+    
     <paper-card heading="{{confServ.comparison?.selecttitle}}"  style="width: 100%; margin-bottom: 20px;padding-bottom: 10px;">
         <div class="card-content">
         <template ngFor let-crit [ngForOf]="confServ.criteriaSet?.getCriteriaArray()">
@@ -22,7 +28,7 @@
         </div>
     </paper-card>
     
-    <paper-card heading="{{confServ.comparison?.tabletitle}}" style="width: 100%;">
+    <paper-card heading="{{confServ.comparison?.tabletitle}}" style="width: 100%;padding-bottom: 0px;">
         <div class="card-content" style="overflow: auto;">
             <table class="table table-hover" *ngIf="confServ.tableDataSet" style="min-width: 600px;">
                 <thead>

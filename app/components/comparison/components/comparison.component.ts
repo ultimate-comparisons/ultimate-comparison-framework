@@ -48,6 +48,7 @@ export class ComparisonComponent {
         this.confServ.loadComparison();
         this.confServ.loadCriteria();
         this.confServ.loadTableData();
+        this.confServ.loadDescription();
     }
 
     private criteriaChanged(value:Array<String>, crit:Criteria ){

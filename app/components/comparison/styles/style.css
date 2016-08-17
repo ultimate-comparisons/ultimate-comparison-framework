@@ -16,6 +16,14 @@ comparison {
     padding-bottom: 50px; 
 }
 
+.description > :first-child  {
+    margin-top : 0;
+}
+
+.description > :last-child {
+    margin-bottom: 0;
+}
+
 .mylabel {
     margin: 2px;
     display: inline-block !important;

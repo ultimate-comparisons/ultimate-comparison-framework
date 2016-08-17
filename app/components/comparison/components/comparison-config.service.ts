@@ -4,17 +4,20 @@ import { Title } from '@angular/platform-browser';
 
 import { TableDataSet, CriteriaSet, Comparison } from './../shared/index';
 import { ComparisonDataService } from './comparison-data.service';
+import { ComparisonService } from './comparison.service';
 
 @Injectable()
 export class ComparisonConfigService {
     public tableDataSet: TableDataSet;
     public criteriaSet: CriteriaSet;
     public comparison: Comparison;
+    public description: string;
     
     constructor(
             public title: Title,
             private http: Http,
-            private comparisonDataService: ComparisonDataService
+            private comparisonDataService: ComparisonDataService,
+            private comparisonService: ComparisonService
         ){}
         
     public loadTableData(){
@@ -37,6 +40,13 @@ export class ComparisonConfigService {
         .subscribe(res => {
             this.comparison = new Comparison(res.json());
             this.title.setTitle(this.comparison.title);
+        });
+    }
+    
+    public loadDescription(){
+        this.http.request('comparison-configuration/description.md')
+        .subscribe(res => {
+            this.description = this.comparisonService.converter.makeHtml(res.text());
         });
     }
     
