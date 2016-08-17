@@ -7,6 +7,7 @@ export class Comparison {
     public tabletitle: string;
     public repository: string;
     public details: Details;
+    public displaytemplate: boolean;
     constructor(jsonObj: any){
         this.title = jsonObj.title ? jsonObj.title : "Ultimate-Comparison";
         this.subtitle = jsonObj.subtitle ? jsonObj.subtitle : "Ultimate comparison framework";
@@ -14,6 +15,7 @@ export class Comparison {
         this.tabletitle = jsonObj.tabletitle ? jsonObj.tabletitle : "Comparison of ...";
         this.repository = jsonObj.repository ? jsonObj.repository : "https://github.com/ultimate-comparisons/ultimate-comparison-BASE.git";
         this.details = jsonObj.details ? new Details(jsonObj.details) : new Details({});
+        this.displaytemplate = jsonObj.displaytemplate ? jsonObj.displaytemplate : false;
     }
     
 }

@@ -1,4 +1,4 @@
-# Default ALL - http://default-0-entry.example.com
+# Template - http://www.example.com
 Default short description
 
 ## Performance

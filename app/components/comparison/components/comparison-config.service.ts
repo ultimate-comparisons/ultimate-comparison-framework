@@ -56,4 +56,15 @@ export class ComparisonConfigService {
         if (tags.length == 0) tags = this.comparisonDataService.getDefaultAttachmentTags();
         return tags;
     }
+    
+    public displayAllName: string = "All";
+    public displayAll: boolean;
+    public displayAllChange(toggle:boolean){
+        if(this.tableDataSet){
+            this.tableDataSet.getTableDataArray().forEach((item) => {
+                item.display = toggle;
+            });
+            this.displayAllName = toggle? "None" : "All";
+        }
+    }
 }

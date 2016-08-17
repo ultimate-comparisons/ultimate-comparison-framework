@@ -10,11 +10,12 @@ import { Data, Property } from './../shared/index';
 export class DataPipe implements PipeTransform {
     private query: any[];
     transform(value: Array<Data>, args: Array<any> = []){
-        this.query = args;
+        this.query = args[0];
         if(!this.query){
             return value;
         }
         return value.filter((item) => {
+            if (item.tag.trim() === "Template" && !args[1]) return false;
             for(let key in this.query){
                 if (!this.query.hasOwnProperty(key)) continue;
                 let cont = this.query[key];
