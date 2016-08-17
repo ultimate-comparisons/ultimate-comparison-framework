@@ -37,7 +37,7 @@ var files = {
     ],
     data: [
         './app/components/comparison/data/*.json',
-        './comparison-configuration/*json'
+        './comparison-configuration/*'
     ],
     markdown: [
         './comparison-elements/*.md'
