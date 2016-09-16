@@ -12,7 +12,7 @@
     'showdown':                     'node_modules/showdown',
     'jquery':                       'node_modules/jquery',
     'select2':                      'node_modules/select2',
-    "@vaadin/angular2-polymer":     'node_modules/@vaadin/angular2-polymer'
+    "@vaadin":                      'node_modules/@vaadin'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
