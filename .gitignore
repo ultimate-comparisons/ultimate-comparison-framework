@@ -10,3 +10,4 @@ npm*.log
 .vscode/
 /comparison-elements-json/*.json
 /app/components/comparison/data/data.json
+.gradle

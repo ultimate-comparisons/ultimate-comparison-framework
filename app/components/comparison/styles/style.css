@@ -108,4 +108,10 @@ paper-tooltip ul, paper-tooltip ol {
 .footer > .container {
     padding: 10px;
 }
-    
+   
+th > button {
+    border: none;
+    padding: 0;
+    outline:none;
+    background-color: inherit;
+}

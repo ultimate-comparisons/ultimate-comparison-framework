@@ -44,7 +44,8 @@ export class TableDataSet {
                 obj.style,
                 obj.display,
                 type,
-                values
+                values,
+                obj.sort
             )
             this.tableDataSet[obj.tag] = td;
         })
