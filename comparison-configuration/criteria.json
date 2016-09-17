@@ -33,5 +33,36 @@
                 "name": "MPL 2.0"
             }
         ]
+    },
+    {
+        "name": "Showcase",
+        "tag":  "Showcase 2.0",
+        "description": "Popular showcases.",
+        "placeholder": "Select showcase ...",
+        "and_search": false,
+        
+        "values": [
+            {
+                "name": "red 1"
+            },
+            {
+                "name": "red 2"
+            },
+            {
+                "name": "green"
+            },
+            {
+                "name": "yellow"
+            },
+            {
+                "name": "dark blue"
+            },
+            {
+                "name": "grey"
+            },
+            {
+                "name": "light blue"
+            }
+        ]
     }
 ]
