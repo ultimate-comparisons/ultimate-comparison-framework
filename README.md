@@ -78,7 +78,7 @@ The code is licensed under [MIT], the content (located at `comparison-elements`)
 
 <hr />
 
-See [README-THING.tempalte](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/README-THING.template.md) for a README skeletton for your ultimate-THING-comparison.
+See [README-THING.tempalte](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/blob/master/README-THING.template.md) for a README skeletton for your ultimate-THING-comparison.
 
   [MIT]: https://opensource.org/licenses/MIT
   [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
