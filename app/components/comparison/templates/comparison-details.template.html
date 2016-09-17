@@ -1,7 +1,7 @@
 <div class="page-header" style="padding: 15 15 8 15;margin: 0 0 20 0;">
     <h2>{{getHeaderText()}}
     <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)" *ngIf="confServ.comparison">
-        <div class="{{getHeaderLabel()?.cls}} {{getHeaderLabel()?.labelCls?.getCls(sitem.content)}}  mylabel">
+        <div class="{{getHeaderLabel()?.getCls(sitem.content)}} mylabel">
             {{sitem.content}}
             <paper-tooltip position="bottom">
                 <p>{{getHeaderColumn()?.values[sitem.content]}}</p>
@@ -21,7 +21,7 @@
         <paper-card heading="{{getTable(atag).name}}">
             <p class="card-content">
             <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(atag)">
-                <span class="{{getTable(atag)?.type?.cls}} {{getTable(atag)?.type?.labelCls?.getCls(sitem.content)}}  mylabel">
+                <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">
                     {{sitem.content}}
                     <paper-tooltip position="top">
                         <p>{{getTable(atag)?.values[sitem.content]}}</p>

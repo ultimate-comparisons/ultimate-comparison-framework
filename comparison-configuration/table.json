@@ -26,7 +26,6 @@
         "display": true,
         "type": {
             "tag": "label",
-            "class": "label",
             "values": [
                 {
                     "name": "slow",
@@ -72,7 +71,6 @@
         "display": true,
         "type": {
             "tag": "label",
-            "class": "label",
             "values": [
                 {
                     "name": "red 1",
