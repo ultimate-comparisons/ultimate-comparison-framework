@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { DomSanitizationService } from '@angular/platform-browser';
+import { Injectable }   from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import * as showdown from 'showdown';
 
@@ -7,7 +7,7 @@ import * as showdown from 'showdown';
 export class ComparisonService {
     public converter: Showdown.Converter;
     
-    constructor(public _sanitizer: DomSanitizationService){
+    constructor(public _sanitizer: DomSanitizer){
         this.converter = new showdown.Converter(); 
     }
 }

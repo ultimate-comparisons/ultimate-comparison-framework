@@ -1,15 +1,9 @@
 import { Component, ViewChild, ElementRef} from '@angular/core';
 import { PolymerElement } from '@vaadin/angular2-polymer';
-
-import { PaperDialogDirective } from '../directives/paper-dialog.directive';
-    
+  
 @Component({
     selector: 'modal-dialog',
     templateUrl: '../templates/modal-dialog.template.html',
-    directives: [
-        PolymerElement('paper-dialog'),
-        PaperDialogDirective
-    ],
     styleUrls: ['../styles/style.css'],
     moduleId: module.id
 })

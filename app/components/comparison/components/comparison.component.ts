@@ -1,12 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 
-import { PolymerElement } from '@vaadin/angular2-polymer';
-
-import { COMPARISON_PIPES } from '../pipes/index.pipes';
-import { ModalDialogComponent } from '../../modaldialog/index';
-import { INPUT_COMPONENTS, INPUT_DIRECTIVES } from '../../input/index';
-import { ComparisonDetailsComponent } from './comparison-details.component';
 import { Data, CriteriaSelection, Criteria, TableData } from '../shared/index';
+import { ModalDialogComponent } from '../../modaldialog/index';
 
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
@@ -15,23 +10,6 @@ import { ComparisonService } from './comparison.service';
 @Component({
     selector: 'comparison',
     templateUrl: '../templates/comparison.template.html',
-    pipes: [
-        COMPARISON_PIPES
-    ],
-    directives: [
-        ComparisonDetailsComponent,
-        INPUT_COMPONENTS,
-        INPUT_DIRECTIVES,
-        ModalDialogComponent,
-        PolymerElement('paper-header-panel'),
-        PolymerElement('paper-dialog'),
-        PolymerElement('paper-toolbar'),
-        PolymerElement('paper-card'),
-        PolymerElement('paper-listbox'),
-        PolymerElement('paper-item'),
-        PolymerElement('paper-checkbox'),
-        PolymerElement('paper-tooltip')
-    ],
     styleUrls: ['../styles/style.css'],
     moduleId: module.id
 })
@@ -41,7 +19,6 @@ export class ComparisonComponent {
     private order: Array<String> = new Array<String>(3);
     private orderOption: Array<number> = new Array<number>(3);
     private ctrlCounter:number = 0;
-    
     
     constructor(
             public serv: ComparisonService,
@@ -56,8 +33,8 @@ export class ComparisonComponent {
         this.order[0] = this.order[1] = this.order[2] = "tag";
         this.orderOption[0] = 1;
         this.orderOption[1] = this.orderOption[2] = 0;
-    }
-
+    } 
+    
     private criteriaChanged(value:Array<String>, crit:Criteria ){
         if (value){
             this.query[crit.tag] = new CriteriaSelection(value,crit);
@@ -107,7 +84,6 @@ export class ComparisonComponent {
         this.activeRow = data;
         this.detailsModal.open();
     }
-    
     
     @ViewChild('settings') settingsModal: ModalDialogComponent;
     private showTableProperties(){

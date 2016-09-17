@@ -1,9 +1,6 @@
 import { Component, Input, Output } from '@angular/core';
 import * as showdown from 'showdown';
 
-import { PolymerElement } from '@vaadin/angular2-polymer';
-
-import { COMPARISON_PIPES } from '../pipes/index.pipes';
 import { TableData, Type, LabelCls, Value, Data, Property, ListItem } from '../shared/index';
 
 import { ComparisonConfigService } from './comparison-config.service';
@@ -13,10 +10,6 @@ import { ComparisonService } from './comparison.service';
 @Component({
     selector: 'comparison-details',
     templateUrl: '../templates/comparison-details.template.html',
-    directives: [
-        PolymerElement('paper-tooltip')
-    ],
-    pipes: [COMPARISON_PIPES],
     styleUrls: ['../styles/style.css'],
     moduleId: module.id
 })
