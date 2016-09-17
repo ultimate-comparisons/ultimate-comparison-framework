@@ -30,8 +30,8 @@ This is an ultimate comparison framework written in angular2.
   - `display:` Allows the user to hide a colum by default. It is possible to dynamically hide or display column by clicking on the configuration button and toggle the columns on/off.
   - `name:` Allows the user to change the display name (default display name is defined by `tag`).
   - `type:` Style of the content. 
-  - `type.tag:` Either a label or a text. 
-  - `type.class:` A label must have at least a class (`label label-info`).
+  - `type.tag:` Either a label, a text, or a url. 
+  - `type.class:` Set a label class (e. g. `label label-info`). Will be ignored if value class is set.
   - `type.values:`
   ```json
   {
@@ -55,7 +55,7 @@ This is an ultimate comparison framework written in angular2.
 
 ### Define comparison elements
 For each thing, create a markdown file in `comparison-elements`.
-You can base it on `defaeult.md`.
+You can base it on `template.md`.
 
 ## Test it
 1. Install [node.js](https://nodejs.org/en/)
@@ -72,30 +72,13 @@ You can base it on `defaeult.md`.
 
 ## License
 
-The code is licensed under [Apache 2.0], the content (located at `comparison-elements`) under [CC0-1.0].
+The code is licensed under [MIT], the content (located at `comparison-elements`) under [CC0-1.0].
 
   [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
 
 <hr />
 
-Here follows a skeletton for a README.md for your ultimate-THING-comparison.
+See [README-THING.tempalte](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/README-THING.template.md) for a README skeletton for your ultimate-THING-comparison.
 
-
-
-
-
-
-# Ultimate THING comparision
-
-This a ultimate comparison of THINGs.
-
-See [ultimate-comparisons.org](http://ultimate-comparisons.org) for a list of ulimate comparisons.
-
-...describe THING and the intention of the comparison here...
-
-## License
-
-The code is licensed under [Apache 2.0], the content (located at `comparison-elements`) under [CC-BY-SA-4.0]
-
-  [Apache 2.0]: http://www.apache.org/licenses/LICENSE-2.0
+  [MIT]: https://opensource.org/licenses/MIT
   [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/

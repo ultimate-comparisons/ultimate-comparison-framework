@@ -39,9 +39,9 @@ The code below shows a sample element.
 
 ## License
 
-The code is licensed under [Apache 2.0], the content (located at `comparison-elements`) under [CC-BY-SA-4.0].
+The code is licensed under [MIT], the content (located at `comparison-elements`) under [CC-BY-SA-4.0].
 
-  [Apache 2.0]: http://www.apache.org/licenses/LICENSE-2.0
+  [MIT]: https://opensource.org/licenses/MIT
   [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
 
 <hr />
