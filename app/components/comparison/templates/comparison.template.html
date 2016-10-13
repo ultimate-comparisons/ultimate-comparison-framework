@@ -87,7 +87,7 @@
     <div class="page-header">
         <h2>Table Settings</h2>
     </div>
-    <div class="content" style="display:initial;">
+    <div class="col-md-12">
         <div class="col-md-6">
             Select Columns...
             <paper-listbox>
@@ -103,28 +103,44 @@
                 <paper-listbox>
                     <paper-item><paper-checkbox [(checked)]="confServ.comparison.displaytemplate">Display Template</paper-checkbox></paper-item>
                 </paper-listbox>
-                OrderBy
+                Latex
                 <paper-listbox>
-                    <paper-item>
-                        <select-default style="float:left;" [items]="confServ.tableDataSet?.getTableDataArray()" (result)="orderChanged($event,0)" [selected]="order[0]">
-                        </select-default>
-                        <select-default style="margin-left:10%; display:inline-block;" [items]="[{name:'None',tag:'0'},{name:'Ascending',tag:'1'},{name:'Descending',tag:'-1'}]" (result)="orderOptionChanged($event,0)" [selected]="orderOption[0]">
-                        </select-default>
-                    </paper-item>
-                    <paper-item>
-                        <select-default style="float:left;" [items]="confServ.tableDataSet?.getTableDataArray()" (result)="orderChanged($event,1)" [selected]="order[1]">
-                        </select-default>
-                        <select-default style="margin-left:10%; display:inline-block;" [items]="[{name:'None',tag:'0'},{name:'Ascending',tag:'1'},{name:'Descending',tag:'-1'}]" (result)="orderOptionChanged($event,1)" [selected]="orderOption[1]">
-                        </select-default>
-                    </paper-item>
-                    <paper-item>
-                        <select-default style="float:left;" [items]="confServ.tableDataSet?.getTableDataArray()" (result)="orderChanged($event,2)" [selected]="order[2]">
-                        </select-default>
-                        <select-default style="margin-left:10%; display:inline-block;" [items]="[{name:'None',tag:'0'},{name:'Ascending',tag:'1'},{name:'Descending',tag:'-1'}]" (result)="orderOptionChanged($event,2)" [selected]="orderOption[2]">
-                        </select-default>
-                    </paper-item>
+                    <paper-button raised (click)="downloadLatexTable()">Download Table</paper-button>
+                    <paper-item><paper-checkbox [(checked)]="showTable" (checkedChange)="previewLatexTable($event)">Display Latex Table</paper-checkbox></paper-item>
                 </paper-listbox>
             </div>
         </div>
     </div>
 </modal-dialog>
+
+<div *ngIf="confServ.tableDataSet" class="ltable container" style="padding-bottom:100px;margin-top:-40px;" #latextable>
+<paper-card heading="Latex Table" style="width: 100%;padding-bottom: 0px;"><div class="card-content" style="overflow: auto;"><!--
+-->%\usepackage&#123;calc&#125;<br/>
+%\usepackage&#123;booktabs&#125;<br/>
+\begin&#123;tabular&#125;&#123;&#64;&#123;&#125; <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter">p&#123;\linewidth/{{(confServ.tableDataSet?.getTableDataArray() | tablefilter).length}}&#125; </template>&#64;&#123;&#125;&#125;<br/>
+\toprule<br/>
+<template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last">{{column.name}} <!-- 
+    --><template [ngIf]="!last">&#38; </template><!--
+    --><template [ngIf]="last">\\<br/></template>
+</template>\midrule<br/>
+<!-- iterate over data rows 
+--><template ngFor let-dat [ngForOf]="dataServ.data | orderBy: [order,orderOption] | datafilter: [query,confServ.comparison?.displaytemplate]"><!-- 
+    iterate over data columns 
+    --><template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last"><!-- 
+        print url 
+        --><template [ngIf]="column.type?.tag==='url'">{{dat.getProperty(column.tag).text}}</template><!-- 
+        print text 
+        --><template [ngIf]="column.type?.tag==='text'">{{dat.getProperty(column.tag).text}}</template><!--
+        print labels 
+        --><template [ngIf]="column.type?.tag==='label'"><!--
+            iterate over labels 
+            --><template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" let-lastItem="last" *ngIf="column.type?.labelCls"><!--
+                print label 
+                -->{{sitem.content}}({{column.values[sitem.content]}})<!-- 
+                    label seperator --><template [ngIf]="!lastItem">, </template><!--
+            --></template><!--
+        --></template><template [ngIf]="!last"> &#38; </template><template [ngIf]="last">\\<br/></template><!--
+    --></template>
+</template>\bottomrule<br/>
+\end&#123;tabular&#125;</div></paper-card>
+</div>
