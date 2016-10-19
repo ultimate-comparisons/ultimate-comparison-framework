@@ -8,7 +8,9 @@ var gulp = require('gulp'),
     concatjson = require('gulp-concat-json'),
     run = require('run-sequence'),
     exec = require('gulp-exec'),
-    tsConfig = require('./tsconfig');
+    tsConfig = require('./tsconfig'),
+    bibtex2json = require('./citation/bibtex2json'),
+    fs = require('fs');
 
 var paths = {
     src: 'app',
@@ -111,6 +113,11 @@ gulp.task('json', function(){
             return data;
         }, 2))
         .pipe(gulp.dest(paths.data))
+})
+
+gulp.task('citation', function(){
+    var fileContent = JSON.parse(fs.readFileSync("./citation/config.json", "utf8"));
+    bibtex2json.parse('./citation/' + fileContent.bibtex_file, 'utf8', './citation/' + fileContent.bibtex_style, './citation/output');
 })
 // --------------------------------------------------------------->
 

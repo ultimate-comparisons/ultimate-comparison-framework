@@ -7,15 +7,16 @@ This is an ultimate comparison of THINGs.
 ## Test it
 1. Install [node.js](https://nodejs.org/en/)
 2. Intall [Java JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-3. Update npm (sudo): `npm install -g npm`
-4. Test dependencies:
+3. Install [pandoc](http://pandoc.org/installing.html) [pandoc-citeproc](https://hackage.haskell.org/package/pandoc-citeproc)
+4. Update npm (sudo): `npm install -g npm`
+5. Test dependencies:
 
         java -version
         npm -version
 
-4. `npm install`
-5. `npm start` (starts the web page)
-6. [Setup automatic deployment of `www` directory using Travis CI](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/wiki/Build-and-deploy-project-with-Travis-CI)
+6. `npm install`
+7. `npm start` (starts the web page)
+8. [Setup automatic deployment of `www` directory using Travis CI](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/wiki/Build-and-deploy-project-with-Travis-CI)
 
 
 ## Ultimate-THING-Comparison Element Specification

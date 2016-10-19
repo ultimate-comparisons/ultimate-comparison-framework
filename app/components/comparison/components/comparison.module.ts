@@ -14,6 +14,7 @@ import { Title }                                        from '@angular/platform-
 import { ComparisonService }                            from './comparison.service'; 
 import { ComparisonDataService }                        from './comparison-data.service'; 
 import { ComparisonConfigService }                      from './comparison-config.service'; 
+import { ComparisonCitationService }                    from './comparison-citation.service';
 
 @NgModule({
     imports: [
@@ -45,6 +46,8 @@ import { ComparisonConfigService }                      from './comparison-confi
         ComparisonService,
         ComparisonDataService,
         ComparisonConfigService,
+        ComparisonCitationService,
+        ...COMPARISON_PIPES,
         Title
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

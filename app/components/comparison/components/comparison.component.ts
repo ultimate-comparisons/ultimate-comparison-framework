@@ -6,6 +6,9 @@ import { ModalDialogComponent } from '../../modaldialog/index';
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
+import { ComparisonCitationService } from './comparison-citation.service';
+
+import { CitationPipe } from '../pipes/citation.pipe';
 
 @Component({
     selector: 'comparison',
@@ -19,16 +22,19 @@ export class ComparisonComponent {
     private order: Array<String> = new Array<String>(3);
     private orderOption: Array<number> = new Array<number>(3);
     private ctrlCounter:number = 0;
-    
+     
     constructor(
             public serv: ComparisonService,
             public dataServ: ComparisonDataService,
-            public confServ: ComparisonConfigService    
+            public confServ: ComparisonConfigService,
+            public citationServ: ComparisonCitationService,
+            public citationPipe: CitationPipe 
         ){
         this.confServ.loadComparison();
         this.confServ.loadCriteria();
         this.confServ.loadTableData();
         this.confServ.loadDescription();
+        this.citationServ.loadCitationData();
         
         this.order[0] = this.order[1] = this.order[2] = "tag";
         this.orderOption[0] = 1;

@@ -11,3 +11,5 @@ npm*.log
 /comparison-elements-json/*.json
 /app/components/comparison/data/data.json
 .gradle
+/tmp/
+/citation/output/
