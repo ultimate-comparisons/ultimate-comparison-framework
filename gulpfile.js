@@ -91,7 +91,7 @@ gulp.task('ts', function () {
 
 // BUILD / UPDATE data files -------------------------------------<
 gulp.task('build-data', function (callback) {
-    run('markdown', 'json', callback);
+    run('markdown', 'json', 'citation', callback);
 })
 
 gulp.task('update-data', function () {
