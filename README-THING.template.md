@@ -7,7 +7,11 @@ This is an ultimate comparison of THINGs.
 ## Test it
 1. Install [node.js](https://nodejs.org/en/)
 2. Intall [Java JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-3. Install [pandoc](http://pandoc.org/installing.html) [pandoc-citeproc](https://hackage.haskell.org/package/pandoc-citeproc)
+3. Install [pandoc](http://pandoc.org/installing.html) (Version 1.17.2) [pandoc-citeproc](https://hackage.haskell.org/package/pandoc-citeproc)
+        
+        wget https://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb
+        sudo dpkg -i pandoc-1.17.2-1-amd64.deb
+        
 4. Update npm (sudo): `npm install -g npm`
 5. Test dependencies:
 
