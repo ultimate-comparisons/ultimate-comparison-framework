@@ -49,12 +49,12 @@ var files = {
         './comparison-elements-json/*.json'
     ],
     node_modules_scripts: [
-        './node_modules/es6-shim/**/es6-shim.min.js',
+        './node_modules/core-js/**/*',
         './node_modules/zone.js/dist/zone.js',
         './node_modules/reflect-metadata/Reflect.js',
         './node_modules/systemjs/dist/system.src.js',
         './node_modules/rxjs/**/*.js',
-        './node_modules/angular2-in-memory-web-api/**/*.js',
+        './node_modules/angular-in-memory-web-api/**/*.js',
         './node_modules/@angular/**/*.js',
         './node_modules/select2/**/*.js',
         './node_modules/jquery/**/*.js',
@@ -91,7 +91,7 @@ gulp.task('ts', function () {
 
 // BUILD / UPDATE data files -------------------------------------<
 gulp.task('build-data', function (callback) {
-    run('markdown', 'json', callback);
+    run('markdown', 'json', 'citation', callback);
 })
 
 gulp.task('update-data', function () {
