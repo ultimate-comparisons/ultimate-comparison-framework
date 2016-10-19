@@ -20,3 +20,7 @@ before_install:
 branches:
   only:
   - master
+addons:
+  apt_packages:
+    - pandoc
+    - pandoc-citeproc

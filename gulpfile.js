@@ -39,7 +39,8 @@ var files = {
     ],
     data: [
         './app/components/comparison/data/*.json',
-        './comparison-configuration/*'
+        './comparison-configuration/*',
+        './citation/output/*'
     ],
     markdown: [
         './comparison-elements/*.md'
@@ -59,7 +60,8 @@ var files = {
         './node_modules/jquery/**/*.js',
         './node_modules/showdown/**/*.js',
         './node_modules/npm-polymer-elements/**/*',
-         "./node_modules/@vaadin/angular2-polymer/**/*"
+         "./node_modules/@vaadin/angular2-polymer/**/*",
+         "./node_modules/angular2-select/**/*"
     ]
 }
 
