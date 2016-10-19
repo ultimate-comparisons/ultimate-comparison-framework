@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import * as saveAs from 'file-saver';
 
 import { Data, CriteriaSelection, Criteria, TableData } from '../shared/index';
 import { ModalDialogComponent } from '../../modaldialog/index';
@@ -94,5 +95,25 @@ export class ComparisonComponent {
     @ViewChild('settings') settingsModal: ModalDialogComponent;
     private showTableProperties(){
         this.settingsModal.open();
+    }
+    
+    @ViewChild('latextable') latexTable: ElementRef;
+    private downloadLatexTable(){
+        let content:string = this.latexTable.nativeElement.textContent;
+        content = content.substr(content.indexOf('%'), content.length);
+        let blob: Blob = new Blob([content], {type: 'plain/text'});
+        let s = saveAs;
+        saveAs(blob, "latextable.tex"); 
+        return window.URL.createObjectURL(blob);
+    }
+    
+    private showTable: boolean = false;
+    private previewLatexTable(show){
+        if (show){
+            this.latexTable.nativeElement.classList.remove("ltable");    
+        } else {
+            this.latexTable.nativeElement.classList.add("ltable");
+        }
+        
     }
 }

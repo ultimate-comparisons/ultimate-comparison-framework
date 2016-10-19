@@ -13,6 +13,7 @@
     'jquery':                       'node_modules/jquery',
     'select2':                      'node_modules/select2',
     'angular2-select':              'node_modules/angular2-select',
+    'file-saver':                    'node_modules/file-saver',
     "@vaadin":                      'node_modules/@vaadin'
   };
   // packages tells the System loader how to load when no filename and/or no extension
@@ -26,7 +27,8 @@
     'node_modules/showdown':        { main: './dist/showdown.js', defaultExtension: 'js' },
     'node_modules/jquery':          { main: './dist/jquery.js', defaultExtension: 'js' },
     'node_modules/select2':         { main: './dist/js/select2.full.js', defaultExtension: 'js' },
-    'node_modules/angular2-select':       { main: 'index.js', defaultExtension: 'js' },
+    'node_modules/angular2-select': { main: 'index.js', defaultExtension: 'js' },
+    'node_modules/file-saver':      { main: 'FileSaver.js', defaultExtension: 'js'},
     '@vaadin/angular2-polymer':     { main: 'index.js', defaultExtension: 'js' }
   };
   var ngPackageNames = [

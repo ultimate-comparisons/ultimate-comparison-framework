@@ -115,3 +115,7 @@ th > button {
     outline:none;
     background-color: inherit;
 }
+
+.ltable {
+    display: none;
+}
