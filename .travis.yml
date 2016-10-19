@@ -24,3 +24,5 @@ addons:
   apt_packages:
     - pandoc
     - pandoc-citeproc
+sudo: required
+dist: trusty
