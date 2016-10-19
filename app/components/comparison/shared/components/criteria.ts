@@ -7,7 +7,7 @@ export class Criteria {
         public description: string = "",
         public placeholder: string = "",
         public and_search: boolean = true,
-        public values: Array<Value> = new Array<Value>()
+        public values: Array<Object> = new Array<Object>()
     ){}
     
 }

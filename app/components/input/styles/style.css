@@ -20,6 +20,7 @@
     background-color: #777 !important;
     color: #fff !important;
     font-weight: bold; 
+    border-radius: 4px !important;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {

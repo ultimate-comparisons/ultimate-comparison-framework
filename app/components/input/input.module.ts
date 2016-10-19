@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA }     from '@angular/core';
 import { BrowserModule }                        from '@angular/platform-browser';
+import { SelectModule }                         from 'angular2-select';
 
 import { Select2Component }                     from './components/select2.component';
 import { SelectComponent }                      from './components/select.component';
@@ -7,7 +8,8 @@ import { PaperChechboxDirective }               from './directives/paper-checkbo
 
 @NgModule({
     imports: [ 
-        BrowserModule
+        BrowserModule,
+        SelectModule
     ],
     exports: [
         SelectComponent,

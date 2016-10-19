@@ -1,3 +1,8 @@
-<select class="form-control" multiple="multiple" #select2>
-    <option *ngFor="let p of items" [value]="p.name" >{{p.name}}</option>
-</select>
+<ng-select
+    [options]="options"
+    [multiple]=true
+    (selected)="select($event)"
+    (deselected)="deSelect($event)"
+    placeholder="{{placeholder}}">
+</ng-select>
+
