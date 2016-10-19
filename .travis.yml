@@ -13,6 +13,8 @@ after_success:
 - "./deploy.sh"
 - "./update.sh"
 before_install:
+- wget https://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb
+- sudo dpkg -i pandoc-1.17.2-1-amd64.deb
 - npm install -g npm
 - java -version
 - npm -version
@@ -20,9 +22,5 @@ before_install:
 branches:
   only:
   - master
-addons:
-  apt_packages:
-    - pandoc
-    - pandoc-citeproc
 sudo: required
 dist: trusty
