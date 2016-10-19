@@ -25,9 +25,9 @@ var parseBib = function(file,enc,csl,outfile){
     // pandoc parse keys.txt with csl file and bib file
     var args = "--bibliography "+ file +" --csl " + csl + " -o ./tmp/keys.html"
     var callback = function(err, result){
-        if(err) return console.error('Error: ', err );
-            extractFormatedKeys(outfile);
-            extractFormatedBib(outfile);
+        if(err) {return console.error('Error: ', err )};
+        extractFormatedKeys(outfile);
+        extractFormatedBib(outfile);
         return result;
     }
     return pandoc('./tmp/keys.txt',args,callback);
@@ -58,7 +58,7 @@ var extractFormatedKeys = function(filepath){
 var extractFormatedBib = function(filepath){
     var htmlfile = fs.readFileSync('./tmp/keys.html', 'utf8');
     var regex = /(<div id="refs" class="references">[\w\W]*<\/div>)/m;
-    var match = (htmlfile.match(regex));
+    var match = regex.exec(htmlfile);
     var result = match ? match[0] : "";
     
     regex = /(?:<div id="ref-)(.*)(?:">)([\W\w]*?)(?:<\/div>)/gm;
