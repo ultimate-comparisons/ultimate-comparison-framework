@@ -9,10 +9,17 @@ import { ComparisonCitationService } from '../components/comparison-citation.ser
 export class CitationPipe implements PipeTransform {
     transform(value: string, args: Array<any> = []){
         let citServ: ComparisonCitationService = args[0];
-        value = value.replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => { 
-            citServ.addUsedEntry(dec); 
-            return '<a href="#'+ dec +'">' + citServ.getBibEntriesInline(dec) + '</a>';
-        });
+        let latex: boolean = args[1];
+        if (!latex){
+            value = value.replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => { 
+                citServ.addUsedEntry(dec); 
+                return '<a href="#'+ dec +'">' + citServ.getBibEntriesInline(dec) + '</a>';
+            });
+        } else {
+            value = value.replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {  
+                return '\\cite{'+ dec +'}';
+            });
+        }
         return value; 
     }
 }

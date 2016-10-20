@@ -14,10 +14,7 @@ Default short description
 - red 1
 - red 2
 - green
-    - green property
-        1. Nous sommes __markdown__
-    - green property
-    - third green property
+    - [@Adi:2004:ASM:988145.988150]
 - yellow
     - yellow property
 - dark blue

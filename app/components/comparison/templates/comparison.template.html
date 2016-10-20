@@ -130,6 +130,11 @@
 <paper-card heading="Latex Table" style="width: 100%;padding-bottom: 0px;"><div class="card-content" style="overflow: auto;"><!--
 -->%\usepackage&#123;calc&#125;<br/>
 %\usepackage&#123;booktabs&#125;<br/>
+%\usepackage&#123;url&#125;<br/>
+%\usepackage&#123;hyperref&#125;<br/>
+%\usepackage&#123;footnote&#125;<br/>
+%\makesavenoteenv&#123;tabular&#125;<br/>
+%\makesavenoteenv&#123;tabule&#125;<br/>
 \begin&#123;tabular&#125;&#123;&#64;&#123;&#125; <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter">p&#123;\linewidth/{{(confServ.tableDataSet?.getTableDataArray() | tablefilter).length}}&#125; </template>&#64;&#123;&#125;&#125;<br/>
 \toprule<br/>
 <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last">{{column.name}} <!-- 
@@ -149,7 +154,9 @@
             iterate over labels 
             --><template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" let-lastItem="last" *ngIf="column.type?.labelCls"><!--
                 print label 
-                -->{{sitem.content}}({{column.values[sitem.content]}})<!-- 
+                -->{{sitem.content}}<!--
+                    tooltip
+                    --><template [ngIf]="sitem.latexChilds">\footnote&#123;<div [innerHtml]="sitem.latexChilds|citation:[citationServ, true]|sanitizeHtml"></div>&#125;</template><!-- 
                     label seperator --><template [ngIf]="!lastItem">, </template><!--
             --></template><!--
         --></template><template [ngIf]="!last"> &#38; </template><template [ngIf]="last">\\<br/></template><!--
