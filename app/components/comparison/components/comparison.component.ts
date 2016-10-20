@@ -9,8 +9,6 @@ import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
 
-import { CitationPipe } from '../pipes/citation.pipe';
-
 @Component({
     selector: 'comparison',
     templateUrl: '../templates/comparison.template.html',
@@ -28,8 +26,7 @@ export class ComparisonComponent {
             public serv: ComparisonService,
             public dataServ: ComparisonDataService,
             public confServ: ComparisonConfigService,
-            public citationServ: ComparisonCitationService,
-            public citationPipe: CitationPipe 
+            public citationServ: ComparisonCitationService
         ){
         this.confServ.loadComparison();
         this.confServ.loadCriteria();

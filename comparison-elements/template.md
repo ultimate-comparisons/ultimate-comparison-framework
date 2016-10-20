@@ -26,3 +26,5 @@ Default short description
 
 ## Description
 Default long description in __markdown__.
+- Bibkey example [@Adi:2004:ASM:988145.988150]
+- [Link example](http://example.com).

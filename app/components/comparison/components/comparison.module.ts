@@ -28,8 +28,8 @@ import { ComparisonCitationService }                    from './comparison-citat
     ],
     declarations: [
         ComparisonComponent,
-        ...COMPARISON_PIPES,
         ComparisonDetailsComponent,
+        ...COMPARISON_PIPES,
         PolymerElement('paper-header-panel'),
         PolymerElement('paper-button'),
         PolymerElement('paper-dialog'),

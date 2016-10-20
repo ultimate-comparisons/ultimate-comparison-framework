@@ -1,11 +1,11 @@
 import { Component, Input, Output } from '@angular/core';
-import * as showdown from 'showdown';
 
 import { TableData, Type, LabelCls, Value, Data, Property, ListItem } from '../shared/index';
 
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
+import { ComparisonCitationService } from './comparison-citation.service';
 
 @Component({
     selector: 'comparison-details',
@@ -35,7 +35,8 @@ export class ComparisonDetailsComponent{
     constructor(
             public serv: ComparisonService,
             public dataServ: ComparisonDataService,
-            public confServ: ComparisonConfigService
+            public confServ: ComparisonConfigService,
+            public citationServ: ComparisonCitationService
         ) {}
  
     private getBody(): string{

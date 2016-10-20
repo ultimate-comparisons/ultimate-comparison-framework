@@ -5,7 +5,7 @@
             {{sitem.content}}
             <paper-tooltip position="bottom">
                 <p>{{getHeaderColumn()?.values[sitem.content]}}</p>
-                <div [innerHtml]="serv._sanitizer.bypassSecurityTrustHtml(sitem.htmlChilds)"></div>
+                <div [innerHtml]="sitem.htmlChilds|citation:[citationServ]|sanitizeHtml"></div>
             </paper-tooltip>
         </div>
     </template>
@@ -14,7 +14,7 @@
 </div>
 <div class="content" style="padding-left:15px; padding-right: 15px;">
     <paper-card *ngIf="confServ.comparison" heading="{{confServ.comparison?.details.bodyMainTitle}}" style="display:block;">
-        <div class="card-content" [innerHTML]="serv._sanitizer.bypassSecurityTrustHtml(getBody())"></div>
+        <div class="card-content" [innerHTML]="getBody()|citation:[citationServ]|sanitizeHtml"></div>
     </paper-card>
 
     <template ngFor let-atag [ngForOf]="confServ.getBodyAttachmentTags()" *ngIf="confServ.comparison">
@@ -25,7 +25,7 @@
                     {{sitem.content}}
                     <paper-tooltip position="top">
                         <p>{{getTable(atag)?.values[sitem.content]}}</p>
-                        <div [innerHtml]="serv._sanitizer.bypassSecurityTrustHtml(sitem.htmlChilds)"></div>
+                        <div [innerHtml]="sitem.htmlChilds|citation:[citationServ]|sanitizeHtml"></div>
                     </paper-tooltip>
                 </span>
             </template>
