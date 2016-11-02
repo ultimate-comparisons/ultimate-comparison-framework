@@ -14,7 +14,7 @@ Default short description
 - red 1
 - red 2
 - green
-    - [@Adi:2004:ASM:988145.988150]
+    - [@eckertThesisCEP]
 - yellow
     - yellow property
 - dark blue
