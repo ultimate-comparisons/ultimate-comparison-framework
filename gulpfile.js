@@ -40,7 +40,8 @@ var files = {
     data: [
         './app/components/comparison/data/*.json',
         './comparison-configuration/*',
-        './citation/output/*'
+        './citation/output/*',
+        './favicon.ico'
     ],
     markdown: [
         './comparison-elements/*.md'
