@@ -53,7 +53,7 @@
                     <tr *ngFor="let dat of dataServ.data | orderBy: [order,orderOption] | datafilter: [query,confServ.comparison?.displaytemplate]">
                         <template ngFor let-column [ngForOf]="confServ.tableDataSet.getTableDataArray() | tablefilter">
                             <td *ngIf="column.type?.tag==='url'"><a href="{{dat.getProperty(column.url).text}}" target="_blank">{{dat.getProperty(column.tag).text}}</a></td>
-                            <td *ngIf="column.type?.tag==='text'">{{dat.getProperty(column.tag).text}}</td>
+                            <td *ngIf="column.type?.tag==='text'"><div [innerHtml]="dat.getProperty(column.tag).text|citation:[citationServ]|sanitizeHtml"></div></td>
                             <td *ngIf="column.type?.tag==='label'">
                                 <template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" *ngIf="column.type?.labelCls">
                                     <div class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel">
@@ -150,7 +150,7 @@
         print url 
         --><template [ngIf]="column.type?.tag==='url'">{{dat.getProperty(column.tag).text}}</template><!-- 
         print text 
-        --><template [ngIf]="column.type?.tag==='text'">{{dat.getProperty(column.tag).text}}</template><!--
+        --><template [ngIf]="column.type?.tag==='text'"><div [innerHtml]="dat.getProperty(column.tag).text|citation:[citationServ, true]|sanitizeHtml"></div></template><!--
         print labels 
         --><template [ngIf]="column.type?.tag==='label'"><!--
             iterate over labels 

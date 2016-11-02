@@ -1,5 +1,5 @@
 # Template - http://www.example.com
-Default short description
+Default short description (with bibkey: [@esper-reference])
 
 ## Performance
 - slow
