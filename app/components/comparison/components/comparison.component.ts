@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import * as saveAs from 'file-saver';
 
 import { Data, CriteriaSelection, Criteria, TableData } from '../shared/index';
@@ -13,6 +13,7 @@ import { ComparisonCitationService } from './comparison-citation.service';
     selector: 'comparison',
     templateUrl: '../templates/comparison.template.html',
     styleUrls: ['../styles/style.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     moduleId: module.id
 })
 export class ComparisonComponent {
@@ -26,13 +27,14 @@ export class ComparisonComponent {
             public serv: ComparisonService,
             public dataServ: ComparisonDataService,
             public confServ: ComparisonConfigService,
-            public citationServ: ComparisonCitationService
+            public citationServ: ComparisonCitationService,
+            private cd: ChangeDetectorRef
         ){
-        this.confServ.loadComparison();
-        this.confServ.loadCriteria();
-        this.confServ.loadTableData();
-        this.confServ.loadDescription();
-        this.citationServ.loadCitationData();
+        this.confServ.loadComparison(this.cd);
+        this.confServ.loadCriteria(this.cd);
+        this.confServ.loadTableData(this.cd);
+        this.confServ.loadDescription(this.cd);
+        this.citationServ.loadCitationData(this.cd);
         
         this.order[0] = this.order[1] = this.order[2] = "tag";
         this.orderOption[0] = 1;
@@ -43,17 +45,20 @@ export class ComparisonComponent {
         if (value){
             this.query[crit.tag] = new CriteriaSelection(value,crit);
         }
+        this.cd.markForCheck();
     }
     
     private orderChanged(value:String, pos:number){
         if(this.order.length > pos){
             this.order[pos] = value;
         }
+        this.cd.markForCheck();
     }
     private orderOptionChanged(value:number, pos:number){
         if(this.orderOption.length > pos){
             this.orderOption[pos] = value;
         }
+        this.cd.markForCheck();
     }
     
     private orderClick(e:MouseEvent, value:string){
@@ -76,6 +81,7 @@ export class ComparisonComponent {
                 this.orderOption[i] = 0;
             } 
         }
+        this.cd.markForCheck();
     }
     
     private displayOrder(value:string, option:number): boolean{
@@ -111,6 +117,5 @@ export class ComparisonComponent {
         } else {
             this.latexTable.nativeElement.classList.add("ltable");
         }
-        
     }
 }

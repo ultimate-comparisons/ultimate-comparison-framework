@@ -18,6 +18,7 @@ Default short description (with bibkey: [@esper-reference])
 - yellow
     - yellow property
 - dark blue
+    - [@eckertThesisCEP]
 - grey
 - light blue
 

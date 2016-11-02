@@ -4,6 +4,7 @@ import { HttpModule }                                   from '@angular/http';
 import { PolymerElement }                               from '@vaadin/angular2-polymer';
 
 import { ComparisonDetailsComponent }                   from './comparison-details.component';
+import { ComparisonFootnoteComponent }                  from './comparison-footnote.component';
 import { ComparisonComponent }                          from './comparison.component';
 import { COMPARISON_PIPES }                             from '../pipes/index.pipes';
 import { InputModule }                                  from '../../input/input.module';
@@ -29,6 +30,7 @@ import { ComparisonCitationService }                    from './comparison-citat
     declarations: [
         ComparisonComponent,
         ComparisonDetailsComponent,
+        ComparisonFootnoteComponent,
         ...COMPARISON_PIPES,
         PolymerElement('paper-header-panel'),
         PolymerElement('paper-button'),

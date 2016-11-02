@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Injectable()
@@ -12,14 +12,16 @@ export class ComparisonCitationService {
         private http: Http
     ){}
     
-    public loadCitationData(){
+    public loadCitationData(cd: ChangeDetectorRef){
         this.http.request('citation/output/fbib.json')
         .subscribe(res => {
             this.bibEntriesHtml = res.json();
+            cd.markForCheck();
         });
         this.http.request('citation/output/fkeys.json')
         .subscribe(res => {
             this.bibEntriesInline = res.json();
+            cd.markForCheck();
         });        
     }
     
