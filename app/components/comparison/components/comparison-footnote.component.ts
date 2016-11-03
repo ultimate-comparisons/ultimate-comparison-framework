@@ -41,5 +41,8 @@ export class ComparisonFootnoteComponent implements OnChanges, OnDestroy {
     
     ngOnDestroy(){
         this.compServ.footnotes[this.footnote].count--;
+        if(this.compServ.footnotes[this.footnote].count == 0){
+            delete this.compServ.footnotes[this.footnote];
+        }
     }
 }
