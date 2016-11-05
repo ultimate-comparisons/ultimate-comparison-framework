@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npm run gulp:compile && npm run lite",
+    "webpack:start": "webpack-dev-server --inline --progress --port 8080",
+    "webpack:build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "lite": "lite-server",
     "typings": "typings",
     "postinstall": "typings install",
@@ -32,7 +34,28 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.13.6",
     "run-sequence": "^1.2.2",
-    "node-pandoc": "^0.2.0"
+    "node-pandoc": "^0.2.0",
+    "angular2-template-loader": "^0.4.0",
+    "awesome-typescript-loader": "^2.2.4",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.15.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.2.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.8.0",
+    "null-loader": "^0.1.1",
+    "phantomjs-prebuilt": "^2.1.7",
+    "raw-loader": "^0.5.1",
+    "rimraf": "^2.5.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-merge": "^0.14.0"
   },
   "dependencies": {
     "@angular/common": "~2.1.0",
@@ -57,11 +80,8 @@
     "systemjs": "0.19.27",
     "zone.js": "^0.6.23",
     
-    "angular2-in-memory-web-api": "0.0.20",
-    "jquery": "^3.0.0",    
+    "angular2-in-memory-web-api": "0.0.20",   
     "select2": "^4.0.3",
-    "showdown": "^1.4.2",
-    "systemjs": "0.19.39",
-    "zone.js": "^0.6.23"
+    "showdown": "^1.4.2"
   }
 }
