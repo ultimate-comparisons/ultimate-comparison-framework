@@ -22,5 +22,6 @@ before_install:
 branches:
   only:
   - master
+  - development
 sudo: required
 dist: trusty
