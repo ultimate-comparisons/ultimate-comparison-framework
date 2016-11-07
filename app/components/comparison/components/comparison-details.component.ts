@@ -10,7 +10,7 @@ import { ComparisonCitationService } from './comparison-citation.service';
 @Component({
     selector: 'comparison-details',
     templateUrl: '../templates/comparison-details.template.html',
-    styleUrls: ['../styles/style.css'],
+    styleUrls: ['../styles/comparison-details.component.css'],
     moduleId: module.id
 })
 export class ComparisonDetailsComponent{

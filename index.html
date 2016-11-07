@@ -4,39 +4,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 1. Load Style sheets -->
     <link rel="stylesheet" href="app/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="app/components/input/styles/style.css">
-    <link rel="stylesheet" href="app/components/comparison/styles/style.css">
-    <link rel="stylesheet" href="app/components/modaldialog/styles/style.css">
+    <link rel="stylesheet" href="app/styles/style.css">
+
     
     <!-- 2. Load libraries -->
     <script src="node_modules/core-js/client/shim.min.js"></script>
-    
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-   
-    <script src="node_modules/npm-polymer-elements/webcomponentsjs/webcomponents-lite.min.js"></script>
-    
-    <!-- 3. Polymer Elements -->
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-header-panel/paper-header-panel.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-toolbar/paper-toolbar.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-card/paper-card.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-button/paper-button.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-dialog/paper-dialog.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-dropdown-menu/paper-dropdown-menu.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-listbox/paper-listbox.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-item/paper-item.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-checkbox/paper-checkbox.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/paper-tooltip/paper-tooltip.html">
-    <link rel="import" href="node_modules/npm-polymer-elements/iron-icons/hardware-icons.html">
+    <script src="node_modules/systemjs/dist/system.src.js"></script> 
     
     <!-- 4. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
-        document.addEventListener('WebComponentsReady', function(){
-            System.import('app').catch(function(err){ console.error(err); });
-        });
+        System.import('app').catch(function(err){ console.error(err); });
     </script>
 </head>
 

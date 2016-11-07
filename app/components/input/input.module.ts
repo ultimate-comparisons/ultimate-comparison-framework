@@ -4,7 +4,6 @@ import { SelectModule }                         from 'angular2-select';
 
 import { Select2Component }                     from './components/select2.component';
 import { SelectComponent }                      from './components/select.component';
-import { PaperChechboxDirective }               from './directives/paper-checkbox.directive';
 
 @NgModule({
     imports: [ 
@@ -13,13 +12,11 @@ import { PaperChechboxDirective }               from './directives/paper-checkbo
     ],
     exports: [
         SelectComponent,
-        Select2Component,
-        PaperChechboxDirective
+        Select2Component
     ],
     declarations: [
         SelectComponent,
-        Select2Component,
-        PaperChechboxDirective
+        Select2Component
     ],
     providers: [],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

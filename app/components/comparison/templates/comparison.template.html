@@ -7,13 +7,13 @@
         </h1>
     </div>
     
-    <paper-card style="width: 100%; margin-bottom: 20px;padding-bottom: 0px;" *ngIf="confServ.description">
+    <pcard class="large-paper-card" *ngIf="confServ.description">
         <div class="card-content">
             <div [innerHtml]="confServ.description|citation:[citationServ]|sanitizeHtml" class="description"></div>
         </div>
-    </paper-card>
+    </pcard>
     
-    <paper-card heading="{{confServ.comparison?.selecttitle}}"  style="width: 100%; margin-bottom: 20px;padding-bottom: 10px;">
+    <pcard [heading]="confServ.comparison?.selecttitle" class="large-paper-card">
         <div class="card-content">
         <template ngFor let-crit [ngForOf]="confServ.criteriaSet?.getCriteriaArray()">
             <div class="col-md-6">
@@ -28,10 +28,10 @@
             </div>
         </template>
         </div>
-    </paper-card>
+    </pcard>
     
-    <paper-card heading="{{confServ.comparison?.tabletitle}}" style="width: 100%;padding-bottom: 0px;">
-        <div class="card-content" style="overflow: auto;">
+    <pcard heading="{{confServ.comparison?.tabletitle}}" class="super-large-paper-card">
+        <div class="card-content">
             <table class="table table-hover" *ngIf="confServ.tableDataSet" style="min-width: 600px;margin-bottom: 0px;">
                 <thead>
                     <tr>
@@ -39,13 +39,13 @@
                             <th valign=column.valign style=column.style name=column.tag>
                                 <button (click)="orderClick($event, column.tag)">
                                     {{column.name}}
-                                    <iron-icon icon="hardware:keyboard-arrow-up" *ngIf="displayOrder(column.tag, -1)"></iron-icon>
-                                    <iron-icon icon="hardware:keyboard-arrow-down" *ngIf="displayOrder(column.tag, 1)"></iron-icon>
+                                    <iicon icon="keyboard-arrow-up" *ngIf="displayOrder(column.tag, -1)"></iicon>
+                                    <iicon icon="keyboard-arrow-down" *ngIf="displayOrder(column.tag, 1)"></iicon>
                                 </button>
                             </th>
                         </template>
                         <th style="width: 3% " name="details ">
-                            <paper-icon-button icon="icons:settings" title="Settings" (click)="showTableProperties()"></paper-icon-button> 
+                            <picon-button icon="settings" title="Settings" (click)="showTableProperties()"></picon-button> 
                         </th>
                     </tr>
                 </thead>
@@ -56,26 +56,24 @@
                             <td *ngIf="column.type?.tag==='text'"><div [innerHtml]="dat.getProperty(column.tag).text|citation:[citationServ]|sanitizeHtml"></div></td>
                             <td *ngIf="column.type?.tag==='label'">
                                 <template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" *ngIf="column.type?.labelCls">
-                                    <div class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel">
-                                        {{sitem.content}}
-                                        <paper-tooltip position="top">
-                                            <p>{{column.values[sitem.content]}}</p>
-                                            <div [innerHtml]="sitem.htmlChilds|citation:[citationServ]|sanitizeHtml"></div>
-                                        </paper-tooltip>
-                                    </div>
+                                    <ptooltip [tooltip]="column.values[sitem.content]" [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'n'">
+                                        <div class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel">
+                                            {{sitem.content}}
+                                        </div>
+                                    </ptooltip>
                                 </template>
                             </td>
                         </template>
                         <td>
-                            <paper-icon-button icon="icons:info" title="Details" (click)="showDetails(dat)"></paper-icon-button>
+                            <picon-button icon="info" title="Details" (click)="showDetails(dat)"></picon-button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </paper-card>
+    </pcard>
     
-    <paper-card heading="References"  style="width: 100%; margin-bottom: 20px;padding-bottom: 10px;" *ngIf="citationServ.references&&confServ.description&&confServ.tableDataSet&&confServ.comparison">
+    <pcard heading="References" class="large-paper-card" *ngIf="citationServ.references&&confServ.description&&confServ.tableDataSet&&confServ.comparison">
         <div class="card-content">
             <table>
             <template ngFor let-entry [ngForOf]="citationServ.references">
@@ -85,51 +83,39 @@
             </template>
             </table>
         </div>
-    </paper-card>
+    </pcard>
 </div>
 
-<div class="footer">
-    <div class="container">
-    This is an <a href="http://ultimate-comparisons.github.io/">Ultimate Comparison</a> | content licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License CC-BY-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>    
-    </div>
-</div>
-
-<modal-dialog #details>
+<pdialog #details>
     <comparison-details [data]=activeRow></comparison-details>
-</modal-dialog>
+</pdialog>
 
-<modal-dialog #settings>
-    <div class="page-header">
+<pdialog #settings>
+    <div class="pheader">
         <h2>Table Settings</h2>
     </div>
     <div class="col-md-12">
         <div class="col-md-6">
-            Select Columns...
-            <paper-listbox>
-                <paper-item><paper-checkbox [checked]="confServ.displayAll" (checkedChange)="confServ.displayAllChange($event)">{{confServ.displayAllName}}</paper-checkbox></paper-item>
-                <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray()">
-                    <paper-item><paper-checkbox [(checked)]=column.display>{{column.name}}</paper-checkbox></paper-item>
-                </template>
-            </paper-listbox>
+            <h5>Select Columns...</h5>
+            <pitem><pcheckbox [checked]="confServ.displayAll" (checkedChange)="confServ.displayAllChange($event)" [label]="confServ.displayAllName"></pcheckbox></pitem>
+            <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray()">
+                <pitem><pcheckbox [(checked)]=column.display [label]="column.name"></pcheckbox></pitem>
+            </template>
         </div>
         <div class="col-md-6">
-            Other Settings...
+            <h5>Other Settings...</h5>
             <div *ngIf="confServ.comparison">
-                <paper-listbox>
-                    <paper-item><paper-checkbox [(checked)]="confServ.comparison.displaytemplate">Display Template</paper-checkbox></paper-item>
-                </paper-listbox>
-                Latex
-                <paper-listbox>
-                    <paper-button raised (click)="downloadLatexTable()">Download Table</paper-button>
-                    <paper-item><paper-checkbox [(checked)]="showTable" (checkedChange)="previewLatexTable($event)">Display Latex Table</paper-checkbox></paper-item>
-                </paper-listbox>
+                <pitem><pcheckbox [(checked)]="confServ.comparison.displaytemplate" [label]="'Display Template'"></pcheckbox></pitem>
+                <h6>Latex</h6>
+                <pitem><pbutton (click)="downloadLatexTable()">Download Table</pbutton></pitem>
+                <pitem><pcheckbox [(checked)]="showTable" (checkedChange)="previewLatexTable($event)" [label]="'Display Latex Table'"></pcheckbox></pitem>
             </div>
         </div>
     </div>
-</modal-dialog>
+</pdialog>
 
-<div *ngIf="confServ.tableDataSet" class="ltable container" style="padding-bottom:100px;margin-top:-40px;" #latextable>
-<paper-card heading="Latex Table" style="width: 100%;padding-bottom: 0px;"><div class="card-content" style="overflow: auto;"><!--
+<div *ngIf="confServ.tableDataSet" class="ltable container" #latextable>
+<pcard heading="Latex Table" class="large-paper-card"><div class="card-content" style="overflow: auto;"><!--
 -->%\usepackage&#123;calc&#125;<br/>
 %\usepackage&#123;booktabs&#125;<br/>
 %\usepackage&#123;url&#125;<br/>
@@ -168,5 +154,11 @@
 \end&#123;tabular&#125;<br/>
 \newcommand\snum&#123;0&#125;
 <template ngFor let-item [ngForOf]="serv.getFootnotes()"><div [innerHtml]="item|sanitizeHtml"></div>
-</template></div></paper-card>
+</template></div></pcard>
+</div>
+
+<div class="footer">
+    <div class="container">
+    This is an <a href="http://ultimate-comparisons.github.io/">Ultimate Comparison</a> | content licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License CC-BY-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>    
+    </div>
 </div>

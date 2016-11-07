@@ -57,12 +57,9 @@ var files = {
         './node_modules/rxjs/**/*.js',
         './node_modules/angular-in-memory-web-api/**/*.js',
         './node_modules/@angular/**/*.js',
-        './node_modules/select2/**/*.js',
         './node_modules/jquery/**/*.js',
         './node_modules/file-saver/**/*js',
         './node_modules/showdown/**/*.js',
-        './node_modules/npm-polymer-elements/**/*',
-         "./node_modules/@vaadin/angular2-polymer/**/*",
          "./node_modules/angular2-select/**/*"
     ]
 }
