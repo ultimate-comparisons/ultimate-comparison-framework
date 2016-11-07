@@ -4,8 +4,7 @@ import { Component, Input, Output, EventEmitter, ElementRef, HostListener, OnCha
     selector: 'pcheckbox',
     templateUrl: './paper-checkbox.component.html',
     styleUrls: ['./paper-checkbox.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: module.id
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaperCheckboxComponent implements OnChanges {
     @Input() label: string;

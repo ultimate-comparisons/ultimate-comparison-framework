@@ -4,7 +4,6 @@ import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
     selector: 'pitem',
     templateUrl: './paper-item.component.html',
     styleUrls: ['./paper-item.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: module.id
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaperItemComponent {}

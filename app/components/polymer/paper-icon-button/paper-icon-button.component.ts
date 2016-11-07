@@ -4,8 +4,7 @@ import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
     selector: 'picon-button',
     templateUrl: './paper-icon-button.component.html',
     styleUrls: ['./paper-icon-button.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: module.id
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaperIconButtonComponent {   
     @Input() icon: string;

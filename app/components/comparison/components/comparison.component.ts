@@ -13,8 +13,7 @@ var FileSaver = require('file-saver');
     selector: 'comparison',
     templateUrl: '../templates/comparison.template.html',
     styleUrls: ['../styles/comparison.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: module.id
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComparisonComponent {
     criteriaSelection = [];

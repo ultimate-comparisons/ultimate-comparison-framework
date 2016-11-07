@@ -5,8 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     selector: 'ptooltip',
     templateUrl: './tooltip.component.html',
     styleUrls: ['./tooltip.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: module.id
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TooltipComponent {   
     @Input() tooltip: string = "";

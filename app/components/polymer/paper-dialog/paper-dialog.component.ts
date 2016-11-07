@@ -4,8 +4,7 @@ import { Component, Input, ChangeDetectionStrategy, ElementRef, Renderer, HostLi
     selector: 'pdialog',
     templateUrl: './paper-dialog.component.html',
     styleUrls: ['./paper-dialog.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: module.id
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaperDialogComponent {   
     @Input() heading: string;

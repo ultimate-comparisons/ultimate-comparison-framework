@@ -2,17 +2,15 @@
   "name": "ultimate-comparison-framework",
   "version": "1.0.0",
   "scripts": {
-    "start": "npm run gulp:compile && npm run lite",
-    "webpack:start": "webpack-dev-server --inline --progress --port 8080",
+    "start": "npm run gulp:compile && npm run webpack:start",
+    "webpack:start": "webpack-dev-server --open --output-public-path --inline --progress --port 3000",
     "webpack:build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
-    "lite": "lite-server",
     "typings": "typings",
     "postinstall": "typings install",
     "gulp:compile": "node_modules/gulp/bin/gulp.js default",
     "gulp:development": "node_modules/gulp/bin/gulp.js dev",
-    "dev": "concurrently \"npm run gulp:development\" \"npm run lite\" ",
-    "test": "node_modules/gulp/bin/gulp.js default",
-    "start:concurrently": "concurrently \"npm run gulp:compile\" \"npm run lite\" "
+    "dev": "concurrently \"npm run gulp:development\" \"npm run webpack:start\" ",
+    "test": "node_modules/gulp/bin/gulp.js default && npm run webpack:build"
   },
   "license": "MIT",
   "repository": {
@@ -21,7 +19,6 @@
   },
   "devDependencies": {
     "concurrently": "^3.0.0",
-    "lite-server": "^2.2.2",
     "typescript": "^2.0.3",
     "typings": "^1.4.0",
     "gulp": "^3.9.1",

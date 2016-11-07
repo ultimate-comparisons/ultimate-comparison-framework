@@ -3,11 +3,10 @@ import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'select2',
-    templateUrl: '../templates/select2.template.html',
+    templateUrl: 'select2.template.html',
     styleUrls: [
-        './select2.component.css'
-    ],
-    moduleId: module.id
+        'select2.component.css'
+    ]
 })
 export class Select2Component {
     private ops = [{value: 't1', label: 't2'}]
