@@ -60,6 +60,8 @@ remove_files(){
     git rm --cached .travis.yml
     git rm --cached id_rsa.enc
     git rm --cached LICENSE
+    git rm --cached citation/acm-siggraph.csl
+    git rm --cached citation/default.bib
 }
 
 initial_deploy() {

@@ -8,29 +8,38 @@ var pandoc = require('node-pandoc');
  */
 var parseBib = function(file,enc,csl,outfile, callback){
     enc = enc? enc : "utf8";
-    var bib_file = fs.readFileSync(file, enc);
-    // extract keys from bibtex file 
-    var regex = /(?:@[^\{]*\{)([^,]*)/g;
-    var match = regex.exec(bib_file);
-    // create tmp file 'keys.txt' with json structure: {"key_1":"[@key]",...,"key_n":"[@key_n]"}
-    var filecontent = "{\n";
-    while (match != null){
-        filecontent += '"' + match[1] + '":"[@' + match[1] + ']",\n';
-        match = regex.exec(bib_file);
-    }
-    filecontent = filecontent.substr(0,filecontent.length-2) + "\n}";
     if(!fs.existsSync('./tmp')) fs.mkdirSync('./tmp');
-    fs.writeFile("./tmp/keys.txt", filecontent, function(err) {if(err) return console.log(err);}); 
-    
-    // pandoc parse keys.txt with csl file and bib file
-    var args = "--bibliography "+ file +" --csl " + csl + " -o ./tmp/keys.html"
-    var pandoccallback = function(err, result){
-        if(err) {return console.error('Error: ', err )};
-        extractFormatedKeys(outfile);
-        extractFormatedBib(outfile);
+    try {
+        var bib_file = fs.readFileSync(file, enc);
+        var csl_file = fs.readFileSync(csl, enc);
+        // extract keys from bibtex file 
+        var regex = /(?:@[^\{]*\{)([^,]*)/g;
+        var match = regex.exec(bib_file);
+        // create tmp file 'keys.txt' with json structure: {"key_1":"[@key]",...,"key_n":"[@key_n]"}
+        var filecontent = "{\n";
+        while (match != null){
+            filecontent += '"' + match[1] + '":"[@' + match[1] + ']",\n';
+            match = regex.exec(bib_file);
+        }
+        filecontent = filecontent.substr(0,filecontent.length-2) + "\n}";
+        fs.writeFile("./tmp/keys.txt", filecontent, function(err) {if(err) return console.log(err);}); 
+        
+        // pandoc parse keys.txt with csl file and bib file
+        var args = "--bibliography "+ file +" --csl " + csl + " -o ./tmp/keys.html"
+        var pandoccallback = function(err, result){
+            if(err) {return console.error('Error: ', err )};
+            extractFormatedKeys(outfile);
+            extractFormatedBib(outfile);
+            callback();
+        }    
+        pandoc('./tmp/keys.txt',args,pandoccallback);
+    } catch (err){
+        console.log("No .bib file or .csl file found!")
+        if(!fs.existsSync(outfile)) fs.mkdirSync(outfile);
+        fs.writeFile(outfile + "/fkeys.json", "{}", function(err) {if(err) return console.log(err);});
+        fs.writeFile(outfile + "/fbib.json", "{}", function(err) {if(err) return console.log(err);});
         callback();
-    }    
-    pandoc('./tmp/keys.txt',args,pandoccallback);
+    }
     
 }
 
