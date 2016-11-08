@@ -109,6 +109,8 @@
                 <h6>Latex</h6>
                 <pitem><pbutton (click)="downloadLatexTable()">Download Table</pbutton></pitem>
                 <pitem><pcheckbox [(checked)]="showTable" (checkedChange)="previewLatexTable($event)" [label]="'Display Latex Table'"></pcheckbox></pitem>
+                <pitem><pcheckbox [(checked)]="showTableTooltips" [label]="'Show Tooltips'"></pcheckbox></pitem>
+                <pitem><pcheckbox [(checked)]="tableTooltipsAsFootnotes" [label]="'Display tooltip text in Footnotes'"></pcheckbox></pitem>
             </div>
         </div>
     </div>
@@ -145,16 +147,25 @@
                 print label 
                 -->{{sitem.content}}<!--
                     tooltip
-                    --><template [ngIf]="sitem.latexChilds"><comparison-footnote [footnote]="sitem.latexChilds"></comparison-footnote></template><!-- 
+                    --><template [ngIf]="sitem.latexChilds"><!--
+                        print tooltips?
+                        --><template [ngIf]="showTableTooltips"><!--
+                            print tooltips in footnotes
+                            --><comparison-footnote [footnote]="sitem.latexChilds" *ngIf="tableTooltipsAsFootnotes"></comparison-footnote><!--
+                            print tooltips after labels    
+                            --><div [innerHtml]="sitem.latexChilds|citation: [this.citationServ, true]|sanitizeHtml"></div><!--
+                        --></template><!-- 
+                    --></template><!-- 
                     label seperator --><template [ngIf]="!lastItem">, </template><!--
             --></template><!--
         --></template><template [ngIf]="!last"> &#38; </template><template [ngIf]="last">\\<br/></template><!--
     --></template>
 </template>\bottomrule<br/>
 \end&#123;tabular&#125;<br/>
+<template [ngIf]="tableTooltipsAsFootnotes">
 \newcommand\snum&#123;0&#125;
 <template ngFor let-item [ngForOf]="serv.getFootnotes()"><div [innerHtml]="item|sanitizeHtml"></div>
-</template></div></pcard>
+</template></template></div></pcard>
 </div>
 
 <div class="footer">

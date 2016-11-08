@@ -104,11 +104,13 @@ export class ComparisonComponent {
         let content:string = this.latexTable.nativeElement.textContent;
         content = content.substr(content.indexOf('%'), content.length);
         let blob: Blob = new Blob([content], {type: 'plain/text'});
-        FileSaver(blob, "latextable.tex"); 
+        FileSaver.saveAs(blob, "latextable.tex"); 
         return window.URL.createObjectURL(blob);
     }
     
     private showTable: boolean = false;
+    private showTableTooltips: boolean = true;
+    private tableTooltipsAsFootnotes = false;
     private previewLatexTable(show){
         if (show){
             this.latexTable.nativeElement.classList.remove("ltable");    
