@@ -1,5 +1,5 @@
 <ng-content></ng-content>
-<div class="ptooltiptext">
+<div class="ptooltiptext" *ngIf="tooltip!=''||tooltipHtml!=''">
    {{tooltip}}
    <div [innerHtml]="_sanitizer.bypassSecurityTrustHtml(tooltipHtml)"></div>
 </div>

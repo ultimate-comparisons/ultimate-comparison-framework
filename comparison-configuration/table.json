@@ -104,7 +104,7 @@
                 },
                 {
                     "name": "light blue",
-                    "description": "Show case for light blue label",
+                    "description": "",
                     "class": "label-info"
                 }
             ]
