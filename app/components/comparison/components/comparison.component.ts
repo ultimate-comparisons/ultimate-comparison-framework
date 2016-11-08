@@ -1,20 +1,19 @@
 import { Component, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import * as saveAs from 'file-saver';
 
 import { Data, CriteriaSelection, Criteria, TableData } from '../shared/index';
-import { ModalDialogComponent } from '../../modaldialog/index';
 
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
 
+var FileSaver = require('file-saver');
+
 @Component({
     selector: 'comparison',
     templateUrl: '../templates/comparison.template.html',
-    styleUrls: ['../styles/style.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    moduleId: module.id
+    styleUrls: ['../styles/comparison.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComparisonComponent {
     criteriaSelection = [];
@@ -88,14 +87,14 @@ export class ComparisonComponent {
         return this.order.findIndex(val => val == value) >= 0 && this.orderOption[this.order.findIndex(val => val == value)] == option;
     }
     
-    @ViewChild('details') detailsModal: ModalDialogComponent;
+    @ViewChild('details') detailsModal: any;
     private activeRow: Data = new Data();
     private showDetails(data:Data){
         this.activeRow = data;
         this.detailsModal.open();
     }
     
-    @ViewChild('settings') settingsModal: ModalDialogComponent;
+    @ViewChild('settings') settingsModal: any;
     private showTableProperties(){
         this.settingsModal.open();
     }
@@ -105,8 +104,7 @@ export class ComparisonComponent {
         let content:string = this.latexTable.nativeElement.textContent;
         content = content.substr(content.indexOf('%'), content.length);
         let blob: Blob = new Blob([content], {type: 'plain/text'});
-        let s = saveAs;
-        saveAs(blob, "latextable.tex"); 
+        FileSaver(blob, "latextable.tex"); 
         return window.URL.createObjectURL(blob);
     }
     

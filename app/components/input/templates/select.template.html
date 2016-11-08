@@ -1,8 +1,0 @@
-<span class="select-container">
-    <select class="select-default" (change)="select($event.target.value)">
-        <template ngFor let-value [ngForOf]="items">
-            <option value="{{value.tag}}" *ngIf="value.tag != selected">{{value.name}}</option>
-            <option selected value="{{value.tag}}" *ngIf="value.tag == selected">{{value.name}}</option>
-        </template>
-    </select>
-</span>    
