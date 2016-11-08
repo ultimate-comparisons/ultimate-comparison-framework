@@ -1,13 +1,15 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA }             from '@angular/core';
+import { NgModule }                                     from '@angular/core';
 import { BrowserModule }                                from '@angular/platform-browser';
 import { HttpModule }                                   from '@angular/http';
-import { PolymerElement }                               from '@vaadin/angular2-polymer';
 
 import { ComparisonDetailsComponent }                   from './comparison-details.component';
+import { ComparisonFootnoteComponent }                  from './comparison-footnote.component';
 import { ComparisonComponent }                          from './comparison.component';
 import { COMPARISON_PIPES }                             from '../pipes/index.pipes';
 import { InputModule }                                  from '../../input/input.module';
-import { ModalDialogModule }                            from '../../modaldialog/index';
+
+// "Polymer" Module (Polymer to Angular2 Conversion Components)
+import { PolymerModule }                                from '../../polymer/polymer.module';
 
 // Provider imports
 import { Title }                                        from '@angular/platform-browser';
@@ -19,28 +21,18 @@ import { ComparisonCitationService }                    from './comparison-citat
 @NgModule({
     imports: [
         BrowserModule,
-        ModalDialogModule,
         HttpModule,
-        InputModule
+        InputModule,
+        PolymerModule
     ],
     exports: [
         ComparisonComponent  
     ],
     declarations: [
         ComparisonComponent,
-        ...COMPARISON_PIPES,
         ComparisonDetailsComponent,
-        PolymerElement('paper-header-panel'),
-        PolymerElement('paper-button'),
-        PolymerElement('paper-dialog'),
-        PolymerElement('paper-toolbar'),
-        PolymerElement('paper-card'),
-        PolymerElement('paper-listbox'),
-        PolymerElement('paper-item'),
-        PolymerElement('paper-checkbox'),
-        PolymerElement('paper-tooltip'),
-        PolymerElement('iron-icon'),
-        PolymerElement('paper-icon-button'),
+        ComparisonFootnoteComponent,
+        ...COMPARISON_PIPES
     ],
     providers: [
         ComparisonService,
@@ -49,7 +41,6 @@ import { ComparisonCitationService }                    from './comparison-citat
         ComparisonCitationService,
         ...COMPARISON_PIPES,
         Title
-    ],
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    ]
 })
 export class ComparisonModule { }

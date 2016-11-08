@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { Title } from '@angular/platform-browser';
 
@@ -20,33 +20,37 @@ export class ComparisonConfigService {
             private comparisonService: ComparisonService
         ){}
         
-    public loadTableData(){
+    public loadTableData(cd: ChangeDetectorRef){
         this.http.request('comparison-configuration/table.json')
         .subscribe(res => {
             this.tableDataSet = new TableDataSet(res.json());
-            this.comparisonDataService.loadData(this.tableDataSet);
+            cd.markForCheck();
+            this.comparisonDataService.loadData(this.tableDataSet, cd);
         })
     }
     
-    public loadCriteria(){       
+    public loadCriteria(cd: ChangeDetectorRef){       
         this.http.request('comparison-configuration/criteria.json')
         .subscribe(res => {
             this.criteriaSet = new CriteriaSet(res.json());
+            cd.markForCheck();
         });
     }
     
-    public loadComparison(){
+    public loadComparison(cd: ChangeDetectorRef){
         this.http.request('comparison-configuration/comparison.json')
         .subscribe(res => {
             this.comparison = new Comparison(res.json());
             this.title.setTitle(this.comparison.title);
+            cd.markForCheck();
         });
     }
     
-    public loadDescription(){
+    public loadDescription(cd: ChangeDetectorRef){
         this.http.request('comparison-configuration/description.md')
         .subscribe(res => {
             this.description = this.comparisonService.converter.makeHtml(res.text());
+            cd.markForCheck();
         });
     }
     

@@ -1,21 +1,19 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import * as saveAs from 'file-saver';
+import { Component, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { Data, CriteriaSelection, Criteria, TableData } from '../shared/index';
-import { ModalDialogComponent } from '../../modaldialog/index';
 
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
 
-import { CitationPipe } from '../pipes/citation.pipe';
+var FileSaver = require('file-saver');
 
 @Component({
     selector: 'comparison',
     templateUrl: '../templates/comparison.template.html',
-    styleUrls: ['../styles/style.css'],
-    moduleId: module.id
+    styleUrls: ['../styles/comparison.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComparisonComponent {
     criteriaSelection = [];
@@ -29,13 +27,13 @@ export class ComparisonComponent {
             public dataServ: ComparisonDataService,
             public confServ: ComparisonConfigService,
             public citationServ: ComparisonCitationService,
-            public citationPipe: CitationPipe 
+            private cd: ChangeDetectorRef
         ){
-        this.confServ.loadComparison();
-        this.confServ.loadCriteria();
-        this.confServ.loadTableData();
-        this.confServ.loadDescription();
-        this.citationServ.loadCitationData();
+        this.confServ.loadComparison(this.cd);
+        this.confServ.loadCriteria(this.cd);
+        this.confServ.loadTableData(this.cd);
+        this.confServ.loadDescription(this.cd);
+        this.citationServ.loadCitationData(this.cd);
         
         this.order[0] = this.order[1] = this.order[2] = "tag";
         this.orderOption[0] = 1;
@@ -46,17 +44,20 @@ export class ComparisonComponent {
         if (value){
             this.query[crit.tag] = new CriteriaSelection(value,crit);
         }
+        this.cd.markForCheck();
     }
     
     private orderChanged(value:String, pos:number){
         if(this.order.length > pos){
             this.order[pos] = value;
         }
+        this.cd.markForCheck();
     }
     private orderOptionChanged(value:number, pos:number){
         if(this.orderOption.length > pos){
             this.orderOption[pos] = value;
         }
+        this.cd.markForCheck();
     }
     
     private orderClick(e:MouseEvent, value:string){
@@ -79,20 +80,21 @@ export class ComparisonComponent {
                 this.orderOption[i] = 0;
             } 
         }
+        this.cd.markForCheck();
     }
     
     private displayOrder(value:string, option:number): boolean{
         return this.order.findIndex(val => val == value) >= 0 && this.orderOption[this.order.findIndex(val => val == value)] == option;
     }
     
-    @ViewChild('details') detailsModal: ModalDialogComponent;
+    @ViewChild('details') detailsModal: any;
     private activeRow: Data = new Data();
     private showDetails(data:Data){
         this.activeRow = data;
         this.detailsModal.open();
     }
     
-    @ViewChild('settings') settingsModal: ModalDialogComponent;
+    @ViewChild('settings') settingsModal: any;
     private showTableProperties(){
         this.settingsModal.open();
     }
@@ -102,8 +104,7 @@ export class ComparisonComponent {
         let content:string = this.latexTable.nativeElement.textContent;
         content = content.substr(content.indexOf('%'), content.length);
         let blob: Blob = new Blob([content], {type: 'plain/text'});
-        let s = saveAs;
-        saveAs(blob, "latextable.tex"); 
+        FileSaver(blob, "latextable.tex"); 
         return window.URL.createObjectURL(blob);
     }
     
@@ -114,6 +115,5 @@ export class ComparisonComponent {
         } else {
             this.latexTable.nativeElement.classList.add("ltable");
         }
-        
     }
 }

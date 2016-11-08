@@ -1,5 +1,5 @@
 # Template - http://www.example.com
-Default short description
+Default short description (with bibkey: [@esper-reference])
 
 ## Performance
 - slow
@@ -14,15 +14,15 @@ Default short description
 - red 1
 - red 2
 - green
-    - green property
-        1. Nous sommes __markdown__
-    - green property
-    - third green property
+    - [@eckertThesisCEP]
 - yellow
     - yellow property
 - dark blue
+    - [@eckertThesisCEP]
 - grey
 - light blue
 
 ## Description
 Default long description in __markdown__.
+- Bibkey example [@Adi:2004:ASM:988145.988150]
+- [Link example](http://example.com).

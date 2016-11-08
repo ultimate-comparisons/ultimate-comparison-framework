@@ -1,0 +1,22 @@
+:host >>> .select2-container {
+    display: table !important;
+    table-layout: fixed !important;
+    width: 100% !important; 
+}
+
+:host >>> .select2-container .select2-selection {
+    border: 0px !important;
+    border-bottom: 1px solid #aaa !important;
+    border-radius: 0px !important; 
+}
+
+:host >>> .select2-selection__choice {
+    background-color: #777 !important;
+    color: #fff !important;
+    font-weight: bold; 
+    border-radius: 4px !important;
+}
+
+:host >>> .select2-selection__choice__remove {
+    color: #fff !important; 
+}

@@ -1,35 +1,31 @@
-<div class="page-header" style="padding: 15 15 8 15;margin: 0 0 20 0;">
+<div class="pheader">
     <h2>{{getHeaderText()}}
     <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)" *ngIf="confServ.comparison">
-        <div class="{{getHeaderLabel()?.getCls(sitem.content)}} mylabel">
+        <ptooltip [tooltip]="getHeaderColumn()?.values[sitem.content]" [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'s'">
+            <div class="{{getHeaderLabel()?.getCls(sitem.content)}} mylabel">
             {{sitem.content}}
-            <paper-tooltip position="bottom">
-                <p>{{getHeaderColumn()?.values[sitem.content]}}</p>
-                <div [innerHtml]="serv._sanitizer.bypassSecurityTrustHtml(sitem.htmlChilds)"></div>
-            </paper-tooltip>
-        </div>
+            </div>
+        </ptooltip>
     </template>
     <small><a href="{{getHeaderUrl()}}" target="_blank">{{getHeaderUrl()}}</a></small> 
     </h2>
 </div>
 <div class="content" style="padding-left:15px; padding-right: 15px;">
-    <paper-card *ngIf="confServ.comparison" heading="{{confServ.comparison?.details.bodyMainTitle}}" style="display:block;">
-        <div class="card-content" [innerHTML]="serv._sanitizer.bypassSecurityTrustHtml(getBody())"></div>
-    </paper-card>
+    <pcard *ngIf="confServ.comparison" heading="{{confServ.comparison?.details.bodyMainTitle}}" style="display:block;">
+        <div class="card-content" [innerHTML]="getBody()|citation:[citationServ]|sanitizeHtml"></div>
+    </pcard>
 
     <template ngFor let-atag [ngForOf]="confServ.getBodyAttachmentTags()" *ngIf="confServ.comparison">
-        <paper-card heading="{{getTable(atag).name}}">
+        <pcard heading="{{getTable(atag).name}}">
             <p class="card-content">
             <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(atag)">
-                <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">
-                    {{sitem.content}}
-                    <paper-tooltip position="top">
-                        <p>{{getTable(atag)?.values[sitem.content]}}</p>
-                        <div [innerHtml]="serv._sanitizer.bypassSecurityTrustHtml(sitem.htmlChilds)"></div>
-                    </paper-tooltip>
-                </span>
+                <ptooltip [tooltip]="getTable(atag)?.values[sitem.content]" [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'n'"> 
+                    <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">
+                        {{sitem.content}}
+                    </span>
+                </ptooltip>
             </template>
             </p>
-        </paper-card>
+        </pcard>
     </template>
 </div>

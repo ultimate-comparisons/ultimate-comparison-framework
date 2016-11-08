@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Injectable()
@@ -6,20 +6,22 @@ export class ComparisonCitationService {
     public bibEntriesHtml = {};
     public bibEntriesInline = {};
     private keys: {[name: string]: string;} = { };
-    public references: Array<string> = new Array<string>();
+    public references: Array<String> = [];
     
     constructor(
         private http: Http
     ){}
     
-    public loadCitationData(){
+    public loadCitationData(cd: ChangeDetectorRef){
         this.http.request('citation/output/fbib.json')
         .subscribe(res => {
             this.bibEntriesHtml = res.json();
+            cd.markForCheck();
         });
         this.http.request('citation/output/fkeys.json')
         .subscribe(res => {
             this.bibEntriesInline = res.json();
+            cd.markForCheck();
         });        
     }
     
@@ -32,12 +34,22 @@ export class ComparisonCitationService {
         return entries.length > 0 ? entries : [{key:"emty",html:""}];
     }
     
-    public addUsedEntry(entry){
-        if (!this.keys[entry]){
-            this.references.push(entry);
-            this.keys[entry] = entry;
+    public addUsedEntries(entries){
+        let newEntries: Array<String> = new Array<String>();
+        for (let index in entries){
+            let entry = entries[index];    
+            if (!this.keys[entry]){
+                newEntries.push(entry);
+                this.keys[entry] = entry;   
+            }
         }
-        
+        if (newEntries.length >0){
+            if(this.references){
+                this.references = this.references.concat(newEntries);
+            } else {
+                this.references = newEntries;
+            }  
+        } 
     }
     
     public getBibEntriesHtml(key){

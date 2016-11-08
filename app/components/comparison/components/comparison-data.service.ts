@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { TableData, TableDataSet, Type, LabelCls, Value, Data, Property, ListItem } from './../shared/index';
@@ -15,7 +15,7 @@ export class ComparisonDataService {
             private comparisonService: ComparisonService
         ){}
     
-    public loadData(tableDataSet: TableDataSet){
+    public loadData(tableDataSet: TableDataSet, cd: ChangeDetectorRef){
         this.http.request('app/components/comparison/data/data.json')
         .subscribe(res => {
             res.json().forEach(obj => {
@@ -58,6 +58,7 @@ export class ComparisonDataService {
                 };
                 this.data.push(data); 
             });
+            cd.markForCheck();
     });
 }
 
