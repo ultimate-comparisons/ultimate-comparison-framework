@@ -2,6 +2,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     jsontransform = require('gulp-json-transform'),
     concatjson = require('gulp-concat-json'),
+    clean = require('gulp-clean'),
     run = require('run-sequence'),
     exec = require('gulp-exec'),
     bibtex2json = require('./citation/bibtex2json'),
@@ -88,9 +89,10 @@ gulp.task('delete-www', function() {
         .pipe(clean());
 });
 // --------------------------------------------------------------->
+
 // DEFAULT and DEV tasks -----------------------------------------<
 gulp.task('default', function(callback){
-    run('build-data','build-www', callback);
+    run('build-data', 'delete-www', 'build-www', callback);
 });
 
 gulp.task('dev', ['default'], function(callback) {
