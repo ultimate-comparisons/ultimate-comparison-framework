@@ -1,13 +1,10 @@
-www/
+www
+comparison-elements-json/*.json
+app/components/comparison/data/data.json
+citation/output/
+
 id_rsa
 id_rsa.pub
-/app/**/*.js.map
-/app/**/*.js
-/comparison-elements-json/*.json
-/app/components/comparison/data/data.json
-/tmp/
-/citation/output/
-.idea/
 
 
 # Created by https://www.gitignore.io/api/eclipse,gradle,intellij+iml,node,grunt,typings,visualstudiocode
