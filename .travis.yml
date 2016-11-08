@@ -17,9 +17,9 @@ before_install:
 - sudo dpkg -i pandoc-1.17.2-1-amd64.deb
 - npm install -g npm
 - java -version
+- pandoc -v
 - npm -version
 - npm install
-- pandoc -v
 branches:
   only:
   - master

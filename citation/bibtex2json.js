@@ -6,7 +6,7 @@ var pandoc = require('node-pandoc');
  * enc: encoding of the bib file
  * outfilepath: path of the out files (fkeys.json, fbib.json)
  */
-var parseBib = function(file,enc,csl,outfile){
+var parseBib = function(file,enc,csl,outfile, callback){
     enc = enc? enc : "utf8";
     var bib_file = fs.readFileSync(file, enc);
     // extract keys from bibtex file 
@@ -24,13 +24,14 @@ var parseBib = function(file,enc,csl,outfile){
     
     // pandoc parse keys.txt with csl file and bib file
     var args = "--bibliography "+ file +" --csl " + csl + " -o ./tmp/keys.html"
-    var callback = function(err, result){
+    var pandoccallback = function(err, result){
         if(err) {return console.error('Error: ', err )};
         extractFormatedKeys(outfile);
         extractFormatedBib(outfile);
-        return result;
-    }
-    return pandoc('./tmp/keys.txt',args,callback);
+        callback();
+    }    
+    pandoc('./tmp/keys.txt',args,pandoccallback);
+    
 }
 
 var extractFormatedKeys = function(filepath){

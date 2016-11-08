@@ -20,8 +20,7 @@ var files = {
         './app/components/comparison/data/*.json',
         './comparison-configuration/*',
         './citation/output/*',
-        './favicon.ico',
-        './tmp/*'
+        './favicon.ico'
     ],
     markdown: [
         './comparison-elements/*.md'
@@ -64,9 +63,9 @@ gulp.task('json', function(){
         .pipe(gulp.dest(paths.data))
 })
 
-gulp.task('citation', function(){
+gulp.task('citation', function(callback){
     var fileContent = JSON.parse(fs.readFileSync("./citation/config.json", "utf8"));
-    bibtex2json.parse('./citation/' + fileContent.bibtex_file, 'utf8', './citation/' + fileContent.bibtex_style, './citation/output');
+    bibtex2json.parse('./citation/' + fileContent.bibtex_file, 'utf8', './citation/' + fileContent.bibtex_style, './citation/output', callback);
 })
 // --------------------------------------------------------------->
 
