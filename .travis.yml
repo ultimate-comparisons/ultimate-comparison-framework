@@ -19,6 +19,7 @@ before_install:
 - java -version
 - npm -version
 - npm install
+- pandoc -v
 branches:
   only:
   - master
