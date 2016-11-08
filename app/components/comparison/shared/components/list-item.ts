@@ -12,10 +12,12 @@ export class ListItem{
     }
     
     public convertChilds(){
-        this.htmlChilds = this.converter.makeHtml(this.plainChilds.replace(/^[\s]{3}/gm, ""));
-        if (this.htmlChilds){
-            this.latexChilds = this.htmlChilds.replace(/[\s]{2}/gm, " ");
-            this.latexChilds = this.latexChilds.replace(/[\s]/gm, " ");
+        if(this.plainChilds!=""){
+            this.htmlChilds = this.converter.makeHtml(this.plainChilds.replace(/^[\s]{3}/gm, ""));
+            if (this.htmlChilds){
+                this.latexChilds = this.htmlChilds.replace(/[\s]{2}/gm, " ");
+                this.latexChilds = this.latexChilds.replace(/[\s]/gm, " ");
+            }
         }
     }
     

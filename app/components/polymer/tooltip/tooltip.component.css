@@ -21,6 +21,13 @@
     transition-duration: 0.1s;
 }
 
+
+:host .ptooltiptext >>> ul, :host .ptooltiptext >>> ol {
+    text-align: left;
+    padding-left: 20px;
+}
+
+
 :host:hover .ptooltiptext {
     visibility: visible;
 }
