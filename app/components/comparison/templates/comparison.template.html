@@ -73,7 +73,7 @@
         </div>
     </pcard>
     
-    <pcard heading="References" class="large-paper-card" *ngIf="citationServ.references&&confServ.description&&confServ.tableDataSet&&confServ.comparison">
+    <pcard heading="References" class="large-paper-card" *ngIf="citationServ.references&&citationServ.references.length>0&&confServ.description&&confServ.tableDataSet&&confServ.comparison">
         <div class="card-content">
             <table>
             <template ngFor let-entry [ngForOf]="citationServ.references">
