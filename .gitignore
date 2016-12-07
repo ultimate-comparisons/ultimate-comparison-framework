@@ -7,7 +7,15 @@ id_rsa
 id_rsa.pub
 
 
-# Created by https://www.gitignore.io/api/eclipse,gradle,intellij+iml,node,grunt,typings,visualstudiocode
+# Created by https://www.gitignore.io/api/eclipse,gradle,intellij+iml,node,grunt,typings,visualstudiocode,windows,linux,macos,vim,jabref
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
 
 ### Eclipse ###
 
@@ -72,6 +80,7 @@ local.properties
 .idea/tasks.xml
 
 # Sensitive or high-churn files:
+.idea/dataSources/
 .idea/dataSources.ids
 .idea/dataSources.xml
 .idea/dataSources.local.xml
@@ -161,6 +170,10 @@ jspm_packages
 # Output of 'npm pack'
 *.tgz
 
+# Yarn Integrity file
+.yarn-integrity
+
+
 
 ### grunt ###
 # Grunt usually compiles files inside this directory
@@ -173,6 +186,85 @@ dist/
 ### Typings ###
 ## Ignore downloaded typings
 typings
+
+
+### Vim ###
+# swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
+
+
+### Windows ###
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+
+### Linux ###
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+# Thumbnails
+._*
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+
+### JabRef ###
+# JabRef - https://www.jabref.org/
+*.sav
 
 
 ### Gradle ###
