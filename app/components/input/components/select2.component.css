@@ -1,22 +1,22 @@
-:host >>> .select2-container {
+:host >>> ng-select {
     display: table !important;
     table-layout: fixed !important;
     width: 100% !important; 
 }
 
-:host >>> .select2-container .select2-selection {
+:host >>> .below {
     border: 0px !important;
     border-bottom: 1px solid #aaa !important;
     border-radius: 0px !important; 
 }
 
-:host >>> .select2-selection__choice {
+:host >>> .option {
     background-color: #777 !important;
     color: #fff !important;
     font-weight: bold; 
     border-radius: 4px !important;
 }
 
-:host >>> .select2-selection__choice__remove {
+:host >>> .deselect-option {
     color: #fff !important; 
 }

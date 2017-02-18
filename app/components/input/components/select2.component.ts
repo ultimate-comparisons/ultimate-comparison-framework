@@ -1,5 +1,4 @@
-import {Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'select2',
