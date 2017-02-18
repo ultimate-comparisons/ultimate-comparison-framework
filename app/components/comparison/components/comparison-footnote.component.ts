@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectionStrategy, OnChanges, OnDestroy } from 
 
 import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
-import { CitationPipe } from '../pipes/citation.pipe';
+import { CitationPipe } from './../../pipes/citation-pipe/citation.pipe';
 
 @Component({
     selector: 'comparison-footnote',

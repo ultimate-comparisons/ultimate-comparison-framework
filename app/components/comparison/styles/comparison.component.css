@@ -12,14 +12,6 @@ comparison {
     margin-bottom: 0;
 }
 
-.mylabel {
-    margin: 2px;
-    display: inline-block !important;
-    cursor: pointer;
-    font-size: 14px !important;
-    white-space: inherit;
-}
-
 .card-content {
     padding: 16px;
     position:relative;
@@ -36,13 +28,6 @@ comparison {
 .footer > .container {
     padding: 10px;
 }
-   
-th > button {
-    border: none;
-    padding: 0;
-    outline:none;
-    background-color: inherit;
-}
 
 .ltable {
     display: none;
@@ -58,14 +43,6 @@ th > button {
     min-width: 100%;
     margin: 0 0 20 0;
     padding-bottom: 0px;
-}
-
-table tr {
-    white-space: normal;
-}
-
-table {
-    width: auto;
 }
 
 /* github corner */

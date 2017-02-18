@@ -12,53 +12,74 @@ import { ComparisonCitationService } from './comparison-citation.service';
     templateUrl: '../templates/comparison-details.template.html',
     styleUrls: ['../styles/comparison-details.component.css']
 })
-export class ComparisonDetailsComponent{
+export class ComparisonDetailsComponent {
     @Input() data: Data;
-    
+
     private opened: boolean = false;
     private modalSelected: string;
     private selected: string;
     private template: string;
-    private body: string;
     private description;
     private table;
     private detail;
     private header = {
-        html:"",
-        text:"",
-        label:{},
-        url:"",
-        column:new TableData(),
+        html: "",
+        text: "",
+        label: {},
+        url: "",
+        column: new TableData(),
     };
-    
+
+    private body: string = "";
+
     constructor(
-            public serv: ComparisonService,
-            public dataServ: ComparisonDataService,
-            public confServ: ComparisonConfigService,
-            public citationServ: ComparisonCitationService
-        ) {}
- 
-    private getBody(): string{
-        return this.confServ.comparison ? this.serv.converter.makeHtml(this.data.getProperty(this.confServ.comparison.details.body).plain) : "";
+        public serv: ComparisonService,
+        public dataServ: ComparisonDataService,
+        public confServ: ComparisonConfigService,
+        public citationServ: ComparisonCitationService
+    ) { }
+
+    private getBody(): string {
+        let body = this.confServ.comparison ? this.serv.converter.makeHtml(this.data.getProperty(this.confServ.comparison.details.body).plain) : "";
+        if (body && body != this.body) {
+            this.body = body;
+        }
+        return this.body;
     }
-    
-    private getHeaderText(): string{
-        return this.confServ.comparison ? this.data[this.confServ.comparison.details.header] : "";
+
+    private getHeaderText(): string {
+        let headerText = this.confServ.comparison ? this.data[this.confServ.comparison.details.header] : "";
+        if (headerText && headerText != this.header.text) {
+            this.header.text = headerText;
+        }
+        return this.header.text;
     }
-    
-    private getHeaderUrl(): string{
-        return this.confServ.comparison ? this.data[this.confServ.comparison.details.headerUrl] : "";
+
+    private getHeaderUrl(): string {
+        let headerUrl = this.confServ.comparison ? this.data[this.confServ.comparison.details.headerUrl] : "";
+        if (headerUrl && headerUrl != this.header.url) {
+            this.header.url = headerUrl;
+        }
+        return this.header.url;
     }
-    
-    private getHeaderColumn(): TableData{
-        return (this.confServ.comparison && this.confServ.tableDataSet) ? this.confServ.tableDataSet.getTableData(this.confServ.comparison.details.headerLabel) : new TableData();
+
+    private getHeaderColumn(): TableData {
+        let headerColumn = (this.confServ.comparison && this.confServ.tableDataSet) ? this.confServ.tableDataSet.getTableData(this.confServ.comparison.details.headerLabel) : new TableData();
+        if (headerColumn && headerColumn != this.header.column) {
+            this.header.column = headerColumn;
+        }
+        return this.header.column;
     }
-    
-    private getHeaderLabel(): Type{
-        return (this.confServ.comparison && this.confServ.tableDataSet) ? this.confServ.tableDataSet.getTableData(this.confServ.comparison.details.headerLabel).type : new Type();
+
+    private getHeaderLabel(): Type {
+        let headerLabel = (this.confServ.comparison && this.confServ.tableDataSet) ? this.confServ.tableDataSet.getTableData(this.confServ.comparison.details.headerLabel).type : new Type();
+        if (headerLabel && headerLabel != this.header.label) {
+            this.header.label = headerLabel;
+        }
+        return headerLabel;
     }
-    
-    private getTable(tag: string): TableData{
+
+    private getTable(tag: string): TableData {
         return this.confServ.tableDataSet ? this.confServ.tableDataSet.getTableData(tag) : new TableData();
     }
 }

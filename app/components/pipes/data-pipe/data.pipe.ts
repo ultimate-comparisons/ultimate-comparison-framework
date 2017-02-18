@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform }    from '@angular/core';
 
-import { Data, Property } from './../shared/index';
+import { Data, Property } from './../../comparison/shared/index';
 
 @Pipe({ 
     name: 'datafilter',

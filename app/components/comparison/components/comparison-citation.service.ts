@@ -6,8 +6,12 @@ export class ComparisonCitationService {
     public bibEntriesHtml = {};
     public bibEntriesInline = {};
     private keys: {[name: string]: string;} = { };
-    public references: Array<String> = [];
+    public references: Array<String> = new Array<String>();
     
+    public check: boolean = false;
+    private precheck: boolean = false;
+    public ready: boolean = false;
+
     constructor(
         private http: Http
     ){}
@@ -16,11 +20,21 @@ export class ComparisonCitationService {
         this.http.request('citation/output/fbib.json')
         .subscribe(res => {
             this.bibEntriesHtml = res.json();
+            if(!this.check && this.precheck){
+                this.check = true;
+            } else {
+                this.precheck = true;
+            }
             cd.markForCheck();
         });
         this.http.request('citation/output/fkeys.json')
         .subscribe(res => {
             this.bibEntriesInline = res.json();
+            if(!this.check && this.precheck){
+                this.check = true;
+            } else {
+                this.precheck = true;
+            }
             cd.markForCheck();
         });        
     }
@@ -49,7 +63,7 @@ export class ComparisonCitationService {
             } else {
                 this.references = newEntries;
             }  
-        } 
+        }
     }
     
     public getBibEntriesHtml(key){

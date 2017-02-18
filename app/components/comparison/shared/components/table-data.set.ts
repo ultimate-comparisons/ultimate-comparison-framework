@@ -2,6 +2,8 @@ import { TableData, LabelCls, Value, Type } from '../index';
 
 export class TableDataSet {
     private tableDataSet: {[name: string]: TableData;} = { }
+    private set : Array<TableData> = new Array<TableData>();
+    public ready: boolean = false;
     constructor(jsonObj: any){
         jsonObj.forEach(obj => {
             let lcls: LabelCls = new LabelCls();
@@ -49,6 +51,7 @@ export class TableDataSet {
             )
             this.tableDataSet[obj.tag] = td;
         })
+        this.ready = true;
     }
     
     public getTableData(tag: string): TableData{
@@ -56,11 +59,17 @@ export class TableDataSet {
     }
     
     public getTableDataArray(): Array<TableData>{
-        let set: Array<TableData> = new Array<TableData>();
+        let size: number = 0;
         for(let key in this.tableDataSet){
             if (!this.tableDataSet.hasOwnProperty(key)) continue;
-            set.push(this.tableDataSet[key]);
+            size++;
         }
-        return set;
+        if(this.set.length != size){
+             for(let key in this.tableDataSet){
+                if (!this.tableDataSet.hasOwnProperty(key)) continue;
+                this.set.push(this.tableDataSet[key]);
+            }
+        }
+        return this.set;
     }
 }

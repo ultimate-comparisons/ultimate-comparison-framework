@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { Data, TableData } from './../shared/index';
+import { Data, TableData } from './../../comparison/shared/index';
 
 @Pipe({
     name: 'orderBy',

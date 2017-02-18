@@ -1,11 +1,12 @@
-import {Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'select2',
     templateUrl: 'select2.template.html',
     styleUrls: [
         'select2.component.css'
-    ]
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Select2Component {
     private ops = [{value: 't1', label: 't2'}]

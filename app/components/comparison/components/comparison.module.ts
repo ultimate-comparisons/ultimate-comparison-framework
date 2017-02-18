@@ -5,11 +5,12 @@ import { HttpModule }                                   from '@angular/http';
 import { ComparisonDetailsComponent }                   from './comparison-details.component';
 import { ComparisonFootnoteComponent }                  from './comparison-footnote.component';
 import { ComparisonComponent }                          from './comparison.component';
-import { COMPARISON_PIPES }                             from '../pipes/index.pipes';
+import { PipesModule }                                  from '../../pipes/pipes.module';
 import { InputModule }                                  from '../../input/input.module';
+import { OutputModule }                                 from '../../output/output.module';
 
 // "Polymer" Module (Polymer to Angular2 Conversion Components)
-import { PolymerModule }                                from '../../polymer/polymer.module';
+//import { PolymerModule }                                from '../../polymer/polymer.module';
 
 // Provider imports
 import { Title }                                        from '@angular/platform-browser';
@@ -23,7 +24,8 @@ import { ComparisonCitationService }                    from './comparison-citat
         BrowserModule,
         HttpModule,
         InputModule,
-        PolymerModule
+        OutputModule,
+        PipesModule
     ],
     exports: [
         ComparisonComponent  
@@ -31,15 +33,13 @@ import { ComparisonCitationService }                    from './comparison-citat
     declarations: [
         ComparisonComponent,
         ComparisonDetailsComponent,
-        ComparisonFootnoteComponent,
-        ...COMPARISON_PIPES
+        ComparisonFootnoteComponent
     ],
     providers: [
         ComparisonService,
         ComparisonDataService,
         ComparisonConfigService,
         ComparisonCitationService,
-        ...COMPARISON_PIPES,
         Title
     ]
 })

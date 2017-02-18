@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform}    from '@angular/core';
-import { TableData } from './../shared/index';
+import { TableData } from './../../comparison/shared/index';
 
 @Pipe({ 
     name: 'tablefilter',
