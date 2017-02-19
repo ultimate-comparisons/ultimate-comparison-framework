@@ -1,23 +1,17 @@
-import { NgModule }                                     from '@angular/core';
-import { BrowserModule }                                from '@angular/platform-browser';
-import { HttpModule }                                   from '@angular/http';
-
-import { ComparisonDetailsComponent }                   from './comparison-details.component';
-import { ComparisonFootnoteComponent }                  from './comparison-footnote.component';
-import { ComparisonComponent }                          from './comparison.component';
-import { PipesModule }                                  from '../../pipes/pipes.module';
-import { InputModule }                                  from '../../input/input.module';
-import { OutputModule }                                 from '../../output/output.module';
-
-// "Polymer" Module (Polymer to Angular2 Conversion Components)
-//import { PolymerModule }                                from '../../polymer/polymer.module';
-
+import { NgModule } from "@angular/core";
 // Provider imports
-import { Title }                                        from '@angular/platform-browser';
-import { ComparisonService }                            from './comparison.service'; 
-import { ComparisonDataService }                        from './comparison-data.service'; 
-import { ComparisonConfigService }                      from './comparison-config.service'; 
-import { ComparisonCitationService }                    from './comparison-citation.service';
+import { BrowserModule, Title } from "@angular/platform-browser";
+import { HttpModule } from "@angular/http";
+import { ComparisonDetailsComponent } from "./comparison-details.component";
+import { ComparisonFootnoteComponent } from "./comparison-footnote.component";
+import { ComparisonComponent } from "./comparison.component";
+import { PipesModule } from "../../pipes/pipes.module";
+import { InputModule } from "../../input/input.module";
+import { OutputModule } from "../../output/output.module";
+import { ComparisonService } from "./comparison.service";
+import { ComparisonDataService } from "./comparison-data.service";
+import { ComparisonConfigService } from "./comparison-config.service";
+import { ComparisonCitationService } from "./comparison-citation.service";
 
 @NgModule({
     imports: [
@@ -28,7 +22,7 @@ import { ComparisonCitationService }                    from './comparison-citat
         PipesModule
     ],
     exports: [
-        ComparisonComponent  
+        ComparisonComponent
     ],
     declarations: [
         ComparisonComponent,
@@ -43,4 +37,5 @@ import { ComparisonCitationService }                    from './comparison-citat
         Title
     ]
 })
-export class ComparisonModule { }
+export class ComparisonModule {
+}

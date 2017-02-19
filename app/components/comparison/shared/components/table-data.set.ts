@@ -1,34 +1,35 @@
-import { TableData, LabelCls, Value, Type } from '../index';
+import { TableData, LabelCls, Value, Type } from "../index";
 
 export class TableDataSet {
-    private tableDataSet: {[name: string]: TableData;} = { }
-    private set : Array<TableData> = new Array<TableData>();
+    private tableDataSet: {[name: string]: TableData;} = {}
+    private set: Array<TableData> = new Array<TableData>();
     public ready: boolean = false;
-    constructor(jsonObj: any){
+
+    constructor(jsonObj: any) {
         jsonObj.forEach(obj => {
             let lcls: LabelCls = new LabelCls();
-            var values: {[name: string]: string;} = { };
-            if(obj.type.values){
+            var values: {[name: string]: string;} = {};
+            if (obj.type.values) {
                 obj.type.values.forEach(val => {
                     let value: Value = new Value(val.name, val.description);
                     values[val.name] = val.description;
-                    switch(val.class){
-                        case "label-success": 
+                    switch (val.class) {
+                        case "label-success":
                             lcls.label_success.push(value);
                             break;
-                        case "label-warning": 
+                        case "label-warning":
                             lcls.label_warning.push(value);
                             break;
-                        case "label-danger": 
+                        case "label-danger":
                             lcls.label_danger.push(value);
                             break;
-                        case "label-default": 
+                        case "label-default":
                             lcls.label_default.push(value);
                             break;
-                        case "label-info": 
+                        case "label-info":
                             lcls.label_info.push(value);
                             break;
-                        case "label-primary": 
+                        case "label-primary":
                             lcls.label_primary.push(value);
                             break;
                     }
@@ -37,7 +38,7 @@ export class TableDataSet {
             let type: Type = new Type(
                 obj.type.tag,
                 obj.type.class,
-                lcls    
+                lcls
             )
             let td: TableData = new TableData(
                 obj.name,
@@ -53,19 +54,19 @@ export class TableDataSet {
         })
         this.ready = true;
     }
-    
-    public getTableData(tag: string): TableData{
+
+    public getTableData(tag: string): TableData {
         return this.tableDataSet[tag] ? this.tableDataSet[tag] : new TableData();
     }
-    
-    public getTableDataArray(): Array<TableData>{
+
+    public getTableDataArray(): Array<TableData> {
         let size: number = 0;
-        for(let key in this.tableDataSet){
+        for (let key in this.tableDataSet) {
             if (!this.tableDataSet.hasOwnProperty(key)) continue;
             size++;
         }
-        if(this.set.length != size){
-             for(let key in this.tableDataSet){
+        if (this.set.length != size) {
+            for (let key in this.tableDataSet) {
                 if (!this.tableDataSet.hasOwnProperty(key)) continue;
                 this.set.push(this.tableDataSet[key]);
             }

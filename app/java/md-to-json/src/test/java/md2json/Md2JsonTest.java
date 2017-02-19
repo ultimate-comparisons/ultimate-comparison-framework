@@ -1,6 +1,7 @@
 package md2json;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /*
@@ -10,7 +11,8 @@ import static org.junit.Assert.*;
  * @author ckleine, @date 13.06.16 12:07
  */
 public class Md2JsonTest {
-    @Test public void testCreateSyntaxTree() {
+    @Test
+    public void testCreateSyntaxTree() {
         Md2Json m2j = new Md2Json();
         m2j.setLevel(1);
         m2j.setPrettyPrinting(true);

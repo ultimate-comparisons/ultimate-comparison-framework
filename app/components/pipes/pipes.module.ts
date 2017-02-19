@@ -1,14 +1,13 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA }     from '@angular/core';
-import { BrowserModule }                        from '@angular/platform-browser';
-
-import { DataPipe } from './data-pipe/data.pipe';
-import { TablePipe } from './table-pipe/table.pipe';
-import { OrderByPipe } from './orderby-pipe/orderby.pipe';
-import { CitationPipe } from './citation-pipe/citation.pipe';
-import { SanitizerPipe } from './sanitizer-pipe/sanitizer.pipe';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { DataPipe } from "./data-pipe/data.pipe";
+import { TablePipe } from "./table-pipe/table.pipe";
+import { OrderByPipe } from "./orderby-pipe/orderby.pipe";
+import { CitationPipe } from "./citation-pipe/citation.pipe";
+import { SanitizerPipe } from "./sanitizer-pipe/sanitizer.pipe";
 
 @NgModule({
-    imports: [ 
+    imports: [
         BrowserModule
     ],
     exports: [
@@ -33,4 +32,5 @@ import { SanitizerPipe } from './sanitizer-pipe/sanitizer.pipe';
         SanitizerPipe
     ]
 })
-export class PipesModule { }
+export class PipesModule {
+}

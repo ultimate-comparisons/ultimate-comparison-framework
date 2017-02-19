@@ -1,7 +1,9 @@
 <div class="pheader">
     <h2>{{getHeaderText()}}
-        <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)" *ngIf="confServ.comparison">
-            <ptooltip [tooltip]="getHeaderColumn()?.values[sitem.content]" [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'s'">
+        <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)"
+                  *ngIf="confServ.comparison">
+            <ptooltip [tooltip]="getHeaderColumn()?.values[sitem.content]"
+                      [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'s'">
                 <div class="{{getHeaderLabel()?.getCls(sitem.content)}} mylabel">
                     {{sitem.content}}
                 </div>
@@ -13,14 +15,16 @@
 <div class="content" style="padding-left:15px; padding-right: 15px;">
     <pcard *ngIf="confServ.comparison" heading="{{confServ.comparison?.details.bodyMainTitle}}" style="display:block;">
         <div class="card-content">
-            <htmlcitationtext [description]="getBody()" [citationServ]="citationServ" *ngIf="citationServ.check"></htmlcitationtext>
+            <htmlcitationtext [description]="getBody()" [citationServ]="citationServ"
+                              *ngIf="citationServ.check"></htmlcitationtext>
         </div>
     </pcard>
     <template ngFor let-atag [ngForOf]="confServ.getBodyAttachmentTags()" *ngIf="confServ.comparison">
         <pcard heading="{{getTable(atag).name}}">
             <p class="card-content">
                 <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(atag)">
-                    <ptooltip [tooltip]="getTable(atag)?.values[sitem.content]" [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'n'">
+                    <ptooltip [tooltip]="getTable(atag)?.values[sitem.content]"
+                              [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'n'">
                         <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">
                         {{sitem.content}}
                     </span>

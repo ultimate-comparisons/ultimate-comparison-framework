@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
     selector: 'picon-button',
@@ -6,7 +6,7 @@ import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
     styleUrls: ['./paper-icon-button.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaperIconButtonComponent {   
+export class PaperIconButtonComponent {
     @Input() icon: string;
     @Input() title: string;
 }

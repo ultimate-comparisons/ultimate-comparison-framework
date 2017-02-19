@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from "@angular/core";
 
 @Component({
     selector: 'myapp',
@@ -9,4 +9,5 @@ import { Component, ViewEncapsulation } from '@angular/core';
     ],
     encapsulation: ViewEncapsulation.None
 })
-export class AppComponent { }
+export class AppComponent {
+}

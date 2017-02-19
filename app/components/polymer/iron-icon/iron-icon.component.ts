@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
     selector: 'iicon',
@@ -6,6 +6,6 @@ import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
     styleUrls: ['./iron-icon.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IronIconComponent {   
+export class IronIconComponent {
     @Input() icon: string;
 }

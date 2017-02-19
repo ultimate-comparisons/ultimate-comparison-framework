@@ -1,11 +1,10 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA }     from '@angular/core';
-import { BrowserModule }                        from '@angular/platform-browser';
-import { SelectModule }                         from 'angular2-select';
-
-import { Select2Component }                     from './select2/select2.component';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { SelectModule } from "angular2-select";
+import { Select2Component } from "./select2/select2.component";
 
 @NgModule({
-    imports: [ 
+    imports: [
         BrowserModule,
         SelectModule
     ],
@@ -16,6 +15,7 @@ import { Select2Component }                     from './select2/select2.componen
         Select2Component
     ],
     providers: [],
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class InputModule { }
+export class InputModule {
+}

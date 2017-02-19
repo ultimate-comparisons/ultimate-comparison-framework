@@ -13,25 +13,25 @@
 
 @media (min-width: 992px) {
     .dialog {
-        width: 900px!important;
+        width: 900px !important;
     }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
     .dialog {
-        width: 600px!important;
+        width: 600px !important;
     }
 }
 
 @media (max-width: 660px) {
     .dialog {
-        width: 90%!important;
+        width: 90% !important;
     }
 }
 
 .dialog {
-    max-height: inherit!important;
-    position: relative!important;
+    max-height: inherit !important;
+    position: relative !important;
     border-radius: 5px;
     background: #ffffff;
     color: #212121;
@@ -44,34 +44,36 @@
     margin-top: 25px;
     margin-bottom: 60px;
     margin-right: auto;
-    margin-left: auto; 
+    margin-left: auto;
     max-width: 90%;
 }
 
 .buttons {
-    color:#3f51b5;display:-ms-flexbox;
-    display:-webkit-flex;
-    display:flex;
+    color: #3f51b5;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
 
-    -ms-flex-direction:row;
-    -webkit-flex-direction:row;
-    flex-direction:row;-ms-flex-pack:end;
-    -webkit-justify-content:flex-end;
-    justify-content:flex-end;
-    
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+
     position: relative;
     padding: 8px;
     margin: 0;
 }
 
-:host >>> .pheader {
+:host /deep/ .pheader {
     border-bottom: 1px solid #eee;
-    
+
     padding: 15 15 8 15;
     margin: 0 0 20 0;
 }
 
-:host >>> .pheader h2 {
+:host /deep/ .pheader h2 {
     font-family: 'Roboto', 'Noto', sans-serif;
     -webkit-font-smoothing: antialiased;
     white-space: nowrap;

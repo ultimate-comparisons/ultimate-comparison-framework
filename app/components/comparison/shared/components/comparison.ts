@@ -1,4 +1,4 @@
-import { Details } from './details';
+import { Details } from "./details";
 
 export class Comparison {
     public title: string;
@@ -8,7 +8,8 @@ export class Comparison {
     public repository: string;
     public details: Details;
     public displaytemplate: boolean;
-    constructor(jsonObj: any){
+
+    constructor(jsonObj: any) {
         this.title = jsonObj.title ? jsonObj.title : "Ultimate-Comparison";
         this.subtitle = jsonObj.subtitle ? jsonObj.subtitle : "Ultimate comparison framework";
         this.selecttitle = jsonObj.selecttitle ? jsonObj.selecttitle : "Criteria";
@@ -17,5 +18,5 @@ export class Comparison {
         this.details = jsonObj.details ? new Details(jsonObj.details) : new Details({});
         this.displaytemplate = jsonObj.displaytemplate ? jsonObj.displaytemplate : false;
     }
-    
+
 }

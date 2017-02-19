@@ -2,8 +2,8 @@
     display: block;
 }
 
-.description > :first-child  {
-    margin-top : 0;
+.description > :first-child {
+    margin-top: 0;
 }
 
 .description > :last-child {

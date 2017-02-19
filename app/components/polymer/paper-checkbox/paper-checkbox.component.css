@@ -34,8 +34,8 @@
     transform-origin: 97% 86%;
     -webkit-transform-origin: 97% 86%;
     transform: rotate(45deg);
-    border-right-width: calc(2/15 * 18px);
-    border-bottom-width: calc(2/15 * 18px);
+    border-right-width: calc(2 / 15 * 18px);
+    border-bottom-width: calc(2 / 15 * 18px);
     border-color: white;
 }
 

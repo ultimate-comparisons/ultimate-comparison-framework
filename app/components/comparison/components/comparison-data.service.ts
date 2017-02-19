@@ -1,19 +1,16 @@
-import { Injectable, ChangeDetectorRef } from '@angular/core';
-import { Http } from '@angular/http';
-
-import { TableData, TableDataSet, Type, LabelCls, Value, Data, Property, ListItem } from './../shared/index';
-import { ComparisonConfigService } from './comparison-config.service';
-import { ComparisonService } from './comparison.service';
+import { Injectable, ChangeDetectorRef } from "@angular/core";
+import { Http } from "@angular/http";
+import { TableDataSet, Data, Property, ListItem } from "./../shared/index";
+import { ComparisonService } from "./comparison.service";
 
 @Injectable()
 export class ComparisonDataService {
     private data: Array<Data> = new Array<Data>();
-    private tags: { [name: string]: string; } = {};
+    private tags: {[name: string]: string;} = {};
 
-    constructor(
-        private http: Http,
-        private comparisonService: ComparisonService
-    ) { }
+    constructor(private http: Http,
+                private comparisonService: ComparisonService) {
+    }
 
     public loadData(tableDataSet: TableDataSet, cd: ChangeDetectorRef) {
         this.http.request('app/components/comparison/data/data.json')
@@ -55,7 +52,8 @@ export class ComparisonDataService {
                                 data.properties[key] = p;
                                 break;
                         }
-                    };
+                    }
+                    ;
                     this.data.push(data);
                 });
                 cd.markForCheck();

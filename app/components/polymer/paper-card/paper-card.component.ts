@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
     selector: 'pcard',
@@ -6,6 +6,6 @@ import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
     styleUrls: ['./paper-card.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaperCardComponent {   
+export class PaperCardComponent {
     @Input() heading: string;
 }

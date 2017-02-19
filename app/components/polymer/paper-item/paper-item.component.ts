@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
     selector: 'pitem',
@@ -6,4 +6,5 @@ import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
     styleUrls: ['./paper-item.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaperItemComponent {}
+export class PaperItemComponent {
+}

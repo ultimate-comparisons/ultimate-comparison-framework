@@ -32,6 +32,6 @@ module.exports = {
                 include: helpers.root('app'),
                 loader: 'raw'
             }
-    ]
-  }
+        ]
+    }
 }

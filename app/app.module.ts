@@ -1,17 +1,17 @@
-import { NgModule }                                 from '@angular/core';
-import { BrowserModule }                            from '@angular/platform-browser';
-
-import { AppComponent }                             from './app.component';
-import { ComparisonModule, ComparisonComponent }    from './components/comparison/index';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { AppComponent } from "./app.component";
+import { ComparisonModule } from "./components/comparison/index";
 
 @NgModule({
-    imports: [ 
+    imports: [
         BrowserModule,
         ComparisonModule
     ],
-    declarations: [ 
+    declarations: [
         AppComponent,
     ],
-    bootstrap: [ AppComponent ]
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
