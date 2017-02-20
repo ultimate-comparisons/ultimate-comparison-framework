@@ -40,6 +40,11 @@ The code below shows a sample element.
     - label 3
     - label 4
     - label 5
+    
+    ## Rating
+    - [1] Bad THING
+    - [3] It is ok
+    - [5] Good THING
 
 
 ## License

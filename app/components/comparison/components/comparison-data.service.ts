@@ -1,6 +1,6 @@
 import { Injectable, ChangeDetectorRef } from "@angular/core";
 import { Http } from "@angular/http";
-import { TableDataSet, Data, Property, ListItem } from "./../shared/index";
+import { TableDataSet, Data, Property, ListItem, RatingSet } from "./../shared/index";
 import { ComparisonService } from "./comparison.service";
 
 @Injectable()
@@ -33,6 +33,9 @@ export class ComparisonDataService {
                             case "Description":
                                 data.properties[key] = new Property(obj[key].plain);
                                 break;
+                            case "Rating":
+                                data.rating = new RatingSet(obj[key]);
+                                break;
                             default:
                                 let p: Property = new Property();
                                 this.tags[key] = key;
@@ -63,7 +66,7 @@ export class ComparisonDataService {
     public getDefaultAttachmentTags(): Array<string> {
         let tags: Array<string> = new Array<string>();
         for (let key in this.tags) {
-            if (!this.tags.hasOwnProperty(key) || key == "tag" || key == "url" || key == "descr") continue;
+            if (!this.tags.hasOwnProperty(key) || key == "tag" || key == "url" || key == "descr" || key == "Rating") continue;
             tags.push(this.tags[key]);
         }
         return tags;

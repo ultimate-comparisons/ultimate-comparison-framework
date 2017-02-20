@@ -23,3 +23,23 @@
     font-weight: 400;
     color: var(--paper-card-header-color, #000);
 }
+
+:host /deep/ dl {
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0
+}
+
+:host /deep/ dt {
+    float: left;
+    width: 40px;
+    padding: 0;
+    margin: 0
+}
+
+:host /deep/ dd {
+    float: left;
+    padding: 0;
+    margin: 0
+}

@@ -34,6 +34,9 @@
                         </ptooltip>
                     </template>
                 </td>
+                <td *ngIf="column.type?.tag=='rating'">
+                    <iicon icon="star" *ngIf="dat.getRating()!=0">{{dat.getRating()}}</iicon>
+                </td>
             </template>
             <td>
                 <picon-button icon="info" title="Details" (click)="showDetails.emit(dat)"></picon-button>

@@ -4,7 +4,7 @@ import { Title } from "@angular/platform-browser";
 import { TableDataSet, CriteriaSet, Comparison, TableData } from "./../shared/index";
 import { ComparisonDataService } from "./comparison-data.service";
 import { ComparisonService } from "./comparison.service";
-import {ComparisonComponent} from "./comparison.component";
+import { ComparisonComponent } from "./comparison.component";
 
 @Injectable()
 export class ComparisonConfigService {
@@ -73,7 +73,7 @@ export class ComparisonConfigService {
         }
     }
 
-    public displayChange(column: TableData, self: ComparisonComponent){
+    public displayChange(column: TableData, self: ComparisonComponent) {
         column.display = !column.display;
         self.change();
     }

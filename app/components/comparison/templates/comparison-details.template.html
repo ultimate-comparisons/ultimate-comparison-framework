@@ -33,4 +33,19 @@
             </p>
         </pcard>
     </template>
+
+    <pcard heading="Ratings" *ngIf="data?.getRatings().length > 0" style="display:block">
+        <div class="card-content">
+            <template ngFor let-item [ngForOf]="data?.getRatings()">
+                <dl>
+                    <dt>
+                        <iicon icon="star">{{item.stars}}</iicon>
+                    </dt>
+                    <dd>
+                        {{item.text}}
+                    </dd>
+                </dl>
+            </template>
+        </div>
+    </pcard>
 </div>

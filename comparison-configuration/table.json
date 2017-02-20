@@ -11,6 +11,14 @@
     "valign": "top"
   },
   {
+    "name": "",
+    "tag": "Rating",
+    "display": true,
+    "type": {
+      "tag": "rating"
+    }
+  },
+  {
     "name": "Short Description",
     "tag": "descr",
     "style": "width: 25%",

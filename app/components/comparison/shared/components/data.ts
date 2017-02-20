@@ -1,10 +1,11 @@
-import { Property, ListItem } from "./../index";
+import { Property, ListItem, RatingSet, Rating } from "./../index";
 
 export class Data {
     constructor(public tag: string = "",
                 public descr: string = "",
                 public url: string = "",
-                public properties: {[name: string]: Property;} = {}) {
+                public properties: {[name: string]: Property;} = {},
+                public rating: RatingSet = new RatingSet({})) {
     }
 
     public getProperty(name: string): Property {
@@ -15,6 +16,8 @@ export class Data {
                 return new Property(this.descr, this.descr);
             case "url":
                 return new Property(this.url, this.url);
+            case "Rating":
+                return new Property(this.getRating() + "", this.getRating() + "");
             default:
                 return this.properties[name] ? this.properties[name] : new Property();
         }
@@ -31,5 +34,13 @@ export class Data {
 
     public getPropertyListItems(name: string): Array<ListItem> {
         return this.getProperty(name).list;
+    }
+
+    public getRating(): number {
+        return this.rating.getAverage();
+    }
+
+    public getRatings(): Array<Rating> {
+        return this.rating.getRatings();
     }
 }
