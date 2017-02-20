@@ -23,12 +23,20 @@
         <pcard heading="{{getTable(atag).name}}">
             <p class="card-content">
                 <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(atag)">
-                    <ptooltip [tooltip]="getTable(atag)?.values[sitem.content]"
+                    <ptooltip *ngIf="!confServ.displayDetailsTooltips" [tooltip]="getTable(atag)?.values[sitem.content]"
                               [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'n'">
-                        <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">
-                        {{sitem.content}}
-                    </span>
+                        <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">{{sitem.content}}</span>
                     </ptooltip>
+                    <div *ngIf="confServ.displayDetailsTooltips">
+                        <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">{{sitem.content}}</span>
+                        <span class="tooltip-text">
+                        <htmlcitationtext [description]="getTable(atag)?.values[sitem.content]"
+                                          [citationServ]="citationServ"
+                                          *ngIf="citationServ.check"></htmlcitationtext>
+                        <htmlcitationtext [description]="sitem.htmlChilds" [citationServ]="citationServ"
+                                          *ngIf="citationServ.check"></htmlcitationtext>
+                        </span>
+                    </div>
                 </template>
             </p>
         </pcard>
