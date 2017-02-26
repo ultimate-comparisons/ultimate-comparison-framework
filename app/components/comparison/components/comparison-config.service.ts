@@ -77,6 +77,4 @@ export class ComparisonConfigService {
         column.display = !column.display;
         self.change();
     }
-
-    public displayDetailsTooltips: boolean = false;
 }

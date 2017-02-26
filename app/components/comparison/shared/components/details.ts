@@ -5,6 +5,7 @@ export class Details {
     public bodyMainTitle: string;
     public body: string;
     public bodyAttachmentTags: Array<string>;
+    public tooltipAsText: boolean;
 
     constructor(jsonObj: any) {
         this.header = jsonObj.header ? jsonObj.header : "tag";
@@ -13,5 +14,6 @@ export class Details {
         this.bodyMainTitle = jsonObj['body-main-title'] ? jsonObj['body-main-title'] : "Description";
         this.body = jsonObj.body ? jsonObj.body : "Description";
         this.bodyAttachmentTags = jsonObj['body-attachment-tags'] ? jsonObj['body-attachment-tags'] : new Array<string>();
+        this.tooltipAsText = jsonObj.tooltipAsText != null ? jsonObj.tooltipAsText : true;
     }
 }
