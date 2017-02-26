@@ -97,7 +97,9 @@ export class ComparisonComponent {
     }
 
     public changeDisplayTemplate() {
-        this.confServ.comparison.displaytemplate = !this.confServ.comparison.displaytemplate;
+        if (this.confServ.comparison) {
+            this.confServ.comparison.displaytemplate = !this.confServ.comparison.displaytemplate;
+        }
         this.change();
     }
 }
