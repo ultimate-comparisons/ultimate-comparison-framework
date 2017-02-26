@@ -47,6 +47,10 @@ export class ComparisonDataService {
                                         obj[key].childs[0][0].forEach(item => {
                                             let content: string = item.content;
                                             let plainChilds: string = item.plainChilds;
+                                            if (item.childs && item.childs.length == 1) {
+                                                console.log(plainChilds);
+                                                plainChilds = item.childs[0].plain;
+                                            }
                                             let itm: ListItem = new ListItem(content, plainChilds, this.comparisonService.converter);
                                             p.list.push(itm);
                                         });
