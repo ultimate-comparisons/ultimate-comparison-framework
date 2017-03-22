@@ -59,6 +59,10 @@ export class GenericTableComponent {
     }
 
     private displayOrder(value: string, option: number): boolean {
+        if (this.order.length === 0 && this.orderOption.length === 0) {
+            this.order[this.ctrlCounter] = "tag";
+            this.orderOption[this.ctrlCounter] = 1;
+        }
         return this.order.findIndex(val => val == value) >= 0 && this.orderOption[this.order.findIndex(val => val == value)] == option;
     }
 }
