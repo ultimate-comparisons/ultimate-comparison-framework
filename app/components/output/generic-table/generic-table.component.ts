@@ -1,4 +1,7 @@
-import { Component, Input, Output, EventEmitter, ApplicationRef, ChangeDetectionStrategy } from "@angular/core";
+import {
+    Component, Input, Output, EventEmitter, ApplicationRef, ChangeDetectionStrategy,
+    AfterViewChecked
+} from "@angular/core";
 import { TableData, Data, CriteriaSelection } from "./../../comparison/shared/index";
 import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
 
@@ -8,7 +11,8 @@ import { ComparisonCitationService } from "./../../comparison/components/compari
     styleUrls: ['./generic-table.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GenericTableComponent {
+export class GenericTableComponent implements AfterViewChecked {
+    private counter: number = 0;
     @Input() display: boolean = false;
     @Input() settings: boolean = false;
     @Input() columns: Array<TableData> = new Array<TableData>();
@@ -60,5 +64,10 @@ export class GenericTableComponent {
 
     private displayOrder(value: string, option: number): boolean {
         return this.order.findIndex(val => val == value) >= 0 && this.orderOption[this.order.findIndex(val => val == value)] == option;
+    }
+
+    ngAfterViewChecked(): void {
+        const t = (<any>$("table.table.table-hover"));
+        t.floatThead();
     }
 }
