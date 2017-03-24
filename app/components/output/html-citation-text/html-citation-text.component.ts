@@ -10,4 +10,8 @@ import { ComparisonCitationService } from "./../../comparison/components/compari
 export class HtmlCitationTextComponent {
     @Input() description: string = " ";
     @Input() citationServ: ComparisonCitationService;
+
+    private checkUrl(text: string): boolean {
+        return /^http[^ ]*$/i.test(text);
+    }
 }
