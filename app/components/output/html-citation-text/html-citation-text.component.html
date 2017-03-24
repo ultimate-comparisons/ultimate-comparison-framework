@@ -1,5 +1,3 @@
-<div [innerHtml]="description | citation: [citationServ] | sanitizeHtml" class="'description'"
-     *ngIf="description && !checkUrl(description)"></div>
-<a [href]="description" [innerHtml]="description | citation: [citationServ] | sanitizeHtml" class="'description'"
-     *ngIf="description && checkUrl(description)"></a>
+<div [innerHtml]="makeMarkdown(description) | citation: [citationServ] | sanitizeHtml" class="'description'"
+     *ngIf="description"></div>
         
