@@ -102,4 +102,11 @@ export class ComparisonComponent {
         }
         this.change();
     }
+
+    public changeDisplayAll() {
+        if (this.confServ.comparison) {
+            this.confServ.comparison.displayall = !this.confServ.comparison.displayall;
+        }
+        this.change();
+    }
 }

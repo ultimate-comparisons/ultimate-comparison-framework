@@ -88,6 +88,10 @@
                     <pcheckbox [checked]="confServ.comparison.displaytemplate" (checkedChange)="changeDisplayTemplate()"
                                [label]="'Display Template'"></pcheckbox>
                 </pitem>
+                <pitem>
+                    <pcheckbox [checked]="confServ.comparison.displayall" (checkedChange)="changeDisplayAll()"
+                               [label]="'Show Uncompared'"></pcheckbox>
+                </pitem>
                 <h6>Latex</h6>
                 <pitem>
                     <pbutton (click)="downloadLatexTable()">Download Table</pbutton>
