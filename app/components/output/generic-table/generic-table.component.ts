@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ApplicationRef, ChangeDetectionStrategy } from "@angular/core";
 import { TableData, Data, CriteriaSelection } from "./../../comparison/shared/index";
 import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
+import { ComparisonConfigService } from "../../comparison/components/comparison-config.service";
 
 @Component({
     selector: 'generictable',
@@ -31,7 +32,8 @@ export class GenericTableComponent {
 
     private ctrlCounter: number = 0;
 
-    constructor(private ar: ApplicationRef) {
+    constructor(private ar: ApplicationRef,
+                private confServ: ComparisonConfigService) {
     }
 
     private orderClick(e: MouseEvent, value: string) {
@@ -64,5 +66,21 @@ export class GenericTableComponent {
             this.orderOption[this.ctrlCounter] = 1;
         }
         return this.order.findIndex(val => val == value) >= 0 && this.orderOption[this.order.findIndex(val => val == value)] == option;
+    }
+
+    public shouldBeShown(data: Data) {
+        if (this.confServ.comparison && this.confServ.comparison.displayall) {
+            return true;
+        }
+        let val = true;
+        for (let column of this.confServ.tableDataSet.getTableDataArray()) {
+            if (column.display && data.properties[column.tag] != null && data.properties[column.tag].plain != "") {
+                return true;
+            }
+            if (column.display && data.properties[column.tag] != null) {
+                val = false;
+            }
+        }
+        return val;
     }
 }
