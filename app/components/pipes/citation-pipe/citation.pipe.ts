@@ -16,7 +16,7 @@ export class CitationPipe implements PipeTransform {
         if (!latex) {
             value = value.replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
                 entries.push(dec);
-                return '<a href="#' + dec + '">' + citServ.getBibEntriesInline(dec) + '</a>';
+                return '<a style="color: lightgrey;" href="#' + dec + '">' + citServ.getBibEntriesInline(dec) + '</a>';
             });
         } else {
             value = value.replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
