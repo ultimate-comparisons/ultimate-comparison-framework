@@ -30,6 +30,7 @@
                     <div class="form-group">
                         <label>
                             {{crit.name}}
+                            <span style="color: red;font-size: 8pt;">({{crit.and_search ? "match all" : "match one"}})</span>
                         </label>
                         <select2 [options]="crit.values" [placeholder]="crit.placeholder"
                                  (result)="criteriaChanged($event, crit)"></select2>
