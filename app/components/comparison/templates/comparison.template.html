@@ -31,6 +31,7 @@
                         <ptooltip [tooltip]="crit.description">
                             <label>
                                 {{crit.name}}
+                                <span class="search-indicator">({{crit.and_search ? "match all" : "match one"}})</span>
                             </label>
                         </ptooltip>
                         <select2 [options]="crit.values" [placeholder]="crit.placeholder"

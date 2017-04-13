@@ -77,7 +77,7 @@ export class GenericTableComponent implements AfterViewChecked {
         t.floatThead();
     }
 
-  public shouldBeShown(data: Data) {
+    public shouldBeShown(data: Data) {
         if (this.confServ.comparison && this.confServ.comparison.displayall) {
             return true;
         }
