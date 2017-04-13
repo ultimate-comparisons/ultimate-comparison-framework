@@ -82,3 +82,9 @@ comparison {
         animation: octocat-wave 560ms ease-in-out;
     }
 }
+
+.search-indicator {
+    color: rgba(255, 0, 0, 0.52);
+    font-size: 8pt;
+    opacity: 80;
+}
