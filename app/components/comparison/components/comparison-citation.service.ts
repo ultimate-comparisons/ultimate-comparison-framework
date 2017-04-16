@@ -15,6 +15,19 @@ export class ComparisonCitationService {
     constructor(private http: Http) {
     }
 
+    public sortedReferences() : any[] {
+        let values: any[] = [];
+        for (let reference of this.references) {
+            let key: any = reference;
+            let entry: any = {"html": this.bibEntriesHtml[key]};
+            entry["index"] = this.bibEntriesInline[key];
+            entry["index"] = entry["index"].substr(1, entry["index"].length - 2);
+            values.push(entry)
+        }
+        console.log(values);
+        return values.sort((a, b) => a.index - b.index);
+    }
+
     public loadCitationData(cd: ChangeDetectorRef) {
         this.http.request('citation/output/fbib.json')
             .subscribe(res => {
