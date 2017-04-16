@@ -4,7 +4,6 @@ import { ComparisonConfigService } from "./comparison-config.service";
 import { ComparisonDataService } from "./comparison-data.service";
 import { ComparisonService } from "./comparison.service";
 import { ComparisonCitationService } from "./comparison-citation.service";
-import { Http } from "@angular/http";
 import { VersionInformation } from "../../../VersionInformation";
 
 var FileSaver = require('file-saver');
@@ -27,15 +26,12 @@ export class ComparisonComponent {
                 public dataServ: ComparisonDataService,
                 public confServ: ComparisonConfigService,
                 public citationServ: ComparisonCitationService,
-                private cd: ChangeDetectorRef,
-                private http: Http) {
+                private cd: ChangeDetectorRef) {
         this.confServ.loadComparison(this.cd);
         this.confServ.loadCriteria(this.cd);
         this.confServ.loadTableData(this.cd);
         this.confServ.loadDescription(this.cd);
         this.citationServ.loadCitationData(this.cd);
-        this.versionInformation.prepare(this.http);
-        this.versionInformation.fillFields();
     }
 
     public getVersionInformation(): VersionInformation {
