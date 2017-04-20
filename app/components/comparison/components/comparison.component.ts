@@ -4,6 +4,7 @@ import { ComparisonConfigService } from "./comparison-config.service";
 import { ComparisonDataService } from "./comparison-data.service";
 import { ComparisonService } from "./comparison.service";
 import { ComparisonCitationService } from "./comparison-citation.service";
+import { VersionInformation } from "../../../VersionInformation";
 
 var FileSaver = require('file-saver');
 
@@ -19,6 +20,7 @@ export class ComparisonComponent {
     private order: Array<String> = new Array<String>();
     private orderOption: Array<number> = new Array<number>();
     private ready: boolean = false;
+    private versionInformation: VersionInformation = new VersionInformation();
 
     constructor(public serv: ComparisonService,
                 public dataServ: ComparisonDataService,
@@ -30,6 +32,10 @@ export class ComparisonComponent {
         this.confServ.loadTableData(this.cd);
         this.confServ.loadDescription(this.cd);
         this.citationServ.loadCitationData(this.cd);
+    }
+
+    public getVersionInformation(): VersionInformation {
+        return this.versionInformation;
     }
 
     private criteriaChanged(value: Array<String>, crit: Criteria) {
