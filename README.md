@@ -37,10 +37,12 @@ This is an ultimate comparison framework written in angular2.
   {
     "name": "slow",
     "description": "Overall performance above 200ms",
-    "class": "label-danger"
+    "class": "label-danger",
+    "color": "red"
   }
   ```
   - The label with the value "slow" has the tooltip "overall performance above 200ms", and will be red ("label-danger")
+  - You can choose between red and class, classes are the preferred way. If both are missing, an automatic color is assigned.
 
   ![table.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/table.svg) 
 3. The file `comparison-configuration/criteria.json` defines filter criterias for the table data.
