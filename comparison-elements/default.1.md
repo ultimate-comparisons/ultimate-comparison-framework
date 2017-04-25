@@ -14,3 +14,7 @@ slow, MIT, red 1, grey
 
 ## Description
 Default long description in __markdown__.
+
+## Uncolored
+- color 1
+- color 2

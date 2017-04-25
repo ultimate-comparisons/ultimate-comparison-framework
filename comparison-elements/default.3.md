@@ -14,3 +14,6 @@ fast, MPL 2.0, red 1, red 2, light blue
 
 ## Description
 Default long description in __markdown__.
+
+## Uncolored
+- color 2
