@@ -75,7 +75,7 @@ gulp.task('determinecolors', function() {
                 var v = o.type.values[j];
                 if (!(v.hasOwnProperty("class") || v.hasOwnProperty("color"))) {
                     v.color = colorArray[color];
-                    color++;
+                    color = (color + 1) % colorArray.length;
                     changed = true;
                 }
             }
