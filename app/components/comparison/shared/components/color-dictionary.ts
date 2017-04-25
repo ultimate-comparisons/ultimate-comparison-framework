@@ -1,6 +1,3 @@
-/**
- * Created by armin on 25.04.17.
- */
 export class ColorDictionary {
     private colorDict: {[label: string]: string} = {};
 
