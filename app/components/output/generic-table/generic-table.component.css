@@ -29,7 +29,3 @@ table tr {
 table {
     width: auto;
 }
-
-ptooltip {
-    z-index: 3000;
-}
