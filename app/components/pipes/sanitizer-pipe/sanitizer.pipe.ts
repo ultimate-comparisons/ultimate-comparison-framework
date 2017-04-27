@@ -11,7 +11,6 @@ export class SanitizerPipe implements PipeTransform {
     }
 
     transform(v: string): SafeHtml {
-        console.log("sanitize: " + v);
         let html = this._sanitizer.bypassSecurityTrustHtml(v);
         if (html.hasOwnProperty("changingThisBreaksApplicationSecurity") && /^<p>\d+\./.test(html["changingThisBreaksApplicationSecurity"])) {
             html["changingThisBreaksApplicationSecurity"] = "<p>" + html["changingThisBreaksApplicationSecurity"].substr(html["changingThisBreaksApplicationSecurity"].indexOf('.') + 1);
