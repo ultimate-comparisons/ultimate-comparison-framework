@@ -3,10 +3,6 @@ html {
     overflow: initial;
 }
 
-.cite-link {
+ptooltip div div p a.cite-link {
     color: lightgrey;
-}
-
-li a.cite-link {
-    color: #337ab7;
 }
