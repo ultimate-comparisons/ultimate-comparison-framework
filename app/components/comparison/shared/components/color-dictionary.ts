@@ -1,7 +1,7 @@
 export class ColorDictionary {
     private colorDict: {[label: string]: string} = {};
 
-    public pushColor(label: string, color: string) {
+    public setColor(label: string, color: string) {
         this.colorDict[label] = color;
     }
 

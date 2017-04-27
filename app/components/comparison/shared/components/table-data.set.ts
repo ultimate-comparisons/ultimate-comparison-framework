@@ -40,7 +40,7 @@ export class TableDataSet {
             if (obj.type && obj.type.values) {
                 for (const v of obj.type.values) {
                     if (v.color) {
-                        colors.pushColor(v.name, v.color);
+                        colors.setColor(v.name, v.color);
                     }
                 }
             }
