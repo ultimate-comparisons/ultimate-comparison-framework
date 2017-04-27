@@ -4,7 +4,7 @@
             <td style="padding-right:10px;font-size:small;padding-top:3px;width:15%;" valign="top">
                 {{'[' + entry.index + ']'}}:
             </td>
-            <td [id]=entry [innerHtml]="entry.html|sanitizeHtml"></td>
+            <td [id]="entry.key" [innerHtml]="entry.html|sanitizeHtml"></td>
         </tr>
     </template>
 </table>
