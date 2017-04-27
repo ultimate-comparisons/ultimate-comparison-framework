@@ -27,6 +27,16 @@ export class OrderByPipe implements PipeTransform {
             for (let i: number = 0; i < this.params.value.length; i++) {
                 if (this.params.option[i] == 0) continue;
                 let desc = this.params.option[i] == -1 ? true : false;
+                if (a.properties[this.params.value[i]] === undefined && b.properties[this.params.value[i]] === undefined) {
+                    // both elements lack the attribute => equivalent
+                    return 0;
+                } else if (a.properties[this.params.value[i]] === undefined) {
+                    // a lacks the attribute => it is always below the others
+                    return 1;
+                } else if (b.properties[this.params.value[i]] === undefined) {
+                    // b lacks the attribute => it is always below the others
+                    return -1;
+                }
                 let pA = a[this.params.value[i]] ? a[this.params.value[i]] : a.properties[this.params.value[i]].plain;
                 let pB = b[this.params.value[i]] ? b[this.params.value[i]] : b.properties[this.params.value[i]].plain;
                 let comparison = !desc ? OrderByPipe._comparator(pA, pB) : -OrderByPipe._comparator(pA, pB);
