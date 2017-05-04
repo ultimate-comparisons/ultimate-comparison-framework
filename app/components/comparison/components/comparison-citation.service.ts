@@ -20,6 +20,7 @@ export class ComparisonCitationService {
         for (let reference of this.references) {
             let key: any = reference;
             let entry: any = {"html": this.bibEntriesHtml[key]};
+            entry["key"] = key;
             entry["index"] = this.bibEntriesInline[key];
             entry["index"] = entry["index"].substr(1, entry["index"].length - 2);
             values.push(entry)
