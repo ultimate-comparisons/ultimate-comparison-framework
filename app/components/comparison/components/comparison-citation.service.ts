@@ -24,7 +24,6 @@ export class ComparisonCitationService {
             entry["index"] = entry["index"].substr(1, entry["index"].length - 2);
             values.push(entry)
         }
-        console.log(values);
         return values.sort((a, b) => a.index - b.index);
     }
 

@@ -5,6 +5,7 @@ import {
 import { TableData, Data, CriteriaSelection } from "./../../comparison/shared/index";
 import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
 import { ComparisonConfigService } from "../../comparison/components/comparison-config.service";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
     selector: 'generictable',
@@ -37,7 +38,8 @@ export class GenericTableComponent implements AfterViewChecked {
     private ctrlCounter: number = 0;
 
     constructor(private ar: ApplicationRef,
-                private confServ: ComparisonConfigService) {
+                private confServ: ComparisonConfigService,
+                private sanitization: DomSanitizer) {
     }
 
     private orderClick(e: MouseEvent, value: string) {
@@ -91,5 +93,9 @@ export class GenericTableComponent implements AfterViewChecked {
             }
         }
         return val;
+    }
+
+    public getColor(column: TableData,label: string): SafeHtml {
+        return this.sanitization.bypassSecurityTrustStyle(column.type.colors.getColor(label));
     }
 }

@@ -116,5 +116,27 @@
         }
       ]
     }
+  },
+  {
+    "name": "Uncolored",
+    "tag": "Uncolored",
+    "display": true,
+    "type": {
+      "tag": "label",
+      "values": [
+        {
+          "name": "color 1",
+          "description": "Color 1"
+        },
+        {
+          "name": "color 2",
+          "description": "Color 2"
+        },
+        {
+          "name": "color 3",
+          "description": "Color 3"
+        }
+      ]
+    }
   }
 ]

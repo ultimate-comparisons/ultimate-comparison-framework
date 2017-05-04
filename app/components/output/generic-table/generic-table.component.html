@@ -28,7 +28,10 @@
                               *ngIf="column.type?.labelCls">
                         <ptooltip [tooltip]="column.values[sitem.content]"
                                   [tooltipHtml]="sitem.htmlChilds | citation: [citationServ]" [position]="'n'">
-                            <div class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}}  mylabel">
+                            <div *ngIf="(column.type.colors | json) == '{}'" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
+                                {{sitem.content + 'test'}}
+                            </div>
+                            <div *ngIf="(column.type.colors | json) != '{}'" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
                                 {{sitem.content}}
                             </div>
                         </ptooltip>
