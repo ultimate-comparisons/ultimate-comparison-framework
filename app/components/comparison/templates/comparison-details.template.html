@@ -28,7 +28,10 @@
                         <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">{{sitem.content}}</span>
                     </ptooltip>
                     <div *ngIf="confServ.comparison?.details.tooltipAsText">
-                        <span class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">{{sitem.content}}</span>
+                        <span *ngIf="(this.confServ.tableDataSet.getTableData(atag).type.colors | json).length === 21"
+                              class="{{getTable(atag)?.type?.getCls(sitem.content)}} mylabel">{{sitem.content}}</span>
+                        <span *ngIf="(this.confServ.tableDataSet.getTableData(atag).type.colors | json).length !== 21"
+                              class="label mylabel" [style.background-color]="this.confServ.tableDataSet.getTableData(atag).type.colors.getColor(sitem.content)">{{sitem.content}}</span>
                         <span class="tooltip-text">
                         <htmlcitationtext [description]="getTable(atag)?.values[sitem.content]"
                                           [citationServ]="citationServ"
