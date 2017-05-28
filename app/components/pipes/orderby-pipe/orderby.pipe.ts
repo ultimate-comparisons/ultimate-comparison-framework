@@ -26,10 +26,11 @@ export class OrderByPipe implements PipeTransform {
         return value.sort((a: Data, b: Data) => {
             for (let i: number = 0; i < this.params.value.length; i++) {
                 if (this.params.option[i] == 0) continue;
-                let desc = this.params.option[i] == -1 ? true : false;
+                let desc = this.params.option[i] == -1;
                 if (a.properties[this.params.value[i]] === undefined && b.properties[this.params.value[i]] === undefined) {
-                    // both elements lack the attribute => equivalent
-                    return 0;
+                    if (a[this.params.value[i]] === undefined && b[this.params.value[i]] === undefined) {
+                        return 0;
+                    }
                 } else if (a.properties[this.params.value[i]] === undefined) {
                     // a lacks the attribute => it is always below the others
                     return 1;
