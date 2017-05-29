@@ -70,7 +70,7 @@ gulp.task('determinecolors', function() {
     for (var i = 0; i < data.length; i++) {
         color = startColor;
         var o = data[i];
-        if (o.type.tag === "label") {
+        if (o.type.tag === "label" && o.type.values != null) {
             for (var j = 0; j < o.type.values.length; j++) {
                 var v = o.type.values[j];
                 if (!(v.hasOwnProperty("class") || v.hasOwnProperty("color"))) {
