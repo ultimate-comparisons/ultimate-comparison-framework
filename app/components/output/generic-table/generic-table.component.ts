@@ -6,6 +6,7 @@ import { TableData, Data, CriteriaSelection } from "./../../comparison/shared/in
 import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
 import { ComparisonConfigService } from "../../comparison/components/comparison-config.service";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+declare let anchors;
 
 @Component({
     selector: 'generictable',
@@ -77,6 +78,10 @@ export class GenericTableComponent implements AfterViewChecked {
     ngAfterViewChecked(): void {
         const t = (<any>$("table.table.table-hover"));
         t.floatThead();
+        anchors.options = {
+            placement: 'right'
+        };
+        anchors.add('.anchored');
     }
 
     public shouldBeShown(data: Data) {
