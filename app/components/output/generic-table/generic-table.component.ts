@@ -123,7 +123,6 @@ export class GenericTableComponent implements AfterViewChecked {
                     }
                 }
 
-                console.log(td.values[value]["max-age"])
                 if (td.values[value]["max-age"] === -1) {
                     maxValueDate.setDate(maxValueDate.getDate() + 1);
                 } else {
@@ -144,7 +143,6 @@ export class GenericTableComponent implements AfterViewChecked {
                     }
                 }
 
-                console.log(value + "\n" + url + "\n" + minValueDate + "\n" + diffDate + "\n" + maxValueDate);
                 if (minValueDate.getTime() <= diff && diff < maxValueDate.getTime()) {
                     d.content = value;
                     if (isNullOrUndefined(this.repoLabels[data.tag])) {
