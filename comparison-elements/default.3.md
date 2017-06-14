@@ -17,3 +17,8 @@ Default long description in __markdown__.
 
 ## Uncolored
 - color 2
+
+## Repo
+- github
+- ultimate-comparisons
+- ultimate-IoT-platform-comparison
