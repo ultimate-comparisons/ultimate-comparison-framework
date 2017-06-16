@@ -16,6 +16,8 @@ declare let anchors;
 })
 export class GenericTableComponent implements AfterViewChecked {
     private counter: number = 0;
+    private table;
+
     @Input() display: boolean = false;
     @Input() settings: boolean = false;
     @Input() columns: Array<TableData> = new Array<TableData>();
@@ -65,6 +67,7 @@ export class GenericTableComponent implements AfterViewChecked {
         }
         this.orderChange.emit(this.order);
         this.orderOptionChange.emit(this.orderOption);
+        this.table.trigger('reflow');
     }
 
     private displayOrder(value: string, option: number): boolean {
@@ -76,8 +79,8 @@ export class GenericTableComponent implements AfterViewChecked {
     }
 
     ngAfterViewChecked(): void {
-        const t = (<any>$("table.table.table-hover"));
-        t.floatThead();
+        this.table = (<any>$("table.table.table-hover"));
+        this.table.floatThead();
         anchors.options = {
             placement: 'right'
         };
