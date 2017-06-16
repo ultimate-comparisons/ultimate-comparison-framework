@@ -1,6 +1,12 @@
 import {
-    Component, Input, Output, EventEmitter, ApplicationRef, ChangeDetectionStrategy,
-    AfterViewChecked
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    ApplicationRef,
+    ChangeDetectionStrategy,
+    AfterViewChecked,
+    OnChanges
 } from "@angular/core";
 import { TableData, Data, CriteriaSelection } from "./../../comparison/shared/index";
 import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
@@ -14,7 +20,7 @@ declare let anchors;
     styleUrls: ['./generic-table.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GenericTableComponent implements AfterViewChecked {
+export class GenericTableComponent implements AfterViewChecked, OnChanges {
     private counter: number = 0;
     private table;
 
@@ -87,6 +93,16 @@ export class GenericTableComponent implements AfterViewChecked {
         anchors.add('.anchored');
     }
 
+    ngOnChanges(): void {
+        this.update();
+    }
+
+    public update(): void {
+        if (this.table != null) {
+            this.table.trigger('reflow');
+        }
+    }
+
     public shouldBeShown(data: Data) {
         if (this.confServ.comparison && this.confServ.comparison.displayall) {
             return true;
@@ -103,7 +119,7 @@ export class GenericTableComponent implements AfterViewChecked {
         return val;
     }
 
-    public getColor(column: TableData,label: string): SafeHtml {
+    public getColor(column: TableData, label: string): SafeHtml {
         return this.sanitization.bypassSecurityTrustStyle(column.type.colors.getColor(label));
     }
 }
