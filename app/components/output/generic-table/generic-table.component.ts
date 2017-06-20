@@ -1,6 +1,13 @@
 import {
-    Component, Input, Output, EventEmitter, ApplicationRef, ChangeDetectionStrategy,
-    AfterViewChecked, ChangeDetectorRef
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    ApplicationRef,
+    ChangeDetectionStrategy,
+    AfterViewChecked,
+    ChangeDetectorRef,
+    OnChanges
 } from "@angular/core";
 import { TableData, Data, CriteriaSelection } from "./../../comparison/shared/index";
 import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
