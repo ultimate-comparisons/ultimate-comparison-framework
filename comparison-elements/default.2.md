@@ -20,6 +20,4 @@ Default long description in __markdown__.
 - color 3
 
 ## Repo
-- github
-- ultimate-comparisons
-- ultimate-deployment-tool-comparison
+- https://github.com/ultimate-comparisons/ultimate-deployment-tool-comparison

@@ -20,6 +20,4 @@ Default long description in __markdown__.
 - color 2
 
 ## Repo
-- github
-- ultimate-comparisons
-- ultimate-comparison-BASE
+- https://github.com/ultimate-comparisons/ultimate-comparison-BASE

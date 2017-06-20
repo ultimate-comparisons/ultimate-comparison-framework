@@ -16,6 +16,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { isNullOrUndefined } from "util";
 import { Http } from "@angular/http";
 declare let anchors;
+declare let moment: any;
 
 @Component({
     selector: 'generictable',
@@ -59,100 +60,51 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     }
 
     private getRepoLabels(td: TableData, data: Data) {
-        if (isNullOrUndefined(data.properties["Repo"]) || isNullOrUndefined(data.properties["Repo"].list[0])
-            || isNullOrUndefined(data.properties["Repo"].list[1]) || isNullOrUndefined(data.properties["Repo"].list[2])) {
+        if (isNullOrUndefined(data.properties["Repo"]) || isNullOrUndefined(data.properties["Repo"].list[0])) {
             return [];
         }
         if (!isNullOrUndefined(this.repoLabels[data.tag])) {
             return this.repoLabels[data.tag];
         }
-        const repoType: string = data.properties["Repo"].list[0].content;
-        const repoOwner: string = data.properties["Repo"].list[1].content;
-        const repoName: string = data.properties["Repo"].list[2].content;
-        const url = this.repoQueryBuildUrl(repoType, repoOwner, repoName);
+        const repoUrl: string = data.properties["Repo"].list[0].content;
+        const url = this.repoQueryBuildUrl(repoUrl);
         if (url === "") {
             return [];
         }
         this.http.get(url).toPromise().then(res => {
             const d: any = {};
             const commitDate = new Date(res.json()[0].commit.author.date);
-            const diffDate = new Date(new Date().getTime() - commitDate.getTime());
-            diffDate.setFullYear(0);
-            const diff = diffDate.getTime();
             let child: string = "The last commit is ";
-            if (diffDate.getFullYear() - 1970 > 0) {
-                child += diffDate.getFullYear() - 1970 + (diffDate.getFullYear() - 1970 === 1 ? " year " : " years ");
+            const cd = moment(commitDate);
+            const now = moment();
+            const dateStrings = ['years', 'months', 'days', 'hours', 'minutes', 'seconds'];
+            for (const s of dateStrings) {
+                const diff = Math.abs(now.diff(cd, s));
+                if (diff !== 0) {
+                    child += diff;
+                    // append unit in singular or plural
+                    child += " " + (diff === 1 ? s.substr(0, s.length - 1) : s);
+                    break;
+                }
             }
-            if (diffDate.getMonth() > 0) {
-                child += diffDate.getMonth() + (diffDate.getMonth() === 1 ? " month " : " months ");
-            }
-            if (diffDate.getDate() > 0) {
-                child += diffDate.getDate() + (diffDate.getDate() === 1 ? " day " : " days ");
-            }
-            if (diffDate.getHours() > 0) {
-                child += diffDate.getHours() + (diffDate.getHours() === 1 ? " hour " : " hours ");
-            }
-            child += "old";
+            child += " old";
             d.htmlChilds = child;
             for (const value in td.values) {
                 if (isNullOrUndefined(td.values[value]["min-age"])) {
                     continue;
                 }
-                let minValueDate = new Date();
-                let maxValueDate = new Date();
-                minValueDate.setHours(0);
-                minValueDate.setMinutes(0);
-                minValueDate.setSeconds(0);
-                minValueDate.setMilliseconds(0);
 
-                maxValueDate.setHours(0);
-                maxValueDate.setMinutes(0);
-                maxValueDate.setSeconds(0);
-                maxValueDate.setMilliseconds(0);
-                if (td.values[value]["min-age"] === -1) {
-                    minValueDate.setFullYear(0);
-                    minValueDate.setMonth(0);
-                    minValueDate.setDate(1);
-                    minValueDate.setHours(0);
-                } else {
-                    if (td.values[value]["min-age-unit"] === 'y') {
-                        minValueDate.setFullYear(td.values[value]["min-age"]);
-                    } else {
-                        minValueDate.setFullYear(0);
-                    }
-                    if (td.values[value]["min-age-unit"] === 'm') {
-                        minValueDate.setMonth(td.values[value]["min-age"]);
-                    } else {
-                        minValueDate.setMonth(0);
-                    }
-                    if (td.values[value]["min-age-unit"] === 'd') {
-                        minValueDate.setDate(td.values[value]["min-age"]);
-                    } else {
-                        minValueDate.setDate(0);
-                    }
-                }
+                const min = td.values[value]["min-age"];
+                const minUnit = td.values[value]["min-age-unit"];
+                const minDiff = Math.abs(now.diff(cd, minUnit));
 
-                if (td.values[value]["max-age"] === -1) {
-                    maxValueDate.setDate(maxValueDate.getDate() + 1);
-                } else {
-                    if (td.values[value]["max-age-unit"] === 'y') {
-                        maxValueDate.setFullYear(td.values[value]["max-age"]);
-                    } else {
-                        maxValueDate.setFullYear(0);
-                    }
-                    if (td.values[value]["max-age-unit"] === 'm') {
-                        maxValueDate.setMonth(td.values[value]["max-age"]);
-                    } else {
-                        maxValueDate.setMonth(0);
-                    }
-                    if (td.values[value]["max-age-unit"] === 'd') {
-                        maxValueDate.setDate(td.values[value]["max-age"]);
-                    } else {
-                        maxValueDate.setDate(1);
-                    }
-                }
+                const max = td.values[value]["max-age"];
+                const maxUnit = td.values[value]["max-age-unit"];
+                const maxDiff = Math.abs(now.diff(cd, maxUnit));
 
-                if (minValueDate.getTime() <= diff && diff < maxValueDate.getTime()) {
+                // min === -1 => no limit
+                // same for max
+                if ((min === -1 || min <= minDiff) && (max === -1 || max > maxDiff)) {
                     d.content = value;
                     if (isNullOrUndefined(this.repoLabels[data.tag])) {
                         this.repoLabels[data.tag] = [];
@@ -241,16 +193,11 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         return this.sanitization.bypassSecurityTrustStyle(column.type.colors.getColor(label));
     }
 
-    private repoQueryBuildUrl(repoType: string, repoOwner: string, repoName: string) {
+    private repoQueryBuildUrl(repoUrl: string) {
         let url: string;
-        switch (repoType) {
-            case "github":
-                url = "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/commits";
-                break;
-
-            default:
-                url = "";
-                break;
+        if (/https?:\/\/github\.com.*/.test(repoUrl)) {
+            url = repoUrl.replace(/https?:\/\/github.com/, "https://api.github.com/repos");
+            url += url.endsWith("/") ? "commits" : "/commits";
         }
         return url;
     }

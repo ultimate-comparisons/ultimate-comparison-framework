@@ -19,6 +19,4 @@ Default long description in __markdown__.
 - color 1
 
 ## Repo
-- github
-- SitOPT
-- SitOPT-Installation-Script
+- https://github.com/SitOPT/SitOPT-Installation-Script
