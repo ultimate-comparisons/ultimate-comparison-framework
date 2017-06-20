@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE.svg?branch=master)](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE)
 
-This is an ultimate comparison framework written in angular2.
+This is an ultimate comparison framework written in [Angular](https://angular.io/).
 
 ## Create your own ultimate comparison 
 1. Create a new repository on GitHub. In the following called "ultimate-THING-comparison" and located at https://github.com/example.com/ultimate-THING-comparison, replace `THING` by your comparison (e.g., `web-framework`).
@@ -75,7 +75,11 @@ You can base it on `template.md`.
 
 6. `npm install`
 7. `npm start` (starts the web page)
-8. [Setup automatic deployment of `www` directory using Travis CI](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/wiki/Build-and-deploy-project-with-Travis-CI)
+8. [Setup automatic deployment of `www` directory using Travis CI](doc/Travis_Build_Deploy.md)
+
+## Update your comparison
+
+See [docs/Update_YOUR_Comparison.md](doc/Update_YOUR_Comparison.md)
 
 ## License
 
