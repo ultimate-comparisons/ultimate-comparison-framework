@@ -121,6 +121,15 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         });
     }
 
+    private repoQueryBuildUrl(repoUrl: string) {
+        let url: string;
+        if (/https?:\/\/github\.com.*/.test(repoUrl)) {
+            url = repoUrl.replace(/https?:\/\/github.com/, "https://api.github.com/repos");
+            url += url.endsWith("/") ? "commits" : "/commits";
+        }
+        return url;
+    }
+
     private orderClick(e: MouseEvent, value: string) {
         let pos: number = this.order.findIndex(name => name == value);
         if (e.ctrlKey) {
@@ -189,16 +198,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         return val;
     }
 
-    public getColor(column: TableData, label: string): SafeHtml {
+    public getColor(column: TableData,label: string): SafeHtml {
         return this.sanitization.bypassSecurityTrustStyle(column.type.colors.getColor(label));
-    }
-
-    private repoQueryBuildUrl(repoUrl: string) {
-        let url: string;
-        if (/https?:\/\/github\.com.*/.test(repoUrl)) {
-            url = repoUrl.replace(/https?:\/\/github.com/, "https://api.github.com/repos");
-            url += url.endsWith("/") ? "commits" : "/commits";
-        }
-        return url;
     }
 }
