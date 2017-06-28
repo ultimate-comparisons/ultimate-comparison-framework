@@ -5,6 +5,7 @@ import { ComparisonDataService } from "./comparison-data.service";
 import { ComparisonService } from "./comparison.service";
 import { ComparisonCitationService } from "./comparison-citation.service";
 import { VersionInformation } from "../../../VersionInformation";
+import { Http } from "@angular/http";
 
 var FileSaver = require('file-saver');
 
@@ -22,7 +23,8 @@ export class ComparisonComponent {
     private ready: boolean = false;
     private versionInformation: VersionInformation = new VersionInformation();
 
-    constructor(public serv: ComparisonService,
+    constructor(private http: Http,
+                public serv: ComparisonService,
                 public dataServ: ComparisonDataService,
                 public confServ: ComparisonConfigService,
                 public citationServ: ComparisonCitationService,
@@ -48,7 +50,7 @@ export class ComparisonComponent {
     }
 
     @ViewChild('details') detailsModal: any;
-    private activeRow: Data = new Data();
+    private activeRow: Data = new Data(this.http);
 
     private showDetails(data: Data) {
         this.activeRow = data;

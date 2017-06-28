@@ -38,7 +38,7 @@
                     </template>
                 </td>
                 <td *ngIf="column.type?.tag==='label' && column.repo">
-                    <template ngFor let-sitem [ngForOf]="getRepoLabels(column, dat)"
+                    <template ngFor let-sitem [ngForOf]="dat.getRepoLabels(column).list"
                               *ngIf="column.type?.labelCls">
                         <ptooltip [tooltipHtml]="sitem.htmlChilds" [position]="'n'">
                             <div *ngIf="(column.type.colors | json) == '{}'" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
