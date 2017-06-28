@@ -24,9 +24,9 @@
                     <div [innerHtml]="dat.getProperty(column.tag).text|citation: [citationServ] | sanitizeHtml"></div>
                 </td>
                 <td *ngIf="column.type?.tag==='label'">
-                    <template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)"
+                    <template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag) | orderAttributes: [column]"
                               *ngIf="column.type?.labelCls">
-                        <ptooltip [tooltip]="column.values[sitem.content]"
+                        <ptooltip [tooltip]="column.values[sitem.content].tag"
                                   [tooltipHtml]="sitem.htmlChilds | citation: [citationServ]" [position]="'n'">
                             <div *ngIf="(column.type.colors | json) == '{}'" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
                                 {{sitem.content + 'test'}}
