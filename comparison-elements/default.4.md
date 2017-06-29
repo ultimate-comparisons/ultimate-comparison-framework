@@ -8,9 +8,10 @@ slow, MIT, green, green, grey
 - MIT
 
 ## Showcase 2.0
-- green
+- red 1
 - green
 - grey
+- green
 
 ## Description
 Default long description in __markdown__.

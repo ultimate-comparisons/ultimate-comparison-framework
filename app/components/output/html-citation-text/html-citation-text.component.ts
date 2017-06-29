@@ -17,6 +17,9 @@ export class HtmlCitationTextComponent {
 
     private makeMarkdown(text: string): string {
         if (text === null || text === undefined || text === "" || text === " ") return " ";
+        if (typeof text === "object") {
+            text = text["tag"];
+        }
         return this.serv.converter.makeHtml(text);
     }
 }

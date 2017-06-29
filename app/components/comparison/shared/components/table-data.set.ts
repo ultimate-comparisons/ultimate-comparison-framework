@@ -1,19 +1,20 @@
 import { TableData, LabelCls, Value, Type } from "../index";
 import { ColorDictionary } from "./color-dictionary";
+import { isNullOrUndefined } from "util";
 
 export class TableDataSet {
-    private tableDataSet: {[name: string]: TableData;} = {}
-    private set: Array<TableData> = new Array<TableData>();
+    private tableDataSet: {[name: string]: TableData;} = {};
+    private set: Array<TableData> = [];
     public ready: boolean = false;
 
     constructor(jsonObj: any) {
         jsonObj.forEach(obj => {
             let lcls: LabelCls = new LabelCls();
-            var values: {[name: string]: string;} = {};
+            let values: {[name: string]: {tag: string, weight: number};} = {};
             if (obj.type.values) {
                 obj.type.values.forEach(val => {
                     let value: Value = new Value(val.name, val.description);
-                    values[val.name] = val.description;
+                    values[val.name] = { tag: val.description, weight: val.weight };
                     switch (val.class) {
                         case "label-success":
                             lcls.label_success.push(value);
@@ -49,7 +50,11 @@ export class TableDataSet {
                 obj.type.class,
                 lcls,
                 colors
-            )
+            );
+            let order = obj.order;
+            if (!isNullOrUndefined(order)) {
+                order = order.toLowerCase();
+            }
             let td: TableData = new TableData(
                 obj.name,
                 obj.tag,
@@ -58,10 +63,11 @@ export class TableDataSet {
                 obj.display,
                 type,
                 values,
-                obj.sort
-            )
+                obj.sort,
+                order
+            );
             this.tableDataSet[obj.tag] = td;
-        })
+        });
         this.ready = true;
     }
 
