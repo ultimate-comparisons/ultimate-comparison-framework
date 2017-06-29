@@ -29,4 +29,10 @@ export class PaperDialogComponent {
         document.body.classList.remove("modal-open");
         this.opened = false;
     }
+
+    @HostListener('window:keydown', ['$event']) onKeydown(event) {
+        if (this.opened && event.key.toLowerCase() === 'escape') {
+            this.close();
+        }
+    }
 }

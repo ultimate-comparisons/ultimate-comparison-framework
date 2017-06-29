@@ -9,22 +9,6 @@
 
 <body>
     <myapp>Loading...</myapp>
-    <script language="javascript">
-        $(document).keydown(function (event) {
-            // escape
-            if (event.keyCode !== 27) {
-                return;
-            }
-            let el = $("pdialog#settings");
-            if (el != null && el.is(":visible")) {
-                el.hide();
-            }
-            el = $("pdialog#details");
-            if (el != null && el.is(":visible")) {
-                el.hide();
-            }
-        });
-    </script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, HostListener, Input } from "@angular/core";
 import { TableData, Type, Data } from "../shared/index";
 import { ComparisonConfigService } from "./comparison-config.service";
 import { ComparisonDataService } from "./comparison-data.service";
