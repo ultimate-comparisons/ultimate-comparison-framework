@@ -2,6 +2,7 @@ import { Property, ListItem, RatingSet, Rating } from "./../index";
 import { isNullOrUndefined } from "util";
 import { TableData } from "./table-data";
 import { Http } from "@angular/http";
+import { ChangeDetectorRef } from "@angular/core";
 
 declare let moment: any;
 
@@ -31,7 +32,7 @@ export class Data {
         }
     }
 
-    public getRepoLabels(td: TableData) {
+    public getRepoLabels(td: TableData, change: ChangeDetectorRef) {
         if (isNullOrUndefined(this.properties["Repo"]) || isNullOrUndefined(this.properties["Repo"].list[0])) {
             return new Property();
         }
@@ -99,6 +100,7 @@ export class Data {
                 }
                 this.properties[td.tag] = property;
             }
+            change.markForCheck();
         });
         return new Property()
     }
