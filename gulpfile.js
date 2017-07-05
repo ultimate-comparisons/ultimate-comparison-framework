@@ -44,24 +44,23 @@ gulp.task('determinecolors', function() {
     var factor = 0.5;
     var input = './comparison-configuration/table.json';
     var colorArray = [
-        '#EA3711',
-        '#11EAD3',
-        '#4F11EA',
-        '#EA6311',
-        '#C6EA11',
-        '#113FEA',
-        '#77EA11',
-        '#9811EA',
-        '#2BEA11',
-        '#EA9E11',
-        '#11BCEA',
-        '#11EA7A',
-        '#1E11EA',
-        '#EAD311',
-        '#8411EA',
-        '#BC11EA',
-        '#1187EA',
-        '#EA11BF'
+        'hsl(174, 100%, 88%)',
+        'hsl(257, 100%, 88%)',
+        'hsl(23, 100%, 88%)',
+        'hsl(70, 100%, 88%)',
+        'hsl(227, 100%, 88%)',
+        'hsl(92, 100%, 88%)',
+        'hsl(277, 100%, 88%)',
+        'hsl(113, 100%, 88%)',
+        'hsl(39, 100%, 88%)',
+        'hsl(193, 100%, 88%)',
+        'hsl(149, 100%, 88%)',
+        'hsl(244, 100%, 88%)',
+        'hsl(54, 100%, 88%)',
+        'hsl(272, 100%, 88%)',
+        'hsl(287, 100%, 88%)',
+        'hsl(207, 100%, 88%)',
+        'hsl(312, 100%, 88%)'
     ];
     var color;
     var startColor = color = 0;

@@ -31,7 +31,7 @@
                             <div *ngIf="column.type.colors.isEmpty()" [ngClass]="{'label-unknown': column.type.labelCls.getCls(sitem.content).length + column.type.getCls(sitem.content).length === 5}" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
                                 {{sitem.content}}
                             </div>
-                            <div *ngIf="!column.type.colors.isEmpty()" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
+                            <div *ngIf="!column.type.colors.isEmpty()" [style.background-color]="getColor(column, sitem.content)" [style.color]="'#808080'" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
                                 {{sitem.content}}
                             </div>
                         </ptooltip>
