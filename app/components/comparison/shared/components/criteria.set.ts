@@ -10,14 +10,17 @@ export class CriteriaSet {
             criteria.tag = crit.tag;
             criteria.description = crit.description ? crit.description : "";
             criteria.and_search = typeof crit.and_search !== typeof undefined ? crit.and_search : true;
-            crit.values.forEach(val => {
-                let value: Value = new Value();
-                value.name = val.name ? val.name : "undefined value";
-                value.value = val.name ? val.name : "undefined value";
-                value.label = val.name ? val.name : "undefined value";
-                value.description = val.description ? val.description : "";
-                criteria.values.push(value);
-            });
+            criteria.range_search = typeof crit.range_search !== typeof undefined ? crit.range_search : false;
+            if (!criteria.range_search) {
+                crit.values.forEach(val => {
+                    let value: Value = new Value();
+                    value.name = val.name ? val.name : "undefined value";
+                    value.value = val.name ? val.name : "undefined value";
+                    value.label = val.name ? val.name : "undefined value";
+                    value.description = val.description ? val.description : "";
+                    criteria.values.push(value);
+                });
+            }
             criteria.placeholder = crit.placeholder ? crit.placeholder : "";
             this.criteriaSet[crit.tag] = criteria;
         });

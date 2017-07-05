@@ -54,6 +54,7 @@ This is an ultimate comparison framework written in [Angular](https://angular.io
   - `placeholder:` Placeholder for the select box.
   - `values:` Filter values.
   - `and_search:` Defines if all filter value must match or at least one.
+  - `number_search`: Allow range searches. Ignores given values.
   
   ![criteria.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/criteria.svg)       
         
