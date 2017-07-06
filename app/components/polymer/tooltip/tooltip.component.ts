@@ -24,7 +24,8 @@ export class TooltipComponent implements OnInit {
         if (this.tooltip.indexOf("<") > -1 && this.tooltip.indexOf(">") > -1) {
             const tokens = this.tooltip.split(/[ ,\n\r]/);
             let tip = this.tooltip;
-            for (const token of tokens) {
+            for (let token of tokens) {
+                token = token.substr(0, token.lastIndexOf(">") + 1);
                 if (/<https?:\/\/[^>]+>/.test(token)) {
                     const href = token.substr(1, token.length - 2);
                     tip = tip.replace(token, "<a class='cite-link' href='" + href + "'>" + href + "</a>")

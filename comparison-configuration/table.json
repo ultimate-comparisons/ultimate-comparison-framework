@@ -58,12 +58,12 @@
             "values": [
                 {
                     "name": "MIT",
-                    "description": "<http://choosealicense.com/licenses/mit/>",
+                    "description": "This license can be seen at <http://choosealicense.com/licenses/mit/>. Please evaluate!",
                     "color": "#EA3711"
                 },
                 {
                     "name": "Apache 2.0",
-                    "description": "http://choosealicense.com/licenses/apache-2.0/",
+                    "description": "<http://choosealicense.com/licenses/apache-2.0/>",
                     "color": "#11EAD3"
                 },
                 {
