@@ -24,6 +24,9 @@ export class DataPipe implements PipeTransform {
                 if (cont.criteria.range_search) {
                     let value = cont.values.target.value;
                     value = value.replace(/ /g, "");
+                    if (value.length === 0) {
+                        return true;
+                    }
                     const tokens = value.split(",");
                     for (const token of tokens) {
                         if (token.lastIndexOf("-") >= 1) {

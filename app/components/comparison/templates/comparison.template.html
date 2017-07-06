@@ -36,7 +36,7 @@
                         </ptooltip><br>
                         <select2 [options]="crit.values" [placeholder]="crit.placeholder"
                                  (result)="criteriaChanged($event, crit)" *ngIf="!crit.range_search"></select2>
-                        <input type="text" [placeholder]="crit.placeholder" [style.width]="'100%'"
+                        <input type="text" [placeholder]="crit.placeholder" [style.width]="'100%'" class="range-search"
                                (keyup)="criteriaChanged($event, crit)" *ngIf="crit.range_search">
                     </div>
                 </div>
