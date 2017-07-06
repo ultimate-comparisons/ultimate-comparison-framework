@@ -31,11 +31,13 @@
                         <ptooltip [tooltip]="crit.description">
                             <label>
                                 {{crit.name}}
-                                <span class="search-indicator">({{crit.and_search ? "match all" : "match one"}})</span>
+                                <span class="search-indicator">({{crit.getSearchIndicator()}})</span>
                             </label>
-                        </ptooltip>
+                        </ptooltip><br>
                         <select2 [options]="crit.values" [placeholder]="crit.placeholder"
-                                 (result)="criteriaChanged($event, crit)"></select2>
+                                 (result)="criteriaChanged($event, crit)" *ngIf="!crit.range_search"></select2>
+                        <input type="text" [placeholder]="crit.placeholder" [style.width]="'100%'" class="range-search"
+                               (keyup)="criteriaChanged($event, crit)" *ngIf="crit.range_search">
                     </div>
                 </div>
             </template>

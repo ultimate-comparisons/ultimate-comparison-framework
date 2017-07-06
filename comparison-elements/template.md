@@ -32,3 +32,9 @@ Default long description in __markdown__.
 - [5] Template is perfect
 - [1] I don't understand nothing
 - [3] It works
+
+## Uncolored
+- color 1
+
+## NumberColumn
+- 200

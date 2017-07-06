@@ -96,3 +96,13 @@ pdialog {
     font-size: 8pt;
     opacity: 80;
 }
+
+.range-search {
+    border: 0px !important;
+    border-bottom: 1px solid #aaa !important;
+    border-radius: 0px !important;
+}
+
+.range-search:focus {
+    outline-width: 0;
+}
