@@ -22,7 +22,7 @@ export class TableDataSet {
                         v["min-age-unit"] = val["min-age-unit"];
                         v["max-age"] = val["max-age"];
                         v["max-age-unit"] = val["max-age-unit"];
-                        v["descirption"] = val.description;
+                        v["description"] = val.description;
                         values[val.name] = v;
                     }
                     switch (val.class) {
