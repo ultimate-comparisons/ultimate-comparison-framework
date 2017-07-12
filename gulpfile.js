@@ -45,53 +45,75 @@ gulp.task('determinecolors', function() {
     var factor = 0.5;
     var input = './comparison-configuration/table.json';
     var colorArray = [
-        'hsl(000, 100%, 88%)',
-        'hsl(15, 100%, 88%)',
-        'hsl(30, 100%, 88%)',
-        'hsl(45, 100%, 88%)',
-        'hsl(60, 100%, 88%)',
-        'hsl(75, 100%, 88%)',
-        'hsl(90, 100%, 88%)',
-        'hsl(105, 100%, 88%)',
-        'hsl(120, 100%, 88%)',
-        'hsl(135, 100%, 88%)',
-        'hsl(150, 100%, 88%)',
-        'hsl(165, 100%, 88%)',
-        'hsl(180, 100%, 88%)',
-        'hsl(195, 100%, 88%)',
-        'hsl(210, 100%, 88%)',
-        'hsl(225, 100%, 88%)',
-        'hsl(240, 100%, 88%)',
-        'hsl(255, 100%, 88%)',
-        'hsl(270, 100%, 88%)',
-        'hsl(285, 100%, 88%)',
-        'hsl(300, 100%, 88%)',
-        'hsl(315, 100%, 88%)',
-        'hsl(330, 100%, 88%)',
-        'hsl(345, 100%, 88%)'
+        'hsl(000, 100%, 70%)',
+        'hsl(15, 100%, 70%)',
+        'hsl(30, 100%, 70%)',
+        'hsl(45, 100%, 70%)',
+        'hsl(60, 100%, 70%)',
+        'hsl(75, 100%, 70%)',
+        'hsl(90, 100%, 70%)',
+        'hsl(105, 100%, 70%)',
+        'hsl(120, 100%, 70%)',
+        'hsl(135, 100%, 70%)',
+        'hsl(150, 100%, 70%)',
+        'hsl(165, 100%, 70%)',
+        'hsl(180, 100%, 70%)',
+        'hsl(195, 100%, 70%)',
+        'hsl(210, 100%, 70%)',
+        'hsl(225, 100%, 70%)',
+        'hsl(240, 100%, 70%)',
+        'hsl(255, 100%, 70%)',
+        'hsl(270, 100%, 70%)',
+        'hsl(285, 100%, 70%)',
+        'hsl(300, 100%, 70%)',
+        'hsl(315, 100%, 70%)',
+        'hsl(330, 100%, 70%)',
+        'hsl(345, 100%, 70%)'
     ];
     var color = startColor;
     var data = JSON.parse(fs.readFileSync(input, "utf8"));
     var changed = false;
+    var count = 0;
+    var cCount = 0;
     for (var i = 0; i < data.length; i++) {
         var o = data[i];
         if (o.type.tag === "label" && o.type.values != null) {
-            for (var j = 0; j < o.type.values.length; j++) {
-                var v = o.type.values[j];
+            count += o.type.values.length;
+            cCount++;
+        }
+    }
+    var delta = Math.floor(colorArray.length / count);
+    if (delta < 1) {
+        var columnD = Math.floor(colorArray.length / cCount);
+    } else {
+        var columnD = 0;
+    }
+    color = Math.random() * colorArray.length;
+    for (var i = 0; i < data.length; i++) {
+        var o = data[i];
+        if (o.type.tag === "label" && o.type.values != null) {
+            if (o.type.values[0].weight === undefined) {
+                var vals = o.type.values.sort((o1, o2) => o1.name.localeCompare(o2.name));
+            } else {
+                var mult = o.order === undefined || o.order.toLowerCase() === "asc" ? 1 : -1;
+                var vals = o.type.values.sort((o1, o2) => mult * (o1.weight - o2.weight));
+            }
+            for (var j = 0; j < vals.length; j++) {
+                var v = vals[j];
                 if (!(v.hasOwnProperty("class") || v.hasOwnProperty("color"))) {
                     v.color = colorArray[color];
-                    color = (color + 5) % colorArray.length;
                     changed = true;
+                    color = (color + delta) % colorArray.length;
                 }
             }
         }
+        color = (color + columnD) % colorArray.length;
     }
-    startColor = color;
     if (changed) {
         fs.writeFileSync(input, JSON.stringify(data, null, 4), "utf8");
     }
     return true;
-})
+});
 
 gulp.task('versioninfo', function () {
     var versionfile = './app/VersionInformation.ts.example';
