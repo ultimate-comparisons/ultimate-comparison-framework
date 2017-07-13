@@ -21,6 +21,9 @@ export class TooltipComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (typeof this.tooltip === "number"){
+            this.tooltip = this.tooltip.toString();
+        }
         if (this.tooltip.indexOf("<") > -1 && this.tooltip.indexOf(">") > -1) {
             const tokens = this.tooltip.split(/[ ,\n\r]/);
             let tip = this.tooltip;
