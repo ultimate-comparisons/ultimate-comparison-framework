@@ -129,7 +129,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         const l = 0.7;
         const rgb = this.hslToRgb(h, s, l);
         const yiq = ((rgb[0]*299)+(rgb[1]*587)+(rgb[2]*114))/1000;
-        return this.sanitization.bypassSecurityTrustStyle((yiq >= 128) ? '#0d0d0d' : '#f0f0f0');
+        return this.sanitization.bypassSecurityTrustStyle((yiq >= 128) ? '#f0f0f0' : '#0d0d0d');
     }
 
     private hslToRgb(h, s, l){
