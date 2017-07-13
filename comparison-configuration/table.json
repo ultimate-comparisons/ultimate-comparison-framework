@@ -58,18 +58,18 @@
             "values": [
                 {
                     "name": "MIT",
-                    "description": "This license can be seen at <http://choosealicense.com/licenses/mit/>. Please evaluate!",
-                    "color": "#EA3711"
+                    "description": "<http://choosealicense.com/licenses/mit/>",
+                    "color": "hsl(000, 100%, 88%)"
                 },
                 {
                     "name": "Apache 2.0",
-                    "description": "<http://choosealicense.com/licenses/apache-2.0/>",
-                    "color": "#11EAD3"
+                    "description": "http://choosealicense.com/licenses/apache-2.0/",
+                    "color": "hsl(75, 100%, 88%)"
                 },
                 {
                     "name": "MPL 2.0",
                     "description": "http://choosealicense.com/licenses/mpl-2.0/",
-                    "color": "#4F11EA"
+                    "color": "hsl(150, 100%, 88%)"
                 }
             ]
         }
@@ -140,19 +140,60 @@
                     "name": "color 1",
                     "description": "Color 1",
                     "weight": 1,
-                    "color": "#EA3711"
+                    "color": "hsl(225, 100%, 88%)"
                 },
                 {
                     "name": "color 2",
                     "description": "Color 2",
                     "weight": 2,
-                    "color": "#11EAD3"
+                    "color": "hsl(300, 100%, 88%)"
                 },
                 {
                     "name": "color 3",
                     "description": "Color 3",
                     "weight": 3,
+                    "color": "hsl(15, 100%, 88%)"
+                }
+            ]
+        }
+    },
+    {
+        "name": "Number Column",
+        "tag": "NumberColumn",
+        "display": true,
+        "order": "asc",
+        "type": {
+            "tag": "label",
+            "values": [
+                {
+                    "name": 100,
+                    "description": 100,
+                    "weight": 1,
+                    "color": "#EA3711"
+                },
+                {
+                    "name": 200,
+                    "description": 200,
+                    "weight": 2,
+                    "color": "#11EAD3"
+                },
+                {
+                    "name": 250,
+                    "description": 250,
+                    "weight": 3,
                     "color": "#4F11EA"
+                },
+                {
+                    "name": 300,
+                    "description": 300,
+                    "weight": 4,
+                    "color": "#EA6311"
+                },
+                {
+                    "name": 199,
+                    "description": 199,
+                    "weight": 1.99,
+                    "color": "#C6EA11"
                 }
             ]
         }

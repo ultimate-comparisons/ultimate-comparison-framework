@@ -18,3 +18,6 @@ Default long description in __markdown__.
 
 ## Uncolored
 - color 1
+
+## NumberColumn
+- 100
