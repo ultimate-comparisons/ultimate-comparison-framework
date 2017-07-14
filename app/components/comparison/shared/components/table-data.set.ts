@@ -3,19 +3,19 @@ import { ColorDictionary } from "./color-dictionary";
 import { isNullOrUndefined } from "util";
 
 export class TableDataSet {
-    private tableDataSet: {[name: string]: TableData;} = {}
-    private set: Array<TableData> = new Array<TableData>();
+    private tableDataSet: {[name: string]: TableData;} = {};
+    private set: Array<TableData> = [];
     public ready: boolean = false;
 
     constructor(jsonObj: any) {
         jsonObj.forEach(obj => {
             let lcls: LabelCls = new LabelCls();
-            var values: any = {};
+            let values: any = {};
             if (obj.type.values) {
                 obj.type.values.forEach(val => {
                     let value: Value = new Value(val.name, val.description);
                     if (isNullOrUndefined(val["min-age"])) {
-                        values[val.name] = val.description;
+                        values[val.name] = { tag: val.description, weight: val.weight };
                     } else {
                         const v = {};
                         v["min-age"] = val["min-age"];
@@ -60,7 +60,11 @@ export class TableDataSet {
                 obj.type.class,
                 lcls,
                 colors
-            )
+            );
+            let order = obj.order;
+            if (!isNullOrUndefined(order)) {
+                order = order.toLowerCase();
+            }
             let td: TableData = new TableData(
                 obj.name,
                 obj.tag,
@@ -70,10 +74,11 @@ export class TableDataSet {
                 type,
                 values,
                 obj.sort,
-                obj.repo
-            )
+                obj.repo,
+                order
+            );
             this.tableDataSet[obj.tag] = td;
-        })
+        });
         this.ready = true;
     }
 

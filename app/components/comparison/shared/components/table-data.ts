@@ -9,6 +9,7 @@ export class TableData {
                 public type: Type = new Type(),
                 public values: {[name: string]: string;} = {},
                 public sort: number = 0,
-                public repo: boolean = false) {
+                public repo: boolean = false,
+                public order: string = 'asc') {
     }
 }

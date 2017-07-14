@@ -20,3 +20,6 @@ Default long description in __markdown__.
 
 ## Repo
 - https://github.com/ultimate-comparisons/ultimate-IoT-platform-comparison
+
+## NumberColumn
+- 250

@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     bibtex2json = require('./citation/bibtex2json'),
     fs = require('fs'),
     sh = require('sync-exec');
+var startColor = color = 0;
 
 var paths = {
     src: 'app',
@@ -44,43 +45,48 @@ gulp.task('determinecolors', function() {
     var factor = 0.5;
     var input = './comparison-configuration/table.json';
     var colorArray = [
-        '#EA3711',
-        '#11EAD3',
-        '#4F11EA',
-        '#EA6311',
-        '#C6EA11',
-        '#113FEA',
-        '#77EA11',
-        '#9811EA',
-        '#2BEA11',
-        '#EA9E11',
-        '#11BCEA',
-        '#11EA7A',
-        '#1E11EA',
-        '#EAD311',
-        '#8411EA',
-        '#BC11EA',
-        '#1187EA',
-        '#EA11BF'
+        'hsl(000, 100%, 88%)',
+        'hsl(15, 100%, 88%)',
+        'hsl(30, 100%, 88%)',
+        'hsl(45, 100%, 88%)',
+        'hsl(60, 100%, 88%)',
+        'hsl(75, 100%, 88%)',
+        'hsl(90, 100%, 88%)',
+        'hsl(105, 100%, 88%)',
+        'hsl(120, 100%, 88%)',
+        'hsl(135, 100%, 88%)',
+        'hsl(150, 100%, 88%)',
+        'hsl(165, 100%, 88%)',
+        'hsl(180, 100%, 88%)',
+        'hsl(195, 100%, 88%)',
+        'hsl(210, 100%, 88%)',
+        'hsl(225, 100%, 88%)',
+        'hsl(240, 100%, 88%)',
+        'hsl(255, 100%, 88%)',
+        'hsl(270, 100%, 88%)',
+        'hsl(285, 100%, 88%)',
+        'hsl(300, 100%, 88%)',
+        'hsl(315, 100%, 88%)',
+        'hsl(330, 100%, 88%)',
+        'hsl(345, 100%, 88%)'
     ];
-    var color;
-    var startColor = color = 0;
+    var color = startColor;
     var data = JSON.parse(fs.readFileSync(input, "utf8"));
     var changed = false;
     for (var i = 0; i < data.length; i++) {
-        color = startColor;
         var o = data[i];
         if (o.type.tag === "label" && o.type.values != null) {
             for (var j = 0; j < o.type.values.length; j++) {
                 var v = o.type.values[j];
                 if (!(v.hasOwnProperty("class") || v.hasOwnProperty("color"))) {
                     v.color = colorArray[color];
-                    color = (color + 1) % colorArray.length;
+                    color = (color + 5) % colorArray.length;
                     changed = true;
                 }
             }
         }
     }
+    startColor = color;
     if (changed) {
         fs.writeFileSync(input, JSON.stringify(data, null, 4), "utf8");
     }

@@ -99,5 +99,13 @@
         "name": "Inactive"
       }
     ]
+  },
+  {
+    "name": "Number Column",
+    "tag": "NumberColumn",
+    "description": "Tags that were originally numbered.",
+    "placeholder": "Select number ranges ...",
+    "and_search": false,
+    "range_search": true
   }
 ]

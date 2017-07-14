@@ -180,5 +180,46 @@
                 }
             ]
         }
+    },
+    {
+        "name": "Number Column",
+        "tag": "NumberColumn",
+        "display": true,
+        "order": "asc",
+        "type": {
+            "tag": "label",
+            "values": [
+                {
+                    "name": 100,
+                    "description": 100,
+                    "weight": 1,
+                    "color": "#EA3711"
+                },
+                {
+                    "name": 200,
+                    "description": 200,
+                    "weight": 2,
+                    "color": "#11EAD3"
+                },
+                {
+                    "name": 250,
+                    "description": 250,
+                    "weight": 3,
+                    "color": "#4F11EA"
+                },
+                {
+                    "name": 300,
+                    "description": 300,
+                    "weight": 4,
+                    "color": "#EA6311"
+                },
+                {
+                    "name": 199,
+                    "description": 199,
+                    "weight": 1.99,
+                    "color": "#C6EA11"
+                }
+            ]
+        }
     }
 ]

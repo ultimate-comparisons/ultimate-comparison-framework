@@ -21,3 +21,6 @@ Default long description in __markdown__.
 
 ## Repo
 - https://github.com/ultimate-comparisons/ultimate-deployment-tool-comparison
+
+## NumberColumn
+- 300
