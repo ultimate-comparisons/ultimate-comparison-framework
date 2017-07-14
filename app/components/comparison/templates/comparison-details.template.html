@@ -2,7 +2,7 @@
     <h2>{{getHeaderText()}}
         <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)"
                   *ngIf="confServ.comparison">
-            <ptooltip [tooltip]="getHeaderColumn()?.values[sitem.content]"
+            <ptooltip [tooltip]="getHeaderColumn()?.values[sitem.content].tag"
                       [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'s'">
                 <div class="{{getHeaderLabel()?.getCls(sitem.content)}} mylabel">
                     {{sitem.content}}
