@@ -42,7 +42,6 @@ gulp.task('build-data', function (callback) {
 })
 
 gulp.task('determinecolors', function() {
-    var factor = 0.5;
     var input = './comparison-configuration/table.json';
     var colorArray = [
         'hsl(000, 100%, 70%)',
@@ -70,7 +69,7 @@ gulp.task('determinecolors', function() {
         'hsl(330, 100%, 70%)',
         'hsl(345, 100%, 70%)'
     ];
-    var color = startColor;
+    var color;
     var data = JSON.parse(fs.readFileSync(input, "utf8"));
     var changed = false;
     var count = 0;
@@ -88,14 +87,14 @@ gulp.task('determinecolors', function() {
     } else {
         var columnD = 0;
     }
-    color = Math.random() * colorArray.length;
+    color = Math.floor(Math.random() * colorArray.length);
     for (var i = 0; i < data.length; i++) {
         var o = data[i];
         if (o.type.tag === "label" && o.type.values != null) {
             if (o.type.values[0].weight === undefined) {
                 var vals = o.type.values.sort((o1, o2) => o1.name.localeCompare(o2.name));
             } else {
-                var mult = o.order === undefined || o.order.toLowerCase() === "asc" ? 1 : -1;
+                var mult = (o.order === undefined || o.order.toLowerCase() === "asc") ? 1 : -1;
                 var vals = o.type.values.sort((o1, o2) => mult * (o1.weight - o2.weight));
             }
             for (var j = 0; j < vals.length; j++) {
