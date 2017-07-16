@@ -92,7 +92,7 @@ gulp.task('determinecolors', function() {
         var o = data[i];
         if (o.type.tag === "label" && o.type.values != null) {
             if (o.type.values[0].weight === undefined) {
-                var vals = o.type.values.sort((o1, o2) => o1.name.localeCompare(o2.name));
+                var vals = o.type.values.sort((o1, o2) => o1.name.toString().localeCompare(o2.name.toString()));
             } else {
                 var mult = (o.order === undefined || o.order.toLowerCase() === "asc") ? 1 : -1;
                 var vals = o.type.values.sort((o1, o2) => mult * (o1.weight - o2.weight));
