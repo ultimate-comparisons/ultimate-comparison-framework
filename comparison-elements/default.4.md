@@ -8,16 +8,18 @@ slow, MIT, green, green, grey
 - MIT
 
 ## Showcase 2.0
-- red 1
+- green
 - green
 - grey
-- green
 
 ## Description
 Default long description in __markdown__.
 
 ## Uncolored
 - color 1
+
+## Repo
+- https://github.com/SitOPT/SitOPT-Installation-Script
 
 ## NumberColumn
 - 100

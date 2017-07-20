@@ -75,7 +75,6 @@
         "name": "Showcase",
         "tag": "Showcase 2.0",
         "style": "width: 5%",
-        "order": "DESC",
         "display": true,
         "type": {
             "tag": "label",
@@ -83,44 +82,37 @@
                 {
                     "name": "red 1",
                     "description": "Show case for red label 1",
-                    "class": "label-danger",
-                    "weight": 1
+                    "class": "label-danger"
                 },
                 {
                     "name": "red 2",
                     "description": "Show case for red label 2",
-                    "class": "label-danger",
-                    "weight": 2
+                    "class": "label-danger"
                 },
                 {
                     "name": "green",
                     "description": "Show case for green label",
-                    "class": "label-success",
-                    "weight": 3
+                    "class": "label-success"
                 },
                 {
                     "name": "yellow",
                     "description": "Show case for yellow label",
-                    "class": "label-warning",
-                    "weight": 4
+                    "class": "label-warning"
                 },
                 {
                     "name": "dark blue",
                     "description": "Show case for dark blue label",
-                    "class": "label-primary",
-                    "weight": 5
+                    "class": "label-primary"
                 },
                 {
                     "name": "grey",
                     "description": "Show case for grey label",
-                    "class": "label-default",
-                    "weight": 6
+                    "class": "label-default"
                 },
                 {
                     "name": "light blue",
                     "description": "",
-                    "class": "label-info",
-                    "weight": 7
+                    "class": "label-info"
                 }
             ]
         }
@@ -129,7 +121,6 @@
         "name": "Uncolored",
         "tag": "Uncolored",
         "display": true,
-        "order": "asc",
         "type": {
             "tag": "label",
             "values": [
@@ -147,6 +138,42 @@
                     "name": "color 3",
                     "description": "Color 3",
                     "weight": 3
+                }
+            ]
+        }
+    },
+    {
+        "name": "Active Development",
+        "tag": "Active Development",
+        "display": true,
+        "repo": true,
+        "type": {
+            "tag": "label",
+            "values": [
+                {
+                    "name": "Active",
+                    "description": "Active",
+                    "min-age": -1,
+                    "max-age": 1,
+                    "max-age-unit": "months",
+                    "class": "label-success"
+                },
+                {
+                    "name": "Not Sure",
+                    "description": "Not Sure",
+                    "min-age": 1,
+                    "min-age-unit": "months",
+                    "max-age": 6,
+                    "max-age-unit": "months",
+                    "class": "label-warning"
+                },
+                {
+                    "name": "Inactive",
+                    "description": "Inactive",
+                    "min-age": 6,
+                    "min-age-unit": "months",
+                    "max-age": -1,
+                    "class": "label-danger"
                 }
             ]
         }

@@ -30,7 +30,7 @@ This is an ultimate comparison framework written in [Angular](https://angular.io
   - `display:` Allows the user to hide a colum by default. It is possible to dynamically hide or display column by clicking on the configuration button and toggle the columns on/off.
   - `name:` Allows the user to change the display name (default display name is defined by `tag`).
   - `order`: Sorts the column ascending or descending, allowed values: `asc`, `desc`
-  - `type:` Style of the content. 
+  - `type:` Style of the content.
   - `type.tag:` Either a label, a text, or a url. 
   - `type.class:` Set a label class (e. g. `label label-info`). Will be ignored if value class is set.
   - `type.values:`
@@ -46,6 +46,7 @@ This is an ultimate comparison framework written in [Angular](https://angular.io
   - The label with the value "slow" has the tooltip "overall performance above 200ms", and will be red ("label-danger")
   - You can choose between red and class, classes are the preferred way. If both are missing, an automatic color is assigned.
   - The `weight` allows sorting of attributes, if multiple values are allowed. Ascending and descending is set by the `order` attribute in the column. Without weight, the name is used for sorting.
+  - `repo`: Signals that the column is dependent on a read repository (up to now only GitHub ones).
 
   ![table.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/table.svg) 
 3. The file `comparison-configuration/criteria.json` defines filter criterias for the table data.
@@ -55,13 +56,18 @@ This is an ultimate comparison framework written in [Angular](https://angular.io
   - `values:` Filter values.
   - `and_search:` Defines if all filter value must match or at least one.
   - `number_search`: Allow range searches. Ignores given values.
-  
+
   ![criteria.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/criteria.svg)       
         
 
 ### Define comparison elements
 For each thing, create a markdown file in `comparison-elements`.
 You can base it on `template.md`.
+If one column depends on a repository (`repo`-attribute in table.json true), you have to define a section (two \#) and add the repository as first list item, eg:
+```markdown
+## Repo
+- https://github.com/ultimate-comparisons/ultimate-comparison-BASE
+```
 
 ## Test it
 1. Install [node.js](https://nodejs.org/en/)

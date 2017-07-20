@@ -10,11 +10,21 @@ export class TableDataSet {
     constructor(jsonObj: any) {
         jsonObj.forEach(obj => {
             let lcls: LabelCls = new LabelCls();
-            let values: {[name: string]: {tag: string, weight: number};} = {};
+            let values: any = {};
             if (obj.type.values) {
                 obj.type.values.forEach(val => {
                     let value: Value = new Value(val.name, val.description);
-                    values[val.name] = { tag: val.description, weight: val.weight };
+                    if (isNullOrUndefined(val["min-age"])) {
+                        values[val.name] = { tag: val.description, weight: val.weight };
+                    } else {
+                        const v = {};
+                        v["min-age"] = val["min-age"];
+                        v["min-age-unit"] = val["min-age-unit"];
+                        v["max-age"] = val["max-age"];
+                        v["max-age-unit"] = val["max-age-unit"];
+                        v["description"] = val.description;
+                        values[val.name] = v;
+                    }
                     switch (val.class) {
                         case "label-success":
                             lcls.label_success.push(value);
@@ -64,6 +74,7 @@ export class TableDataSet {
                 type,
                 values,
                 obj.sort,
+                obj.repo,
                 order
             );
             this.tableDataSet[obj.tag] = td;

@@ -101,6 +101,7 @@ pdialog {
     border: 0px !important;
     border-bottom: 1px solid #aaa !important;
     border-radius: 0px !important;
+    margin-top: 8px;
 }
 
 .range-search:focus {
