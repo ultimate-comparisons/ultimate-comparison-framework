@@ -33,9 +33,12 @@
 `ssh-keygen -t rsa -b 4096 -f id_rsa`
 5. Add the public key to **Deploy keys** of the repository (not to the user account keys) + write access
 6. Install Travis CI:
-(fedora): `gem install travis`
+(linux): `gem install travis`
 7. Encrypt the private key:
     `travis encrypt-file id_rsa`
 8. Replace the `git remote ...` and `openssl ...` command in `.travis.yml`
 9. Add the encrypted key `id_rsa.enc` to your repository
 11. Add [`deploy.sh`](https://github.com/X1011/git-directory-deploy) to your repository and make it executable
+
+## FAQ
+- `gem install travis` fails: https://stackoverflow.com/a/38822195/8235252
