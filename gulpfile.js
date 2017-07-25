@@ -122,8 +122,8 @@ gulp.task('versioninfo', function () {
     return gulp.src(versionfile)
         .pipe(rename(output))
         .pipe(gulp.dest('.'))
-        .pipe(exec('sed -i "s/§§date§§/' + date.stdout.trim() + '/" ' + output))
-        .pipe(exec('sed -i "s/§§commit§§/' + revision.stdout.trim() + '/g" ' + output));
+        .pipe(exec('sed -i\'.bak\' "s/§§date§§/' + date.stdout.trim() + '/" ' + output))
+        .pipe(exec('sed -i\'.bak\' "s/§§commit§§/' + revision.stdout.trim() + '/g" ' + output));
 })
 
 gulp.task('update-data', function () {
