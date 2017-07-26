@@ -7,8 +7,8 @@
     "webpack:build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "typings": "typings",
     "postinstall": "typings install",
-    "gulp:compile": "node_modules/gulp/bin/gulp.js default",
-    "gulp:development": "node_modules/gulp/bin/gulp.js dev",
+    "gulp:compile": "node ./node_modules/gulp/bin/gulp.js default",
+    "gulp:development": "node ./node_modules/gulp/bin/gulp.js dev",
     "dev": "concurrently \"npm run gulp:development\" \"npm run webpack:start\" ",
     "test": "node_modules/gulp/bin/gulp.js default && npm run webpack:build"
   },

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ast.RootNode;
+import org.pmw.tinylog.Logger;
 
 public class Md2Json {
     private PegDownProcessor pdpc;
@@ -46,6 +47,7 @@ public class Md2Json {
     public String toJSON(String md) {
         this.createSyntaxTree(md.toCharArray());
         String json = jsonSer.toJSON(root);
+        Logger.debug("toJSON string >{}<", json);
         JsonParser jsonParser = new JsonParser();
         try {
             JsonObject jsonObject = (JsonObject) jsonParser.parse(json);
@@ -55,8 +57,8 @@ public class Md2Json {
             }
             return jsonObject.toString();
         } catch (Exception e) {
-            System.err.println(json);
-            e.printStackTrace();
+            Logger.error("invalid JSON >{}<", json);
+            Logger.error(e);
             throw e;
         }
     }
