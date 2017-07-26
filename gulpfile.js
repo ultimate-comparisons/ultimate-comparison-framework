@@ -136,7 +136,7 @@ gulp.task('markdown', function(callback){
       pipeStdout: true
     }
     return gulp.src(files.markdown)
-    .pipe(exec("./gradlew -q -b ./app/java/md-to-json/build.gradle run -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
+    .pipe(exec("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
     .pipe(rename({extname: ".json"}))
     .pipe(gulp.dest(paths.json));
 });
