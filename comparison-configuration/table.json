@@ -58,18 +58,15 @@
             "values": [
                 {
                     "name": "Apache 2.0",
-                    "description": "http://choosealicense.com/licenses/apache-2.0/",
-                    "color": "hsl(000, 100%, 70%)"
+                    "description": "http://choosealicense.com/licenses/apache-2.0/"
                 },
                 {
                     "name": "MIT",
-                    "description": "<http://choosealicense.com/licenses/mit/>",
-                    "color": "hsl(15, 100%, 70%)"
+                    "description": "<http://choosealicense.com/licenses/mit/>"
                 },
                 {
                     "name": "MPL 2.0",
-                    "description": "http://choosealicense.com/licenses/mpl-2.0/",
-                    "color": "hsl(30, 100%, 70%)"
+                    "description": "http://choosealicense.com/licenses/mpl-2.0/"
                 }
             ]
         }
@@ -130,20 +127,17 @@
                 {
                     "name": "color 1",
                     "description": "Color 1",
-                    "weight": 1,
-                    "color": "hsl(45, 100%, 70%)"
+                    "weight": 1
                 },
                 {
                     "name": "color 2",
                     "description": "Color 2",
-                    "weight": 2,
-                    "color": "hsl(60, 100%, 70%)"
+                    "weight": 2
                 },
                 {
                     "name": "color 3",
                     "description": "Color 3",
-                    "weight": 3,
-                    "color": "hsl(75, 100%, 70%)"
+                    "weight": 3
                 }
             ]
         }
@@ -195,32 +189,27 @@
                 {
                     "name": 100,
                     "description": 100,
-                    "weight": 1,
-                    "color": "hsl(90, 100%, 70%)"
+                    "weight": 1
                 },
                 {
                     "name": 199,
                     "description": 199,
-                    "weight": 1.99,
-                    "color": "hsl(105, 100%, 70%)"
+                    "weight": 1.99
                 },
                 {
                     "name": 200,
                     "description": 200,
-                    "weight": 2,
-                    "color": "hsl(120, 100%, 70%)"
+                    "weight": 2
                 },
                 {
                     "name": 250,
                     "description": 250,
-                    "weight": 3,
-                    "color": "hsl(135, 100%, 70%)"
+                    "weight": 3
                 },
                 {
                     "name": 300,
                     "description": 300,
-                    "weight": 4,
-                    "color": "hsl(150, 100%, 70%)"
+                    "weight": 4
                 }
             ]
         }
