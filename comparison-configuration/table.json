@@ -36,14 +36,14 @@
             "tag": "label",
             "values": [
                 {
-                    "name": "slow",
-                    "description": "Overall performance above 200ms.",
-                    "class": "label-danger"
-                },
-                {
                     "name": "fast",
                     "description": "Overall performance below 200ms.",
                     "class": "label-success"
+                },
+                {
+                    "name": "slow",
+                    "description": "Overall performance above 200ms.",
+                    "class": "label-danger"
                 }
             ]
         }
@@ -57,12 +57,12 @@
             "class": "label label-info",
             "values": [
                 {
-                    "name": "MIT",
-                    "description": "<http://choosealicense.com/licenses/mit/>"
-                },
-                {
                     "name": "Apache 2.0",
                     "description": "http://choosealicense.com/licenses/apache-2.0/"
+                },
+                {
+                    "name": "MIT",
+                    "description": "<http://choosealicense.com/licenses/mit/>"
                 },
                 {
                     "name": "MPL 2.0",
@@ -192,6 +192,11 @@
                     "weight": 1
                 },
                 {
+                    "name": 199,
+                    "description": 199,
+                    "weight": 1.99
+                },
+                {
                     "name": 200,
                     "description": 200,
                     "weight": 2
@@ -205,11 +210,6 @@
                     "name": 300,
                     "description": 300,
                     "weight": 4
-                },
-                {
-                    "name": 199,
-                    "description": 199,
-                    "weight": 1.99
                 }
             ]
         }
