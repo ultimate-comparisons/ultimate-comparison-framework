@@ -14,7 +14,8 @@ export class Data {
                 public descr: string = "",
                 public url: string = "",
                 public properties: {[name: string]: Property;} = {},
-                public rating: RatingSet = new RatingSet({})) {
+                public rating: RatingSet = new RatingSet({}),
+                public enabled: boolean = true) {
     }
 
     public getProperty(name: string): Property {

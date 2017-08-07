@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef } from "@angular/core";
+import { Component, ViewChild, ElementRef, ChangeDetectorRef, NgZone, ApplicationRef } from "@angular/core";
 import { Data, CriteriaSelection, Criteria } from "../shared/index";
 import { ComparisonConfigService } from "./comparison-config.service";
 import { ComparisonDataService } from "./comparison-data.service";
@@ -116,5 +116,10 @@ export class ComparisonComponent {
             this.confServ.comparison.displayall = !this.confServ.comparison.displayall;
         }
         this.change();
+    }
+
+    public changeEnabled(item: Data) {
+        item.enabled = !item.enabled;
+        this.cd.detectChanges();
     }
 }
