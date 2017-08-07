@@ -12,3 +12,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - This file
 - Static VersionInformation class
 - Section about difference of `update` and `master` branch in README.md
+- Added force push for deployment
