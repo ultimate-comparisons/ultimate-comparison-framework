@@ -38,7 +38,7 @@ var destfiles = {
 
 // BUILD / UPDATE data files -------------------------------------<
 gulp.task('build-data', function (callback) {
-    run('versioninfo', 'determinecolors', 'markdown', 'json', 'citation', callback);
+    run('determinecolors', 'markdown', 'json', 'citation', callback);
 })
 
 gulp.task('determinecolors', function() {
