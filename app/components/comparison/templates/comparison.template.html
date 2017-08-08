@@ -33,7 +33,8 @@
                                 {{crit.name}}
                                 <span class="search-indicator">({{crit.getSearchIndicator()}})</span>
                             </label>
-                        </ptooltip><br>
+                        </ptooltip>
+                        <br>
                         <select2 [options]="crit.values" [placeholder]="crit.placeholder"
                                  (result)="criteriaChanged($event, crit)" *ngIf="!crit.range_search"></select2>
                         <input type="text" [placeholder]="crit.placeholder" [style.width]="'100%'" class="range-search"
@@ -69,11 +70,10 @@
 </pdialog>
 
 <pdialog id="settings" #settings>
-    <div class="pheader">
-        <h2>Table Settings</h2>
-    </div>
-    <div class="col-md-12">
-        <div class="col-md-6">
+    <div class="grid-container">
+        <div class="grid-header">Table Settings</div>
+
+        <div class="grid-main-1">
             <h5>Select Columns...</h5>
             <pitem>
                 <pcheckbox [checked]="confServ.displayAll" (checkedChange)="confServ.displayAllChange($event, this)"
@@ -86,11 +86,12 @@
                 </pitem>
             </template>
         </div>
-        <div class="col-md-6">
+        <div class="grid-main-2">
             <h5>Other Settings...</h5>
             <div *ngIf="confServ.comparison">
                 <pitem>
-                    <pcheckbox [checked]="confServ.comparison.displaytemplate" (checkedChange)="changeDisplayTemplate()"
+                    <pcheckbox [checked]="confServ.comparison.displaytemplate"
+                               (checkedChange)="changeDisplayTemplate()"
                                [label]="'Display Template'"></pcheckbox>
                 </pitem>
                 <pitem>
@@ -118,16 +119,15 @@
                 </pitem>
             </div>
         </div>
-    </div>
-    <div class="col-md-12">
-        <pcard heading="Enabled Elements" style="display: block;">
-            <div class="card-content">
-                <template ngFor let-item [ngForOf]="dataServ.data">
-                    <input name="{{item.getProperty('tag').plain + 'checkbox'}}" type="checkbox" [attr.checked]="item.enabled ? '' : null" (change)="changeEnabled(item)">
-                    <label for="{{item.getProperty('tag').plain + 'checkbox'}}">{{item.getProperty("tag").plain}}</label><br>
-                </template>
-            </div>
-        </pcard>
+        <div class="grid-main-3">
+            <h5>Enabled Elements</h5>
+            <template ngFor let-item [ngForOf]="dataServ.data">
+                <pitem>
+                    <pcheckbox [checked]="item.enabled" (checkedChange)="changeEnabled(item)"
+                               [label]="item.getProperty('tag').plain"></pcheckbox>
+                </pitem>
+            </template>
+        </div>
     </div>
 </pdialog>
 
@@ -191,6 +191,7 @@
         This is an <a href="http://ultimate-comparisons.github.io/">Ultimate Comparison</a> | content licensed under <a
             rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img
             alt="Creative Commons License CC-BY-SA 4.0" style="border-width:0"
-            src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a> | <a [href]="getVersionInformation()?.link">{{getVersionInformation()?.commit?.substr(0, 8) + " (" + (getVersionInformation()?.date | date: ("yyyy-MM-dd")) + ")"}}</a>
+            src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a> | <a [href]="getVersionInformation()?.link">{{getVersionInformation()?.commit?.substr(0,
+        8) + " (" + (getVersionInformation()?.date | date: ("yyyy-MM-dd")) + ")"}}</a>
     </div>
 </div>
