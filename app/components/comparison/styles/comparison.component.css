@@ -43,14 +43,14 @@ pdialog {
 
 .large-paper-card {
     width: 100%;
-    margin: 0 0 20 0;
-    padding-bottom: 0px;
+    margin: 0 0 20px 0;
+    padding-bottom: 0;
 }
 
 .super-large-paper-card {
     min-width: 100%;
-    margin: 0 0 20 0;
-    padding-bottom: 0px;
+    margin: 0 0 20px 0;
+    padding-bottom: 0;
 }
 
 /* github corner */
@@ -98,12 +98,69 @@ pdialog {
 }
 
 .range-search {
-    border: 0px !important;
+    border: 0 !important;
     border-bottom: 1px solid #aaa !important;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     margin-top: 8px;
 }
 
 .range-search:focus {
     outline-width: 0;
+}
+
+.grid-container {
+    display: grid;
+
+    grid-template-rows: 25% auto;
+    grid-column-gap: 10px;
+    grid-row-gap: 15px;
+
+}
+
+@media screen and (min-width: 34em) {
+    .grid-container {
+        grid-template-columns: 40px 1fr 1fr 40px;
+        grid-template-areas:
+                ". header header ."
+                ". main-1 main-2 ."
+                ". main-3 main-3 .";
+    }
+}
+
+@media screen and (max-width: 34em) {
+    .grid-container {
+        grid-template-columns: 20px 1fr 20px;
+        grid-template-areas:
+                ". header ."
+                ". main-1 ."
+                ". main-2 ."
+                ". main-3 .";
+    }
+}
+
+.grid-header {
+    grid-area: header;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: ellipsis;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    border-bottom: 1px solid #eee;
+    padding: 15px 15px 8px 15px;
+    margin: 0px 0px 20px 0px;
+}
+
+.grid-main-1 {
+    grid-area: main-1;
+}
+
+.grid-main-2 {
+    grid-area: main-2;
+}
+
+.grid-main-3 {
+    grid-area: main-3;
 }

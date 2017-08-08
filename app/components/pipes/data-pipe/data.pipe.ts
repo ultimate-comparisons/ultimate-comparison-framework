@@ -17,6 +17,9 @@ export class DataPipe implements PipeTransform {
         }
         return value.filter((item) => {
             if (item.tag.trim() === "Template" && !args[1]) return false;
+            if (!item.enabled) {
+                return false;
+            }
             for (let key in this.query) {
                 if (!this.query.hasOwnProperty(key)) continue;
                 let cont = this.query[key];

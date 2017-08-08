@@ -117,4 +117,9 @@ export class ComparisonComponent {
         }
         this.change();
     }
+
+    public changeEnabled(item: Data) {
+        item.enabled = !item.enabled;
+        this.change();
+    }
 }
