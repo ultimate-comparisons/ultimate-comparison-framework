@@ -14,7 +14,7 @@
         "forin": true,
         "import-blacklist": [
             true,
-            "winery"
+            "uc"
         ],
         "import-spacing": true,
         "indent": [
@@ -106,13 +106,13 @@
         "directive-selector": [
             true,
             "attribute",
-            "winery",
+            "uc",
             "camelCase"
         ],
         "component-selector": [
             true,
             "element",
-            "winery",
+            "uc",
             "kebab-case"
         ],
         "use-input-property-decorator": true,
