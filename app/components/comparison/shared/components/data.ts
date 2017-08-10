@@ -19,7 +19,8 @@ export class Data {
                 public descr: string = "",
                 public url: string = "",
                 public properties: {[name: string]: Property;} = {},
-                public rating: RatingSet = new RatingSet({})) {
+                public rating: RatingSet = new RatingSet({}),
+                public enabled: boolean = true) {
         const temp: any = this.lss.get("repoData") || null;
         if (temp !== null) {
             if (Data.repoData === null) {
@@ -93,6 +94,7 @@ export class Data {
                     break;
                 }
             }
+            child += " old";
 
             const min = value['min-age'];
             const minUnit = value['min-age-unit'];
