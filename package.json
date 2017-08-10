@@ -28,6 +28,7 @@
     "gulp-clean": "^0.3.2",
     "gulp-concat-json": "^1.0.0",
     "gulp-exec": "^2.1.2",
+    "gulp-if": "^2.0.2",
     "gulp-json-transform": "^0.3.2",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
@@ -66,14 +67,16 @@
     "@angular/router": "~3.3.0",
     "angular-in-memory-web-api": "~0.1.5",
     "angular2-select": "^1.0.0-alpha.12",
+    "codelyzer": "^3.1.2",
     "core-js": "^2.4.1",
-    "fs": "0.0.1-security",
     "file-saver": "^1.3.3",
+    "fs": "0.0.1-security",
     "jquery": "^3.0.0",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-rc.4",
+    "showdown": "^1.4.2",
     "systemjs": "0.19.27",
-    "zone.js": "^0.7.2",
-    "showdown": "^1.4.2"
+    "tslint": "^4.5.1",
+    "zone.js": "^0.7.2"
   }
 }

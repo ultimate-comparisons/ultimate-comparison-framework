@@ -15,7 +15,7 @@ dependencies {
 task md2json (type: JavaExec, dependsOn: classes) {
     println "using build file '$buildFile.name' in '$buildFile.parentFile.name'."
     if (project.hasProperty("appArgs")) {
-        args(appArgs.split(','))
+        args Eval.me(appArgs)
     }
     main = "md2json.Md2Json"
     classpath = sourceSets.main.runtimeClasspath

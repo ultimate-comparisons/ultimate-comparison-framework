@@ -39,10 +39,10 @@ var destfiles = {
 
 // BUILD / UPDATE data files -------------------------------------<
 gulp.task('build-data', function (callback) {
-    run('versioninfo', 'determinecolors', 'markdown', 'json', 'citation', callback);
+    run('determinecolors', 'markdown', 'json', 'citation', callback);
 })
 
-gulp.task('determinecolors', function() {
+gulp.task('determinecolors', function () {
     var input = './comparison-configuration/table.json';
     var colorArray = [
         'hsl(000, 100%, 70%)',
@@ -93,10 +93,14 @@ gulp.task('determinecolors', function() {
         var o = data[i];
         if (o.type.tag === "label" && o.type.values != null) {
             if (o.type.values[0].weight === undefined) {
-                var vals = o.type.values.sort((o1, o2) => o1.name.toString().localeCompare(o2.name.toString()));
+                var vals = o.type.values.sort((o1, o2) => o1.name.toString().localeCompare(o2.name.toString())
+            )
+                ;
             } else {
                 var mult = (o.order === undefined || o.order.toLowerCase() === "asc") ? 1 : -1;
-                var vals = o.type.values.sort((o1, o2) => mult * (o1.weight - o2.weight));
+                var vals = o.type.values.sort((o1, o2) => mult * (o1.weight - o2.weight)
+            )
+                ;
             }
             for (var j = 0; j < vals.length; j++) {
                 var v = vals[j];
@@ -131,32 +135,30 @@ gulp.task('update-data', function () {
     gulp.watch(files.markdown, ['build-data']);
 })
 
-gulp.task('markdown', function(callback){
+gulp.task('markdown', function (callback) {
     var options = {
-      continueOnError: false,
-      pipeStdout: true
+        continueOnError: false,
+        pipeStdout: true
     }
 
     const isWin = /^win/i.test(process.platform);
 
     return gulp.src(files.markdown)
-    gulpif(condition1, g.dest(output.css))
-        .pipe(gulpif(isWin),    exec("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
-        .pipe(gulpif(!isWin), exec("./gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
+        .pipe(gulpif(isWin, exec("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options), exec("./gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options)))
         .pipe(rename({extname: ".json"}))
         .pipe(gulp.dest(paths.json));
 });
 
-gulp.task('json', function(){
+gulp.task('json', function () {
     return gulp.src(files.json)
         .pipe(concatjson("data.json"))
-        .pipe(jsontransform(function(data){
+        .pipe(jsontransform(function (data) {
             return data;
         }, 2))
         .pipe(gulp.dest(paths.data))
 })
 
-gulp.task('citation', function(callback){
+gulp.task('citation', function (callback) {
     var fileContent = JSON.parse(fs.readFileSync("./citation/config.json", "utf8"));
     bibtex2json.parse('./citation/' + fileContent.bibtex_file, 'utf8', './citation/' + fileContent.bibtex_style, './citation/output', callback);
 })
@@ -164,31 +166,32 @@ gulp.task('citation', function(callback){
 
 
 // BUILD / UPDATE www folder -------------------------------------<
-gulp.task('build-www', ['data'], function () {})
+gulp.task('build-www', ['data'], function () {
+})
 
 gulp.task('update-www', function () {
     gulp.watch(files.data, ['data']);
 })
 
-gulp.task('data', function() {
+gulp.task('data', function () {
     return gulp.src(files.data, {base: '.'})
-        .pipe(gulp.dest(destfiles.index)); 
+        .pipe(gulp.dest(destfiles.index));
 });
 // --------------------------------------------------------------->
 
 // DELETE www folder ---------------------------------------------<
-gulp.task('delete-www', function() {
+gulp.task('delete-www', function () {
     return gulp.src(paths.dev, {read: false})
         .pipe(clean());
 });
 // --------------------------------------------------------------->
 
 // DEFAULT and DEV tasks -----------------------------------------<
-gulp.task('default', function(callback){
+gulp.task('default', function (callback) {
     run('build-data', 'delete-www', 'build-www', callback);
 });
 
-gulp.task('dev', ['default'], function(callback) {
-    run('update-data','update-www', callback);
+gulp.task('dev', ['default'], function (callback) {
+    run('update-data', 'update-www', callback);
 });
 // --------------------------------------------------------------->
