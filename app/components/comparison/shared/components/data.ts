@@ -53,6 +53,7 @@ export class Data {
         if (this.changeDetector === null) {
             this.changeDetector = change;
         }
+        moment.relativeTimeThreshold('m', 60);
         if (isNullOrUndefined(Data.repoData[this.tag]) ||
             moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('hour ago') ||
             moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('hours ago') ||
