@@ -1,20 +1,37 @@
 import { Property, ListItem, RatingSet, Rating } from "./../index";
 import { isNullOrUndefined } from "util";
 import { TableData } from "./table-data";
-import { Http } from "@angular/http";
-import { ChangeDetectorRef, Inject, Optional } from '@angular/core';
-import { RepositoryService } from '../../components/comparison-repository.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { ComparisonService } from "../../components/comparison.service";
+import { LocalStorageService } from "angular-2-local-storage";
+import { ComparisonDataService } from "../../components/comparison-data.service";
 
 declare let moment: any;
 
 export class Data {
-    @Inject(RepositoryService) private repoData: RepositoryService;
+    private static repoData: {[name: string]: {lastCommit: Date, lastSync: Date}} = {};
+    private changeDetector: ChangeDetectorRef = null;
 
-    constructor(public tag: string = "",
+    constructor(private lss: LocalStorageService,
+                private dataService: ComparisonDataService,
+                private comparisonService: ComparisonService,
+                public tag: string = "",
                 public descr: string = "",
                 public url: string = "",
                 public properties: {[name: string]: Property;} = {},
                 public rating: RatingSet = new RatingSet({})) {
+        const temp: any = this.lss.get("repoData") || null;
+        if (temp !== null) {
+            if (Data.repoData === null) {
+                Data.repoData = {};
+            }
+            for (const key in temp) {
+                if (!temp.hasOwnProperty(key)) {
+                    continue;
+                }
+                Data.repoData[key] = {lastCommit: new Date(temp[key].lastCommit), lastSync: new Date(temp[key].lastSync)};
+            }
+        }
     }
 
     public getProperty(name: string): Property {
@@ -33,16 +50,78 @@ export class Data {
     }
 
     public getRepoLabels(td: TableData, change: ChangeDetectorRef) {
-        console.log(this.repoData)
-        const data = this.repoData.getRepositoryData(this.tag);
-        if (isNullOrUndefined(data)) {
-            return new Property();
+        if (this.changeDetector === null) {
+            this.changeDetector = change;
         }
+        if (isNullOrUndefined(Data.repoData[this.tag]) ||
+            moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('hour ago') ||
+            moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('hours ago') ||
+            moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('days ago')) {
+
+            this.dataService.getRepoData(this, this.properties["Repo"].plain);
+            this.updateRepoLabels(td);
+        }
+        if (isNullOrUndefined(this.properties[td.tag])) {
+            this.updateRepoLabels(td);
+        }
+        return this.properties[td.tag];
+    }
+
+    public updateRepoLabels(td: TableData) {
+        if (isNullOrUndefined(Data.repoData[this.tag])) {
+            return;
+        }
+        const current = moment(Data.repoData[this.tag].lastCommit);
+        const now = moment();
         if (!isNullOrUndefined(this.properties[td.tag])) {
-            return this.properties[td.tag];
+            this.properties[td.tag].list = [];
+        } else {
+            this.properties[td.tag] = new Property();
         }
-        console.log(data);
-        return new Property()
+        for (const key in td.values) {
+            const value = td.values[key];
+
+            let child = "The last commit is ";
+            const dateStrings = ['years', 'months', 'days', 'hours', 'minutes', 'seconds'];
+            for (const s of dateStrings) {
+                const diff = Math.abs(now.diff(current, s));
+                if (diff !== 0) {
+                    child += diff;
+                    // append unit in singular or plural
+                    child += " " + (diff === 1 ? s.substr(0, s.length - 1) : s);
+                    break;
+                }
+            }
+
+            const min = value['min-age'];
+            const minUnit = value['min-age-unit'];
+            const max = value['max-age'];
+            const maxUnit = value['max-age-unit'];
+
+            const minDiff = Math.abs(now.diff(current, minUnit));
+            const maxDiff = Math.abs(now.diff(current, maxUnit));
+
+            if ((min === -1 || minDiff >= min) && (max === -1 || maxDiff < max)) {
+                this.properties[td.tag].list.push(new ListItem(key, child, this.comparisonService.converter));
+                return this.properties[td.tag];
+            }
+        }
+    }
+
+    public setRepoData(data: {lastCommit: Date, lastSync: Date}) {
+        if (Data.repoData === null) {
+            Data.repoData = {};
+        }
+        Data.repoData[this.tag] = data;
+        const saving = {};
+        for (const d in Data.repoData) {
+            saving[d] = {
+                lastCommit: Data.repoData[d].lastCommit.getTime(),
+                lastSync: Data.repoData[d].lastSync.getTime()
+            }
+        }
+        this.lss.set("repoData", saving);
+        this.changeDetector.markForCheck();
     }
 
     public getPropertyTags(name: string): Array<string> {

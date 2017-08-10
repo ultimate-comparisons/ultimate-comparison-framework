@@ -6,6 +6,7 @@ import { ComparisonService } from "./comparison.service";
 import { ComparisonCitationService } from "./comparison-citation.service";
 import { VersionInformation } from "../../../VersionInformation";
 import { Http } from "@angular/http";
+import { LocalStorageService } from "angular-2-local-storage";
 
 var FileSaver = require('file-saver');
 
@@ -28,7 +29,8 @@ export class ComparisonComponent {
                 public dataServ: ComparisonDataService,
                 public confServ: ComparisonConfigService,
                 public citationServ: ComparisonCitationService,
-                private cd: ChangeDetectorRef) {
+                private cd: ChangeDetectorRef,
+                private lss: LocalStorageService) {
         this.confServ.loadComparison(this.cd);
         this.confServ.loadCriteria(this.cd);
         this.confServ.loadTableData(this.cd);
@@ -50,7 +52,7 @@ export class ComparisonComponent {
     }
 
     @ViewChild('details') detailsModal: any;
-    private activeRow: Data = new Data();
+    private activeRow: Data = new Data(this.lss, this.dataServ, this.serv);
 
     private showDetails(data: Data) {
         this.activeRow = data;

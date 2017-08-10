@@ -13,9 +13,7 @@ import { TableData, Data, CriteriaSelection } from "./../../comparison/shared/in
 import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
 import { ComparisonConfigService } from "../../comparison/components/comparison-config.service";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { isNullOrUndefined } from "util";
 import { Http } from "@angular/http";
-import { RepositoryService } from '../../comparison/components/comparison-repository.service';
 declare let anchors;
 
 @Component({
@@ -54,8 +52,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
                 private confServ: ComparisonConfigService,
                 private sanitization: DomSanitizer,
                 private http: Http,
-                private cd: ChangeDetectorRef,
-                private repositoryService: RepositoryService) {
+                private cd: ChangeDetectorRef) {
     }
 
     private orderClick(e: MouseEvent, value: string) {
