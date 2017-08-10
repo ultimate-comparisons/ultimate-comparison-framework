@@ -1,7 +1,7 @@
-import { Criteria } from "./criteria";
+import { Criteria } from './criteria';
 
 export class CriteriaSelection {
-    constructor(public values: Array<String> = new Array<String>(),
+    constructor(public values: Array<String> = [],
                 public criteria: Criteria = new Criteria()) {
     }
 

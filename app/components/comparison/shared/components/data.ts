@@ -1,12 +1,12 @@
-import { Property, ListItem, RatingSet, Rating } from "./../index";
-import { isNullOrUndefined } from "util";
-import { TableData } from "./table-data";
+import { Property, ListItem, RatingSet, Rating } from './../index';
+import { isNullOrUndefined } from 'util';
+import { TableData } from './table-data';
 import { ChangeDetectorRef } from '@angular/core';
-import { ComparisonService } from "../../components/comparison.service";
-import { LocalStorageService } from "angular-2-local-storage";
-import { ComparisonDataService } from "../../components/comparison-data.service";
+import { ComparisonService } from '../../components/comparison.service';
+import { LocalStorageService } from 'angular-2-local-storage';
+import { ComparisonDataService } from '../../components/comparison-data.service';
 
-declare let moment: any;
+declare const moment: any;
 
 export class Data {
     private static repoData: {[name: string]: {lastCommit: Date, lastSync: Date}} = {};
@@ -15,13 +15,13 @@ export class Data {
     constructor(private lss: LocalStorageService,
                 private dataService: ComparisonDataService,
                 private comparisonService: ComparisonService,
-                public tag: string = "",
-                public descr: string = "",
-                public url: string = "",
-                public properties: {[name: string]: Property;} = {},
+                public tag: string = '',
+                public descr: string = '',
+                public url: string = '',
+                public properties: {[name: string]: Property; } = {},
                 public rating: RatingSet = new RatingSet({}),
                 public enabled: boolean = true) {
-        const temp: any = this.lss.get("repoData") || null;
+        const temp: any = this.lss.get('repoData') || null;
         if (temp !== null) {
             if (Data.repoData === null) {
                 Data.repoData = {};
@@ -37,14 +37,14 @@ export class Data {
 
     public getProperty(name: string): Property {
         switch (name) {
-            case "tag":
+            case 'tag':
                 return new Property(this.tag, this.tag);
-            case "descr":
+            case 'descr':
                 return new Property(this.descr, this.descr);
-            case "url":
+            case 'url':
                 return new Property(this.url, this.url);
-            case "Rating":
-                return new Property(this.getRating() + "", this.getRating() + "");
+            case 'Rating':
+                return new Property(this.getRating() + '', this.getRating() + '');
             default:
                 return this.properties[name] ? this.properties[name] : new Property();
         }
@@ -60,7 +60,7 @@ export class Data {
             moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('hours ago') ||
             moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('days ago')) {
 
-            this.dataService.getRepoData(this, this.properties["Repo"].plain);
+            this.dataService.getRepoData(this, this.properties['Repo'].plain);
             this.updateRepoLabels(td);
         }
         if (isNullOrUndefined(this.properties[td.tag])) {
@@ -81,20 +81,24 @@ export class Data {
             this.properties[td.tag] = new Property();
         }
         for (const key in td.values) {
+            if (!td.values.hasOwnProperty(key)) {
+                continue;
+            }
+
             const value = td.values[key];
 
-            let child = "The last commit is ";
+            let child = 'The last commit is ';
             const dateStrings = ['years', 'months', 'days', 'hours', 'minutes', 'seconds'];
             for (const s of dateStrings) {
                 const diff = Math.abs(now.diff(current, s));
                 if (diff !== 0) {
                     child += diff;
                     // append unit in singular or plural
-                    child += " " + (diff === 1 ? s.substr(0, s.length - 1) : s);
+                    child += ' ' + (diff === 1 ? s.substr(0, s.length - 1) : s);
                     break;
                 }
             }
-            child += " old";
+            child += ' old';
 
             const min = value['min-age'];
             const minUnit = value['min-age-unit'];
@@ -118,18 +122,21 @@ export class Data {
         Data.repoData[this.tag] = data;
         const saving = {};
         for (const d in Data.repoData) {
+            if (Data.repoData.hasOwnProperty(d)) {
+                continue;
+            }
             saving[d] = {
                 lastCommit: Data.repoData[d].lastCommit.getTime(),
                 lastSync: Data.repoData[d].lastSync.getTime()
-            }
+            };
         }
-        this.lss.set("repoData", saving);
+        this.lss.set('repoData', saving);
         this.changeDetector.markForCheck();
     }
 
     public getPropertyTags(name: string): Array<string> {
-        let tagList: Array<string> = new Array<string>();
-        let p: Property = this.getProperty(name);
+        const tagList: Array<string> = [];
+        const p: Property = this.getProperty(name);
         p.list.forEach(item => {
             tagList.push(item.content);
         });

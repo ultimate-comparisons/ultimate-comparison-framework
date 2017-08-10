@@ -13,9 +13,9 @@
 }
 
 :host /deep/ .below {
-    border: 0px !important;
+    border: 0 !important;
     border-bottom: 1px solid #aaa !important;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
 }
 
 :host /deep/ .option {
