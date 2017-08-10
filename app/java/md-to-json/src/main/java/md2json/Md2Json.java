@@ -22,11 +22,11 @@ public class Md2Json {
     public static void main(String args[]) {
         Md2Json md2json = new Md2Json();
         if (args.length > 1) {
-            md2json.setLevel(Integer.parseInt(args[1]));
+            md2json.setLevel(Integer.parseInt(args[1].trim()));
         }
 
         if (args.length > 2) {
-            md2json.setPrettyPrinting(Boolean.parseBoolean(args[2]));
+            md2json.setPrettyPrinting(Boolean.parseBoolean(args[2].trim()));
         }
 
         if (args.length > 0) {
