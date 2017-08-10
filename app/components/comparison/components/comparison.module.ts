@@ -12,6 +12,7 @@ import { ComparisonService } from "./comparison.service";
 import { ComparisonDataService } from "./comparison-data.service";
 import { ComparisonConfigService } from "./comparison-config.service";
 import { ComparisonCitationService } from "./comparison-citation.service";
+import { RepositoryService } from './comparison-repository.service';
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import { ComparisonCitationService } from "./comparison-citation.service";
         ComparisonDataService,
         ComparisonConfigService,
         ComparisonCitationService,
-        Title
+        Title,
+        RepositoryService
     ]
 })
 export class ComparisonModule {

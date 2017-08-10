@@ -50,7 +50,7 @@ export class ComparisonComponent {
     }
 
     @ViewChild('details') detailsModal: any;
-    private activeRow: Data = new Data(this.http);
+    private activeRow: Data = new Data();
 
     private showDetails(data: Data) {
         this.activeRow = data;

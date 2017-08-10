@@ -15,6 +15,7 @@ import { ComparisonConfigService } from "../../comparison/components/comparison-
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { isNullOrUndefined } from "util";
 import { Http } from "@angular/http";
+import { RepositoryService } from '../../comparison/components/comparison-repository.service';
 declare let anchors;
 
 @Component({
@@ -53,7 +54,8 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
                 private confServ: ComparisonConfigService,
                 private sanitization: DomSanitizer,
                 private http: Http,
-                private cd: ChangeDetectorRef) {
+                private cd: ChangeDetectorRef,
+                private repositoryService: RepositoryService) {
     }
 
     private orderClick(e: MouseEvent, value: string) {
