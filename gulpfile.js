@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     exec = require('gulp-exec'),
     bibtex2json = require('./citation/bibtex2json'),
     fs = require('fs'),
-    sh = require('sync-exec');
+    sh = require('sync-exec'),
+    gulpif = require('gulp-if');
 var startColor = color = 0;
 
 var paths = {
@@ -135,10 +136,15 @@ gulp.task('markdown', function(callback){
       continueOnError: false,
       pipeStdout: true
     }
+
+    const isWin = /^win/i.test(process.platform);
+
     return gulp.src(files.markdown)
-    .pipe(exec("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
-    .pipe(rename({extname: ".json"}))
-    .pipe(gulp.dest(paths.json));
+    gulpif(condition1, g.dest(output.css))
+        .pipe(gulpif(isWin),    exec("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
+        .pipe(gulpif(!isWin), exec("./gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"[$/\n<%= file.contents.toString() %>\n/$, 1, true]\"", options))
+        .pipe(rename({extname: ".json"}))
+        .pipe(gulp.dest(paths.json));
 });
 
 gulp.task('json', function(){
