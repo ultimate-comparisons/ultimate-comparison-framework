@@ -2,8 +2,6 @@
 set -o errexit 
 
 main() {
-    echo "test"
-    
     # Source directory & target branch.
 	deploy_branch=${GIT_UPDATE_BRANCH:-update}
     

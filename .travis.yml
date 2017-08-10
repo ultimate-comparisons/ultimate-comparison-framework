@@ -10,6 +10,7 @@ after_success:
 - eval "$(ssh-agent -s)"
 - chmod 600 id_rsa
 - ssh-add id_rsa
+- git reset --hard
 before_install:
 - wget https://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb
 - sudo dpkg -i pandoc-1.17.2-1-amd64.deb
@@ -23,6 +24,7 @@ deploy:
 - provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN # set in travis-ci.org dashboard
+  local_dir: www
   on:
     branch: master
 - provider: script
