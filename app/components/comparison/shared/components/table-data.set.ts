@@ -1,53 +1,53 @@
-import { TableData, LabelCls, Value, Type } from "../index";
-import { ColorDictionary } from "./color-dictionary";
-import { isNullOrUndefined } from "util";
+import { TableData, LabelCls, Value, Type } from '../index';
+import { ColorDictionary } from './color-dictionary';
+import { isNullOrUndefined } from 'util';
 
 export class TableDataSet {
     private tableDataSet: {[name: string]: TableData;} = {};
     private set: Array<TableData> = [];
-    public ready: boolean = false;
+    public ready = false;
 
     constructor(jsonObj: any) {
         jsonObj.forEach(obj => {
-            let lcls: LabelCls = new LabelCls();
-            let values: any = {};
+            const lcls: LabelCls = new LabelCls();
+            const values: any = {};
             if (obj.type.values) {
                 obj.type.values.forEach(val => {
-                    let value: Value = new Value(val.name, val.description);
-                    if (isNullOrUndefined(val["min-age"])) {
+                    const value: Value = new Value(val.name, val.description);
+                    if (isNullOrUndefined(val['min-age'])) {
                         values[val.name] = { tag: val.description, weight: val.weight };
                     } else {
                         const v = {};
-                        v["min-age"] = val["min-age"];
-                        v["min-age-unit"] = val["min-age-unit"];
-                        v["max-age"] = val["max-age"];
-                        v["max-age-unit"] = val["max-age-unit"];
-                        v["description"] = val.description;
+                        v['min-age'] = val['min-age'];
+                        v['min-age-unit'] = val['min-age-unit'];
+                        v['max-age'] = val['max-age'];
+                        v['max-age-unit'] = val['max-age-unit'];
+                        v['description'] = val.description;
                         values[val.name] = v;
                     }
                     switch (val.class) {
-                        case "label-success":
+                        case 'label-success':
                             lcls.label_success.push(value);
                             break;
-                        case "label-warning":
+                        case 'label-warning':
                             lcls.label_warning.push(value);
                             break;
-                        case "label-danger":
+                        case 'label-danger':
                             lcls.label_danger.push(value);
                             break;
-                        case "label-default":
+                        case 'label-default':
                             lcls.label_default.push(value);
                             break;
-                        case "label-info":
+                        case 'label-info':
                             lcls.label_info.push(value);
                             break;
-                        case "label-primary":
+                        case 'label-primary':
                             lcls.label_primary.push(value);
                             break;
                     }
-                })
+                });
             }
-            let colors: ColorDictionary = new ColorDictionary();
+            const colors: ColorDictionary = new ColorDictionary();
             if (obj.type && obj.type.values) {
                 for (const v of obj.type.values) {
                     if (v.color) {
@@ -55,7 +55,7 @@ export class TableDataSet {
                     }
                 }
             }
-            let type: Type = new Type(
+            const type: Type = new Type(
                 obj.type.tag,
                 obj.type.class,
                 lcls,
@@ -65,7 +65,7 @@ export class TableDataSet {
             if (!isNullOrUndefined(order)) {
                 order = order.toLowerCase();
             }
-            let td: TableData = new TableData(
+            const td: TableData = new TableData(
                 obj.name,
                 obj.tag,
                 obj.urlTag,
@@ -87,14 +87,18 @@ export class TableDataSet {
     }
 
     public getTableDataArray(): Array<TableData> {
-        let size: number = 0;
-        for (let key in this.tableDataSet) {
-            if (!this.tableDataSet.hasOwnProperty(key)) continue;
+        let size = 0;
+        for (const key in this.tableDataSet) {
+            if (!this.tableDataSet.hasOwnProperty(key)) {
+                continue;
+            }
             size++;
         }
-        if (this.set.length != size) {
-            for (let key in this.tableDataSet) {
-                if (!this.tableDataSet.hasOwnProperty(key)) continue;
+        if (this.set.length !== size) {
+            for (const key in this.tableDataSet) {
+                if (!this.tableDataSet.hasOwnProperty(key)) {
+                    continue;
+                }
                 this.set.push(this.tableDataSet[key]);
             }
         }

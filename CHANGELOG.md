@@ -17,3 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added force push for deployment
 - Moved deployment to .travis.yml
 - Added tslint
+
+### Fixed
+- Rate Limit exceeded for GitHub for up to 60 elements.

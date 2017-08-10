@@ -1,6 +1,6 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
-import { isUndefined } from "util";
+import { Pipe, PipeTransform } from '@angular/core';
+import { ComparisonCitationService } from './../../comparison/components/comparison-citation.service';
+import { isUndefined } from 'util';
 
 @Pipe({
     name: 'citation',
@@ -8,12 +8,12 @@ import { isUndefined } from "util";
 })
 export class CitationPipe implements PipeTransform {
     transform(value: string, args: Array<any> = []) {
-        if (isUndefined(value) || value.length == 0) {
-            return "";
+        if (isUndefined(value) || value.length === 0) {
+            return '';
         }
-        let citServ: ComparisonCitationService = args[0];
-        let latex: boolean = args[1];
-        let entries: Array<string> = new Array<string>();
+        const citServ: ComparisonCitationService = args[0];
+        const latex: boolean = args[1];
+        const entries: Array<string> = [];
         if (!latex) {
             value = value.replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
                 entries.push(dec);
@@ -29,6 +29,6 @@ export class CitationPipe implements PipeTransform {
             citServ.ready = true;
         }
 
-        return value
+        return value;
     }
 }
