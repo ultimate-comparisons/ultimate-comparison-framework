@@ -8,14 +8,13 @@ import {
     AfterViewChecked,
     ChangeDetectorRef,
     OnChanges
-} from "@angular/core";
-import { TableData, Data, CriteriaSelection } from "./../../comparison/shared/index";
-import { ComparisonCitationService } from "./../../comparison/components/comparison-citation.service";
-import { ComparisonConfigService } from "../../comparison/components/comparison-config.service";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { isNullOrUndefined } from "util";
-import { Http } from "@angular/http";
-declare let anchors;
+} from '@angular/core';
+import { TableData, Data, CriteriaSelection } from './../../comparison/shared/index';
+import { ComparisonCitationService } from './../../comparison/components/comparison-citation.service';
+import { ComparisonConfigService } from '../../comparison/components/comparison-config.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Http } from '@angular/http';
+declare const anchors;
 
 @Component({
     selector: 'generictable',
@@ -24,30 +23,30 @@ declare let anchors;
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericTableComponent implements AfterViewChecked, OnChanges {
-    private counter: number = 0;
+    private counter = 0;
     private table;
 
-    @Input() display: boolean = false;
-    @Input() settings: boolean = false;
-    @Input() columns: Array<TableData> = new Array<TableData>();
+    @Input() display = false;
+    @Input() settings = false;
+    @Input() columns: Array<TableData> = [];
 
-    @Input() data: Array<Data> = new Array<Data>();
-    @Input() query: {[name: string]: CriteriaSelection;} = {};
-    @Input() displayTemplate: boolean = false;
+    @Input() data: Array<Data> = [];
+    @Input() query: {[name: string]: CriteriaSelection; } = {};
+    @Input() displayTemplate = false;
 
     @Input() citationServ: ComparisonCitationService;
 
     @Output() settingsCallback: EventEmitter<any> = new EventEmitter();
     @Output() showDetails: EventEmitter<any> = new EventEmitter();
 
-    @Input() changeNum: number = 0;
+    @Input() changeNum = 0;
 
-    @Input() order: Array<String> = new Array<String>();
+    @Input() order: Array<String> = [];
     @Output() orderChange: EventEmitter<any> = new EventEmitter();
-    @Input() orderOption: Array<number> = new Array<number>();
+    @Input() orderOption: Array<number> = [];
     @Output() orderOptionChange: EventEmitter<any> = new EventEmitter();
 
-    private ctrlCounter: number = 0;
+    private ctrlCounter = 0;
 
     constructor(private ar: ApplicationRef,
                 private confServ: ComparisonConfigService,
@@ -57,21 +56,21 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     }
 
     private orderClick(e: MouseEvent, value: string) {
-        let pos: number = this.order.findIndex(name => name == value);
+        const pos: number = this.order.findIndex(name => name === value);
         if (e.ctrlKey) {
-            this.ctrlCounter = this.order[this.ctrlCounter] == value ? this.ctrlCounter : this.ctrlCounter + 1;
+            this.ctrlCounter = this.order[this.ctrlCounter] === value ? this.ctrlCounter : this.ctrlCounter + 1;
         } else {
             this.ctrlCounter = 0;
         }
-        if (typeof pos != 'undefined' && pos >= 0) {
+        if (typeof pos !== 'undefined' && pos >= 0) {
             this.order[this.ctrlCounter] = value;
-            this.orderOption[this.ctrlCounter] = this.orderOption[pos] == 1 ? -1 : 1;
-            this.orderOption[pos] = pos != this.ctrlCounter ? 0 : this.orderOption[this.ctrlCounter];
+            this.orderOption[this.ctrlCounter] = this.orderOption[pos] === 1 ? -1 : 1;
+            this.orderOption[pos] = pos !== this.ctrlCounter ? 0 : this.orderOption[this.ctrlCounter];
         } else {
             this.order[this.ctrlCounter] = value;
             this.orderOption[this.ctrlCounter] = 1;
         }
-        if (this.ctrlCounter == 0) {
+        if (this.ctrlCounter === 0) {
             for (let i = 1; i < this.orderOption.length; i++) {
                 this.orderOption[i] = 0;
             }
@@ -83,14 +82,14 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
 
     private displayOrder(value: string, option: number): boolean {
         if (this.order.length === 0 && this.orderOption.length === 0) {
-            this.order[this.ctrlCounter] = "tag";
+            this.order[this.ctrlCounter] = 'tag';
             this.orderOption[this.ctrlCounter] = 1;
         }
-        return this.order.findIndex(val => val == value) >= 0 && this.orderOption[this.order.findIndex(val => val == value)] == option;
+        return this.order.findIndex(val => val === value) >= 0 && this.orderOption[this.order.findIndex(val => val === value)] === option;
     }
 
     ngAfterViewChecked(): void {
-        this.table = (<any>$("table.table.table-hover"));
+        this.table = (<any>$('table.table.table-hover'));
         this.table.floatThead();
         anchors.options = {
             placement: 'right'
@@ -113,8 +112,8 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
             return true;
         }
         let val = true;
-        for (let column of this.confServ.tableDataSet.getTableDataArray()) {
-            if (column.display && data.properties[column.tag] != null && data.properties[column.tag].plain != "") {
+        for (const column of this.confServ.tableDataSet.getTableDataArray()) {
+            if (column.display && data.properties[column.tag] != null && data.properties[column.tag].plain !== '') {
                 return true;
             }
             if (column.display && data.properties[column.tag] != null) {
@@ -124,23 +123,23 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         return val;
     }
 
-    public getColor(column: TableData,label: string): SafeHtml {
+    public getColor(column: TableData, label: string): SafeHtml {
         return this.sanitization.bypassSecurityTrustStyle(column.type.colors.getColor(label));
     }
 
     public getForegroundColor(color: any): SafeHtml {
-        const h = Number.parseInt(color["changingThisBreaksApplicationSecurity"].substr(4, 3).split(',')[0]);
+        const h = Number.parseInt(color['changingThisBreaksApplicationSecurity'].substr(4, 3).split(',')[0]);
         const s = 1;
         const l = 0.7;
         const rgb = this.hslToRgb(h, s, l);
-        const yiq = ((rgb[0]*299)+(rgb[1]*587)+(rgb[2]*114))/1000;
+        const yiq = ((rgb[0] * 299) + (rgb[1] * 587) + (rgb[2] * 114)) / 1000;
         return this.sanitization.bypassSecurityTrustStyle((yiq >= 128) ? '#f0f0f0' : '#0d0d0d');
     }
 
-    private hslToRgb(h, s, l){
+    private hslToRgb(h, s, l) {
         const c = (1 - Math.abs(2 * l - 1)) * s;
-        const x = c * (1 - Math.abs((h/60) % 2 - 1));
-        const m = l - c/2;
+        const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        const m = l - c / 2;
 
         let r, g, b;
         if (0 <= h && h < 60) {
@@ -168,6 +167,6 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
             g = 0;
             b = x;
         }
-        return [Math.round((r+m)*255), Math.round((g+m)*255), Math.round((b+m)*255)];
+        return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)];
     }
 }

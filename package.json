@@ -64,6 +64,7 @@
     "@angular/platform-browser": "~2.3.0",
     "@angular/platform-browser-dynamic": "~2.3.0",
     "@angular/router": "~3.3.0",
+    "angular-2-local-storage": "^1.0.1",
     "angular-in-memory-web-api": "~0.1.5",
     "angular2-select": "^1.0.0-alpha.12",
     "codelyzer": "^3.1.2",

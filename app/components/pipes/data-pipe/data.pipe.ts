@@ -1,6 +1,6 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { Data } from "./../../comparison/shared/index";
-import { ListItem } from "../../comparison/shared/components/list-item";
+import { Pipe, PipeTransform } from '@angular/core';
+import { Data } from './../../comparison/shared/index';
+import { ListItem } from '../../comparison/shared/components/list-item';
 
 @Pipe({
     name: 'datafilter',
@@ -16,23 +16,27 @@ export class DataPipe implements PipeTransform {
             return value;
         }
         return value.filter((item) => {
-            if (item.tag.trim() === "Template" && !args[1]) return false;
+            if (item.tag.trim() === 'Template' && !args[1]) {
+                return false;
+            }
             if (!item.enabled) {
                 return false;
             }
-            for (let key in this.query) {
-                if (!this.query.hasOwnProperty(key)) continue;
-                let cont = this.query[key];
-                let values: Array<string> = item.getPropertyTags(cont.criteria.tag);
+            for (const key in this.query) {
+                if (!this.query.hasOwnProperty(key)) {
+                    continue;
+                }
+                const cont = this.query[key];
+                const values: Array<string> = item.getPropertyTags(cont.criteria.tag);
                 if (cont.criteria.range_search) {
-                    let value = cont.values.target.value;
-                    value = value.replace(/ /g, "");
-                    if (value.length === 0) {
+                    let propertyValue = cont.values.target.value;
+                    propertyValue = propertyValue.replace(/ /g, '');
+                    if (propertyValue.length === 0) {
                         return true;
                     }
-                    const tokens = value.split(",");
+                    const tokens = propertyValue.split(',');
                     for (const token of tokens) {
-                        if (token.lastIndexOf("-") >= 1) {
+                        if (token.lastIndexOf('-') >= 1) {
                             if (this.rangeSearch(token, item.properties[cont.criteria.tag].list)) {
                                 return true;
                             }
@@ -50,11 +54,11 @@ export class DataPipe implements PipeTransform {
                 }
             }
             return true;
-        })
+        });
     }
 
     intersect(small_set: Array<string>, big_set: Array<string>, all: boolean) {
-        var inter: boolean = all;
+        let inter: boolean = all;
         if (!big_set) {
             return false;
         }
@@ -74,9 +78,9 @@ export class DataPipe implements PipeTransform {
                     inter = true;
                     return true;
                 }
-            })
+            });
         }
-        if (!inter && small_set.length == 0) {
+        if (!inter && small_set.length === 0) {
             return true;
         }
         return inter;
@@ -84,12 +88,12 @@ export class DataPipe implements PipeTransform {
 
     private rangeSearch(range: string, list: Array<ListItem>) {
         let negativeMin = false;
-        if (range.startsWith("-")) {
+        if (range.startsWith('-')) {
             negativeMin = true;
             range = range.substr(1);
         }
         let negativeMax = false;
-        if (range.indexOf("--") + 1 == range.lastIndexOf("-")) {
+        if (range.indexOf('--') + 1 === range.lastIndexOf('-')) {
             negativeMax = true;
         }
         const rValues = range.split(/-/).filter(el => el.length !== 0);
@@ -125,7 +129,7 @@ export class DataPipe implements PipeTransform {
             return false;
         }
 
-        for (let item of list) {
+        for (const item of list) {
             if (Number.parseFloat(item.content) === number) {
                 return true;
             }
