@@ -1,13 +1,14 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef } from "@angular/core";
-import { Data, CriteriaSelection, Criteria } from "../shared/index";
-import { ComparisonConfigService } from "./comparison-config.service";
-import { ComparisonDataService } from "./comparison-data.service";
-import { ComparisonService } from "./comparison.service";
-import { ComparisonCitationService } from "./comparison-citation.service";
-import { VersionInformation } from "../../../VersionInformation";
-import { Http } from "@angular/http";
+import { Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Data, CriteriaSelection, Criteria } from '../shared/index';
+import { ComparisonConfigService } from './comparison-config.service';
+import { ComparisonDataService } from './comparison-data.service';
+import { ComparisonService } from './comparison.service';
+import { ComparisonCitationService } from './comparison-citation.service';
+import { VersionInformation } from '../../../VersionInformation';
+import { Http } from '@angular/http';
+import { LocalStorageService } from "angular-2-local-storage";
 
-var FileSaver = require('file-saver');
+const FileSaver = require('file-saver');
 
 @Component({
     selector: 'comparison',
@@ -16,19 +17,27 @@ var FileSaver = require('file-saver');
 })
 export class ComparisonComponent {
     criteriaSelection = [];
-    private query: {[name: string]: CriteriaSelection;} = {};
-    private changed: number = 0;
-    private order: Array<String> = new Array<String>();
-    private orderOption: Array<number> = new Array<number>();
-    private ready: boolean = false;
+    private query: {[name: string]: CriteriaSelection; } = {};
+    private changed = 0;
+    private order: Array<String> = [];
+    private orderOption: Array<number> = [];
+    private ready = false;
     private versionInformation: VersionInformation = new VersionInformation();
+    @ViewChild('details') detailsModal: any;
+    private activeRow: Data = new Data(this.lss, this.dataServ, this.serv);
+    private showTable = false;
+    private showTableTooltips = true;
+    private tableTooltipsAsFootnotes = false;
+    @ViewChild('latextable') latexTable: ElementRef;
+    @ViewChild('settings') settingsModal: any;
 
     constructor(private http: Http,
                 public serv: ComparisonService,
                 public dataServ: ComparisonDataService,
                 public confServ: ComparisonConfigService,
                 public citationServ: ComparisonCitationService,
-                private cd: ChangeDetectorRef) {
+                private cd: ChangeDetectorRef,
+                private lss: LocalStorageService) {
         this.confServ.loadComparison(this.cd);
         this.confServ.loadCriteria(this.cd);
         this.confServ.loadTableData(this.cd);
@@ -49,39 +58,28 @@ export class ComparisonComponent {
         this.change();
     }
 
-    @ViewChild('details') detailsModal: any;
-    private activeRow: Data = new Data(this.http);
-
     private showDetails(data: Data) {
         this.activeRow = data;
         this.detailsModal.open();
     }
 
-    @ViewChild('settings') settingsModal: any;
-
     private showTableProperties() {
         this.settingsModal.open();
     }
 
-    @ViewChild('latextable') latexTable: ElementRef;
-
     private downloadLatexTable() {
         let content: string = this.latexTable.nativeElement.textContent;
         content = content.substr(content.indexOf('%'), content.length);
-        let blob: Blob = new Blob([content], {type: 'plain/text'});
-        FileSaver.saveAs(blob, "latextable.tex");
+        const blob: Blob = new Blob([content], {type: 'plain/text'});
+        FileSaver.saveAs(blob, 'latextable.tex');
         return window.URL.createObjectURL(blob);
     }
 
-    private showTable: boolean = false;
-    private showTableTooltips: boolean = true;
-    private tableTooltipsAsFootnotes = false;
-
     private previewLatexTable(show) {
         if (show) {
-            this.latexTable.nativeElement.classList.remove("ltable");
+            this.latexTable.nativeElement.classList.remove('ltable');
         } else {
-            this.latexTable.nativeElement.classList.add("ltable");
+            this.latexTable.nativeElement.classList.add('ltable');
         }
     }
 
@@ -93,11 +91,10 @@ export class ComparisonComponent {
             }, 1000);
         }
         return this.ready;
-        ;
     }
 
     public change() {
-        if (this.changed == 1) {
+        if (this.changed === 1) {
             this.changed = 0;
         } else {
             this.changed = 1;
@@ -115,6 +112,11 @@ export class ComparisonComponent {
         if (this.confServ.comparison) {
             this.confServ.comparison.displayall = !this.confServ.comparison.displayall;
         }
+        this.change();
+    }
+
+    public changeEnabled(item: Data) {
+        item.enabled = !item.enabled;
         this.change();
     }
 }

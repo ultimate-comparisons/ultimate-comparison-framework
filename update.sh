@@ -2,8 +2,8 @@
 set -o errexit 
 
 main() {
-    echo "test"
-    
+    echo "Start update..."
+
     # Source directory & target branch.
 	deploy_branch=${GIT_UPDATE_BRANCH:-update}
     
@@ -36,7 +36,8 @@ main() {
 	fi
 		
 	previous_branch=`git rev-parse --abbrev-ref HEAD`
-    
+
+    echo "Update previous branch: ${previous_branch}"
     if git ls-remote --exit-code $repo "refs/heads/$deploy_branch" ; then
 		# deploy_branch exists in $repo; make sure we have the latest version
 		

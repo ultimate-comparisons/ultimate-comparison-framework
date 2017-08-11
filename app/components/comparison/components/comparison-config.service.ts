@@ -1,10 +1,10 @@
-import { Injectable, ChangeDetectorRef } from "@angular/core";
-import { Http } from "@angular/http";
-import { Title } from "@angular/platform-browser";
-import { TableDataSet, CriteriaSet, Comparison, TableData } from "./../shared/index";
-import { ComparisonDataService } from "./comparison-data.service";
-import { ComparisonService } from "./comparison.service";
-import { ComparisonComponent } from "./comparison.component";
+import { Injectable, ChangeDetectorRef } from '@angular/core';
+import { Http } from '@angular/http';
+import { Title } from '@angular/platform-browser';
+import { TableDataSet, CriteriaSet, Comparison, TableData } from './../shared/index';
+import { ComparisonDataService } from './comparison-data.service';
+import { ComparisonService } from './comparison.service';
+import { ComparisonComponent } from './comparison.component';
 
 @Injectable()
 export class ComparisonConfigService {
@@ -12,6 +12,8 @@ export class ComparisonConfigService {
     public criteriaSet: CriteriaSet;
     public comparison: Comparison;
     public description: string;
+    public displayAllName = 'All';
+    public displayAll: boolean;
 
     constructor(public title: Title,
                 private http: Http,
@@ -25,7 +27,7 @@ export class ComparisonConfigService {
                 this.tableDataSet = new TableDataSet(res.json());
                 cd.markForCheck();
                 this.comparisonDataService.loadData(this.tableDataSet, cd);
-            })
+            });
     }
 
     public loadCriteria(cd: ChangeDetectorRef) {
@@ -54,21 +56,22 @@ export class ComparisonConfigService {
     }
 
     public getBodyAttachmentTags(): Array<string> {
-        if (!this.comparison) return new Array<string>();
+        if (!this.comparison) {
+            return [];
+        }
         let tags: Array<string> = this.comparison.details.bodyAttachmentTags;
-        if (tags.length == 0) tags = this.comparisonDataService.getDefaultAttachmentTags();
+        if (tags.length === 0) {
+            tags = this.comparisonDataService.getDefaultAttachmentTags();
+        }
         return tags;
     }
-
-    public displayAllName: string = "All";
-    public displayAll: boolean;
 
     public displayAllChange(toggle: boolean, self: ComparisonComponent) {
         if (this.tableDataSet) {
             this.tableDataSet.getTableDataArray().forEach((item) => {
                 item.display = toggle;
             });
-            this.displayAllName = toggle ? "None" : "All";
+            this.displayAllName = toggle ? 'None' : 'All';
             self.change();
         }
     }

@@ -1,6 +1,7 @@
 # Ultimate Comparison BASE
 
 [![Build Status](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE.svg?branch=master)](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE)
+[![Issue Count](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE/badges/issue_count.svg)](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE)
 
 This is an ultimate comparison framework written in [Angular](https://angular.io/).
 
@@ -20,12 +21,14 @@ This is an ultimate comparison framework written in [Angular](https://angular.io
         git push -u origin master
         
 ### Setup comparison
-1. The file `comparison-configuration/comparison.json` defines the main properties of the comparison and the details dialog.
+1. The initial installation should be done via the `master` branch and updates should be pulled from the `update` branch.
+This is the save route because the `update` branch does not include configuration files.
+2. The file `comparison-configuration/comparison.json` defines the main properties of the comparison and the details dialog.
   
   ![comparison.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/comparison.svg)
   
   In the details dialog the values of the keys `header-label`, `body`, and `body-attachment-tags` matches level 2 headers in the comparison-elements files. The type of the `body-attachment-tags` must be labels and `body` will be parsed as markdown formated text. 
-2. The file `comparison-configuration/table.json` defines the table columns. 
+3. The file `comparison-configuration/table.json` defines the table columns. 
   - `tag:` References a level 2 header of the comparison elements (`Performance`, `Description`, `License`, `Showcase`) or the level 1 header and its content (`tag`, `url`, `descr`).
   - `display:` Allows the user to hide a colum by default. It is possible to dynamically hide or display column by clicking on the configuration button and toggle the columns on/off.
   - `name:` Allows the user to change the display name (default display name is defined by `tag`).
@@ -49,7 +52,7 @@ This is an ultimate comparison framework written in [Angular](https://angular.io
   - `repo`: Signals that the column is dependent on a read repository (up to now only GitHub ones).
 
   ![table.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/table.svg) 
-3. The file `comparison-configuration/criteria.json` defines filter criterias for the table data.
+4. The file `comparison-configuration/criteria.json` defines filter criterias for the table data.
   - `tag:` References a level 2 header of the comparison elements (`Performance`, `Description`, `License`, `Showcase`)
   - `name:` Display name (replaces `tag`).
   - `placeholder:` Placeholder for the select box.
