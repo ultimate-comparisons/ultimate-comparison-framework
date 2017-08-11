@@ -90,11 +90,11 @@ If one column depends on a repository (`repo`-attribute in table.json true), you
 
 6. `npm install`
 7. `npm start` (starts the web page)
-8. [Setup automatic deployment of `www` directory using Travis CI](doc/Travis_Build_Deploy.md)
+8. [Setup automatic deployment of `www` directory using Travis CI](docs/Travis_Build_Deploy.md)
 
 ## Update your comparison
 
-See [docs/Update_YOUR_Comparison.md](doc/Update_YOUR_Comparison.md)
+See [docs/Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)
 
 ## License
 
