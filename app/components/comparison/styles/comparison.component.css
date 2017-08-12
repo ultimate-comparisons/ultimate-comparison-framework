@@ -109,8 +109,8 @@ pdialog {
 .grid-large-content {
     padding: 0 10px 0 10px;
     grid-area: large;
-    display: inline-flex;
-    justify-content: center;
+    display: grid;
+    margin: auto;
 }
 
 .grid-content-latex {
@@ -148,6 +148,12 @@ pdialog {
 
 @media only screen and (min-width: 800px) {
     .grid-container {
-        grid-template-columns: 1fr 900px 1fr;
+        grid-template-columns: 1fr 720px 1fr;
+    }
+}
+
+@media only screen and (min-width: 1160px) {
+    .grid-container {
+        grid-template-columns: 1fr 980px 1fr;
     }
 }
