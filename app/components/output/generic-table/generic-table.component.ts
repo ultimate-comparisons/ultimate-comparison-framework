@@ -1,19 +1,20 @@
 import {
-    Component,
-    Input,
-    Output,
-    EventEmitter,
+    AfterViewChecked,
     ApplicationRef,
     ChangeDetectionStrategy,
-    AfterViewChecked,
     ChangeDetectorRef,
-    OnChanges
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output
 } from '@angular/core';
-import { TableData, Data, CriteriaSelection } from './../../comparison/shared/index';
+import { CriteriaSelection, Data, TableData } from './../../comparison/shared/index';
 import { ComparisonCitationService } from './../../comparison/components/comparison-citation.service';
 import { ComparisonConfigService } from '../../comparison/components/comparison-config.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Http } from '@angular/http';
+
 declare const anchors;
 
 @Component({
@@ -31,7 +32,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     @Input() columns: Array<TableData> = [];
 
     @Input() data: Array<Data> = [];
-    @Input() query: {[name: string]: CriteriaSelection; } = {};
+    @Input() query: { [name: string]: CriteriaSelection; } = {};
     @Input() displayTemplate = false;
 
     @Input() citationServ: ComparisonCitationService;

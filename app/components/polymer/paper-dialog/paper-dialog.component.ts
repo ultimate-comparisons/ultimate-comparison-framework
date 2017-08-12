@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, Renderer } from '@angular/core';
 
 @Component({
     selector: 'pdialog',
@@ -19,7 +19,7 @@ export class PaperDialogComponent {
     }
 
     public open() {
-        this.renderer.setElementStyle(this.el.nativeElement, 'display', 'block');
+        this.renderer.setElementStyle(this.el.nativeElement, 'display', 'grid');
         document.body.classList.add('modal-open');
         this.opened = true;
     }

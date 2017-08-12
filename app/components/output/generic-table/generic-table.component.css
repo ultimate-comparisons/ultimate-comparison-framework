@@ -2,9 +2,13 @@
     display: block;
 }
 
-table {
-    min-width: 600px;
-    margin-bottom: 0;
+.grid-table {
+    display: grid;
+    grid-template-columns: auto;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-auto-flow: column;
+
 }
 
 .mylabel {
@@ -24,7 +28,11 @@ th > button {
     border: none;
     padding: 0;
     outline: none;
-    background-color: inherit;
+    background-color: white;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0; /* required */
+
 }
 
 table tr {

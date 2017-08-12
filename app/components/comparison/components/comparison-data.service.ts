@@ -1,6 +1,6 @@
-import { Injectable, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { TableDataSet, Data, Property, ListItem, RatingSet } from './../shared/index';
+import { Data, ListItem, Property, RatingSet, TableDataSet } from './../shared/index';
 import { ComparisonService } from './comparison.service';
 import { LocalStorageService } from "angular-2-local-storage";
 
@@ -9,7 +9,7 @@ declare const moment;
 @Injectable()
 export class ComparisonDataService {
     private data: Array<Data> = [];
-    private tags: {[name: string]: string; } = {};
+    private tags: { [name: string]: string; } = {};
 
     constructor(private http: Http,
                 private comparisonService: ComparisonService,
@@ -78,12 +78,16 @@ export class ComparisonDataService {
 
     public getRepoData(data: Data, repo: string) {
         repo = repo.replace(/^-\s*/, "");
-        this.http.get(this.repoQueryBuildUrl(repo)).toPromise().then(function (res) {
-            const body = JSON.parse(res["_body"]);
-            const date = moment(body[0].commit.author.date);
-            const sync = moment();
-            data.setRepoData({lastCommit: date.toDate(), lastSync: sync.toDate()});
-        });
+        this.http.get(this.repoQueryBuildUrl(repo)).toPromise()
+            .then(function (res) {
+                const body = JSON.parse(res["_body"]);
+                const date = moment(body[0].commit.author.date);
+                const sync = moment();
+                data.setRepoData({lastCommit: date.toDate(), lastSync: sync.toDate()});
+            })
+            .catch(function (error) {
+                console.log("GetRepoData() throws error for " + repo);
+            });
     }
 
     private repoQueryBuildUrl(repoUrl: string) {

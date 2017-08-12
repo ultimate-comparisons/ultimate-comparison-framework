@@ -2,7 +2,7 @@
     <thead style="background-color: white;">
     <tr>
         <template ngFor let-column [ngForOf]="columns | tablefilter">
-            <th valign=column.valign style=column.style name=column.tag>
+            <th>
                 <button (click)="orderClick($event, column.tag)">{{column.name}}
                     <iicon icon="keyboard-arrow-up" *ngIf="displayOrder(column.tag, -1)"></iicon>
                     <iicon icon="keyboard-arrow-down" *ngIf="displayOrder(column.tag, 1)"></iicon>
