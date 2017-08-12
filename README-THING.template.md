@@ -5,27 +5,26 @@
 This is an ultimate comparison of THINGs.
 
 ## Test it
-
 1. Install [node.js](https://nodejs.org/en/)
   - Windows: `choco install nodejs` via [chocolatey](https://chocolatey.org/)
-2. Install [Java JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+2. Windows: Install required tooling:
+  - In an adminstrative shell: `npm install --global --production windows-build-tools` [source](https://github.com/nodejs/node-gyp#option-1)
+3. Install [Java JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
   - Windows: `choco install jdk8`
-3. Install [pandoc](http://pandoc.org/installing.html) (Version 1.17.2)
+5. Install [pandoc](http://pandoc.org/installing.html) (Version 1.17.2) [pandoc-citeproc](https://hackage.haskell.org/package/pandoc-citeproc)
    - Linux:
      1. `wget https://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb`
      2. `sudo dpkg -i pandoc-1.17.2-1-amd64.deb`
    - Windows: `choco install pandoc`
-4. Install [pandoc-citeproc](https://hackage.haskell.org/package/pandoc-citeproc)
-5. Update npm (sudo): `npm install -g npm`
-6. Test dependencies:
+6. Update npm (sudo): `npm install -g npm`
+7. Test dependencies:
 
         java -version
         npm -version
 
-7. `npm install`
-8. `npm start` (starts the web page)
-9. [Setup automatic deployment of `www` directory using Travis CI](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/wiki/Build-and-deploy-project-with-Travis-CI)
-
+8. `npm install`
+9. `npm start` (starts the web page)
+10. [Setup automatic deployment of `www` directory using Travis CI](docs/Travis_Build_Deploy.md)
 
 ## Ultimate-THING-Comparison Element Specification
 
