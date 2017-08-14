@@ -10,9 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Enabling and disabling elements
 - Improved foreground colors when auto assigning
 
-## [1.0.0] - 2017-08-03
+## [1.0.0] - unreleased
 ### Added
 - This file
 - Static VersionInformation class
 - Section about difference of `update` and `master` branch in README.md
+- Added force push for deployment
+- Moved deployment to .travis.yml
 - Added tslint
+
+### Fixed
+- Rate Limit exceeded for GitHub for up to 60 elements.

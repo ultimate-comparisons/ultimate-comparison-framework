@@ -68,7 +68,8 @@ This is the save route because the `update` branch does not include configuratio
 ### Define comparison elements
 For each thing, create a markdown file in `comparison-elements`.
 You can base it on `template.md`.
-If one column depends on a repository (`repo`-attribute in table.json true), you have to define a section (two \#) and add the repository as first list item, eg:
+If one column depends on a repository (`repo`-attribute in table.json true), you have to define a section (`## section title`) and add the repository as first list item, eg:
+
 ```markdown
 ## Repo
 - https://github.com/ultimate-comparisons/ultimate-comparison-BASE
@@ -76,25 +77,29 @@ If one column depends on a repository (`repo`-attribute in table.json true), you
 
 ## Test it
 1. Install [node.js](https://nodejs.org/en/)
-2. Intall [Java JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-3. Install [pandoc](http://pandoc.org/installing.html) (Version 1.17.2) [pandoc-citeproc](https://hackage.haskell.org/package/pandoc-citeproc)
-        
-        wget https://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb
-        sudo dpkg -i pandoc-1.17.2-1-amd64.deb
-        
-4. Update npm (sudo): `npm install -g npm`
-5. Test dependencies:
+  - Windows: `choco install nodejs` via [chocolatey](https://chocolatey.org/)
+2. Windows: Install required tooling:
+  - In an adminstrative shell: `npm install --global --production windows-build-tools` [source](https://github.com/nodejs/node-gyp#option-1)
+3. Install [Java JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+  - Windows: `choco install jdk8`
+5. Install [pandoc](http://pandoc.org/installing.html) (Version 1.17.2) [pandoc-citeproc](https://hackage.haskell.org/package/pandoc-citeproc)
+   - Linux:
+     1. `wget https://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb`
+     2. `sudo dpkg -i pandoc-1.17.2-1-amd64.deb`
+   - Windows: `choco install pandoc`
+6. Update npm (sudo): `npm install -g npm`
+7. Test dependencies:
 
         java -version
         npm -version
 
-6. `npm install`
-7. `npm start` (starts the web page)
-8. [Setup automatic deployment of `www` directory using Travis CI](doc/Travis_Build_Deploy.md)
+8. `npm install`
+9. `npm start` (starts the web page)
+10. [Setup automatic deployment of `www` directory using Travis CI](docs/Travis_Build_Deploy.md)
 
 ## Update your comparison
 
-See [docs/Update_YOUR_Comparison.md](doc/Update_YOUR_Comparison.md)
+See [docs/Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)
 
 ## License
 

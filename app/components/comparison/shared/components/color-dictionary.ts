@@ -9,7 +9,7 @@ export class ColorDictionary {
         if (this.colorDict[label]) {
             return this.colorDict[label];
         } else {
-            return "";
+            return '';
         }
     }
 

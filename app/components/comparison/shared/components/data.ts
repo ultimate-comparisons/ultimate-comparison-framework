@@ -1,123 +1,142 @@
-import { Property, ListItem, RatingSet, Rating } from "./../index";
-import { isNullOrUndefined } from "util";
-import { TableData } from "./table-data";
-import { Http } from "@angular/http";
-import { ChangeDetectorRef } from "@angular/core";
+import { Property, ListItem, RatingSet, Rating } from './../index';
+import { isNullOrUndefined } from 'util';
+import { TableData } from './table-data';
+import { ChangeDetectorRef } from '@angular/core';
+import { ComparisonService } from '../../components/comparison.service';
+import { LocalStorageService } from 'angular-2-local-storage';
+import { ComparisonDataService } from '../../components/comparison-data.service';
 
-declare let moment: any;
+declare const moment: any;
 
 export class Data {
-    private repoLabels: {[column: string]: Array<{htmlChilds: string, content: string}>} = {};
+    private static repoData: {[name: string]: {lastCommit: Date, lastSync: Date}} = {};
+    private changeDetector: ChangeDetectorRef = null;
 
-    constructor(private http: Http,
-                public tag: string = "",
-                public descr: string = "",
-                public url: string = "",
-                public properties: {[name: string]: Property;} = {},
+    constructor(private lss: LocalStorageService,
+                private dataService: ComparisonDataService,
+                private comparisonService: ComparisonService,
+                public tag: string = '',
+                public descr: string = '',
+                public url: string = '',
+                public properties: {[name: string]: Property; } = {},
                 public rating: RatingSet = new RatingSet({}),
                 public enabled: boolean = true) {
+        const temp: any = this.lss.get('repoData') || null;
+        if (temp !== null) {
+            if (Data.repoData === null) {
+                Data.repoData = {};
+            }
+            for (const key in temp) {
+                if (!temp.hasOwnProperty(key)) {
+                    continue;
+                }
+                Data.repoData[key] = {lastCommit: new Date(temp[key].lastCommit), lastSync: new Date(temp[key].lastSync)};
+            }
+        }
     }
 
     public getProperty(name: string): Property {
         switch (name) {
-            case "tag":
+            case 'tag':
                 return new Property(this.tag, this.tag);
-            case "descr":
+            case 'descr':
                 return new Property(this.descr, this.descr);
-            case "url":
+            case 'url':
                 return new Property(this.url, this.url);
-            case "Rating":
-                return new Property(this.getRating() + "", this.getRating() + "");
+            case 'Rating':
+                return new Property(this.getRating() + '', this.getRating() + '');
             default:
                 return this.properties[name] ? this.properties[name] : new Property();
         }
     }
 
     public getRepoLabels(td: TableData, change: ChangeDetectorRef) {
-        if (isNullOrUndefined(this.properties["Repo"]) || isNullOrUndefined(this.properties["Repo"].list[0])) {
-            return new Property();
+        if (this.changeDetector === null) {
+            this.changeDetector = change;
         }
+        moment.relativeTimeThreshold('m', 60);
+        if (isNullOrUndefined(Data.repoData[this.tag]) ||
+            moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('hour ago') ||
+            moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('hours ago') ||
+            moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('days ago')) {
+
+            this.dataService.getRepoData(this, this.properties['Repo'].plain);
+            this.updateRepoLabels(td);
+        }
+        if (isNullOrUndefined(this.properties[td.tag])) {
+            this.updateRepoLabels(td);
+        }
+        return this.properties[td.tag];
+    }
+
+    public updateRepoLabels(td: TableData) {
+        if (isNullOrUndefined(Data.repoData[this.tag])) {
+            return;
+        }
+        const current = moment(Data.repoData[this.tag].lastCommit);
+        const now = moment();
         if (!isNullOrUndefined(this.properties[td.tag])) {
-            return this.properties[td.tag];
+            this.properties[td.tag].list = [];
+        } else {
+            this.properties[td.tag] = new Property();
         }
-        const repoUrl: string = this.properties["Repo"].list[0].content;
-        const url = this.repoQueryBuildUrl(repoUrl);
-        if (url === "") {
-            return new Property();
-        }
-        this.http.get(url).toPromise().then(res => {
-            const d: any = {};
-            const commitDate = new Date(res.json()[0].commit.author.date);
-            let child: string = "The last commit is ";
-            const cd = moment(commitDate);
-            const now = moment();
+        for (const key in td.values) {
+            if (!td.values.hasOwnProperty(key)) {
+                continue;
+            }
+
+            const value = td.values[key];
+
+            let child = 'The last commit is ';
             const dateStrings = ['years', 'months', 'days', 'hours', 'minutes', 'seconds'];
             for (const s of dateStrings) {
-                const diff = Math.abs(now.diff(cd, s));
+                const diff = Math.abs(now.diff(current, s));
                 if (diff !== 0) {
                     child += diff;
                     // append unit in singular or plural
-                    child += " " + (diff === 1 ? s.substr(0, s.length - 1) : s);
+                    child += ' ' + (diff === 1 ? s.substr(0, s.length - 1) : s);
                     break;
                 }
             }
-            child += " old";
-            d.htmlChilds = child;
-            for (const value in td.values) {
-                if (isNullOrUndefined(td.values[value]["min-age"])) {
-                    continue;
-                }
-                const min = td.values[value]["min-age"];
+            child += ' old';
 
-                const minUnit = td.values[value]["min-age-unit"];
-                const minDiff = Math.abs(now.diff(cd, minUnit));
-                const max = td.values[value]["max-age"];
+            const min = value['min-age'];
+            const minUnit = value['min-age-unit'];
+            const max = value['max-age'];
+            const maxUnit = value['max-age-unit'];
 
-                const maxUnit = td.values[value]["max-age-unit"];
-                const maxDiff = Math.abs(now.diff(cd, maxUnit));
-                // min === -1 => no limit
-                // same for max
+            const minDiff = Math.abs(now.diff(current, minUnit));
+            const maxDiff = Math.abs(now.diff(current, maxUnit));
 
-                let property: Property;
-                for (const prop in this.properties) {
-                    if (prop === td.tag) {
-                        property = this.properties[prop];
-                        break;
-                    }
-                }
-                if (isNullOrUndefined(property)) {
-                    property = new Property();
-                }
-                if ((min === -1 || min <= minDiff) && (max === -1 || max > maxDiff)) {
-                    d.content = value;
-                    for (const item of property.list) {
-                        if (item.content === d.content) {
-                            property.list.splice(property.list.indexOf(item), 1);
-                        }
-                    }
-                    property.list.push(d);
-                    property.plain += " " + (cd.unix() - now.unix());
-                    property.plain = property.plain.trim();
-                }
-                this.properties[td.tag] = property;
+            if ((min === -1 || minDiff >= min) && (max === -1 || maxDiff < max)) {
+                this.properties[td.tag].list.push(new ListItem(key, child, this.comparisonService.converter));
+                return this.properties[td.tag];
             }
-            change.markForCheck();
-        });
-        return new Property()
+        }
     }
 
-    private repoQueryBuildUrl(repoUrl: string) {
-        let url: string;
-        if (/https?:\/\/github\.com.*/.test(repoUrl)) {
-            url = repoUrl.replace(/https?:\/\/github.com/, "https://api.github.com/repos");
-            url += url.endsWith("/") ? "commits" : "/commits";
+    public setRepoData(data: {lastCommit: Date, lastSync: Date}) {
+        if (Data.repoData === null) {
+            Data.repoData = {};
         }
-        return url;
+        Data.repoData[this.tag] = data;
+        const saving = {};
+        for (const d in Data.repoData) {
+            if (Data.repoData.hasOwnProperty(d)) {
+                continue;
+            }
+            saving[d] = {
+                lastCommit: Data.repoData[d].lastCommit.getTime(),
+                lastSync: Data.repoData[d].lastSync.getTime()
+            };
+        }
+        this.lss.set('repoData', saving);
+        this.changeDetector.markForCheck();
     }
 
     public getPropertyTags(name: string): Array<string> {
-        let tagList: Array<string> = new Array<string>();
-        let p: Property = this.getProperty(name);
+        const tagList: Array<string> = [];
+        const p: Property = this.getProperty(name);
         p.list.forEach(item => {
             tagList.push(item.content);
         });
