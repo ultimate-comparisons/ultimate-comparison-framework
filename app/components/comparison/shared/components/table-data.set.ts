@@ -55,6 +55,14 @@ export class TableDataSet {
                     }
                 }
             }
+            const foregroundColors: ColorDictionary = new ColorDictionary();
+            if (obj.type && obj.type.values) {
+                for (const v of obj.type.values) {
+                    if (v.foreground) {
+                        foregroundColors.setColor(v.name, v.foreground);
+                    }
+                }
+            }
             const type: Type = new Type(
                 obj.type.tag,
                 obj.type.class,

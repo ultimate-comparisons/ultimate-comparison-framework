@@ -6,7 +6,8 @@ import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
 import { VersionInformation } from '../../../VersionInformation';
 import { Http } from '@angular/http';
-import { LocalStorageService } from "angular-2-local-storage";
+import { LocalStorageService } from 'angular-2-local-storage';
+import { TableData } from '../shared/components/table-data';
 
 const FileSaver = require('file-saver');
 
@@ -30,6 +31,8 @@ export class ComparisonComponent {
     private tableTooltipsAsFootnotes = false;
     @ViewChild('latextable') latexTable: ElementRef;
     @ViewChild('settings') settingsModal: any;
+    private expandShrinkOrigDisplay: Array<TableData> = [];
+    private expanded = false;
 
     constructor(private http: Http,
                 public serv: ComparisonService,
@@ -117,6 +120,41 @@ export class ComparisonComponent {
 
     public changeEnabled(item: Data) {
         item.enabled = !item.enabled;
+        this.change();
+    }
+
+    public shrinkExpand(event: MouseEvent) {
+        const span = <HTMLElement> (event.target || event.srcElement);
+        if (span.innerHTML === '&lt;&gt;') {
+            span.innerHTML = '&gt;&lt;';
+            this.expand();
+        } else if (span.innerHTML === '&gt;&lt;') {
+            span.innerHTML = '&lt;&gt;';
+            this.shrink();
+        }
+    }
+
+    private shrink() {
+        const set = this.confServ.tableDataSet.getTableDataArray();
+        for (const td of set) {
+            if (td.display && this.expandShrinkOrigDisplay.indexOf(td) === -1) {
+                td.display = false;
+            }
+        }
+        this.cd.markForCheck();
+        this.change();
+    }
+
+    private expand() {
+        const set = this.confServ.tableDataSet.getTableDataArray();
+        for (const td of set) {
+            if (td.display) {
+                this.expandShrinkOrigDisplay.push(td);
+            } else {
+                td.display = true;
+            }
+        }
+        this.cd.markForCheck();
         this.change();
     }
 }
