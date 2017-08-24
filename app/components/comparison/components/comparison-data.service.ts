@@ -78,7 +78,11 @@ export class ComparisonDataService {
 
     public getRepoData(data: Data, repo: string) {
         repo = repo.replace(/^-\s*/, "");
-        this.http.get(this.repoQueryBuildUrl(repo)).toPromise()
+        const url = this.repoQueryBuildUrl(repo);
+        if (url === null) {
+            return;
+        }
+        this.http.get(url).toPromise()
             .then(function (res) {
                 const body = JSON.parse(res["_body"]);
                 const date = moment(body[0].commit.author.date);
@@ -91,6 +95,9 @@ export class ComparisonDataService {
     }
 
     private repoQueryBuildUrl(repoUrl: string) {
+        if (!repoUrl) {
+            return null;
+        }
         let url: string;
         if (/https?:\/\/github\.com.*/.test(repoUrl.trim())) {
             url = repoUrl.trim().replace(/https?:\/\/github.com/, "https://api.github.com/repos");
