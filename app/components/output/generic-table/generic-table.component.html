@@ -36,6 +36,9 @@
                             </div>
                         </ptooltip>
                     </template>
+                    <ptooltip *ngIf="dat.getPropertyListItems(column.tag).length === 0" [tooltipHtml]="'There was no value for this field. Please submit one via pull request.'">
+                        <div class="label mylabel unknown">unknown</div>
+                    </ptooltip>
                 </td>
                 <td *ngIf="column.type?.tag==='label' && column.repo">
                     <template ngFor let-sitem [ngForOf]="dat.getRepoLabels(column, cd)?.list"
@@ -49,6 +52,9 @@
                             </div>
                         </ptooltip>
                     </template>
+                    <ptooltip *ngIf="dat.getRepoLabels(column, cd) === undefined" [tooltipHtml]="'There was no value for this field. Please submit one via pull request.'">
+                        <div class="label mylabel unknown">unknown</div>
+                    </ptooltip>
                 </td>
                 <td *ngIf="column.type?.tag=='rating'">
                     <iicon icon="star" *ngIf="dat.getRating()!=0">{{dat.getRating()}}</iicon>
