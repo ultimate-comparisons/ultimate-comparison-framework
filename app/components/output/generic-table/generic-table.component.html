@@ -36,7 +36,7 @@
                             </div>
                         </ptooltip>
                     </template>
-                    <ptooltip *ngIf="dat.getPropertyListItems(column.tag).length === 0" [tooltipHtml]="'The semantics of this value are unknown'">
+                    <ptooltip *ngIf="dat.getPropertyListItems(column.tag).length === 0" [tooltipHtml]="'There was no value for this field. Please submit one via pull request.'">
                         <div class="label mylabel unknown">unknown</div>
                     </ptooltip>
                 </td>
@@ -52,7 +52,7 @@
                             </div>
                         </ptooltip>
                     </template>
-                    <ptooltip *ngIf="dat.getRepoLabels(column, cd) === undefined" [tooltipHtml]="'The semantics of this value are unknown'">
+                    <ptooltip *ngIf="dat.getRepoLabels(column, cd) === undefined" [tooltipHtml]="'There was no value for this field. Please submit one via pull request.'">
                         <div class="label mylabel unknown">unknown</div>
                     </ptooltip>
                 </td>
