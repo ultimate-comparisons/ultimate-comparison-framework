@@ -110,6 +110,7 @@ export class Data {
 
             if ((min === -1 || minDiff >= min) && (max === -1 || maxDiff < max)) {
                 this.properties[td.tag].list.push(new ListItem(key, child, this.comparisonService.converter));
+                this.properties[td.tag].plain = Math.abs(now.diff(current));
                 return this.properties[td.tag];
             }
         }
