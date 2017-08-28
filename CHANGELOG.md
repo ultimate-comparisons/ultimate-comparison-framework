@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Enabling and disabling elements
+- Clicking labels for filtering
+
+### Changed
+- replaced angular2-select with ng2-select
 
 ## [1.0.0] - unreleased
 ### Added
