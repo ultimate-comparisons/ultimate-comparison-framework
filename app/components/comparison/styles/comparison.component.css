@@ -159,15 +159,10 @@ pdialog {
 }
 
 .shrink-expand {
-    transform: scale(1, 3) translate(0, -3px);
-    -webkit-transform: scale(1, 3) translate(0, -3px);
-    -moz-transform: scale(1, 3) translate(0, -3px);
-    -ms-transform: scale(1, 3) translate(0, -3px);
-    -o-transform: scale(1, 3) translate(0, -3px);
-    cursor: default;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;;
+    justify-self: right;
+    -webkit-transform: translate(0, -50px);
+    -moz-transform: translate(0, -50px);
+    -ms-transform: translate(0, -50px);
+    -o-transform: translate(0, -50px);
+    transform: translate(0, -50px);
 }

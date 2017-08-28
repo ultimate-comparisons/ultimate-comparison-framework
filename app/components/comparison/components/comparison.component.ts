@@ -8,6 +8,7 @@ import { VersionInformation } from '../../../VersionInformation';
 import { Http } from '@angular/http';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { TableData } from '../shared/components/table-data';
+import { IronIconComponent } from "../../polymer/iron-icon/iron-icon.component";
 
 const FileSaver = require('file-saver');
 
@@ -33,6 +34,7 @@ export class ComparisonComponent {
     @ViewChild('settings') settingsModal: any;
     private expandShrinkOrigDisplay: Array<TableData> = [];
     private expanded = false;
+    @ViewChild('shrinkExpandId') shrinkExpandComponent: IronIconComponent;
 
     constructor(private http: Http,
                 public serv: ComparisonService,
@@ -123,15 +125,17 @@ export class ComparisonComponent {
         this.change();
     }
 
-    public shrinkExpand(event: MouseEvent) {
-        const span = <HTMLElement> (event.target || event.srcElement);
-        if (span.innerHTML === '&lt;&gt;') {
-            span.innerHTML = '&gt;&lt;';
+    public shrinkExpand(iicon: IronIconComponent) {
+        console.log(iicon)
+        if (iicon.icon === 'resize-full') {
+            iicon.setIcon('resize-small');
             this.expand();
-        } else if (span.innerHTML === '&gt;&lt;') {
-            span.innerHTML = '&lt;&gt;';
+        } else if (iicon.icon === 'resize-small') {
+            iicon.setIcon('resize-full');
             this.shrink();
         }
+        this.cd.markForCheck();
+        this.change();
     }
 
     private shrink() {
@@ -141,8 +145,6 @@ export class ComparisonComponent {
                 td.display = false;
             }
         }
-        this.cd.markForCheck();
-        this.change();
     }
 
     private expand() {
@@ -154,7 +156,5 @@ export class ComparisonComponent {
                 td.display = true;
             }
         }
-        this.cd.markForCheck();
-        this.change();
     }
 }

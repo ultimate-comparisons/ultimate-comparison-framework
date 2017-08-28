@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'iicon',
@@ -8,4 +8,18 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 })
 export class IronIconComponent {
     @Input() icon: string;
+    private changed = 0;
+
+    public setIcon(icon: string) {
+        this.icon = icon;
+        this.change();
+    }
+
+    public change() {
+        if (this.changed === 0) {
+            this.changed = 1;
+        } else {
+            this.changed = 0;
+        }
+    }
 }

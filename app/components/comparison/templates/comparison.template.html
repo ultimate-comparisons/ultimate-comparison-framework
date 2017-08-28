@@ -47,7 +47,7 @@
     </div>
     <div class="grid-large-content">
         <pcard heading="{{confServ.comparison?.tabletitle}}">
-            <span class="shrink-expand" (click)="shrinkExpand($event)"><></span>
+            <iicon #shrinkExpandId icon="resize-full" class="shrink-expand" (click)="shrinkExpand(this.shrinkExpandComponent)"></iicon>
             <generictable [display]="confServ.tableDataSet" [settings]="'true'"
                           [columns]="confServ.tableDataSet.getTableDataArray()" [data]="dataServ.data"
                           [query]="query"
