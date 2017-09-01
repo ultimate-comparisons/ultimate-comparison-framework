@@ -13,20 +13,20 @@
 }
 
 :host /deep/ .below {
-    border: 0 !important;
-    border-bottom: 1px solid #aaa !important;
-    border-radius: 0 !important;
+    border: 0;
+    border-bottom: 1px solid #aaa;
+    border-radius: 0;
 }
 
 :host /deep/ .option {
-    background-color: #777 !important;
-    color: #fff !important;
+    background-color: #777;
+    color: #fff;
     font-weight: bold;
-    border-radius: 4px !important;
+    border-radius: 4px;
 }
 
 :host /deep/ .deselect-option {
-    color: #fff !important;
+    color: #fff;
 }
 
 :host /deep/ li[role="menuitem"] {
