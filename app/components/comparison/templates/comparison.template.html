@@ -46,7 +46,8 @@
         </pcard>
     </div>
     <div class="grid-large-content">
-        <pcard #genericTableHeader [comparisonComponent]="this" heading="{{confServ.comparison?.tabletitle}}" [symbol]="true">
+        <pcard #genericTableHeader (shrinkExpandEmitter)="shrinkExpand(this)"
+               heading="{{confServ.comparison?.tabletitle}}" [symbol]="true">
             <generictable [display]="confServ.tableDataSet" [settings]="'true'"
                           [columns]="confServ.tableDataSet.getTableDataArray()" [data]="dataServ.data"
                           [query]="query"
