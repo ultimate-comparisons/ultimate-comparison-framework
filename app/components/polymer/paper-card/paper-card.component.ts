@@ -1,4 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ComparisonComponent } from "../../comparison/components/comparison.component";
 
 @Component({
     selector: 'pcard',
@@ -8,4 +9,10 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 })
 export class PaperCardComponent {
     @Input() heading: string;
+    @Input() symbol = false;
+    @Input() comparisonComponent: ComparisonComponent = null;
+
+    public shrinkExpand() {
+        this.comparisonComponent.shrinkExpand();
+    }
 }
