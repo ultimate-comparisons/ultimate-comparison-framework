@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit, EventEmitter } from '@angular/core';
 import { Data, CriteriaSelection, Criteria } from '../shared/index';
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
@@ -9,6 +9,8 @@ import { Http } from '@angular/http';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { TableData } from '../shared/components/table-data';
 import { IronIconComponent } from "../../polymer/iron-icon/iron-icon.component";
+import { PaperCardComponent } from "../../polymer/paper-card/paper-card.component";
+import { isNullOrUndefined } from "util";
 
 const FileSaver = require('file-saver');
 
@@ -17,7 +19,7 @@ const FileSaver = require('file-saver');
     templateUrl: '../templates/comparison.template.html',
     styleUrls: ['../styles/comparison.component.css']
 })
-export class ComparisonComponent {
+export class ComparisonComponent implements AfterViewInit {
     criteriaSelection = [];
     private query: {[name: string]: CriteriaSelection; } = {};
     private changed = 0;
@@ -32,6 +34,7 @@ export class ComparisonComponent {
     private tableTooltipsAsFootnotes = false;
     @ViewChild('latextable') latexTable: ElementRef;
     @ViewChild('settings') settingsModal: any;
+    @ViewChild('genericTableHeader') genericTableHeader: PaperCardComponent;
     private expandShrinkOrigDisplay: Array<TableData> = [];
     public shrinked = true;
 
@@ -47,6 +50,12 @@ export class ComparisonComponent {
         this.confServ.loadTableData(this.cd);
         this.confServ.loadDescription(this.cd);
         this.citationServ.loadCitationData(this.cd);
+    }
+
+    ngAfterViewInit(): void {
+        if (this.genericTableHeader) {
+            this.genericTableHeader.shrinkExpandEmitter.subscribe(this.shrinkExpand);
+        }
     }
 
     public getVersionInformation(): VersionInformation {
@@ -125,11 +134,12 @@ export class ComparisonComponent {
     }
 
     public shrinkExpand() {
-        if (this.shrinked) {
-            this.shrinked = false;
+        console.log(this);
+        if (this.genericTableHeader.shrinked) {
+            this.genericTableHeader.shrinked = false;
             this.expand();
-        } else if (!this.shrinked) {
-            this.shrinked = true;
+        } else if (!this.genericTableHeader.shrinked) {
+            this.genericTableHeader.shrinked = true;
             this.shrink();
         }
         this.cd.markForCheck();
