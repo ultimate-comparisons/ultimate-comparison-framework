@@ -33,7 +33,7 @@
     z-index: 5000;
 }
 
-:host /deep/ div.ui-select-container.ui-select-multiple.dropdown.form-control.open {
+:host /deep/ .ui-select-container.ui-select-multiple.dropdown.form-control.open {
     z-index: initial;
     line-height:20px;
     margin:0;

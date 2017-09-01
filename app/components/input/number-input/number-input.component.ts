@@ -29,6 +29,21 @@ export class NumberInputComponent implements InputInterface {
         if (isNullOrUndefined(this.content)) {
             return;
         }
+
+        // regex for finding out if the item is already in the list.
+        // tests "^ *item *$", "^ *item *,", ", *item *$", and ", *item *,"
+        // these represent following patterns:
+        // 1. arbitrary number of spaces, item, arbitrary number of spaces, complete field
+        // 2. arbitrary number of spaces, item, arbitrary number of spaces, comma, start of field
+        // 3. comma, arbitrary number of spaces, item, arbitrary number of spaces, end of field
+        // 4. comma, arbitrary number of spaces, item, arbitrary number of spaces, comma, in the middle of the field
+        // The commas are needed to make sure that it matches the complete number instead of partly, because else
+        // "13" would match the pattern "3$".
+        const regex = '(^ *' + item + ' *$|^ *' + item + ' *,|, *' + item + ' *,|, *' + item + ' *$)';
+        if (new RegExp(regex).test(this.content.nativeElement.value)) {
+            return;
+        }
+
         if (this.content.nativeElement.value !== '') {
             item = ', ' + item;
         }

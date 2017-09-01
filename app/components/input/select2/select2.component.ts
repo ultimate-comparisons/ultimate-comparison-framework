@@ -55,6 +55,12 @@ export class Select2Component implements InputInterface {
                 break;
             }
         }
+
+        // JS (and thus TS) has no contains method for arrays.
+        // A workaround is checking if the index of an element is -1 (indicating not present)
+        if (this.ngSelect.active.indexOf(value) !== -1) {
+            return;
+        }
         this.ngSelect.active.push(value);
         this.cd.markForCheck();
     }

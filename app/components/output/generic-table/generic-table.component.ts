@@ -18,6 +18,7 @@ import { ComparisonComponent } from '../../comparison/components/comparison.comp
 import { Select2Component } from '../../input/select2/select2.component';
 import { InputInterface } from "../../input/input-interface";
 import { NumberInputComponent } from "../../input/number-input/number-input.component";
+import { Criteria } from "../../comparison/shared/components/criteria";
 
 declare const anchors;
 
@@ -178,7 +179,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     }
 
     public searchFor(column: string, value: string | number) {
-        let c = null;
+        let c: Criteria = null;
         for (const crit of this.confServ.criteriaSet.getCriteriaArray()) {
             if (crit.name === column || crit.tag === column) {
                 c = crit;
@@ -186,6 +187,10 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
             }
         }
         if (c === null) {
+            return;
+        }
+
+        if (c.values.indexOf(value) !== -1) {
             return;
         }
 
