@@ -48,7 +48,6 @@ gulp.task('build-data', function (callback) {
 gulp.task('determinecolors', function () {
     const input = './comparison-configuration/table.json';
     const colorArray = [
-        'hsl(000, 100%, 70%)',
         'hsl(15, 100%, 70%)',
         'hsl(30, 100%, 70%)',
         'hsl(45, 100%, 70%)',
@@ -70,8 +69,31 @@ gulp.task('determinecolors', function () {
         'hsl(285, 100%, 70%)',
         'hsl(300, 100%, 70%)',
         'hsl(315, 100%, 70%)',
-        'hsl(330, 100%, 70%)',
-        'hsl(345, 100%, 70%)'
+        'hsl(330, 100%, 70%)'
+    ];
+    var foregroundArray = [
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#ffff00",
+        "#ffff00",
+        "#ffff00",
+        "#ffff00",
+        "#ffff00",
+        "#0d0d0d",
+        "#0d0d0d",
+        "#0d0d0d"
     ];
     let color;
     let data = JSON.parse(fs.readFileSync(input, "utf8"));
@@ -113,6 +135,7 @@ gulp.task('determinecolors', function () {
                 let v = vals[j];
                 if (!(v.hasOwnProperty("class") || v.hasOwnProperty("color"))) {
                     v.color = colorArray[color];
+                    v.foreground = foregroundArray[color];
                     changed = true;
                     color = (color + delta) % colorArray.length;
                 }
