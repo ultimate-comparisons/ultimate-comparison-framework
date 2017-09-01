@@ -33,7 +33,7 @@ export class ComparisonComponent {
     @ViewChild('latextable') latexTable: ElementRef;
     @ViewChild('settings') settingsModal: any;
     private expandShrinkOrigDisplay: Array<TableData> = [];
-    private shrinked = true;
+    public shrinked = true;
 
     constructor(private http: Http,
                 public serv: ComparisonService,
@@ -124,7 +124,7 @@ export class ComparisonComponent {
         this.change();
     }
 
-    public shrinkExpand(iicon: IronIconComponent) {
+    public shrinkExpand() {
         if (this.shrinked) {
             this.shrinked = false;
             this.expand();
