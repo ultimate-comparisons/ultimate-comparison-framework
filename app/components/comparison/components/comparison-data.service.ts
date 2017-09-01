@@ -76,7 +76,8 @@ export class ComparisonDataService {
             });
     }
 
-    public getRepoData(data: Data, repo: string) {
+    public getRepoData(data: Data, repo: string | number) {
+        repo = <string> repo;
         repo = repo.replace(/^-\s*/, "");
         const url = this.repoQueryBuildUrl(repo);
         if (url === null) {

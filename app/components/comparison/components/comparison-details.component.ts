@@ -4,6 +4,7 @@ import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
+import { isNullOrUndefined } from "util";
 
 @Component({
     selector: 'comparison-details',
@@ -37,9 +38,12 @@ export class ComparisonDetailsComponent {
     }
 
     private getBody(): string {
+        let data = <string> this.data.getProperty(this.confServ.comparison.details.body).plain;
+        if (isNullOrUndefined(data)) {
+            data = String(this.data.getProperty(this.confServ.comparison.details.body).plain);
+        }
         const body = this.confServ.comparison ?
-            this.serv.converter.makeHtml(this.data.getProperty(this.confServ.comparison.details.body).plain) :
-            '';
+            this.serv.converter.makeHtml(data) : '';
         if (body && body !== this.body) {
             this.body = body;
         }
