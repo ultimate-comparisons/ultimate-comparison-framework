@@ -1,6 +1,6 @@
 :host {
     display: grid;
-    grid-template-columns: 90% 10%;
+    grid-template-columns: auto 25px;
     grid-template-rows: auto auto;
     grid-template-areas: "header symbol" "content content";
     padding: 16px;
