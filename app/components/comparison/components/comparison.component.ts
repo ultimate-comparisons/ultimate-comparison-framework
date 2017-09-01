@@ -33,8 +33,7 @@ export class ComparisonComponent {
     @ViewChild('latextable') latexTable: ElementRef;
     @ViewChild('settings') settingsModal: any;
     private expandShrinkOrigDisplay: Array<TableData> = [];
-    private expanded = false;
-    @ViewChild('shrinkExpandId') shrinkExpandComponent: IronIconComponent;
+    private shrinked = true;
 
     constructor(private http: Http,
                 public serv: ComparisonService,
@@ -126,12 +125,11 @@ export class ComparisonComponent {
     }
 
     public shrinkExpand(iicon: IronIconComponent) {
-        console.log(iicon)
-        if (iicon.icon === 'resize-full') {
-            iicon.setIcon('resize-small');
+        if (this.shrinked) {
+            this.shrinked = false;
             this.expand();
-        } else if (iicon.icon === 'resize-small') {
-            iicon.setIcon('resize-full');
+        } else if (!this.shrinked) {
+            this.shrinked = true;
             this.shrink();
         }
         this.cd.markForCheck();

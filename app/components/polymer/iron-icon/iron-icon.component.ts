@@ -8,18 +8,4 @@ import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@a
 })
 export class IronIconComponent {
     @Input() icon: string;
-    private changed = 0;
-
-    public setIcon(icon: string) {
-        this.icon = icon;
-        this.change();
-    }
-
-    public change() {
-        if (this.changed === 0) {
-            this.changed = 1;
-        } else {
-            this.changed = 0;
-        }
-    }
 }
