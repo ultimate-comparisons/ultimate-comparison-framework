@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Data } from './../../comparison/shared/index';
+import { isNullOrUndefined } from "util";
 
 @Pipe({
     name: 'orderBy',
@@ -47,8 +48,8 @@ export class OrderByPipe implements PipeTransform {
                     // b lacks the attribute => it is always below the others
                     return -1;
                 }
-                const pA = a[this.params.value[i]] ? a[this.params.value[i]] : a.properties[this.params.value[i]].plain;
-                const pB = b[this.params.value[i]] ? b[this.params.value[i]] : b.properties[this.params.value[i]].plain;
+                const pA = isNullOrUndefined(a[this.params.value[i]]) ? a.properties[this.params.value[i]].plain : a[this.params.value[i]];
+                const pB = isNullOrUndefined(b[this.params.value[i]]) ? b.properties[this.params.value[i]].plain : b[this.params.value[i]];
                 const comparison = !desc ? OrderByPipe._comparator(pA, pB) : -OrderByPipe._comparator(pA, pB);
                 if (comparison !== 0) {
                     return comparison;

@@ -6,11 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
-- Enabling and disabling elements
+### Fixed
 - Improved foreground colors when auto assigning
+- Fixed problem with sorting `repo` columns [#114](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/114)
 
-## [1.0.0] - unreleased
+## 1.0.0 - 2017-08-24
 ### Added
 - This file
 - Static VersionInformation class
@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added force push for deployment
 - Moved deployment to .travis.yml
 - Added tslint
+- Added unknown label for empty values
+- Enabling and disabling elements
 
 ### Fixed
 - Rate Limit exceeded for GitHub for up to 60 elements.
