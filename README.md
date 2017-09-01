@@ -43,7 +43,7 @@ This is the save route because the `update` branch does not include configuratio
     "description": "Overall performance above 200ms",
     "class": "label-danger",
     "color": "red",
-    "foreground": "black"
+    "foreground": "black",
     "weight": 2
   }
   ```
