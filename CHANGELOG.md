@@ -22,4 +22,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Rate Limit exceeded for GitHub for up to 60 elements.
-- Fixed problem with sorting `repo` columns
