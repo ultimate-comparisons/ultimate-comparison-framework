@@ -67,7 +67,8 @@ export class TableDataSet {
                 obj.type.tag,
                 obj.type.class,
                 lcls,
-                colors
+                colors,
+                foregroundColors
             );
             let order = obj.order;
             if (!isNullOrUndefined(order)) {

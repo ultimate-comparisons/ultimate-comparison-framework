@@ -43,11 +43,13 @@ This is the save route because the `update` branch does not include configuratio
     "description": "Overall performance above 200ms",
     "class": "label-danger",
     "color": "red",
+    "foreground": "black",
     "weight": 2
   }
   ```
   - The label with the value "slow" has the tooltip "overall performance above 200ms", and will be red ("label-danger")
-  - You can choose between red and class, classes are the preferred way. If both are missing, an automatic color is assigned.
+  - You can choose between a specific color and class, classes are the preferred way. If both are missing, an automatic color is assigned.
+  - You can choose a specific foreground color if you chose a specific background color.
   - The `weight` allows sorting of attributes, if multiple values are allowed. Ascending and descending is set by the `order` attribute in the column. Without weight, the name is used for sorting.
   - `repo`: Signals that the column is dependent on a read repository (up to now only GitHub ones).
 
