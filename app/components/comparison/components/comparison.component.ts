@@ -126,7 +126,6 @@ export class ComparisonComponent {
     }
 
     public shrinkExpand() {
-        console.log(this);
         if (this.shrinked) {
             this.expand();
         } else {
