@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { Data, CriteriaSelection, Criteria } from '../shared/index';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { Criteria, CriteriaSelection, Data } from '../shared/index';
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
@@ -8,7 +8,7 @@ import { VersionInformation } from '../../../VersionInformation';
 import { Http } from '@angular/http';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { TableData } from '../shared/components/table-data';
-import { IronIconComponent } from "../../polymer/iron-icon/iron-icon.component";
+import { PaperCardComponent } from "../../polymer/paper-card/paper-card.component";
 
 const FileSaver = require('file-saver');
 
@@ -19,7 +19,7 @@ const FileSaver = require('file-saver');
 })
 export class ComparisonComponent {
     criteriaSelection = [];
-    private query: {[name: string]: CriteriaSelection; } = {};
+    private query: { [name: string]: CriteriaSelection; } = {};
     private changed = 0;
     private order: Array<String> = [];
     private orderOption: Array<number> = [];
@@ -32,6 +32,7 @@ export class ComparisonComponent {
     private tableTooltipsAsFootnotes = false;
     @ViewChild('latextable') latexTable: ElementRef;
     @ViewChild('settings') settingsModal: any;
+    @ViewChild('genericTableHeader') genericTableHeader: PaperCardComponent;
     private expandShrinkOrigDisplay: Array<TableData> = [];
     public shrinked = true;
 
@@ -126,12 +127,11 @@ export class ComparisonComponent {
 
     public shrinkExpand() {
         if (this.shrinked) {
-            this.shrinked = false;
             this.expand();
-        } else if (!this.shrinked) {
-            this.shrinked = true;
+        } else {
             this.shrink();
         }
+        this.shrinked = !this.shrinked;
         this.cd.markForCheck();
         this.change();
     }
