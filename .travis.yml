@@ -14,6 +14,7 @@ after_success:
 - echo $TRAVIS_BRANCH
 - echo $TRAVIS_PULL_REQUEST
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then ./update.sh; fi
+- ./deploy.sh
 before_install:
 - wget https://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb
 - sudo dpkg -i pandoc-1.17.2-1-amd64.deb
