@@ -14,6 +14,8 @@ prepare () {
 # commit given directory from given branch to gh-pages
 git_stuff () {
   git fetch --all
+  git checkout package.json
+  git checkout package-lock.json
   git add "$1"
   git commit -m "Travis commit for $2"
   git checkout gh-pages
