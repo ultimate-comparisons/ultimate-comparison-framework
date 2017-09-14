@@ -21,7 +21,7 @@ git_stuff () {
   git add "$1"
   git commit -m "Travis commit for $2"
   git checkout gh-pages
-  git checkout "$2" ${TR_BUILD_BRANCH}
+  git checkout ${TR_BUILD_BRANCH} "$1"
   git commit -m "Travis commit"
   git push -f SSH gh-pages
 }
