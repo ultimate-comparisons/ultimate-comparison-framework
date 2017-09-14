@@ -24,16 +24,5 @@ before_install:
 - pandoc -v
 - npm -version
 - npm install
-deploy:
-- provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN # set in travis-ci.org dashboard
-  local_dir: www
-  on:
-    branch: master
-branches:
-  only:
-  - master
-  - development
 sudo: required
 dist: trusty
