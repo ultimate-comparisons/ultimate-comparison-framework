@@ -1,4 +1,4 @@
-#! /bin/env bash
+#! /bin/bash
 
 # global preparements for committing into gh-pages
 prepare () {
