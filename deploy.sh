@@ -6,8 +6,8 @@ prepare () {
   touch ~/.ssh/github_deployment
 # decrypt ssh key
   npm install @alrra/travis-scripts
-  $(npm bin)/set-up.ssh --key "$encrypted__key" \
-                        --iv "$encrypted__iv" \
+  $(npm bin)/set-up.ssh --key "$encrypted_08460152d0a3_key" \
+                        --iv "$encrypted_08460152d0a3_iv" \
                         --path-encrypted-key "id_rsa.enc"
 }
 
