@@ -65,9 +65,16 @@ build_master () {
 # add index.md
   cp README.md index.md
 
+# add docs to index.md
+  echo "# Docs" >> index.md
+  find docs -type f -exec echo "- <{}>" >> index.md \;
+
+# insert linebreak in index.md
+  echo "" >> index.md
+
 # add PRs to index.md
   echo "# PRs" >> index.md
-  find prs -mindepth 1 -maxdepth 1 -type d -exec "- <{}>" >> index.md \;
+  find prs -mindepth 1 -maxdepth 1 -type d -exec echo "- <{}>" >> index.md \;
 
 # add index.md to gh-pages
   git_stuff "index.md" master
