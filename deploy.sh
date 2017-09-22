@@ -72,8 +72,8 @@ build_master () {
 # insert linebreak in index.md
   echo "" >> index.md
 
-  ls prs
 # add PRs to index.md
+  git checkout gh-pages prs
   echo "# PRs" >> index.md
   find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
 
