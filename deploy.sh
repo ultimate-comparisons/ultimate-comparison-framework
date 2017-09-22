@@ -67,14 +67,15 @@ build_master () {
 
 # add docs to index.md
   echo "# Docs" >> index.md
-  find docs -type f -exec echo "- <{}>" >> index.md \;
+  find docs -type f -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
 
 # insert linebreak in index.md
   echo "" >> index.md
 
+  ls prs
 # add PRs to index.md
   echo "# PRs" >> index.md
-  find prs -mindepth 1 -maxdepth 1 -type d -exec echo "- <{}>" >> index.md \;
+  find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
 
 # add index.md to gh-pages
   git_stuff "index.md" master
