@@ -63,6 +63,7 @@ build_master () {
   git_stuff demo master
 
   git checkout gh-pages
+  git pull
 
   ls
   ls prs
