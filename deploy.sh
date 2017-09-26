@@ -20,7 +20,7 @@ git_stuff () {
   git checkout -b ${TR_BUILD_BRANCH}
   git add "$1"
   git commit -m "Travis commit for $2"
-  git reset --hard
+  rm README.md
   git checkout gh-pages
   git checkout ${TR_BUILD_BRANCH} "$1"
   git commit -m "Travis commit"
