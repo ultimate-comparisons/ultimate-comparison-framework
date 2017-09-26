@@ -24,6 +24,8 @@ git_stuff () {
   git checkout ${TR_BUILD_BRANCH} "$1"
   git commit -m "Travis commit"
   git push -f SSH gh-pages
+  git checkout ${CURRENT_BRANCH}
+  git branch -D ${TR_BUILD_BRANCH}
 }
 
 # build a branch different from master
@@ -60,6 +62,11 @@ build_master () {
 # add demo to gh-pages
   git_stuff demo master
 
+  git checkout gh-pages
+
+  ls
+  ls prs
+
   git checkout master README.md
 
 # add index.md
@@ -83,11 +90,13 @@ build_master () {
 
 # decide which functions should be called
 if [[ ${TRAVIS_PULL_REQUEST} != false ]]; then
+  CURRENT_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH}
   build_branch ${TRAVIS_PULL_REQUEST_BRANCH}
 else
   if [[ ${TRAVIS_BRANCH} != "master" ]]; then
     echo "or not..."
     exit 0;
   fi
+  CURRENT_BRANCH="master"
   build_master
 fi
