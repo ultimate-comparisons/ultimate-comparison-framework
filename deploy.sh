@@ -11,24 +11,6 @@ prepare () {
                         --path-encrypted-key "id_rsa.enc"
 }
 
-# commit given directory from given branch to gh-pages
-git_stuff () {
-  TR_BUILD_BRANCH="travis_build_branch_that_should_not_be_created_by_anybody_else"
-  git fetch --all
-  git checkout package.json
-  git checkout package-lock.json
-  git checkout -b ${TR_BUILD_BRANCH}
-  git add "$1"
-  git commit -m "Travis commit for $2"
-  rm README.md
-  git checkout gh-pages
-  git checkout ${TR_BUILD_BRANCH} "$1"
-  git commit -m "Travis commit"
-  git push -f SSH gh-pages
-  git checkout ${CURRENT_BRANCH}
-  git branch -D ${TR_BUILD_BRANCH}
-}
-
 # build a branch different from master
 build_branch () {
   BRANCH=$1
@@ -44,7 +26,11 @@ build_branch () {
   cp -r www/* prs/${BRANCH}
 
 # add prs/${BRANCH} to gh-pages
-  git_stuff "prs/${BRANCH}" "${BRANCH}"
+  git commit -m "Travis commit for ${BRANCH}"
+  git checkout gh-pages
+  git checkout ${BRANCH} prs/${BRANCH}
+  git commit -m "Travis commit for ${BRANCH}"
+  git push SSH gh-pages
 }
 
 # build master
@@ -52,7 +38,11 @@ build_master () {
   prepare
   
 # add docs to gh-pages
-  git_stuff docs master
+  git checkout gh-pages
+  git checkout master docs
+  git add docs
+  git commit -m "Travis commit for docs on master"
+  git checkout master
 
   if [[ ! -d demo ]]; then
     mkdir demo
@@ -61,9 +51,14 @@ build_master () {
   cp -r www/* demo
 
 # add demo to gh-pages
-  git_stuff demo master
-
+  git add demo
+  git commit -m "Travis commit for master"
   git checkout gh-pages
+  git pull
+  git checkout master demo
+  git add demo
+  git commit -m "Travis commit for demo on master"
+  git push SSH gh-pages
   git pull
 
   ls
@@ -87,7 +82,9 @@ build_master () {
   find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
 
 # add index.md to gh-pages
-  git_stuff "index.md" master
+  git add index.md
+  git commit -m "Travis commit for prs"
+  git push SSH gh-pages
 }
 
 # decide which functions should be called
