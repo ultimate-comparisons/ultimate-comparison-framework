@@ -91,7 +91,7 @@ build_master () {
   git push SSH gh-pages
 }
 
-git remote add SSH git@github.com:hueneburg/ultimate-comparison-BASE.git
+git remote add SSH git@github.com:ultimate-comparisons/ultimate-comparison-BASE.git
 git fetch --all
 # decide which functions should be called
 if [[ ${TRAVIS_PULL_REQUEST} != false ]]; then
