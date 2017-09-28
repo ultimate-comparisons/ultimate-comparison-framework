@@ -127,4 +127,10 @@ disable_expanded_output() {
 	fi
 }
 
+# run script to update repos
+update_repos () {
+  npm install github-api simple-git
+  node update-repos.js
+}
+
 main
