@@ -120,7 +120,7 @@ uc.getRepos().then(rs => {
         .filter(r => r.name !== 'ultimate-comparison-BASE');
 
     async.eachOf(repos, function (repo, index, cb) {
-        git.clone('git@github.com:' + repo.fullname + '.git', function () {
+        git.clone(`git@github.com:${repo.fullname}.git`, function () {
             const gt = Git('../' + repo.name);
             gt.branch(function (err, branches) {
                 if (err) {
@@ -141,6 +141,36 @@ uc.getRepos().then(rs => {
         if (err) {
             console.error(err);
         }
+
+        const foreignRepos = fs.readFileSync('repos-to-update.list', {encoding: 'utf8'})
+            .split('\n')
+            .map(e => e.trim())
+            .filter(e => !e.startsWith('#') && e.length > 0)
+            .map(e => { return {fullname: e, name: e.split('/')[1]}; });
+
+        async.eachOf(repos, function (repo, index, cb) {
+            git.clone(`git@github.com:${repo.fullname}.git`, function () {
+                const gt = Git('../' + repo.name);
+                gt.branch(function (err, branches) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    if (branches.branches.keys().indexOf('travis-update') === -1) {
+                        gt.checkoutLocalBranch('travis-update', function () {
+                            makeUpdate(gt, cb);
+                        });
+                    } else {
+                        gt.checkout('travis-update', function () {
+                            makeUpdate(gt, cb);
+                        });
+                    }
+                })
+            });
+        }, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
     });
 }).catch(err => {
     console.error(err);
