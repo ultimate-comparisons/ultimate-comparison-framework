@@ -118,4 +118,5 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
 - [Travis_Build_Deploy.md](docs/Travis_Build_Deploy.md)
 
 # PRs
+- [issue27](prs/issue27)
 - [travis_test](prs/travis_test)
