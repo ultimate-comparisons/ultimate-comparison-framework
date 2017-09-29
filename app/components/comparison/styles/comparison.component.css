@@ -61,17 +61,6 @@ pdialog {
     opacity: 80;
 }
 
-.range-search {
-    border: 0 !important;
-    border-bottom: 1px solid #aaa !important;
-    border-radius: 0 !important;
-    margin-top: 8px;
-}
-
-.range-search:focus {
-    outline-width: 0;
-}
-
 .grid-container {
     min-height: 100%;
     display: grid;

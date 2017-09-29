@@ -54,7 +54,7 @@ export class ComparisonComponent {
         return this.versionInformation;
     }
 
-    private criteriaChanged(value: Array<String>, crit: Criteria) {
+    public criteriaChanged(value: Array<String> | KeyboardEvent | { target: { value: string }}, crit: Criteria) {
         if (value) {
             this.query[crit.tag] = new CriteriaSelection(value, crit);
         }

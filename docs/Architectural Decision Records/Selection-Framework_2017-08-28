@@ -1,0 +1,27 @@
+# Choose selection framework
+
+## Context
+
+During the implementation of `Clicking on a tag should search for it` (issue #27) we noticed that we could not get the value of the
+tag into the elements in the GUI.
+We needed a framework that allowed to add values to the elements via code.
+
+## Status 2017-08-28
+
+### Proposed frameworks
+
+- angular2-select
+- ng2-select
+- ng2-select-custom
+
+### Deprecated
+
+`angular2-select` because it was not easily possible to select items programmatically.
+
+### Accepted
+
+`ng2-select` because it allows adding selected items programmatically.
+
+### Rejected
+
+`ng2-select-custom` because it is a fork of `ng2-select` and offers only marginal advantages that do not justify to switch to a fork.
