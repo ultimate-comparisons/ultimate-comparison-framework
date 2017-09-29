@@ -115,6 +115,9 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
   [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
 # Docs
 - [Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)
+- [](docs
+.
+Records/)
 - [Travis_Build_Deploy.md](docs/Travis_Build_Deploy.md)
 
 # PRs
