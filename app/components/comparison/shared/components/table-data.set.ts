@@ -7,7 +7,11 @@ export class TableDataSet {
     private set: Array<TableData> = [];
     public ready = false;
 
-    constructor(jsonObj: any) {
+    constructor() {
+
+    }
+
+    public load(jsonObj: any) {
         jsonObj.forEach(obj => {
             const lcls: LabelCls = new LabelCls();
             const values: any = {};
@@ -92,10 +96,16 @@ export class TableDataSet {
     }
 
     public getTableData(tag: string): TableData {
+        if (!this.ready) {
+            return new TableData();
+        }
         return this.tableDataSet[tag] ? this.tableDataSet[tag] : new TableData();
     }
 
     public getTableDataArray(): Array<TableData> {
+        if (!this.ready) {
+            return [];
+        }
         let size = 0;
         for (const key in this.tableDataSet) {
             if (!this.tableDataSet.hasOwnProperty(key)) {

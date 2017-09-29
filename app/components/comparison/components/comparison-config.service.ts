@@ -8,7 +8,7 @@ import { ComparisonComponent } from './comparison.component';
 
 @Injectable()
 export class ComparisonConfigService {
-    public tableDataSet: TableDataSet;
+    public tableDataSet = new TableDataSet();
     public criteriaSet: CriteriaSet;
     public comparison: Comparison;
     public description: string;
@@ -24,7 +24,7 @@ export class ComparisonConfigService {
     public loadTableData(cd: ChangeDetectorRef) {
         this.http.request('comparison-configuration/table.json')
             .subscribe(res => {
-                this.tableDataSet = new TableDataSet(res.json());
+                this.tableDataSet.load(res.json());
                 cd.markForCheck();
                 this.comparisonDataService.loadData(this.tableDataSet, cd);
             });
