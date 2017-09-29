@@ -28,10 +28,10 @@
                               *ngIf="column.type?.labelCls">
                         <ptooltip [tooltip]="column.values[sitem.content].tag"
                                   [tooltipHtml]="sitem.htmlChilds | citation: [citationServ]" [position]="'n'">
-                            <div *ngIf="column.type.colors.isEmpty()" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
+                            <div *ngIf="column.type.colors.isEmpty()" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
                                 {{sitem.content}}
                             </div>
-                            <div *ngIf="!column.type.colors.isEmpty()" [style.color]="getForegroundColor(column, sitem.content)" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
+                            <div *ngIf="!column.type.colors.isEmpty()" [style.color]="getForegroundColor(column, sitem.content)" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
                                 {{sitem.content}}
                             </div>
                         </ptooltip>
@@ -44,10 +44,10 @@
                     <template ngFor let-sitem [ngForOf]="dat.getRepoLabels(column, cd)?.list"
                               *ngIf="column.type?.labelCls">
                         <ptooltip [tooltipHtml]="sitem.htmlChilds" [position]="'n'">
-                            <div *ngIf="column.type.colors.isEmpty()" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
+                            <div *ngIf="column.type.colors.isEmpty()" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
                                 {{sitem.content}}
-                            </div>
-                            <div *ngIf="!column.type.colors.isEmpty()" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel">
+                            </div> 
+                            <div *ngIf="!column.type.colors.isEmpty()" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
                                 {{sitem.content}}
                             </div>
                         </ptooltip>

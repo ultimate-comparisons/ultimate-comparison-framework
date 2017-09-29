@@ -61,17 +61,6 @@ pdialog {
     opacity: 80;
 }
 
-.range-search {
-    border: 0 !important;
-    border-bottom: 1px solid #aaa !important;
-    border-radius: 0 !important;
-    margin-top: 8px;
-}
-
-.range-search:focus {
-    outline-width: 0;
-}
-
 .grid-container {
     min-height: 100%;
     display: grid;
@@ -156,4 +145,13 @@ pdialog {
     .grid-container {
         grid-template-columns: 1fr 980px 1fr;
     }
+}
+
+.shrink-expand {
+    justify-self: right;
+    -webkit-transform: translate(0, -50px);
+    -moz-transform: translate(0, -50px);
+    -ms-transform: translate(0, -50px);
+    -o-transform: translate(0, -50px);
+    transform: translate(0, -50px);
 }

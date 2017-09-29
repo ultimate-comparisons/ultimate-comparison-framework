@@ -14,6 +14,11 @@ import { ComparisonCitationService } from './../../comparison/components/compari
 import { ComparisonConfigService } from '../../comparison/components/comparison-config.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Http } from '@angular/http';
+import { ComparisonComponent } from '../../comparison/components/comparison.component';
+import { Select2Component } from '../../input/select2/select2.component';
+import { InputInterface } from "../../input/input-interface";
+import { NumberInputComponent } from "../../input/number-input/number-input.component";
+import { Criteria } from "../../comparison/shared/components/criteria";
 
 declare const anchors;
 
@@ -46,6 +51,8 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     @Output() orderChange: EventEmitter<any> = new EventEmitter();
     @Input() orderOption: Array<number> = [];
     @Output() orderOptionChange: EventEmitter<any> = new EventEmitter();
+
+    @Input() comparisonComponent: ComparisonComponent;
 
     private ctrlCounter = 0;
 
@@ -135,5 +142,51 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         } else {
             return this.sanitization.bypassSecurityTrustStyle(color);
         }
+    }
+
+    public searchFor(column: string, value: string | number) {
+        let c: Criteria = null;
+        for (const crit of this.confServ.criteriaSet.getCriteriaArray()) {
+            if (crit.name === column || crit.tag === column) {
+                c = crit;
+                break;
+            }
+        }
+        if (c === null) {
+            return;
+        }
+
+        if (c.values.indexOf(value) !== -1) {
+            return;
+        }
+
+        let input: InputInterface = null;
+        if (c.range_search) {
+            for (const ni of NumberInputComponent.components) {
+                if (ni.tag === column || ni.name === column) {
+                    input = ni;
+                    break;
+                }
+            }
+            if (input === null) {
+                return;
+            }
+            value = String(value);
+            this.cd.markForCheck();
+        } else {
+            for (const s2 of Select2Component.components) {
+                if (s2.tag === column || s2.name === column) {
+                    input = s2;
+                    break;
+                }
+            }
+            if (input === null) {
+                return;
+            }
+            value = String(value);
+            this.comparisonComponent.criteriaChanged([value], c);
+            this.comparisonComponent.change();
+        }
+        input.addToGui(value);
     }
 }

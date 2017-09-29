@@ -12,13 +12,17 @@ export class CriteriaSet {
             criteria.and_search = typeof crit.and_search !== typeof undefined ? crit.and_search : true;
             criteria.range_search = typeof crit.range_search !== typeof undefined ? crit.range_search : false;
             if (!criteria.range_search) {
+                let id = 1;
                 crit.values.forEach(val => {
                     const value: Value = new Value();
                     value.name = val.name ? val.name : 'undefined value';
                     value.value = val.name ? val.name : 'undefined value';
                     value.label = val.name ? val.name : 'undefined value';
+                    value.text = val.name ? val.name : 'undefined value';
+                    value.id = id;
                     value.description = val.description ? val.description : '';
                     criteria.values.push(value);
+                    id++;
                 });
             }
             criteria.placeholder = crit.placeholder ? crit.placeholder : '';

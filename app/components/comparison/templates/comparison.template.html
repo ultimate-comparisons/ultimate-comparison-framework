@@ -34,11 +34,10 @@
                                 </label>
                             </ptooltip>
                             <br>
-                            <select2 [options]="crit.values" [placeholder]="crit.placeholder"
+                            <select2 [options]="crit.values" [placeholder]="crit.placeholder" [name]="crit.name" [tag]="crit.tag"
                                      (result)="criteriaChanged($event, crit)" *ngIf="!crit.range_search"></select2>
-                            <input type="text" [placeholder]="crit.placeholder" [style.width]="'100%'"
-                                   class="range-search"
-                                   (keyup)="criteriaChanged($event, crit)" *ngIf="crit.range_search">
+                            <number-input *ngIf="crit.range_search" [comparisonComponent]="this" [name]="crit.name"
+                                          [criteria]="crit" [tag]="crit.tag"></number-input>
                         </div>
                     </div>
                 </template>
@@ -47,12 +46,14 @@
     </div>
     <div class="grid-large-content">
         <pcard heading="{{confServ.comparison?.tabletitle}}">
+            <iicon #ExpandId icon="resize-full" class="shrink-expand" (click)="shrinkExpand()" *ngIf="shrinked"></iicon>
+            <iicon #shrinkId icon="resize-small" class="shrink-expand" (click)="shrinkExpand()" *ngIf="!shrinked"></iicon>
             <generictable [display]="confServ.tableDataSet" [settings]="'true'"
                           [columns]="confServ.tableDataSet.getTableDataArray()" [data]="dataServ.data"
                           [query]="query"
                           [displayTemplate]="confServ.comparison.displaytemplate" [citationServ]="citationServ"
                           (settingsCallback)="showTableProperties()" (showDetails)="showDetails($event)"
-                          [(order)]="order" [(orderOption)]="orderOption"
+                          [(order)]="order" [(orderOption)]="orderOption" [comparisonComponent]="this"
                           *ngIf="citationServ.check&&confServ.tableDataSet.ready"
                           [changeNum]="dataServ.getLength()+changed"></generictable>
         </pcard>
