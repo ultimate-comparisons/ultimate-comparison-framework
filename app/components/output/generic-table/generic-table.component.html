@@ -31,11 +31,14 @@
                             <div *ngIf="column.type.colors.isEmpty()" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
                                 {{sitem.content}}
                             </div>
-                            <div *ngIf="!column.type.colors.isEmpty()" [style.color]="getForegroundColor(getColor(column, sitem.content))" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
+                            <div *ngIf="!column.type.colors.isEmpty()" [style.color]="getForegroundColor(column, sitem.content)" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
                                 {{sitem.content}}
                             </div>
                         </ptooltip>
                     </template>
+                    <ptooltip *ngIf="dat.getPropertyListItems(column.tag).length === 0" [tooltipHtml]="'There was no value for this field. Please submit one via pull request.'">
+                        <div class="label mylabel unknown">unknown</div>
+                    </ptooltip>
                 </td>
                 <td *ngIf="column.type?.tag==='label' && column.repo">
                     <template ngFor let-sitem [ngForOf]="dat.getRepoLabels(column, cd)?.list"
@@ -43,12 +46,15 @@
                         <ptooltip [tooltipHtml]="sitem.htmlChilds" [position]="'n'">
                             <div *ngIf="column.type.colors.isEmpty()" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
                                 {{sitem.content}}
-                            </div>
-                            <div *ngIf="!column.type.colors.isEmpty()" [style.background-color]="getColor(column, sitem.content)" [style.color]="getForegroundColor(getColor(column, sitem.content))" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
+                            </div> 
+                            <div *ngIf="!column.type.colors.isEmpty()" [style.background-color]="getColor(column, sitem.content)" class="{{column.type.getCls(sitem.content)}} {{column.type.labelCls.getCls(sitem.content)}} mylabel" (click)="searchFor(column.tag, sitem.content)">
                                 {{sitem.content}}
                             </div>
                         </ptooltip>
                     </template>
+                    <ptooltip *ngIf="dat.getRepoLabels(column, cd) === undefined" [tooltipHtml]="'There was no value for this field. Please submit one via pull request.'">
+                        <div class="label mylabel unknown">unknown</div>
+                    </ptooltip>
                 </td>
                 <td *ngIf="column.type?.tag=='rating'">
                     <iicon icon="star" *ngIf="dat.getRating()!=0">{{dat.getRating()}}</iicon>

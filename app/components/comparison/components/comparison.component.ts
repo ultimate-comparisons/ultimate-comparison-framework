@@ -1,12 +1,14 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { Data, CriteriaSelection, Criteria } from '../shared/index';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { Criteria, CriteriaSelection, Data } from '../shared/index';
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
 import { VersionInformation } from '../../../VersionInformation';
 import { Http } from '@angular/http';
-import { LocalStorageService } from "angular-2-local-storage";
+import { LocalStorageService } from 'angular-2-local-storage';
+import { TableData } from '../shared/components/table-data';
+import { PaperCardComponent } from "../../polymer/paper-card/paper-card.component";
 
 const FileSaver = require('file-saver');
 
@@ -17,7 +19,7 @@ const FileSaver = require('file-saver');
 })
 export class ComparisonComponent {
     criteriaSelection = [];
-    private query: {[name: string]: CriteriaSelection; } = {};
+    private query: { [name: string]: CriteriaSelection; } = {};
     private changed = 0;
     private order: Array<String> = [];
     private orderOption: Array<number> = [];
@@ -30,6 +32,9 @@ export class ComparisonComponent {
     private tableTooltipsAsFootnotes = false;
     @ViewChild('latextable') latexTable: ElementRef;
     @ViewChild('settings') settingsModal: any;
+    @ViewChild('genericTableHeader') genericTableHeader: PaperCardComponent;
+    private expandShrinkOrigDisplay: Array<TableData> = [];
+    public shrinked = true;
 
     constructor(private http: Http,
                 public serv: ComparisonService,
@@ -118,5 +123,36 @@ export class ComparisonComponent {
     public changeEnabled(item: Data) {
         item.enabled = !item.enabled;
         this.change();
+    }
+
+    public shrinkExpand() {
+        if (this.shrinked) {
+            this.expand();
+        } else {
+            this.shrink();
+        }
+        this.shrinked = !this.shrinked;
+        this.cd.markForCheck();
+        this.change();
+    }
+
+    private shrink() {
+        const set = this.confServ.tableDataSet.getTableDataArray();
+        for (const td of set) {
+            if (td.display && this.expandShrinkOrigDisplay.indexOf(td) === -1) {
+                td.display = false;
+            }
+        }
+    }
+
+    private expand() {
+        const set = this.confServ.tableDataSet.getTableDataArray();
+        for (const td of set) {
+            if (td.display) {
+                this.expandShrinkOrigDisplay.push(td);
+            } else {
+                td.display = true;
+            }
+        }
     }
 }

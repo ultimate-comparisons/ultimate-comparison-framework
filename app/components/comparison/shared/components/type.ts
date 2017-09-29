@@ -5,7 +5,8 @@ export class Type {
     constructor(public tag: string = '',
                 public cls: string = '',
                 public labelCls: LabelCls = new LabelCls(),
-                public colors: ColorDictionary = new ColorDictionary()) {
+                public colors: ColorDictionary = new ColorDictionary(),
+                public foregroundColors: ColorDictionary = new ColorDictionary()) {
     }
 
     public getCls(item: string): string {
