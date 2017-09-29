@@ -157,3 +157,12 @@ pdialog {
         grid-template-columns: 1fr 980px 1fr;
     }
 }
+
+.shrink-expand {
+    justify-self: right;
+    -webkit-transform: translate(0, -50px);
+    -moz-transform: translate(0, -50px);
+    -ms-transform: translate(0, -50px);
+    -o-transform: translate(0, -50px);
+    transform: translate(0, -50px);
+}

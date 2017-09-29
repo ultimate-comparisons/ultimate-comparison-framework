@@ -1,8 +1,8 @@
 :host {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 25px;
     grid-template-rows: auto auto;
-    grid-template-areas: "header" "content";
+    grid-template-areas: "header symbol" "content content";
     padding: 16px;
     box-sizing: border-box;
     border-radius: 2px;
@@ -16,6 +16,10 @@
     font-size: 24px;
     font-weight: 400;
     padding: 0 0 10px 0;
+}
+
+.paper-symbol {
+    grid-area: symbol;
 }
 
 .paper-content {

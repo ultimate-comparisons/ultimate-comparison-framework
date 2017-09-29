@@ -47,6 +47,8 @@
     </div>
     <div class="grid-large-content">
         <pcard heading="{{confServ.comparison?.tabletitle}}">
+            <iicon #ExpandId icon="resize-full" class="shrink-expand" (click)="shrinkExpand()" *ngIf="shrinked"></iicon>
+            <iicon #shrinkId icon="resize-small" class="shrink-expand" (click)="shrinkExpand()" *ngIf="!shrinked"></iicon>
             <generictable [display]="confServ.tableDataSet" [settings]="'true'"
                           [columns]="confServ.tableDataSet.getTableDataArray()" [data]="dataServ.data"
                           [query]="query"
