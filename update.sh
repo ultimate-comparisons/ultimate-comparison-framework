@@ -51,6 +51,8 @@ main() {
 	then incremental_deploy
 	else initial_deploy
 	fi
+
+	update_repos
 }
 
 remove_files(){
@@ -129,8 +131,9 @@ disable_expanded_output() {
 
 # run script to update repos
 update_repos () {
-  npm install github-api simple-git
-  node update-repos.js
+  echo "Start to update repos"
+  npm install --only=dev
+  node update-repos.js ${GITHUB_TOKEN}
 }
 
 main

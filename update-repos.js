@@ -1,8 +1,8 @@
 const Github = require('github-api');
 const Git = require('simple-git');
-const git = Git('..');
 const async = require('async');
-const fs = require('fs');
+const fs = require('file-system');
+const travisBranch = 'travis-update';
 
 /****************************************************
  *                 DEFINITIONS                      *
@@ -15,15 +15,22 @@ const fs = require('fs');
  */
 function deleteRecursive(path) {
     if (fs.existsSync(path)) {
-        fs.readdirSync(path).forEach(function(file){
-            const curPath = path + "/" + file;
-            if (fs.lstatSync(curPath).isDirectory()) { // recurse
-                deleteRecursive(curPath);
-            } else { // delete file
-                fs.unlinkSync(curPath);
-            }
-        });
-        fs.rmdirSync(path);
+        const parentStat = fs.statSync(path);
+        if (parentStat.isDirectory()) {
+            const files = fs.readdirSync(path);
+            files.forEach(function (file) {
+                const curPath = path + "/" + file;
+                const childStat = fs.statSync(curPath);
+                if (childStat.isDirectory()) { // recurse
+                    deleteRecursive(curPath);
+                } else { // delete file
+                    fs.unlinkSync(curPath);
+                }
+            });
+            fs.rmdirSync(path);
+        } else {
+            fs.unlinkSync(path);
+        }
     }
 }
 
@@ -37,13 +44,14 @@ function deleteRecursive(path) {
 function copyDir(sourceDir, targetRoot) {
     const sourceFiles = fs.readdirSync(sourceDir);
     for (const file of sourceFiles) {
-        if (fs.lstatSync(`${sourceDir}/${file}`).isDirectory()) {
-            if (!fs.existsSync(`${targetRoot}/${file}`) || !fs.lstatSync(`${targetRoot}/${file}`).isDirectory()) {
-                fs.mkdirSync(`${targetRoot}/${file}`);
+        const sourceStat = fs.statSync(`${sourceDir}/${file}`);
+        if (sourceStat.isDirectory()) {
+            if (!fs.existsSync(`${targetRoot}/${file}`) || !fs.statSync(`${targetRoot}/${file}`).isDirectory()) {
+                fs.mkdirSync(`${targetRoot}/${sourceDir}/${file}`);
             }
-            copyDir(`${sourceDir}/${file}`, `${targetRoot}/${file}`)
+            copyDir(`${sourceDir}/${file}`, `${targetRoot}`)
         } else {
-            fs.createReadStream(`${sourceDir}/${file}`).pipe(fs.createWriteStream(`${targetRoot}/${file}`))
+            fs.copyFileSync(`${sourceDir}/${file}`, `${targetRoot}/${sourceDir}/${file}`);
         }
     }
 }
@@ -54,19 +62,48 @@ function copyDir(sourceDir, targetRoot) {
  * @param target Should contain the content afterwards
  */
 function mergeDirs(source, target) {
-    if (!fs.lstatSync(source).isDirectory() || !fs.lstatSync(target).isDirectory()) {
-        console.error(`mergeDirs: source "${source}" and target "${target}" have to be directories!`);
+    if (!fs.statSync(source).isDirectory() || !fs.statSync(target).isDirectory()) {
         return;
     }
     copyDir(source, target);
 }
 
 /**
- * Reform current branch to update branch
- * @param gt reference to git repo with simple-git.Git
+ * Method for creating a PR.
+ * @param repoName name of the repository in the format owner/repo
  * @param cb callback
  */
-function makeUpdate(gt, cb) {
+function makePr(repoName, cb) {
+    const repo = gh.getRepo(repoName);
+    repo.listPullRequests({state:'open'}).then(function (prs) {
+        if (prs.data.filter(pr => pr.title === 'Update of Ultimate-Comparison-BASE' &&
+                pr.user.login === 'ultimate-comparison-genie').length === 0) {
+            repo.createPullRequest({
+                title: 'Update of Ultimate-Comparison-BASE',
+                head: travisBranch,
+                base: 'master',
+                body: 'This is PR was automatically created because Ultimate-Comparisons-BASE was updated.\n' +
+                'Pease incorporate this PR into this comparison.',
+                maintainer_can_modify: true
+            }).then(function () {
+                console.log(`Made PR for ${repoName}`);
+                cb();
+            }).catch(function (error) {
+                console.error(error);
+            });
+        } else {
+            console.log('PR already open and thus no creation needed')
+        }
+    });
+}
+
+/**
+ * Reform current branch to update branch
+ * @param gt reference to git repo with simple-git.Git
+ * @param repoName full name of the repo, meaning 'owner/repo'
+ * @param cb callback
+ */
+function makeUpdate(gt, repoName, cb) {
     const path = gt._baseDir;
     const ignores = [
         'comparison-configuration',
@@ -77,24 +114,34 @@ function makeUpdate(gt, cb) {
         'id_rsa.enc',
         'LICENSE',
         'citation/acm-siggraph.csl',
-        'citation/default.bib'
+        'citation/default.bib',
+        '.git',
+        'node_modules',
+        'typings',
+        'www'
     ];
-    for (const ignore of ignores) {
-        deleteRecursive(`${path}/${ignore}`);
-    }
 
-    fs.readdirSync('.').filter(f => ignores.indexOf(f) === -1).forEach(file => {
-        if (fs.statSync(file).isDirectory()) {
-            mergeDirs(file, path);
-        } else {
-            fs.createReadStream(file).pipe(fs.createWriteStream(`${path}/${file}`));
+    async.eachOf(fs.readdirSync('.').filter(f => ignores.indexOf(f) === -1), (file, index, cb) => {
+        console.log(`merge ${file}`);
+        try {
+            if (fs.statSync(file).isDirectory()) {
+                mergeDirs(file, path);
+            } else {
+                fs.createReadStream(file).pipe(fs.createWriteStream(`${path}/${file}`));
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            cb();
         }
-    });
-
-    gt.add(path).then(function () {
-        gt.commit('Travis commit for travis-update').then(function () {
-            gt.push('origin', 'travis-update').then(function () {
-                cb();
+    }, () => {
+        gt.add(fs.readdirSync(gt._baseDir).filter(f => ignores.indexOf(f) === -1)).exec(function () {
+            gt.commit('Travis commit for travis-update').exec(function () {
+                gt.push(['-f', 'origin', travisBranch]).exec(function () {
+                    console.log(`Pushed to ${gt._baseDir}`);
+                    makePr(repoName, cb);
+                    deleteRecursive(path);
+                });
             });
         });
     });
@@ -113,29 +160,37 @@ const apiToken = process.argv[2];
 const gh = new Github({
     token: apiToken
 });
-const uc = gh.getOrganization('ultimate-comparisons');
+const uc = gh.getOrganization('ultimate-comparisons-test');
 uc.getRepos().then(rs => {
     const repos = rs.data
         .map(r => { return { fullname: r.full_name, name: r.full_name.split('/')[1]}; })
-        .filter(r => r.name !== 'ultimate-comparison-BASE');
+        .filter(r => r.name !== 'ultimate-comparison-BASE' && !r.name.endsWith('.io'));
+
+    console.log("Repos in the organization: " + JSON.stringify(repos, null, 2));
 
     async.eachOf(repos, function (repo, index, cb) {
-        git.clone(`git@github.com:${repo.fullname}.git`, function () {
-            const gt = Git('../' + repo.name);
-            gt.branch(function (err, branches) {
-                if (err) {
-                    console.error(err);
-                }
-                if (branches.branches.keys().indexOf('travis-update') === -1) {
-                    gt.checkoutLocalBranch('travis-update', function () {
-                        makeUpdate(gt, cb);
+        console.log(`iterate ${repo.fullname}`);
+        fs.mkdirSync(`../${repo.name}`);
+        const gt = Git(`../${repo.name}`);
+        gt.clone(`git@github.com:${repo.fullname}.git`, `../${repo.name}`, function () {
+            gt.addConfig('user.email', 'hueneburg.armin@gmail.com').exec(function() {
+                gt.addConfig('user.name', 'Armin Hüneburg').exec(function() {
+                    gt.branch(function (err, branches) {
+                        if (err) {
+                            console.error(err);
+                        }
+                        if (Object.keys(branches.branches).indexOf(travisBranch) === -1) {
+                            gt.checkoutLocalBranch(travisBranch, function () {
+                                makeUpdate(gt, repo.fullname, cb);
+                            });
+                        } else {
+                            gt.checkout(travisBranch, function () {
+                                makeUpdate(gt, repo.fullname, cb);
+                            });
+                        }
                     });
-                } else {
-                    gt.checkout('travis-update', function () {
-                        makeUpdate(gt, cb);
-                    });
-                }
-            })
+                });
+            });
         });
     }, function (err) {
         if (err) {
@@ -148,20 +203,20 @@ uc.getRepos().then(rs => {
             .filter(e => !e.startsWith('#') && e.length > 0)
             .map(e => { return {fullname: e, name: e.split('/')[1]}; });
 
-        async.eachOf(repos, function (repo, index, cb) {
+        async.eachOf(foreignRepos, function (repo, index, cb) {
             git.clone(`git@github.com:${repo.fullname}.git`, function () {
-                const gt = Git('../' + repo.name);
+                const gt = Git(repo.name);
                 gt.branch(function (err, branches) {
                     if (err) {
                         console.error(err);
                     }
-                    if (branches.branches.keys().indexOf('travis-update') === -1) {
-                        gt.checkoutLocalBranch('travis-update', function () {
-                            makeUpdate(gt, cb);
+                    if (branches.branches.keys().indexOf(travisBranch) === -1) {
+                        gt.checkoutLocalBranch(travisBranch, function () {
+                            makeUpdate(gt, repo.fullname, cb);
                         });
                     } else {
-                        gt.checkout('travis-update', function () {
-                            makeUpdate(gt, cb);
+                        gt.checkout(travisBranch, function () {
+                            makeUpdate(gt, repo.fullname, cb);
                         });
                     }
                 })
