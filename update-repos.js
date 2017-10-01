@@ -204,7 +204,11 @@ uc.getRepos().then(rs => {
             .map(e => { return {fullname: e, name: e.split('/')[1]}; });
 
         async.eachOf(foreignRepos, function (repo, index, cb) {
-            git.clone(`git@github.com:${repo.fullname}.git`, function () {
+            let r = `git@github.com:${repo.fullname}`;
+            if (!r.endsWith('.git')) {
+                r += '.git';
+            }
+            git.clone(r, function () {
                 const gt = Git(repo.name);
                 gt.branch(function (err, branches) {
                     if (err) {
