@@ -75,6 +75,12 @@ If one column depends on a repository (`repo`-attribute in table.json true), you
 - https://github.com/ultimate-comparisons/ultimate-comparison-BASE
 ```
 
+### Get notified for future framework updates
+If you have two possibilities to get notified for future updates:
+1. Tell us that you want to transfer ownership to us. We will keep the framework up-to-date.
+2. Add your repository to our list in the file `repos-to-update.list` (via PR) and give write access to the user `ultimate-comparison-genie`. You'll get a PR every time the master branch is updated.
+   The format for `repos-to-update.list` is `<your username>/<your repo name>`, eg. `ultimate-comparisons/ultimate-comparison-BASE`.
+
 ## Test it
 1. Install [node.js](https://nodejs.org/en/)
   - Windows: `choco install nodejs` via [chocolatey](https://chocolatey.org/)
