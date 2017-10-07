@@ -1,6 +1,6 @@
 <div class="reference-container">
-    <template ngFor let-entry [ngForOf]="this.citationServ.sortedReferences()">
+    <ng-template ngFor let-entry [ngForOf]="this.citationServ.sortedReferences()">
         <div>{{'[' + entry.index + ']'}}:</div>
         <div [id]="entry.key" [innerHtml]="entry.html|sanitizeHtml"></div>
-    </template>
+    </ng-template>
 </div>

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - replaced angular2-select with ng2-select
+- switched to angular 4 [#30](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/30)
 
 ### Fixed
 - Improved foreground colors when auto assigning

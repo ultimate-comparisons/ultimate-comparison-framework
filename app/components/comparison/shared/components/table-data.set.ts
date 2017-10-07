@@ -12,6 +12,9 @@ export class TableDataSet {
     }
 
     public load(jsonObj: any) {
+        if (jsonObj === null || jsonObj === undefined) {
+            return;
+        }
         jsonObj.forEach(obj => {
             const lcls: LabelCls = new LabelCls();
             const values: any = {};

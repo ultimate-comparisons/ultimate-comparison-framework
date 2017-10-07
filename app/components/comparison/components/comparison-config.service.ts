@@ -31,7 +31,7 @@ export class ComparisonConfigService {
     }
 
     public loadCriteria(cd: ChangeDetectorRef) {
-        this.http.request('comparison-configuration/criteria.json')
+        this.http.request('comparison-configuration/comparison.json')
             .subscribe(res => {
                 this.criteriaSet = new CriteriaSet(res.json());
                 cd.markForCheck();

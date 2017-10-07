@@ -1,6 +1,6 @@
 <div class="pheader">
     <h2>{{getHeaderText()}}
-        <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)"
+        <ng-template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(confServ.comparison?.details.headerLabel)"
                   *ngIf="confServ.comparison">
             <ptooltip [tooltip]="getHeaderColumn()?.values[sitem.content].tag"
                       [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'s'">
@@ -8,7 +8,7 @@
                     {{sitem.content}}
                 </div>
             </ptooltip>
-        </template>
+        </ng-template>
         <small><a href="{{getHeaderUrl()}}" target="_blank">{{getHeaderUrl()}}</a></small>
     </h2>
 </div>
@@ -17,10 +17,10 @@
         <htmlcitationtext [description]="getBody()" [citationServ]="citationServ"
                           *ngIf="citationServ.check"></htmlcitationtext>
     </pcard>
-    <template ngFor let-atag [ngForOf]="confServ.getBodyAttachmentTags()" *ngIf="confServ.comparison">
+    <ng-template ngFor let-atag [ngForOf]="confServ.getBodyAttachmentTags()" *ngIf="confServ.comparison">
         <pcard heading="{{getTable(atag).name}}">
             <p class="card-content">
-                <template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(atag)">
+                <ng-template ngFor let-sitem [ngForOf]="data?.getPropertyListItems(atag)">
                     <ptooltip *ngIf="!confServ.comparison?.details.tooltipAsText"
                               [tooltip]="getTable(atag)?.values[sitem.content]"
                               [tooltipHtml]="sitem.htmlChilds|citation:[citationServ]" [position]="'n'">
@@ -40,14 +40,14 @@
                                           *ngIf="citationServ.check"></htmlcitationtext>
                         </span>
                     </div>
-                </template>
+                </ng-template>
             </p>
         </pcard>
-    </template>
+    </ng-template>
 
     <pcard heading="Ratings" *ngIf="data?.getRatings().length > 0" style="display:block">
         <div class="card-content">
-            <template ngFor let-item [ngForOf]="data?.getRatings()">
+            <ng-template ngFor let-item [ngForOf]="data?.getRatings()">
                 <dl>
                     <dt>
                         <iicon icon="star">{{item.stars}}</iicon>
@@ -56,7 +56,7 @@
                         {{item.text}}
                     </dd>
                 </dl>
-            </template>
+            </ng-template>
         </div>
     </pcard>
 </div>

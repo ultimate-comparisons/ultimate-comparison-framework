@@ -7,13 +7,265 @@
     "header-label": "Performance",
     "body-main-title": "Description",
     "body": "Description",
-    "body-attachment-tags": [
+    "disable-body-attachment-tags": [
       "Performance",
       "License",
       "Showcase 2.0",
       "Uncolored",
       "Active Development"
+    ],
+    "disable-search-for": [
+      "tag",
+      "Rating",
+      "descr"
     ]
   },
-  "repository": "https://github.com/ultimate-comparisons/ultimate-comparison-BASE.git"
+  "repository": "https://github.com/ultimate-comparisons/ultimate-comparison-BASE.git",
+  "criteria": [
+    {
+      "name": "Name",
+      "tag": "tag",
+      "urlTag": "url",
+      "style": "width: 5%",
+      "display": true,
+      "type": {
+        "tag": "url"
+      },
+      "valign": "top"
+    },
+    {
+      "name": "",
+      "tag": "Rating",
+      "display": true,
+      "type": {
+        "tag": "rating"
+      }
+    },
+    {
+      "name": "Short Description",
+      "tag": "descr",
+      "style": "width: 25%",
+      "display": true,
+      "type": {
+        "tag": "text"
+      }
+    },
+    {
+      "name": "Performance",
+      "tag": "Performance",
+      "style": "width: 5%",
+      "display": true,
+      "description": "Performace of entry.",
+      "placeholder": "Select performace rating ...",
+      "and_search": true,
+      "type": {
+        "tag": "label",
+        "values": [
+          {
+            "name": "fast",
+            "description": "Overall performance below 200ms.",
+            "class": "label-success"
+          },
+          {
+            "name": "slow",
+            "description": "Overall performance above 200ms.",
+            "class": "label-danger"
+          }
+        ]
+      }
+    },
+    {
+      "name": "License",
+      "tag": "License",
+      "display": false,
+      "description": "Popular licenses for DOM manipulation libraries.",
+      "placeholder": "Select license ...",
+      "and_search": false,
+      "type": {
+        "tag": "label",
+        "class": "label label-info",
+        "values": [
+          {
+            "name": "Apache 2.0",
+            "description": "http://choosealicense.com/licenses/apache-2.0/",
+            "color": "hsl(135, 100%, 70%)"
+          },
+          {
+            "name": "MIT",
+            "description": "<http://choosealicense.com/licenses/mit/>",
+            "color": "hsl(150, 100%, 70%)"
+          },
+          {
+            "name": "MPL 2.0",
+            "description": "http://choosealicense.com/licenses/mpl-2.0/",
+            "color": "hsl(165, 100%, 70%)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Showcase",
+      "tag": "Showcase 2.0",
+      "style": "width: 5%",
+      "display": true,
+      "description": "Popular showcases.",
+      "placeholder": "Select showcase ...",
+      "and_search": false,
+      "type": {
+        "tag": "label",
+        "values": [
+          {
+            "name": "dark blue",
+            "description": "Show case for dark blue label",
+            "class": "label-primary"
+          },
+          {
+            "name": "green",
+            "description": "Show case for green label",
+            "class": "label-success"
+          },
+          {
+            "name": "grey",
+            "description": "Show case for grey label",
+            "class": "label-default"
+          },
+          {
+            "name": "light blue",
+            "description": "",
+            "class": "label-info"
+          },
+          {
+            "name": "red 1",
+            "description": "Show case for red label 1",
+            "class": "label-danger"
+          },
+          {
+            "name": "red 2",
+            "description": "Show case for red label 2",
+            "class": "label-danger"
+          },
+          {
+            "name": "yellow",
+            "description": "Show case for yellow label",
+            "class": "label-warning"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Uncolored",
+      "tag": "Uncolored",
+      "display": true,
+      "description": "Tags that were originally uncolored.",
+      "placeholder": "Select color ...",
+      "and_search": false,
+      "type": {
+        "tag": "label",
+        "values": [
+          {
+            "name": "color 1",
+            "description": "Color 1",
+            "weight": 1,
+            "color": "hsl(180, 100%, 70%)"
+          },
+          {
+            "name": "color 2",
+            "description": "Color 2",
+            "weight": 2,
+            "color": "hsl(195, 100%, 70%)"
+          },
+          {
+            "name": "color 3",
+            "description": "Color 3",
+            "weight": 3,
+            "color": "hsl(210, 100%, 70%)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Active Development",
+      "tag": "Active Development",
+      "display": true,
+      "repo": true,
+      "description": "Is the software in active development",
+      "placeholder": "Select activity state...",
+      "and_search": false,
+      "type": {
+        "tag": "label",
+        "values": [
+          {
+            "name": "Active",
+            "description": "Active",
+            "min-age": -1,
+            "max-age": 1,
+            "max-age-unit": "months",
+            "class": "label-success"
+          },
+          {
+            "name": "Inactive",
+            "description": "Inactive",
+            "min-age": 6,
+            "min-age-unit": "months",
+            "max-age": -1,
+            "class": "label-danger"
+          },
+          {
+            "name": "Not Sure",
+            "description": "Not Sure",
+            "min-age": 1,
+            "min-age-unit": "months",
+            "max-age": 6,
+            "max-age-unit": "months",
+            "class": "label-warning"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Number Column",
+      "tag": "NumberColumn",
+      "display": true,
+      "order": "asc",
+      "description": "Tags that were originally numbered.",
+      "placeholder": "Select number ranges ...",
+      "and_search": false,
+      "range_search": true,
+      "type": {
+        "tag": "label",
+        "values": [
+          {
+            "name": 100,
+            "description": 100,
+            "weight": 1,
+            "color": "hsl(225, 100%, 70%)"
+          },
+          {
+            "name": 199,
+            "description": 199,
+            "weight": 1.99,
+            "color": "hsl(240, 100%, 70%)"
+          },
+          {
+            "name": 200,
+            "description": 200,
+            "weight": 2,
+            "color": "hsl(255, 100%, 70%)"
+          },
+          {
+            "name": 250,
+            "description": 250,
+            "weight": 3,
+            "color": "hsl(270, 100%, 70%)"
+          },
+          {
+            "name": 300,
+            "description": 300,
+            "weight": 4,
+            "color": "hsl(285, 100%, 70%)"
+          }
+        ]
+      }
+    }
+  ]
 }

@@ -24,7 +24,7 @@
 
         <pcard [heading]="confServ.comparison?.selecttitle">
             <div class="select-grid">
-                <template ngFor let-crit [ngForOf]="confServ.criteriaSet?.getCriteriaArray()">
+                <ng-template ngFor let-crit [ngForOf]="confServ.criteriaSet?.getCriteriaArray()">
                     <div>
                         <div class="form-group">
                             <ptooltip [tooltip]="crit.description">
@@ -40,7 +40,7 @@
                                           [criteria]="crit" [tag]="crit.tag"></number-input>
                         </div>
                     </div>
-                </template>
+                </ng-template>
             </div>
         </pcard>
     </div>
@@ -79,12 +79,12 @@
                     <pcheckbox [checked]="confServ.displayAll" (checkedChange)="confServ.displayAllChange($event, this)"
                                [label]="confServ.displayAllName"></pcheckbox>
                 </pitem>
-                <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray()">
+                <ng-template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray()">
                     <pitem>
                         <pcheckbox [checked]=column.display (checkedChange)="confServ.displayChange(column,this)"
                                    [label]="column.name"></pcheckbox>
                     </pitem>
-                </template>
+                </ng-template>
             </div>
             <div>
                 <h5>Other Settings...</h5>
@@ -121,12 +121,12 @@
             </div>
             <div>
                 <h5>Enabled Elements</h5>
-                <template ngFor let-item [ngForOf]="dataServ.data">
+                <ng-template ngFor let-item [ngForOf]="dataServ.data">
                     <pitem>
                         <pcheckbox [checked]="item.enabled" (checkedChange)="changeEnabled(item)"
                                    [label]="item.getProperty('tag').plain"></pcheckbox>
                     </pitem>
-                </template>
+                </ng-template>
             </div>
         </div>
     </pdialog>
@@ -143,46 +143,46 @@
 %\usepackage&#123;scrextend&#125;<br/>
 %\makesavenoteenv&#123;tabular&#125;<br/>
 %\makesavenoteenv&#123;tabule&#125;<br/>
-\begin&#123;tabular&#125;&#123;&#64;&#123;&#125; <template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter">p&#123;\linewidth/{{(confServ.tableDataSet?.getTableDataArray() | tablefilter).length}}&#125; </template>&#64;&#123;&#125;&#125;<br/>
+\begin&#123;tabular&#125;&#123;&#64;&#123;&#125; <ng-template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter">p&#123;\linewidth/{{(confServ.tableDataSet?.getTableDataArray() | tablefilter).length}}&#125; </ng-template>&#64;&#123;&#125;&#125;<br/>
 \toprule<br/>
-<template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last">{{column.name}} <!--
-    --><template [ngIf]="!last">&#38; </template><!--
-    --><template [ngIf]="last">\\<br/></template>
-</template>\midrule<br/>
+<ng-template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last">{{column.name}} <!--
+    --><ng-template [ngIf]="!last">&#38; </ng-template><!--
+    --><ng-template [ngIf]="last">\\<br/></ng-template>
+</ng-template>\midrule<br/>
 <!-- iterate over data rows
---><template ngFor let-dat [ngForOf]="dataServ.data | orderBy: [order,orderOption] | datafilter: [query,confServ.comparison?.displaytemplate]"><!--
+--><ng-template ngFor let-dat [ngForOf]="dataServ.data | orderBy: [order,orderOption] | datafilter: [query,confServ.comparison?.displaytemplate]"><!--
     iterate over data columns 
-    --><template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last"><!--
+    --><ng-template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last"><!--
         print url 
-        --><template [ngIf]="column.type?.tag==='url'">{{dat.getProperty(column.tag).text}}</template><!--
+        --><ng-template [ngIf]="column.type?.tag==='url'">{{dat.getProperty(column.tag).text}}</ng-template><!--
         print text 
-        --><template [ngIf]="column.type?.tag==='text'"><div [innerHtml]="dat.getProperty(column.tag).text|citation:[citationServ, true]|sanitizeHtml"></div></template><!--
+        --><ng-template [ngIf]="column.type?.tag==='text'"><div [innerHtml]="dat.getProperty(column.tag).text|citation:[citationServ, true]|sanitizeHtml"></div></ng-template><!--
         print labels 
-        --><template [ngIf]="column.type?.tag==='label'"><!--
+        --><ng-template [ngIf]="column.type?.tag==='label'"><!--
             iterate over labels 
-            --><template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" let-lastItem="last" *ngIf="column.type?.labelCls"><!--
+            --><ng-template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" let-lastItem="last" *ngIf="column.type?.labelCls"><!--
                 print label 
                 -->{{sitem.content}}<!--
                     tooltip
-                    --><template [ngIf]="sitem.latexChilds"><!--
+                    --><ng-template [ngIf]="sitem.latexChilds"><!--
                         print tooltips?
-                        --><template [ngIf]="showTableTooltips"><!--
+                        --><ng-template [ngIf]="showTableTooltips"><!--
                             print tooltips in footnotes
                             --><comparison-footnote [footnote]="sitem.latexChilds" *ngIf="tableTooltipsAsFootnotes"></comparison-footnote><!--
                             print tooltips after labels    
                             --><div [innerHtml]="sitem.latexChilds|citation: [this.citationServ, true]|sanitizeHtml"></div><!--
-                        --></template><!-- 
-                    --></template><!-- 
-                    label seperator --><template [ngIf]="!lastItem">, </template><!--
-            --></template><!--
-        --></template><template [ngIf]="!last"> &#38; </template><template [ngIf]="last">\\<br/></template><!--
-    --></template>
-</template>\bottomrule<br/>
+                        --></ng-template><!--
+                    --></ng-template><!--
+                    label seperator --><ng-template [ngIf]="!lastItem">, </ng-template><!--
+            --></ng-template><!--
+        --></ng-template><ng-template [ngIf]="!last"> &#38; </ng-template><ng-template [ngIf]="last">\\<br/></ng-template><!--
+    --></ng-template>
+</ng-template>\bottomrule<br/>
 \end&#123;tabular&#125;<br/>
-<template [ngIf]="tableTooltipsAsFootnotes">
+<ng-template [ngIf]="tableTooltipsAsFootnotes">
 \newcommand\snum&#123;0&#125;
-<template ngFor let-item [ngForOf]="serv.getFootnotes()"><div [innerHtml]="item|sanitizeHtml"></div>
-</template></template></div></pcard>
+<ng-template ngFor let-item [ngForOf]="serv.getFootnotes()"><div [innerHtml]="item|sanitizeHtml"></div>
+</ng-template></ng-template></div></pcard>
     <!-- @formatter:on -->
     </div>
 
