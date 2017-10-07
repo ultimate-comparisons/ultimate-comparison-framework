@@ -161,7 +161,7 @@ const apiToken = process.argv[2];
 const gh = new Github({
     token: apiToken
 });
-const uc = gh.getOrganization('ultimate-comparisons-test');
+const uc = gh.getOrganization('ultimate-comparisons');
 uc.getRepos().then(rs => {
     const repos = rs.data
         .map(r => { return { fullname: r.full_name, name: r.full_name.split('/')[1]}; })
