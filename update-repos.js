@@ -206,6 +206,8 @@ uc.getRepos().then(rs => {
             .filter(e => !e.startsWith('#') && e.length > 0)
             .map(e => { return {fullname: e, name: e.split('/')[1]}; });
 
+        console.log(`Repos in repos-to-update.list: ${JSON.stringify(foreignRepos, null, 2)}`);
+        
         async.eachOf(foreignRepos, function (repo, index, cb) {
             let r = `git@github.com:${repo.fullname}`;
             if (!r.endsWith('.git')) {
