@@ -165,19 +165,25 @@ const gh = new Github({
 });
 const uc = gh.getOrganization('ultimate-comparisons');
 uc.getRepos().then(rs => {
-    const repos = rs.data
+    let repos = rs.data
         .map(r => { return { fullname: r.full_name, name: r.full_name.split('/')[1]}; })
         .filter(r => r.name !== 'ultimate-comparison-BASE' && !r.name.endsWith('.io'));
+    const foreignRepos = fs.readFileSync('repos-to-update.list', {encoding: 'utf8'})
+        .split('\n')
+        .map(e => e.trim())
+        .filter(e => !e.startsWith('#') && e.length > 0)
+        .map(e => { return {fullname: e, name: e.split('/')[1]}; });
+    repos = repos.concat(foreignRepos);
 
-    console.log("Repos in the organization: " + JSON.stringify(repos, null, 2));
+    console.log("Repos to update: " + JSON.stringify(repos, null, 2));
 
     async.eachOf(repos, function (repo, index, cb) {
         console.log(`iterate ${repo.fullname}`);
         fs.mkdirSync(`../${repo.name}`);
         const gt = Git(`../${repo.name}`);
         gt.clone(`git@github.com:${repo.fullname}.git`, `../${repo.name}`, function () {
-            gt.addConfig('user.email', 'hueneburg.armin@gmail.com').exec(function() {
-                gt.addConfig('user.name', 'Armin Hüneburg').exec(function() {
+            gt.addConfig('user.email', 'kopp.dev+ultimate-comparison-genie@gmail.com').exec(function() {
+                gt.addConfig('user.name', 'Ultimate-Comparison-Genie').exec(function() {
                     gt.branch(function (err, branches) {
                         if (err) {
                             console.error(err);
@@ -198,43 +204,9 @@ uc.getRepos().then(rs => {
     }, function (err) {
         if (err) {
             console.error(err);
+        } else {
+            console.log('update done')
         }
-
-        const foreignRepos = fs.readFileSync('repos-to-update.list', {encoding: 'utf8'})
-            .split('\n')
-            .map(e => e.trim())
-            .filter(e => !e.startsWith('#') && e.length > 0)
-            .map(e => { return {fullname: e, name: e.split('/')[1]}; });
-
-        console.log(`Repos in repos-to-update.list: ${JSON.stringify(foreignRepos, null, 2)}`);
-        
-        async.eachOf(foreignRepos, function (repo, index, cb) {
-            let r = `git@github.com:${repo.fullname}`;
-            if (!r.endsWith('.git')) {
-                r += '.git';
-            }
-            git.clone(r, function () {
-                const gt = Git(repo.name);
-                gt.branch(function (err, branches) {
-                    if (err) {
-                        console.error(err);
-                    }
-                    if (branches.branches.keys().indexOf(travisBranch) === -1) {
-                        gt.checkoutLocalBranch(travisBranch, function () {
-                            makeUpdate(gt, repo.fullname, cb);
-                        });
-                    } else {
-                        gt.checkout(travisBranch, function () {
-                            makeUpdate(gt, repo.fullname, cb);
-                        });
-                    }
-                })
-            });
-        }, function (err) {
-            if (err) {
-                console.error(err);
-            }
-        });
     });
 }).catch(err => {
     console.error(err);
