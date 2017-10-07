@@ -118,7 +118,8 @@ function makeUpdate(gt, repoName, cb) {
         '.git',
         'node_modules',
         'typings',
-        'www'
+        'www',
+        'github_deploy_key'
     ];
 
     async.eachOf(fs.readdirSync('.').filter(f => ignores.indexOf(f) === -1), (file, index, cb) => {
