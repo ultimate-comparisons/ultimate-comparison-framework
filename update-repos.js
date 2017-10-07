@@ -112,6 +112,7 @@ function makeUpdate(gt, repoName, cb) {
         'README-THING.template.md',
         '.travis.yml',
         'id_rsa.enc',
+        'id_rsa',
         'LICENSE',
         'citation/acm-siggraph.csl',
         'citation/default.bib',
@@ -119,7 +120,8 @@ function makeUpdate(gt, repoName, cb) {
         'node_modules',
         'typings',
         'www',
-        'github_deploy_key'
+        'github_deploy_key',
+        'github_deploy_key.enc'
     ];
 
     async.eachOf(fs.readdirSync('.').filter(f => ignores.indexOf(f) === -1), (file, index, cb) => {
