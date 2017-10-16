@@ -71,7 +71,7 @@ build_master () {
   git checkout -f master README.md
 
 # add index.md
-  cp README.md index.md
+  tail -n +2 README.md > index.md
 
 # add docs to index.md
   echo "# Docs" >> index.md
