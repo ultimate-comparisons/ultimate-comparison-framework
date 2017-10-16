@@ -75,7 +75,9 @@ build_master () {
 
 # add docs to index.md
   echo "# Docs" >> index.md
-  find docs -type f -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
+  echo "- [Travis_Build_Deploy](docs/Travis_Build_Deploy.md)" >> index.md
+  echo "- [Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)" >> index.md
+  echo "- [ADR Index](docs/adr) >> index.md
 
 # insert linebreak in index.md
   echo "" >> index.md

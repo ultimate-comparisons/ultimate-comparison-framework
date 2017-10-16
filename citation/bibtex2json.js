@@ -63,7 +63,7 @@ var extractFormatedKeys = function (filepath) {
     result = result.replace(/&#(\d+);/g, function (match, dec) {
         return String.fromCharCode(dec);
     });
-    result = result.replace(/&quot;/g, function (match, dec) {
+    result = result.replace(/&quot;|”|“/g, function (match, dec) {
         return '"';
     });
     result = result.replace(/<[^>]+>/g, function (match, dec) {
