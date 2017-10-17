@@ -189,4 +189,11 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         }
         input.addToGui(value);
     }
+
+    public isUrl(text: string) {
+        if (text === null || text === undefined) {
+            return false;
+        }
+        return text.startsWith('http');
+    }
 }
