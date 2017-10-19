@@ -5,6 +5,8 @@ import { PolymerModule } from "./../polymer/polymer.module";
 import { HtmlCitationTextComponent } from "./html-citation-text/html-citation-text.component";
 import { GenericTableComponent } from "./generic-table/generic-table.component";
 import { ReferencesTableComponent } from "./references-table/references-table.component";
+import { LatexTableComponent } from './latex-table/latex-table.component';
+import { ComparisonFootnoteComponent } from './footnote/comparison-footnote.component';
 
 @NgModule({
     imports: [
@@ -16,12 +18,16 @@ import { ReferencesTableComponent } from "./references-table/references-table.co
         HtmlCitationTextComponent,
         GenericTableComponent,
         ReferencesTableComponent,
-        PolymerModule
+        PolymerModule,
+        LatexTableComponent,
+        ComparisonFootnoteComponent
     ],
     declarations: [
         HtmlCitationTextComponent,
         GenericTableComponent,
-        ReferencesTableComponent
+        ReferencesTableComponent,
+        LatexTableComponent,
+        ComparisonFootnoteComponent
     ],
     providers: []
 })

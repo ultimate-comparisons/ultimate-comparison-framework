@@ -9,6 +9,7 @@ import { Http } from '@angular/http';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { TableData } from '../shared/components/table-data';
 import { PaperCardComponent } from "../../polymer/paper-card/paper-card.component";
+import { LatexTableComponent } from '../../output/latex-table/latex-table.component';
 
 const FileSaver = require('file-saver');
 
@@ -30,7 +31,7 @@ export class ComparisonComponent {
     private showTable = false;
     private showTableTooltips = true;
     private tableTooltipsAsFootnotes = false;
-    @ViewChild('latextable') latexTable: ElementRef;
+    @ViewChild(LatexTableComponent) latexTable: LatexTableComponent;
     @ViewChild('settings') settingsModal: any;
     @ViewChild('genericTableHeader') genericTableHeader: PaperCardComponent;
     private expandShrinkOrigDisplay: Array<TableData> = [];
@@ -73,19 +74,16 @@ export class ComparisonComponent {
     }
 
     private downloadLatexTable() {
-        let content: string = this.latexTable.nativeElement.textContent;
+        console.log(this.latexTable.element.nativeElement)
+        let content: string = this.latexTable.element.nativeElement.textContent;
         content = content.substr(content.indexOf('%'), content.length);
         const blob: Blob = new Blob([content], {type: 'plain/text'});
         FileSaver.saveAs(blob, 'latextable.tex');
         return window.URL.createObjectURL(blob);
     }
 
-    private previewLatexTable(show) {
-        if (show) {
-            this.latexTable.nativeElement.classList.remove('ltable');
-        } else {
-            this.latexTable.nativeElement.classList.add('ltable');
-        }
+    private previewLatexTable() {
+        this.latexTable.showTable = !this.latexTable.showTable;
     }
 
     public displayReferences(): boolean {

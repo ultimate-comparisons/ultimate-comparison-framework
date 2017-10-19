@@ -59,10 +59,8 @@ export class ComparisonConfigService {
         if (!this.comparison) {
             return [];
         }
-        let tags: Array<string> = this.comparison.details.bodyAttachmentTags;
-        if (tags.length === 0) {
-            tags = this.comparisonDataService.getDefaultAttachmentTags();
-        }
+        const forbiddenTags: Array<string> = this.comparison.details.disabledBodyAttachmentTags;
+        const tags = this.tableDataSet.getTableDataArray().filter(data => forbiddenTags.indexOf(data.tag) !== -1).map(data => data.tag);
         return tags;
     }
 

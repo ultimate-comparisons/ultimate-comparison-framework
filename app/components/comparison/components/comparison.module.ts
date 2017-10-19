@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { ComparisonDetailsComponent } from './comparison-details.component';
-import { ComparisonFootnoteComponent } from './comparison-footnote.component';
 import { ComparisonComponent } from './comparison.component';
 import { PipesModule } from '../../pipes/pipes.module';
 import { InputModule } from '../../input/input.module';
@@ -26,8 +25,7 @@ import { ComparisonCitationService } from './comparison-citation.service';
     ],
     declarations: [
         ComparisonComponent,
-        ComparisonDetailsComponent,
-        ComparisonFootnoteComponent
+        ComparisonDetailsComponent
     ],
     providers: [
         ComparisonService,

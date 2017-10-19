@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, Renderer } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 
 @Component({
     selector: 'pdialog',
@@ -15,17 +15,17 @@ export class PaperDialogComponent {
         }
     }
 
-    constructor(private el: ElementRef, private renderer: Renderer) {
+    constructor(private el: ElementRef, private renderer: Renderer2) {
     }
 
     public open() {
-        this.renderer.setElementStyle(this.el.nativeElement, 'display', 'grid');
+        this.renderer.setStyle(this.el.nativeElement, 'display', 'grid');
         document.body.classList.add('modal-open');
         this.opened = true;
     }
 
     public close() {
-        this.renderer.setElementStyle(this.el.nativeElement, 'display', 'none');
+        this.renderer.setStyle(this.el.nativeElement, 'display', 'none');
         document.body.classList.remove('modal-open');
         this.opened = false;
     }

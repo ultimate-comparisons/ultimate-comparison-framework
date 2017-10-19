@@ -11,7 +11,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.ts', '.js']
+        extensions: ['*', '.ts', '.js']
     },
 
     module: {
@@ -22,7 +22,7 @@ module.exports = {
             },
             {
                 test: /\.html$/,
-                loader: 'html'
+                loader: 'html-loader'
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
@@ -36,7 +36,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 include: helpers.root('app'),
-                loader: 'raw'
+                loader: 'raw-loader'
             }
         ]
     },

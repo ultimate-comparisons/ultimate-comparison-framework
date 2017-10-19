@@ -119,16 +119,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         if (this.confServ.comparison && this.confServ.comparison.displayall) {
             return true;
         }
-        let val = true;
-        for (const column of this.confServ.tableDataSet.getTableDataArray()) {
-            if (column.display && data.properties[column.tag] != null && data.properties[column.tag].plain !== '') {
-                return true;
-            }
-            if (column.display && data.properties[column.tag] != null) {
-                val = false;
-            }
-        }
-        return val;
+        return data.enabled;
     }
 
     public getColor(column: TableData, label: string): SafeHtml {

@@ -60,6 +60,9 @@ export class Data {
             moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('hours ago') ||
             moment(Data.repoData[this.tag].lastSync).fromNow().endsWith('days ago')) {
 
+            if (this.properties['Repo'] === undefined) {
+                this.properties['Repo'] = new Property();
+            }
             this.dataService.getRepoData(this, this.properties['Repo'].plain);
             this.updateRepoLabels(td);
         }

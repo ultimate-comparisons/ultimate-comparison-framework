@@ -32,6 +32,9 @@ export class OrderByPipe implements PipeTransform {
         this.params = {value: args[0], option: args[1]};
 
         return value.sort((a: Data, b: Data) => {
+            if (isNullOrUndefined(this.params.value)) {
+                return 0;
+            }
             for (let i = 0; i < this.params.value.length; i++) {
                 if (this.params.option[i] === 0) {
                     continue;

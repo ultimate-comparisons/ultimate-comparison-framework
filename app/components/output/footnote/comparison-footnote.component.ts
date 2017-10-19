@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, OnChanges, OnDestroy } from '@angular/core';
-import { ComparisonService } from './comparison.service';
-import { ComparisonCitationService } from './comparison-citation.service';
+import { ComparisonService } from '../../comparison/components/comparison.service';
+import { ComparisonCitationService } from '../../comparison/components/comparison-citation.service';
 import { CitationPipe } from '../../pipes/citation-pipe/citation.pipe';
 
 @Component({

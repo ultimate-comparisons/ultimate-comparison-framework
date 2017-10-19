@@ -1,3 +1,5 @@
+import * as Showdown from 'showdown';
+
 export class ListItem {
     public htmlChilds = '';
     public latexChilds = '';
