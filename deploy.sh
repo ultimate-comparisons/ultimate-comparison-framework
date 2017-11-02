@@ -32,7 +32,7 @@ build_branch () {
 # add PRs to index.md
   git checkout -f gh-pages prs
   echo "# PRs" >> index.md
-  find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
+  find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [${f}](${d}/${f})"' sh {} >> index.md \;
 
 # add index.md to gh-pages
   git add index.md
@@ -88,7 +88,7 @@ build_master () {
   echo "Create PRs Section"
   git checkout -f gh-pages prs
   echo "# PRs" >> index.md
-  find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
+  find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [${f}](${d}/${f})"' sh {} >> index.md \;
 
 # add link to current demo to index.md
   echo "Create link to demo"
