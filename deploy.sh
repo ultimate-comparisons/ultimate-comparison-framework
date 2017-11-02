@@ -91,6 +91,7 @@ build_master () {
   find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
 
 # add link to current demo to index.md
+  echo "Create link to demo"
   echo "" >> index.md
   echo "# Current Master" >> index.md
   echo "- [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)" >> index.md
