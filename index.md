@@ -1,4 +1,3 @@
-# Ultimate Comparison BASE
 
 [![Build Status](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE.svg?branch=master)](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE)
 [![Issue Count](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE/badges/issue_count.svg)](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE)
@@ -120,11 +119,9 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
   [MIT]: https://opensource.org/licenses/MIT
   [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
 # Docs
+- [Travis_Build_Deploy](docs/Travis_Build_Deploy.md)
 - [Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)
-- [](docs
-.
-Records/)
-- [Travis_Build_Deploy.md](docs/Travis_Build_Deploy.md)
+- [ADR Index](docs/adr)
 
 # PRs
 - [issue27](prs/issue27)
@@ -132,3 +129,6 @@ Records/)
 - [rewrite](prs/rewrite)
 - [initialLoadProblem](prs/initialLoadProblem)
 - [travis_test](prs/travis_test)
+
+# Current Master
+- [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
