@@ -71,9 +71,11 @@ build_master () {
   git checkout -f master README.md
 
 # add index.md
+  echo "Create index.md"
   tail -n +2 README.md > index.md
 
 # add docs to index.md
+  echo "Create Docs Section"
   echo "# Docs" >> index.md
   echo "- [Travis_Build_Deploy](docs/Travis_Build_Deploy.md)" >> index.md
   echo "- [Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)" >> index.md
@@ -83,11 +85,13 @@ build_master () {
   echo "" >> index.md
 
 # add PRs to index.md
+  echo "Create PRs Section"
   git checkout -f gh-pages prs
   echo "# PRs" >> index.md
   find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
 
 # add index.md to gh-pages
+  echo "Push index.md"
   git add index.md
   git commit -m "Travis commit for prs"
   git push SSH gh-pages
