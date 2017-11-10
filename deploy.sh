@@ -21,18 +21,32 @@ build_branch () {
   git checkout -f ${BRANCH} prs/${BRANCH}
   git add prs
 
-# update index.md
-  cp README.md index.md
+# add index.md
+  echo "Create index.md"
+  echo '<a href="https://github.com/ultimate-comparisons/ultimate-comparison-BASE"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>' > index.md
+  tail -n +2 README.md >> index.md
+
+# add docs to index.md
+  echo "Create Docs Section"
   echo "# Docs" >> index.md
-  find docs -type f -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [$f]($d/$f)"' sh {} >> index.md \;
+  echo "- [Travis_Build_Deploy](docs/Travis_Build_Deploy.md)" >> index.md
+  echo "- [Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)" >> index.md
+  echo "- [ADR Index](docs/adr)" >> index.md
 
 # insert linebreak in index.md
   echo "" >> index.md
 
 # add PRs to index.md
+  echo "Create PRs Section"
   git checkout -f gh-pages prs
   echo "# PRs" >> index.md
-  find prs -mindepth 1 -maxdepth 1 -type d -exec sh -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [${f}](${d}/${f})"' sh {} >> index.md \;
+  find prs -mindepth 1 -maxdepth 1 -type d -exec bash -c 'f=$(basename $1 .ts);d=$(dirname $1);echo "- [${f}](${d}/${f})"' bash {} >> index.md \;
+
+# add link to current demo to index.md
+  echo "Create link to demo"
+  echo "" >> index.md
+  echo "# Current Master" >> index.md
+  echo "- [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)" >> index.md
 
 # add index.md to gh-pages
   git add index.md
@@ -72,7 +86,8 @@ build_master () {
 
 # add index.md
   echo "Create index.md"
-  tail -n +2 README.md > index.md
+  echo '<a href="https://github.com/ultimate-comparisons/ultimate-comparison-BASE"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>' > index.md
+  tail -n +2 README.md >> index.md
 
 # add docs to index.md
   echo "Create Docs Section"
