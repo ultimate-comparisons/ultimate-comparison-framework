@@ -5,11 +5,11 @@ import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
 import { ComparisonCitationService } from './comparison-citation.service';
 import { VersionInformation } from '../../../VersionInformation';
-import { Http } from '@angular/http';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { TableData } from '../shared/components/table-data';
 import { PaperCardComponent } from "../../polymer/paper-card/paper-card.component";
 import { LatexTableComponent } from '../../output/latex-table/latex-table.component';
+import { HttpClient } from '@angular/common/http';
 
 const FileSaver = require('file-saver');
 
@@ -37,8 +37,7 @@ export class ComparisonComponent {
     private expandShrinkOrigDisplay: Array<TableData> = [];
     public shrinked = true;
 
-    constructor(private http: Http,
-                public serv: ComparisonService,
+    constructor(public serv: ComparisonService,
                 public dataServ: ComparisonDataService,
                 public confServ: ComparisonConfigService,
                 public citationServ: ComparisonCitationService,

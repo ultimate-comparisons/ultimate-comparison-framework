@@ -59,7 +59,6 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     constructor(private ar: ApplicationRef,
                 private confServ: ComparisonConfigService,
                 private sanitization: DomSanitizer,
-                private http: Http,
                 private cd: ChangeDetectorRef) {
     }
 

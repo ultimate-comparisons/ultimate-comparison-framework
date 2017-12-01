@@ -46,7 +46,8 @@ gulp.task('build-data', function (callback) {
 });
 
 gulp.task('determinecolors', function () {
-    const input = './comparison-configuration/table.json';
+    const config = './comparison-configuration/comparison.json';
+    const input = config.criteria;
     const colorArray = [
         'hsl(15, 100%, 70%)',
         'hsl(30, 100%, 70%)',
@@ -144,7 +145,7 @@ gulp.task('determinecolors', function () {
         color = (color + columnD) % colorArray.length;
     }
     if (changed) {
-        fs.writeFileSync(input, JSON.stringify(data, null, 4), "utf8");
+        fs.writeFileSync(config, JSON.stringify(data, null, 4), "utf8");
     }
     return true;
 });

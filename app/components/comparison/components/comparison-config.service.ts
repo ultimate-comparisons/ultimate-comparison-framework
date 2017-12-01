@@ -1,10 +1,10 @@
 import { Injectable, ChangeDetectorRef } from '@angular/core';
-import { Http } from '@angular/http';
 import { Title } from '@angular/platform-browser';
 import { TableDataSet, CriteriaSet, Comparison, TableData } from './../shared/index';
 import { ComparisonDataService } from './comparison-data.service';
 import { ComparisonService } from './comparison.service';
 import { ComparisonComponent } from './comparison.component';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ComparisonConfigService {
@@ -16,41 +16,41 @@ export class ComparisonConfigService {
     public displayAll: boolean;
 
     constructor(public title: Title,
-                private http: Http,
+                private http: HttpClient,
                 private comparisonDataService: ComparisonDataService,
                 private comparisonService: ComparisonService) {
     }
 
     public loadTableData(cd: ChangeDetectorRef) {
-        this.http.request('comparison-configuration/table.json')
+        this.http.get<any>('comparison-configuration/comparison.json')
             .subscribe(res => {
-                this.tableDataSet.load(res.json());
+                this.tableDataSet.load(res.criteria);
                 cd.markForCheck();
                 this.comparisonDataService.loadData(this.tableDataSet, cd);
             });
     }
 
     public loadCriteria(cd: ChangeDetectorRef) {
-        this.http.request('comparison-configuration/comparison.json')
+        this.http.get('comparison-configuration/comparison.json')
             .subscribe(res => {
-                this.criteriaSet = new CriteriaSet(res.json());
+                this.criteriaSet = new CriteriaSet(res);
                 cd.markForCheck();
             });
     }
 
     public loadComparison(cd: ChangeDetectorRef) {
-        this.http.request('comparison-configuration/comparison.json')
+        this.http.get('comparison-configuration/comparison.json')
             .subscribe(res => {
-                this.comparison = new Comparison(res.json());
+                this.comparison = new Comparison(res);
                 this.title.setTitle(this.comparison.title);
                 cd.markForCheck();
             });
     }
 
     public loadDescription(cd: ChangeDetectorRef) {
-        this.http.request('comparison-configuration/description.md')
+        this.http.get('comparison-configuration/description.md', {responseType: 'text'})
             .subscribe(res => {
-                this.description = this.comparisonService.converter.makeHtml(res.text());
+                this.description = this.comparisonService.converter.makeHtml(res);
                 cd.markForCheck();
             });
     }

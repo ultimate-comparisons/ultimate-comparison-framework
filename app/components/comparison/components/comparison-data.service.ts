@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Data, ListItem, Property, RatingSet, TableDataSet } from './../shared/index';
 import { ComparisonService } from './comparison.service';
 import { LocalStorageService } from "angular-2-local-storage";
+import { HttpClient } from '@angular/common/http';
 
 declare const moment;
 
@@ -11,16 +11,15 @@ export class ComparisonDataService {
     private data: Array<Data> = [];
     private tags: { [name: string]: string; } = {};
 
-    constructor(private http: Http,
+    constructor(private http: HttpClient,
                 private comparisonService: ComparisonService,
                 private lss: LocalStorageService) {
     }
 
     public loadData(tableDataSet: TableDataSet, cd: ChangeDetectorRef) {
-        const self = this;
-        this.http.request('app/components/comparison/data/data.json')
+        this.http.get('app/components/comparison/data/data.json')
             .subscribe(res => {
-                res.json().forEach(obj => {
+                (<Array<any>>res).forEach(obj => {
                     const data: Data = new Data(this.lss, this, this.comparisonService);
                     data.tag = obj.tag;
                     const regArray =

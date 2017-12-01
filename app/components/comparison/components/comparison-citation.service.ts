@@ -1,5 +1,5 @@
 import { Injectable, ChangeDetectorRef } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ComparisonCitationService {
@@ -12,7 +12,7 @@ export class ComparisonCitationService {
     private precheck = false;
     public ready = false;
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
     }
 
     public sortedReferences(): any[] {
@@ -29,9 +29,9 @@ export class ComparisonCitationService {
     }
 
     public loadCitationData(cd: ChangeDetectorRef) {
-        this.http.request('citation/output/fbib.json')
+        this.http.get('citation/output/fbib.json')
             .subscribe(res => {
-                this.bibEntriesHtml = res.json();
+                this.bibEntriesHtml = res;
                 if (!this.check && this.precheck) {
                     this.check = true;
                 } else {
@@ -39,9 +39,9 @@ export class ComparisonCitationService {
                 }
                 cd.markForCheck();
             });
-        this.http.request('citation/output/fkeys.json')
+        this.http.get('citation/output/fkeys.json')
             .subscribe(res => {
-                this.bibEntriesInline = res.json();
+                this.bibEntriesInline = res;
                 if (!this.check && this.precheck) {
                     this.check = true;
                 } else {
