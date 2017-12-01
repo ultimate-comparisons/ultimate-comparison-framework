@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Data } from './../../comparison/shared/index';
 import { ListItem } from '../../comparison/shared/components/list-item';
+import { isNullOrUndefined } from 'util';
 
 @Pipe({
     name: 'datafilter',
@@ -11,10 +12,10 @@ export class DataPipe implements PipeTransform {
     private query: any[];
 
     transform(value: Array<Data>, args: Array<any> = []) {
-        this.query = args[0];
-        if (!this.query) {
+        if (!args[0] || !args[0].currentFilter) {
             return value;
         }
+        this.query = args[0].currentFilter;
         return value.filter((item) => {
             if (item.tag.trim() === 'Template' && !args[1]) {
                 return false;
@@ -27,6 +28,9 @@ export class DataPipe implements PipeTransform {
                     continue;
                 }
                 const cont = this.query[key];
+                if (isNullOrUndefined(cont) || isNullOrUndefined(cont.criteria)) {
+                    continue;
+                }
                 const values: Array<string> = item.getPropertyTags(cont.criteria.tag);
                 if (cont.criteria.range_search) {
                     let propertyValue = cont.values.target.value;

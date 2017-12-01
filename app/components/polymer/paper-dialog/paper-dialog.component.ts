@@ -1,4 +1,7 @@
 import { Component, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
+import { IUCAppState } from '../../../redux/app.app-state';
+import { Store } from '@ngrx/store';
+import { UPDATE_MODAL } from '../../../redux/app.reducers';
 
 @Component({
     selector: 'pdialog',
@@ -15,18 +18,16 @@ export class PaperDialogComponent {
         }
     }
 
-    constructor(private el: ElementRef, private renderer: Renderer2) {
+    constructor(public el: ElementRef, public renderer: Renderer2, private store: Store<IUCAppState>) {
     }
 
     public open() {
-        this.renderer.setStyle(this.el.nativeElement, 'display', 'grid');
-        document.body.classList.add('modal-open');
+        this.store.dispatch({type: UPDATE_MODAL, value: this});
         this.opened = true;
     }
 
     public close() {
-        this.renderer.setStyle(this.el.nativeElement, 'display', 'none');
-        document.body.classList.remove('modal-open');
+        this.store.dispatch({type: UPDATE_MODAL, value: null});
         this.opened = false;
     }
 

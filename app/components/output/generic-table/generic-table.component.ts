@@ -19,6 +19,9 @@ import { Select2Component } from '../../input/select2/select2.component';
 import { InputInterface } from "../../input/input-interface";
 import { NumberInputComponent } from "../../input/number-input/number-input.component";
 import { Criteria } from "../../comparison/shared/components/criteria";
+import { Store } from '@ngrx/store';
+import { IUCAppState } from '../../../redux/app.app-state';
+import { Observable } from 'rxjs';
 
 declare const anchors;
 
@@ -37,7 +40,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     @Input() columns: Array<TableData> = [];
 
     @Input() data: Array<Data> = [];
-    @Input() query: { [name: string]: CriteriaSelection; } = {};
+    query: Observable<{ [name: string]: CriteriaSelection; }>;
     @Input() displayTemplate = false;
 
     @Input() citationServ: ComparisonCitationService;
@@ -59,7 +62,9 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     constructor(private ar: ApplicationRef,
                 private confServ: ComparisonConfigService,
                 private sanitization: DomSanitizer,
-                private cd: ChangeDetectorRef) {
+                private cd: ChangeDetectorRef,
+                private store: Store<IUCAppState>) {
+        this.query = store.select('currentFilter');
     }
 
     private orderClick(e: MouseEvent, value: string) {

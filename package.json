@@ -24,6 +24,8 @@
     "@angular/platform-browser": "^5.0.4",
     "@angular/platform-browser-dynamic": "^5.0.4",
     "@angular/router": "^5.0.4",
+    "@ngrx/router-store": "^4.1.1",
+    "@ngrx/store": "^4.1.1",
     "@types/angular": "^1.6.34",
     "@types/jquery": "^3.2.15",
     "@types/node": "^8.0.47",
