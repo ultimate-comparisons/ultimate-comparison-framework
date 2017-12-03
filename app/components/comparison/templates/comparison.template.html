@@ -35,8 +35,8 @@
                             </ptooltip>
                             <br>
                             <select2 [options]="crit.values" [placeholder]="crit.placeholder" [name]="crit.name" [tag]="crit.tag"
-                                     (result)="criteriaChanged($event, crit)" *ngIf="!crit.range_search"></select2>
-                            <number-input *ngIf="crit.range_search" [comparisonComponent]="this" [name]="crit.name"
+                                     (result)="criteriaChanged($event, crit)" *ngIf="!crit.range_search" [active]="getActive(state | async, crit)"></select2>
+                            <number-input *ngIf="crit.range_search" [comparisonComponent]="this" [name]="crit.name" [active]="getActive(state | async, crit)"
                                           [criteria]="crit" [tag]="crit.tag"></number-input>
                         </div>
                     </div>

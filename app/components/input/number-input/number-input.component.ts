@@ -15,6 +15,7 @@ export class NumberInputComponent implements InputInterface {
     @Input() criteria: Criteria;
     @Input() tag: string;
     @Input() name: string;
+    @Input() active: Array<string> = [];
     @ViewChild('content') content: any;
 
     public constructor() {
@@ -49,5 +50,12 @@ export class NumberInputComponent implements InputInterface {
         }
         this.content.nativeElement.value += item;
         this.criteriaChanged({ target: { value: this.content.nativeElement.value }});
+    }
+
+    public getValue() {
+        if (this.active.length > 0) {
+            return this.active[0];
+        }
+        return '';
     }
 }

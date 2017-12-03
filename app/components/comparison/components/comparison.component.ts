@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Criteria, CriteriaSelection, Data } from '../shared/index';
 import { ComparisonConfigService } from './comparison-config.service';
 import { ComparisonDataService } from './comparison-data.service';
@@ -12,9 +12,11 @@ import { LatexTableComponent } from '../../output/latex-table/latex-table.compon
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { IUCAppState } from '../../../redux/app.app-state';
-import { UPDATE_FILTER } from '../../../redux/app.reducers';
+import { UPDATE_FILTER, UPDATE_ROUTE, UPDATE_SEARCH } from '../../../redux/app.reducers';
 import { Observable } from 'rxjs';
 import { PaperDialogComponent } from '../../polymer/paper-dialog/paper-dialog.component';
+import { processUrl } from '../../../redux/app.url';
+import { Router } from '@angular/router';
 
 const FileSaver = require('file-saver');
 
@@ -49,13 +51,15 @@ export class ComparisonComponent {
                 public citationServ: ComparisonCitationService,
                 private cd: ChangeDetectorRef,
                 private lss: LocalStorageService,
-                private store: Store<IUCAppState>) {
+                private store: Store<IUCAppState>,
+                private router: Router) {
         this.confServ.loadComparison(this.cd);
         this.confServ.loadCriteria(this.cd);
         this.confServ.loadTableData(this.cd);
         this.confServ.loadDescription(this.cd);
         this.citationServ.loadCitationData(this.cd);
         this.state = this.store.select('currentModal');
+        this.router.events.subscribe(res => this.store.dispatch({type: UPDATE_ROUTE}))
     }
 
     public getVersionInformation(): VersionInformation {
@@ -64,7 +68,7 @@ export class ComparisonComponent {
 
     public criteriaChanged(value: Array<String> | KeyboardEvent | { target: { value: string }}, crit: Criteria) {
         if (value) {
-            this.store.dispatch({type: UPDATE_FILTER, value: new CriteriaSelection(value, crit)});
+            this.store.dispatch({type: UPDATE_SEARCH, value: new CriteriaSelection(value, crit)});
         }
         this.cd.markForCheck();
 
@@ -81,7 +85,6 @@ export class ComparisonComponent {
     }
 
     private downloadLatexTable() {
-        console.log(this.latexTable.element.nativeElement)
         let content: string = this.latexTable.element.nativeElement.textContent;
         content = content.substr(content.indexOf('%'), content.length);
         const blob: Blob = new Blob([content], {type: 'plain/text'});
@@ -126,8 +129,21 @@ export class ComparisonComponent {
     }
 
     public changeEnabled(item: Data) {
-        item.enabled = !item.enabled;
+        this.store.dispatch({type: UPDATE_FILTER, value: item, operation: item.enabled ? 1 : -1});
         this.change();
+    }
+
+    public getActive(state: IUCAppState, crit: Criteria): Array<string> {
+        for (const el in state.currentSearch) {
+            if (state.currentSearch.hasOwnProperty(el) && (crit.name === el || crit.tag === el)) {
+                if (crit.range_search) {
+                    return [(<any>state.currentSearch[el].values).target.value];
+                } else {
+                    return <Array<string>>state.currentSearch[el].values;
+                }
+            }
+        }
+        return [];
     }
 
     public shrinkExpand() {

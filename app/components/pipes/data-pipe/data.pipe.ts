@@ -12,10 +12,10 @@ export class DataPipe implements PipeTransform {
     private query: any[];
 
     transform(value: Array<Data>, args: Array<any> = []) {
-        if (!args[0] || !args[0].currentFilter) {
+        if (!args[0] || !args[0].currentSearch) {
             return value;
         }
-        this.query = args[0].currentFilter;
+        this.query = args[0].currentSearch;
         return value.filter((item) => {
             if (item.tag.trim() === 'Template' && !args[1]) {
                 return false;

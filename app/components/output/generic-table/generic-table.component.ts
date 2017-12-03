@@ -64,7 +64,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
                 private sanitization: DomSanitizer,
                 private cd: ChangeDetectorRef,
                 private store: Store<IUCAppState>) {
-        this.query = store.select('currentFilter');
+        this.query = store.select('currentSearch');
     }
 
     private orderClick(e: MouseEvent, value: string) {

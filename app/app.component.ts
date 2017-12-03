@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'myapp',
-    template: '<comparison></comparison>',
+    template: '<router-outlet></router-outlet>',
     styleUrls: [
         './styles/bootstrap.min.css',
         './styles/style.css'

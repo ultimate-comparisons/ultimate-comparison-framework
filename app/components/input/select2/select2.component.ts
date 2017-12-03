@@ -21,6 +21,7 @@ export class Select2Component implements InputInterface {
     @Input() placeholder: string;
     @Input() tag: string;
     @Input() name: string;
+    @Input() active: Array<string>;
     @ViewChild('selector') ngSelect: any;
 
     @Output() result: EventEmitter<any> = new EventEmitter();
