@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -21,7 +21,7 @@ export class TooltipComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (typeof this.tooltip === 'number'){
+        if (typeof this.tooltip === 'number') {
             this.tooltip = this.tooltip.toString();
         }
         if (this.tooltip.indexOf('<') > -1 && this.tooltip.indexOf('>') > -1) {

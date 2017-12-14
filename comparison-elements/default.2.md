@@ -5,7 +5,7 @@ fast, Apache 2.0, red 2, green
 - fast
 
 ## License
-- Apache 2.0
+- Apache-2.0
 
 ## Showcase 2.0
 - red 2
@@ -16,10 +16,10 @@ fast, Apache 2.0, red 2, green
 Default long description in __markdown__.
 
 ## Uncolored
-- color 1
-- color 3
+- Color 1
+- Color 3
 
-## Repo
+## Repository
 - https://github.com/ultimate-comparisons/ultimate-deployment-tool-comparison
 
 ## NumberColumn

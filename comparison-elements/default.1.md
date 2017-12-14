@@ -16,10 +16,10 @@ slow, MIT, red 1, grey
 Default long description in __markdown__.
 
 ## Uncolored
-- color 1
-- color 2
+- Color 1
+- Color 2
 
-## Repo
+## Repository
 - https://github.com/ultimate-comparisons/ultimate-comparison-BASE
 
 ## NumberColumn

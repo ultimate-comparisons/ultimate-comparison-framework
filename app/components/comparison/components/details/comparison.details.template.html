@@ -1,0 +1,69 @@
+<div class="pheader">
+    <h2>{{data.name}}
+        <ng-template ngFor let-label [ngForOf]="headerLabels">
+            <ptooltip [tooltip]="label.tooltip.text"
+                      [tooltipHtml]="label.tooltip.html" [position]="'s'">
+                <div class="label mylabel {{label.clazz}}" [style.color]="label.color"
+                     [style.background-color]="label.backgroundColor">
+                    {{label.name}}
+                </div>
+            </ptooltip>
+        </ng-template>
+        <small><a href="{{data.url}}" target="_blank">{{data.url}}</a></small>
+    </h2>
+</div>
+<div class="grid-content">
+    <pcard heading="{{bodyTitle}}" class="description">
+        <div [innerHTML]="description | sanitizeHtml" class="description"></div>
+    </pcard>
+
+    <ng-template ngFor let-entry [ngForOf]="tags" let-i="index">
+        <pcard heading="{{headers[i]}}">
+            <p class="card-content">
+                <a *ngIf="types[i] === 0" class="anchored"
+                   href="{{entry.link}}"
+                   target="_blank">{{entry.text}}</a>
+                <ng-template *ngIf="types[i] === 1" ngFor let-label [ngForOf]="entry">
+                    <ptooltip *ngIf="!tooltipAsText"
+                              [tooltip]="label.tooltip.text"
+                              [tooltipHtml]="label.tooltip.html" [position]="'n'">
+                        <div class="label mylabel {{label.clazz}}" [style.color]="label.color"
+                             [style.background-color]="label.backgroundColor"
+                             (click)="labelClick(label, i)">
+                            {{label.name}}
+                        </div>
+                    </ptooltip>
+                    <div *ngIf="tooltipAsText">
+                    <span class="label mylabel {{label.clazz}}" [style.color]="label.color"
+                          [style.background-color]="label.backgroundColor"
+                          (click)="labelClick(label, i)">
+                        {{label.name}}
+                    </span>
+                        <span class="tooltip-text" [innerHtml]="label.tooltip.text|sanitizeHtml"></span>
+                        <br *ngIf="label.tooltip.text && label.tooltip.html">
+                        <span class="tooltip-text" [innerHtml]="label.tooltip.html|sanitizeHtml"></span>
+                    </div>
+                </ng-template>
+
+                <span *ngIf="types[i] === 2">{{entry.content}}</span>
+
+                <span *ngIf="types[i] === 3" [innerHtml]="entry?.htmlContent | sanitizeHtml"></span>
+            </p>
+        </pcard>
+    </ng-template>
+
+    <pcard heading="Ratings" *ngIf="ratings.length > 0" style="display:block">
+        <div class="card-content">
+            <ng-template ngFor let-rating [ngForOf]="ratings">
+                <dl>
+                    <dt>
+                        <iicon icon="star">{{rating.stars}}</iicon>
+                    </dt>
+                    <dd>
+                        {{rating.comment}}
+                    </dd>
+                </dl>
+            </ng-template>
+        </div>
+    </pcard>
+</div>

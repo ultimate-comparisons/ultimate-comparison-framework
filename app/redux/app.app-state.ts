@@ -1,15 +1,14 @@
-import { CriteriaSelection } from '../components/comparison/shared/components/criteria-selection';
 import { PaperDialogComponent } from '../components/polymer/paper-dialog/paper-dialog.component';
-import { Data } from '../components/comparison/shared/components/data';
+import { Data } from "../components/comparison/components/data/data";
 
 export interface IUCAppState {
-    currentSearch: { [name: string]: CriteriaSelection; };
+    currentSearch: { [name: string]: any; };
     currentModal: PaperDialogComponent;
     currentFilter: Array<Data>;
 }
 
 export class UCAppState implements IUCAppState {
-    currentSearch: { [name: string]: CriteriaSelection; } = {};
+    currentSearch: { [name: string]: any; } = {};
     currentModal: PaperDialogComponent = null;
     currentFilter: Array<Data> = [];
 

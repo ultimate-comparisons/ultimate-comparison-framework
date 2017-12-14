@@ -1,6 +1,11 @@
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild,
-    ChangeDetectorRef
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    ViewChild
 } from '@angular/core';
 import { isNullOrUndefined } from "util";
 import { InputInterface } from "../input-interface";
@@ -16,7 +21,7 @@ import { InputInterface } from "../input-interface";
 export class Select2Component implements InputInterface {
     public static components: Array<Select2Component> = [];
     private ops = [{value: 't1', label: 't2'}];
-    @Input() options: Array<Object> = [];
+    @Input() options: Array<string> = [];
     @Input() maximumSelectionLength = 0;
     @Input() placeholder: string;
     @Input() tag: string;

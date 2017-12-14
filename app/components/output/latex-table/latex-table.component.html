@@ -1,6 +1,7 @@
-<div #latextable [ngClass]="{'hidden': !showTable}" class="grid-content-latex">
-    <!-- @formatter:off -->
-<pcard heading="Latex Table" class="large-paper-card"><div class="card-content" style="overflow: auto;"><!--
+<div class="grid-content-latex">
+    <pcard heading="Latex Table" class="large-paper-card">
+        <div class="card-content" style="overflow: auto;"><!--
+@formatter:off
 -->%\usepackage&#123;calc&#125;<br/>
 %\usepackage&#123;booktabs&#125;<br/>
 %\usepackage&#123;url&#125;<br/>
@@ -9,45 +10,69 @@
 %\usepackage&#123;scrextend&#125;<br/>
 %\makesavenoteenv&#123;tabular&#125;<br/>
 %\makesavenoteenv&#123;tabule&#125;<br/>
-\begin&#123;tabular&#125;&#123;&#64;&#123;&#125; <ng-template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter">p&#123;\linewidth/{{(confServ.tableDataSet?.getTableDataArray() | tablefilter).length}}&#125; </ng-template>&#64;&#123;&#125;&#125;<br/>
+\begin&#123;tabular&#125;&#123;&#64;&#123;&#125;<!--
+--><ng-template ngFor let-item [ngForOf]="items">p&#123;\linewidth/{{items.length}}&#125;<!--
+--></ng-template>&#64;&#123;&#125;&#125;<br/>
 \toprule<br/>
-<ng-template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last">{{column.name}} <!--
+   <ng-template ngFor let-item [ngForOf]="items" let-last="last" let-i="index">{{columns[i]}} <!--
     --><ng-template [ngIf]="!last">&#38; </ng-template><!--
-    --><ng-template [ngIf]="last">\\<br/></ng-template>
-</ng-template>\midrule<br/>
-<!-- iterate over data rows
---><ng-template ngFor let-dat [ngForOf]="dataServ.data | orderBy: [order,orderOption] | datafilter: [query,confServ.comparison?.displaytemplate]"><!--
+    --><ng-template [ngIf]="last">\\<br/></ng-template><!--
+--></ng-template><!--
+-->\midrule<br/><!--
+
+iterate over data rows
+--><ng-template ngFor let-item [ngForOf]="items"><!--
     iterate over data columns
-    --><ng-template ngFor let-column [ngForOf]="confServ.tableDataSet?.getTableDataArray() | tablefilter" let-last="last"><!--
-        print url
-        --><ng-template [ngIf]="column.type?.tag==='url'">{{dat.getProperty(column.tag).text}}</ng-template><!--
-        print text
-        --><ng-template [ngIf]="column.type?.tag==='text'"><div [innerHtml]="dat.getProperty(column.tag).text|citation:[citationServ, true]|sanitizeHtml"></div></ng-template><!--
+    --><ng-template ngFor let-entry [ngForOf]="item" let-last="last" let-i="index"><!--
+        print url (only print the text and not the link)
+        --><ng-template [ngIf]="types[i] === 0 && entry">{{entry.text}}</ng-template><!--
+
         print labels
-        --><ng-template [ngIf]="column.type?.tag==='label'"><!--
+        --><ng-template [ngIf]="types[i] === 1 && entry"><!--
             iterate over labels
-            --><ng-template ngFor let-sitem [ngForOf]="dat.getPropertyListItems(column.tag)" let-lastItem="last" *ngIf="column.type?.labelCls"><!--
+            --><ng-template ngFor let-label [ngForOf]="entry" let-lastItem="last"><!--
                 print label
-                -->{{sitem.content}}<!--
+                -->{{label.name}}<!--
                     tooltip
-                    --><ng-template [ngIf]="sitem.latexChilds"><!--
+                    --><ng-template [ngIf]="label.tooltip"><!--
                         print tooltips?
                         --><ng-template [ngIf]="showTableTooltips"><!--
                             print tooltips in footnotes
-                            --><comparison-footnote [footnote]="sitem.latexChilds" *ngIf="tableTooltipsAsFootnotes"></comparison-footnote><!--
+                            --><footnote *ngIf="tableTooltipsAsFootnotes&&label.tooltip.latex" [footnote]="label.tooltip.latex" [(footnotes)]="footnotes"></footnote><!--
                             print tooltips after labels
-                            --><div [innerHtml]="sitem.latexChilds|citation: [this.citationServ, true]|sanitizeHtml"></div><!--
+                            --><div *ngIf="!tableTooltipsAsFootnotes" [innerHtml]="label.tooltip.latex|sanitizeHtml"></div><!--
                         --></ng-template><!--
                     --></ng-template><!--
                     label seperator --><ng-template [ngIf]="!lastItem">, </ng-template><!--
             --></ng-template><!--
-        --></ng-template><ng-template [ngIf]="!last"> &#38; </ng-template><ng-template [ngIf]="last">\\<br/></ng-template><!--
-    --></ng-template>
-</ng-template>\bottomrule<br/>
-\end&#123;tabular&#125;<br/>
-<ng-template [ngIf]="tableTooltipsAsFootnotes">
-\newcommand\snum&#123;0&#125;
-<ng-template ngFor let-item [ngForOf]="serv.getFootnotes()"><div [innerHtml]="item|sanitizeHtml"></div>
-</ng-template></ng-template></div></pcard>
+        --></ng-template><!--
+
+        print text
+        --><ng-template [ngIf]="types[i] === 2">{{entry.content}}</ng-template><!--
+
+        print markdown
+        --><ng-template [ngIf]="types[i] === 3"><!--
+            --><span class="ltInline" [innerHtml]="entry.htmlContent|sanitizeHtml"></span><!--
+        --></ng-template><!--
+       --><ng-template [ngIf]="!last"> &#38; </ng-template><!--
+       --><ng-template [ngIf]="last">\\<br/></ng-template><!--
+    --></ng-template><!--
+--></ng-template>\bottomrule<br/><!--
+
+-->
+\end&#123;tabular&#125;<br/><!--
+
+footnotes
+--><ng-template [ngIf]="tableTooltipsAsFootnotes"><!--
+    --><br/>\newcommand\snum&#123;0&#125;<!--
+    --><ng-template ngFor let-item [ngForOf]="getFootnotes()" let-i="index"><!--
+        --><br/>\footnotetext&#91;\numexpr\snum+{{i}}&#93;&#123;<!--
+            --><div [innerHtml]="item.text|sanitizeHtml"></div><!--
+            -->\label{{('{'+item.ref+'}')}}<!--
+        -->&#125;<!--
+    --></ng-template><!--
+--></ng-template>
     <!-- @formatter:on -->
+        </div>
+    </pcard>
 </div>

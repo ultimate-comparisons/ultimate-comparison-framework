@@ -1,29 +1,14 @@
 import {
-    AfterViewChecked,
-    ApplicationRef,
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
     Component,
     EventEmitter,
     Input,
     OnChanges,
-    Output
+    Output,
+    SimpleChanges
 } from '@angular/core';
-import { CriteriaSelection, Data, TableData } from './../../comparison/shared/index';
-import { ComparisonCitationService } from './../../comparison/components/comparison-citation.service';
-import { ComparisonConfigService } from '../../comparison/components/comparison-config.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Http } from '@angular/http';
-import { ComparisonComponent } from '../../comparison/components/comparison.component';
-import { Select2Component } from '../../input/select2/select2.component';
-import { InputInterface } from "../../input/input-interface";
-import { NumberInputComponent } from "../../input/number-input/number-input.component";
-import { Criteria } from "../../comparison/shared/components/criteria";
-import { Store } from '@ngrx/store';
-import { IUCAppState } from '../../../redux/app.app-state';
-import { Observable } from 'rxjs';
-
-declare const anchors;
+import { Configuration, Criteria } from "../../comparison/components/configuration/configuration";
+import { Data, Label, Markdown, Text, Url } from "../../comparison/components/data/data";
 
 @Component({
     selector: 'generictable',
@@ -31,40 +16,71 @@ declare const anchors;
     styleUrls: ['./generic-table.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GenericTableComponent implements AfterViewChecked, OnChanges {
-    private counter = 0;
-    private table;
-
-    @Input() display = false;
-    @Input() settings = false;
-    @Input() columns: Array<TableData> = [];
+export class GenericTableComponent implements OnChanges {
+    @Input() changeNum = 0;
 
     @Input() data: Array<Data> = [];
-    query: Observable<{ [name: string]: CriteriaSelection; }>;
-    @Input() displayTemplate = false;
+    @Input() configuration: Configuration = new Configuration.Builder().build();
 
-    @Input() citationServ: ComparisonCitationService;
+    @Input() order: Array<String> = [];
+    @Input() orderOption: Array<number> = [];
 
     @Output() settingsCallback: EventEmitter<any> = new EventEmitter();
     @Output() showDetails: EventEmitter<any> = new EventEmitter();
-
-    @Input() changeNum = 0;
-
-    @Input() order: Array<String> = [];
+    @Output() searchFor: EventEmitter<any> = new EventEmitter();
     @Output() orderChange: EventEmitter<any> = new EventEmitter();
-    @Input() orderOption: Array<number> = [];
     @Output() orderOptionChange: EventEmitter<any> = new EventEmitter();
 
-    @Input() comparisonComponent: ComparisonComponent;
+    // TODO new inputs: (move to redux store)
+    @Input() columns: Array<string> = [];
+    @Input() types: Array<number> = [];
+    @Input() items: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
+    @Input() index: Array<number> = [];
 
     private ctrlCounter = 0;
 
-    constructor(private ar: ApplicationRef,
-                private confServ: ComparisonConfigService,
-                private sanitization: DomSanitizer,
-                private cd: ChangeDetectorRef,
-                private store: Store<IUCAppState>) {
-        this.query = store.select('currentSearch');
+    // TODO Remove => move to redux
+    ngOnChanges(changes: SimpleChanges): void {
+        let columns: Array<string> = [];
+        let types: Array<number> = [];
+        let items: Array<Array<Array<Label> | Text | Url | Markdown | number>> = [];
+        let index: Array<number> = [];
+        const criteriaMap: Map<string, Criteria> = this.configuration.criteria;
+        criteriaMap.forEach((criteria, key) => {
+            if (criteria.table) {
+                columns.push(criteria.name);
+                types.push(criteria.type);
+            }
+
+        });
+        this.data.forEach((data, i) => {
+            let item: Array<Array<Label> | Text | Url | Markdown | number> = [];
+            criteriaMap.forEach((criteria, key) => {
+                if (criteria.table) {
+                    const obj: any = data.criteria.get(key);
+                    if (criteria.type === 1) {
+                        const labelMap: Map<string, Label> = obj || new Map;
+                        let labels: Array<Label> = [];
+                        labelMap.forEach(label => labels.push(label));
+                        item.push(labels);
+                    } else if (criteria.type === 4) {
+                        item.push(data.averageRating);
+                    } else {
+                        item.push(obj);
+                    }
+                }
+            });
+            items.push(item);
+            index.push(i);
+        });
+        this.columns = columns;
+        this.items = items;
+        this.types = types;
+        this.index = index;
+    }
+
+    public labelClick(key: string, index: number) {
+        this.searchFor.emit({key, index});
     }
 
     private orderClick(e: MouseEvent, value: string) {
@@ -89,7 +105,6 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
         }
         this.orderChange.emit(this.order);
         this.orderOptionChange.emit(this.orderOption);
-        this.table.trigger('reflow');
     }
 
     private displayOrder(value: string, option: number): boolean {
@@ -98,90 +113,5 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
             this.orderOption[this.ctrlCounter] = 1;
         }
         return this.order.findIndex(val => val === value) >= 0 && this.orderOption[this.order.findIndex(val => val === value)] === option;
-    }
-
-    ngAfterViewChecked(): void {
-        this.table = (<any>$('table.table.table-hover'));
-        this.table.floatThead();
-        anchors.options = {
-            placement: 'right'
-        };
-        anchors.add('.anchored');
-    }
-
-    ngOnChanges(): void {
-        this.update();
-    }
-
-    public update(): void {
-        if (this.table != null) {
-            this.table.trigger('reflow');
-        }
-    }
-
-    public shouldBeShown(data: Data) {
-        if (this.confServ.comparison && this.confServ.comparison.displayall) {
-            return true;
-        }
-        return data.enabled;
-    }
-
-    public getColor(column: TableData, label: string): SafeHtml {
-        return this.sanitization.bypassSecurityTrustStyle(column.type.colors.getColor(label));
-    }
-
-    public getForegroundColor(column: TableData, label: string): SafeHtml {
-        const color = column.type.foregroundColors.getColor(label);
-        if (color === '') {
-            return this.sanitization.bypassSecurityTrustStyle('#0d0d0d');
-        } else {
-            return this.sanitization.bypassSecurityTrustStyle(color);
-        }
-    }
-
-    public searchFor(column: string, value: string | number) {
-        let c: Criteria = null;
-        for (const crit of this.confServ.criteriaSet.getCriteriaArray()) {
-            if (crit.name === column || crit.tag === column) {
-                c = crit;
-                break;
-            }
-        }
-        if (c === null) {
-            return;
-        }
-
-        if (c.values.indexOf(value) !== -1) {
-            return;
-        }
-
-        let input: InputInterface = null;
-        if (c.range_search) {
-            for (const ni of NumberInputComponent.components) {
-                if (ni.tag === column || ni.name === column) {
-                    input = ni;
-                    break;
-                }
-            }
-            if (input === null) {
-                return;
-            }
-            value = String(value);
-            this.cd.markForCheck();
-        } else {
-            for (const s2 of Select2Component.components) {
-                if (s2.tag === column || s2.name === column) {
-                    input = s2;
-                    break;
-                }
-            }
-            if (input === null) {
-                return;
-            }
-            value = String(value);
-            this.comparisonComponent.criteriaChanged([value], c);
-            this.comparisonComponent.change();
-        }
-        input.addToGui(value);
     }
 }

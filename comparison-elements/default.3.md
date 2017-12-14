@@ -5,7 +5,7 @@ fast, MPL 2.0, red 1, red 2, light blue
 - fast
 
 ## License
-- MPL 2.0
+- MPL-2.0
 
 ## Showcase 2.0
 - red 1
@@ -16,9 +16,9 @@ fast, MPL 2.0, red 1, red 2, light blue
 Default long description in __markdown__.
 
 ## Uncolored
-- color 2
+- Color 2
 
-## Repo
+## Repository
 - https://github.com/ultimate-comparisons/ultimate-IoT-platform-comparison
 
 ## NumberColumn

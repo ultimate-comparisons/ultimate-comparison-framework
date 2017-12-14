@@ -2,15 +2,13 @@ import { NgModule } from '@angular/core';
 // Provider imports
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ComparisonDetailsComponent } from './comparison-details.component';
-import { ComparisonComponent } from './comparison.component';
+import { ComparisonDetailsComponent } from './details/comparison.details.component';
+import { ComparisonComponent } from './component/comparison.component';
 import { PipesModule } from '../../pipes/pipes.module';
 import { InputModule } from '../../input/input.module';
 import { OutputModule } from '../../output/output.module';
-import { ComparisonService } from './comparison.service';
-import { ComparisonDataService } from './comparison-data.service';
-import { ComparisonConfigService } from './comparison-config.service';
-import { ComparisonCitationService } from './comparison-citation.service';
+import { ConfigurationService } from "./configuration/configuration.service";
+import { DataService } from "./data/data.service";
 
 @NgModule({
     imports: [
@@ -28,10 +26,8 @@ import { ComparisonCitationService } from './comparison-citation.service';
         ComparisonDetailsComponent
     ],
     providers: [
-        ComparisonService,
-        ComparisonDataService,
-        ComparisonConfigService,
-        ComparisonCitationService,
+        ConfigurationService,
+        DataService,
         Title,
         HttpClient
     ]

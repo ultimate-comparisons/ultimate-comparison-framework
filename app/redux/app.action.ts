@@ -1,12 +1,10 @@
 import { Action } from '@ngrx/store';
-import { CriteriaSelection } from '../components/comparison/shared/components/criteria-selection';
 import { PaperDialogComponent } from '../components/polymer/paper-dialog/paper-dialog.component';
-import { Criteria } from '../components/comparison/shared/components/criteria';
-import { Data } from '../components/comparison/shared/components/data';
+import { Data } from "../components/comparison/components/data/data";
 
 export class UCAction implements Action {
     type: string;
-    value: PaperDialogComponent | CriteriaSelection | {keyboard: KeyboardEvent, criteria: Criteria} | Data;
+    value: PaperDialogComponent | any | { keyboard: KeyboardEvent, criteria: any } | Data;
     /**
      * Only important for filters.
      * 1 adds the filter

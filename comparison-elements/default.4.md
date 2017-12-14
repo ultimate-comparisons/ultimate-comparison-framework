@@ -16,9 +16,9 @@ slow, MIT, green, green, grey
 Default long description in __markdown__.
 
 ## Uncolored
-- color 1
+- Color 1
 
-## Repo
+## Repository
 - https://github.com/SitOPT/SitOPT-Installation-Script
 
 ## NumberColumn

@@ -1,9 +1,8 @@
 import { IUCAppState, UCAppState } from './app.app-state';
 import { UCAction } from './app.action';
 import { isNullOrUndefined, isUndefined } from 'util';
-import { CriteriaSelection } from '../components/comparison/shared/components/criteria-selection';
 import { PaperDialogComponent } from '../components/polymer/paper-dialog/paper-dialog.component';
-import { Data } from '../components/comparison/shared/components/data';
+import { Data } from "../components/comparison/components/data/data";
 
 export const UPDATE_SEARCH = 'UPDATE_SEARCH';
 export const UPDATE_MODAL = 'UPDATE_MODAL';
@@ -26,7 +25,8 @@ export function routeReducer(state: IUCAppState = INITIAL_STATE, action: UCActio
                 }
             }
             break;
-        default: break;
+        default:
+            break;
     }
     return state;
 }
@@ -36,15 +36,16 @@ export function searchReducer(state: IUCAppState = INITIAL_STATE, action: UCActi
         return INITIAL_STATE;
     }
     switch (action.type) {
+        /*
         case UPDATE_SEARCH: state = {
             currentSearch: mergeSearches(state.currentSearch, <CriteriaSelection>action.value, state),
             currentModal: state.currentModal,
             currentFilter: state.currentFilter
         };
-        break;
-        default: return state;
+        break;*/
+        default:
+            return state;
     }
-    return state;
 }
 
 export function modalReducer(state: IUCAppState = INITIAL_STATE, action: UCAction): IUCAppState {
@@ -55,15 +56,14 @@ export function modalReducer(state: IUCAppState = INITIAL_STATE, action: UCActio
     switch (action.type) {
         case UPDATE_MODAL:
             if (isNullOrUndefined(action.value)) {
-                state.currentModal.renderer.setStyle(state.currentModal.el.nativeElement, 'display', 'none');
-                state.currentModal.el.nativeElement.classList.remove('model-open');
+
             } else {
-                newDialog.renderer.setStyle(newDialog.el.nativeElement, 'display', 'grid');
-                newDialog.el.nativeElement.classList.add('model-open');
+
             }
             state.currentModal = newDialog;
             break;
-        default: return state;
+        default:
+            return state;
     }
     updateRoute(state);
     return state;
@@ -81,13 +81,14 @@ export function filterReducer(state: IUCAppState = INITIAL_STATE, action: UCActi
         case UPDATE_FILTER:
             if (action.operation === 1 && state.currentFilter.indexOf(data) === -1) {
                 state.currentFilter.push(data);
-                data.enabled = false;
+                //data.enabled = false;
             } else if (action.operation === -1 && state.currentFilter.indexOf(data) > -1) {
                 state.currentFilter.splice(state.currentFilter.indexOf(data), 1);
-                data.enabled = true;
+                //data.enabled = true;
             }
             break;
-        default: return state;
+        default:
+            return state;
     }
     updateRoute(state);
     return state;
@@ -97,13 +98,12 @@ function updateRoute(state: IUCAppState) {
     window.history.pushState(0, '', '?state=' + encodeURIComponent(JSON.stringify(state)));
 }
 
-function mergeSearches(original: { [name: string]: CriteriaSelection }, update: CriteriaSelection, state: IUCAppState):
-IUCAppState['currentSearch'] {
+function mergeSearches(original: { [name: string]: any }, update: any, state: IUCAppState): IUCAppState['currentSearch'] {
     if (!isNullOrUndefined(update.criteria)) {
         if (Array.isArray(update.values) && (<Array<string>>update.values).length > 0) {
             // Criteria is a label one
 
-            original[update.criteria.tag] = update;
+            original[update.criteria.name] = update;
             updateRoute(state);
         } else if (update.values.constructor.name === 'KeyboardEvent') {
             // Criteria is range_search enabled
@@ -118,14 +118,14 @@ IUCAppState['currentSearch'] {
 
             } else if (!original[update.criteria.name] && !event.metaKey && !event.key.match(/Arrow/)) {
                 // Create new search for Criteria
-
-                original[update.criteria.name] =
-                    new CriteriaSelection({target: {value: (<KeyboardEvent>update.values).key}}, update.criteria);
+                /*
+                                original[update.criteria.name] =
+                                    new CriteriaSelection({target: {value: (<KeyboardEvent>update.values).key}}, update.criteria);*/
                 updateRoute(state);
             }
-        } else if (original.hasOwnProperty(update.criteria.tag)) {
+        } else if (original.hasOwnProperty(update.criteria.name)) {
             // No search for the Criteria exists anymore
-            delete original[update.criteria.tag];
+            delete original[update.criteria.name];
             updateRoute(state);
         }
     }

@@ -7,8 +7,8 @@ Default short description (with bibkey: [@esper-reference])
 
 ## License
 - MIT
-- Apache 2.0
-- MPL 2.0
+- Apache-2.0
+- MPL-2.0
 
 ## Showcase 2.0
 - red 1
@@ -34,7 +34,10 @@ Default long description in __markdown__.
 - [3] It works
 
 ## Uncolored
-- color 1
+- Color 1
 
 ## NumberColumn
 - 200
+
+## Repository
+- https://github.com/SitOPT/SitOPT-Installation-Script

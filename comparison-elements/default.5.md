@@ -12,6 +12,6 @@ This element has almost no values to test unknown
 
 ## Uncolored
 
-## Repo
+## Repository
 
 ## NumberColumn

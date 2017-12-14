@@ -1,7 +1,4 @@
-import { Component, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
-import { IUCAppState } from '../../../redux/app.app-state';
-import { Store } from '@ngrx/store';
-import { UPDATE_MODAL } from '../../../redux/app.reducers';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'pdialog',
@@ -9,8 +6,10 @@ import { UPDATE_MODAL } from '../../../redux/app.reducers';
     styleUrls: ['./paper-dialog.component.css']
 })
 export class PaperDialogComponent {
-    public opened = false;
+    @Input() opened = false;
     @Input() heading: string;
+
+    @Output() openedChange: EventEmitter<boolean> = new EventEmitter();
 
     @HostListener('click', ['$event.target']) onClick(target) {
         if (target.localName === 'pdialog') {
@@ -18,17 +17,9 @@ export class PaperDialogComponent {
         }
     }
 
-    constructor(public el: ElementRef, public renderer: Renderer2, private store: Store<IUCAppState>) {
-    }
-
-    public open() {
-        this.store.dispatch({type: UPDATE_MODAL, value: this});
-        this.opened = true;
-    }
-
     public close() {
-        this.store.dispatch({type: UPDATE_MODAL, value: null});
         this.opened = false;
+        this.openedChange.emit(false);
     }
 
     @HostListener('window:keydown', ['$event']) onKeydown(event) {

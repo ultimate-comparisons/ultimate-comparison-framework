@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { ComparisonComponent } from "../../comparison/components/comparison.component";
-import { Criteria } from "../../comparison/shared/components/criteria";
+import { ComparisonComponent } from "../../comparison/components/component/comparison.component";
 import { InputInterface } from "../input-interface";
 import { isNullOrUndefined } from "util";
+import { Criteria } from "../../comparison/components/configuration/configuration";
 
 @Component({
     templateUrl: './number-input.template.html',
@@ -22,8 +22,8 @@ export class NumberInputComponent implements InputInterface {
         NumberInputComponent.components.push(this);
     }
 
-    public criteriaChanged(value: Array<String> | KeyboardEvent | { target: { value: string }}) {
-        this.comparisonComponent.criteriaChanged(value, this.criteria);
+    public criteriaChanged(value: Array<String> | KeyboardEvent | { target: { value: string } }) {
+        //this.comparisonComponent.criteriaChanged(value, this.criteria);
     }
 
     public addToGui(item: string): void {
@@ -49,7 +49,7 @@ export class NumberInputComponent implements InputInterface {
             item = ', ' + item;
         }
         this.content.nativeElement.value += item;
-        this.criteriaChanged({ target: { value: this.content.nativeElement.value }});
+        this.criteriaChanged({target: {value: this.content.nativeElement.value}});
     }
 
     public getValue() {
