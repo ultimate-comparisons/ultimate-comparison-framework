@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import * as yaml from 'js-yaml';
@@ -19,16 +19,19 @@ import { isNullOrUndefined } from "util";
 @Injectable()
 export class ConfigurationService {
     public configuration: Configuration = new Configuration.Builder().build();
-    public description: string = "";
+    public description = '';
     public criteria: Array<Criteria> = [];
     // TODO move to redux
     public tableColumns: Array<string> = [];
     private converter: Showdown.Converter;
 
+    public initializeData: EventEmitter<any> = new EventEmitter();
+
     constructor(public title: Title,
                 private http: HttpClient,
                 private dataService: DataService) {
         this.converter = new Showdown.Converter();
+        this.dataService.setSubscriber(this);
     }
 
     static getHtml(converter: Showdown.Converter, citation: Map<string, Citation>, markdown: string): string {
@@ -66,7 +69,7 @@ export class ConfigurationService {
                     .setBody(detailsBody)
                     .build();
 
-                let criteria: Map<string, Criteria> = new Map<string, Criteria>();
+                const criteria: Map<string, Criteria> = new Map<string, Criteria>();
                 criteriaArray.forEach((obj) => Object.keys(obj).forEach((key) => {
                     const value = obj[key];
                     if (isNullOrUndefined(value)) {
@@ -77,7 +80,7 @@ export class ConfigurationService {
                     const autoColorCriteria = isNullOrUndefined(autoColor[key]) ? {} : autoColor[key];
                     const valuesObject = isNullOrUndefined(value.values) ? {} : value.values;
 
-                    let values: Map<string, CriteriaValue> = new Map<string, CriteriaValue>();
+                    const values: Map<string, CriteriaValue> = new Map<string, CriteriaValue>();
                     Object.keys(valuesObject).forEach(objKey => {
                         const value = valuesObject[objKey];
                         const autoColorValue = isNullOrUndefined(autoColorCriteria[objKey]) ? {} : autoColorCriteria[objKey];
@@ -215,7 +218,7 @@ export class ConfigurationService {
                     }
                 });
 
-                let citation: Map<string, Citation> = new Map<string, Citation>();
+                const citation: Map<string, Citation> = new Map<string, Citation>();
                 Object.keys(citationObject).forEach(
                     citationKey => {
                         const value = citationObject[citationKey];
@@ -239,9 +242,10 @@ export class ConfigurationService {
                     .setCitation(citation)
                     .build();
 
+                this.initializeData.emit({configuration: this.configuration, dataService: this.dataService, cd: cd});
+
                 this.title.setTitle(this.configuration.title);
-                this.loadDescription(cd, citation);
-                this.dataService.loadData(cd, this.configuration);
+                this.loadDescription(citation);
 
                 criteria.forEach((value, key) => {
                     if (value.search) {
@@ -255,11 +259,10 @@ export class ConfigurationService {
             });
     }
 
-    public loadDescription(cd: ChangeDetectorRef, citation: Map<string, Citation>) {
+    public loadDescription(citation: Map<string, Citation>) {
         this.http.get('comparison-configuration/description.md', {responseType: 'text'})
             .subscribe(res => {
                 this.description = ConfigurationService.getHtml(this.converter, citation, res);
-                cd.markForCheck();
             });
     }
 }

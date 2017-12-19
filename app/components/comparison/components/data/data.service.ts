@@ -8,19 +8,27 @@ import { isNullOrUndefined } from "util";
 
 @Injectable()
 export class DataService {
-    public data: Array<Data> = [];
+    public static data: Array<Data> = [];
 
     private converter: Showdown.Converter;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private store: Store<IUCAppState>) {
         this.converter = new Showdown.Converter();
     }
 
-    public loadData(cd: ChangeDetectorRef, configuration: Configuration) {
-        this.http.get('app/components/comparison/data/data.json')
+    public setSubscriber(configurationService: ConfigurationService) {
+        configurationService.initializeData.subscribe(this.loadData)
+    }
+
+    private loadData(value: {configuration: Configuration; dataService: DataService, cd: ChangeDetectorRef; }) {
+        const configuration = value.configuration;
+        const dataService = value.dataService;
+        const cd = value.cd;
+        dataService.http.get('app/components/comparison/data/data.json')
             .subscribe(res => {
-                let dataArrayObject: Array<any> = <Array<any>>res || [];
-                let data: Array<Data> = [];
+                const dataArrayObject: Array<any> = <Array<any>>res || [];
+                const data: Array<Data> = [];
 
                 dataArrayObject.forEach(dataObject => {
                     // Split markdown first level header (e.g. Default 1 - www.example.com) into 'name' and 'url'
@@ -48,15 +56,15 @@ export class DataService {
                                 let type: CriteriaType = criteriaConf ? criteriaConf.type : CriteriaType.url;
                                 switch (type) {
                                     case CriteriaType.text:
-                                        criteria.set("id", new Text(name));
+                                        criteria.set('id', new Text(name));
                                         break;
                                     case CriteriaType.markdown:
                                         criteria.set("id", new Markdown(name, ConfigurationService.getHtml(this.converter, configuration.citation, name)));
                                         break;
                                     case CriteriaType.label:
-                                        let labels: Map<string, Label> = new Map<string, Label>();
+                                        const labels: Map<string, Label> = new Map<string, Label>();
                                         labels.set(name, new Label.Builder().setName(name).build());
-                                        criteria.set("id", labels);
+                                        criteria.set('id', labels);
                                         break;
                                     case CriteriaType.url:
                                         criteria.set("id", new Url(name, url));
@@ -71,15 +79,17 @@ export class DataService {
                                 let type: CriteriaType = criteriaConf ? criteriaConf.type : CriteriaType.url;
                                 switch (type) {
                                     case CriteriaType.text:
-                                        criteria.set("description", new Text(criteriaObject));
+                                        criteria.set('description', new Text(criteriaObject));
                                         break;
                                     case CriteriaType.markdown:
-                                        criteria.set("description", new Markdown(criteriaObject, ConfigurationService.getHtml(this.converter, configuration.citation, criteriaObject)));
+                                        criteria.set('description',
+                                            new Markdown(criteriaObject,
+                                            ConfigurationService.getHtml(dataService.converter, configuration.citation, criteriaObject)));
                                         break;
                                     case CriteriaType.label:
-                                        let labels: Map<string, Label> = new Map<string, Label>();
+                                        const labels: Map<string, Label> = new Map<string, Label>();
                                         labels.set(criteriaObject, new Label.Builder().setName(criteriaObject).build());
-                                        criteria.set("description", labels);
+                                        criteria.set('description', labels);
                                         break;
                                     case CriteriaType.url:
                                         criteria.set("description", new Url(criteriaObject, url));
@@ -93,7 +103,7 @@ export class DataService {
                         // Handle all other second level headers
                             let criteriaConf: Criteria = configuration.criteria.get(criteriaKey) || new Criteria.Builder().build();
                             const childs = criteriaObject.childs || {};
-                            const childsArrayLvl1 = childs["0"] || [];
+                            const childsArrayLvl1 = childs['0'] || [];
                             const childsArray = childsArrayLvl1.length > 0 ? childsArrayLvl1[0] : [];
 
                             switch (criteriaConf.type) {
@@ -107,15 +117,15 @@ export class DataService {
                                     criteria.set(criteriaObject.plain, new Url(criteriaObject.plain, criteriaObject.plain));
                                     break;
                                 case CriteriaType.rating:
-                                    let ratings: Array<Rating> = [];
+                                    const ratings: Array<Rating> = [];
                                     let sum = 0;
 
-                                    if (typeof childsArray !== "string") {
+                                    if (typeof childsArray !== 'string') {
                                         childsArray.forEach(ratingObject => {
-                                            const starsString: string = /\[(\d*)\]/gm.exec(ratingObject.content)[1];
+                                            const starsString: string = /\[(\d*)]/gm.exec(ratingObject.content)[1];
                                             const stars: number = parseInt(starsString, 10);
                                             sum += stars;
-                                            const comment: string = /(?:\[\d*\])((?:.|\n)*)/gm.exec(ratingObject.content)[1];
+                                            const comment: string = /(?:\[\d*])((?:.|\n)*)/gm.exec(ratingObject.content)[1];
                                             ratings.push(new Rating(stars, comment));
                                         });
                                     }
@@ -128,7 +138,7 @@ export class DataService {
                                 case CriteriaType.label:
                                     let labels: Map<string, Label> = new Map<string, Label>();
 
-                                    if (typeof childsArray !== "string") {
+                                    if (typeof childsArray !== 'string') {
                                         childsArray.forEach(labelObject => {
                                             let criteriaValueConf: CriteriaValue;
                                             if (isNullOrUndefined(criteriaConf.values.get(labelObject.content))) {
@@ -150,11 +160,11 @@ export class DataService {
                                                 }
                                             }
                                             htmlTooltip = ConfigurationService.getHtml(
-                                                this.converter,
+                                                dataService.converter,
                                                 configuration.citation,
                                                 htmlTooltip
                                             );
-                                            let tooltip: Tooltip = new Tooltip(criteriaValueConf.description, htmlTooltip, latexTooltip);
+                                            const tooltip: Tooltip = new Tooltip(criteriaValueConf.description, htmlTooltip, latexTooltip);
 
                                             labels.set(labelObject.content, new Label.Builder()
                                                 .setName(labelObject.content)
@@ -185,8 +195,8 @@ export class DataService {
 
                 });
 
-                this.data = data;
-
+                DataService.data = data;
+                dataService.store.dispatch(new UCDataUpdateAction(configuration.criteria));
                 cd.markForCheck();
             });
     }

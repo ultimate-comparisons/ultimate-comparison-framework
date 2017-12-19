@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Data, Label, Markdown, Text, Url } from "../../comparison/components/data/data";
-import { Configuration, Criteria } from "../../comparison/components/configuration/configuration";
+import { Configuration, Criteria, CriteriaType } from "../../comparison/components/configuration/configuration";
 
 @Component({
     selector: 'latextable',
@@ -19,7 +19,7 @@ export class LatexTableComponent implements OnChanges {
 
     // TODO new inputs: (move to redux store)
     @Input() columns: Array<string> = [];
-    @Input() types: Array<number> = [];
+    @Input() types: Array<CriteriaType> = [];
     @Input() items: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
     @Input() index: Array<number> = [];
 
@@ -31,7 +31,7 @@ export class LatexTableComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         let columns: Array<string> = [];
-        let types: Array<number> = [];
+        let types: Array<CriteriaType> = [];
         let items: Array<Array<Array<Label> | Text | Url | Markdown | number>> = [];
         let index: Array<number> = [];
         const criteriaMap: Map<string, Criteria> = this.configuration.criteria;
@@ -47,12 +47,12 @@ export class LatexTableComponent implements OnChanges {
             criteriaMap.forEach((criteria, key) => {
                 if (criteria.table) {
                     const obj: any = data.criteria.get(key);
-                    if (criteria.type === 1) {
+                    if (criteria.type === CriteriaType.label) {
                         const labelMap: Map<string, Label> = obj || new Map;
                         let labels: Array<Label> = [];
                         labelMap.forEach(label => labels.push(label));
                         item.push(labels);
-                    } else if (criteria.type === 4) {
+                    } else if (criteria.type === CriteriaType.rating) {
                         item.push(data.averageRating);
                     } else {
                         item.push(obj);

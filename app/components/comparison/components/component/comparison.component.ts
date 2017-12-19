@@ -3,10 +3,7 @@ import { VersionInformation } from '../../../../VersionInformation';
 import { PaperCardComponent } from "../../../polymer/paper-card/paper-card.component";
 import { LatexTableComponent } from '../../../output/latex-table/latex-table.component';
 import { Store } from '@ngrx/store';
-import { IUCAppState } from '../../../../redux/app.app-state';
-import { UPDATE_ROUTE } from '../../../../redux/app.reducers';
-import { Observable } from 'rxjs';
-import { PaperDialogComponent } from '../../../polymer/paper-dialog/paper-dialog.component';
+import { IUCAppState } from '../../../../redux/uc.app-state';
 import { Router } from '@angular/router';
 import { ConfigurationService } from "../configuration/configuration.service";
 import { Criteria } from "../configuration/configuration";
@@ -39,14 +36,11 @@ export class ComparisonComponent {
     public state: Observable<PaperDialogComponent>;
     public showLatexTable = true;
 
-    constructor(public dataService: DataService,
-                public configurationService: ConfigurationService,
+    constructor(public configurationService: ConfigurationService,
                 private cd: ChangeDetectorRef,
-                private store: Store<IUCAppState>,
+                public store: Store<IUCAppState>,
                 private router: Router) {
         this.configurationService.loadComparison(this.cd);
-        this.state = this.store.select('currentModal');
-        this.router.events.subscribe(res => this.store.dispatch({type: UPDATE_ROUTE}))
     }
 
     public getVersionInformation(): VersionInformation {

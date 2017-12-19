@@ -47,6 +47,58 @@ export class Data {
 
         return Builder;
     }
+
+    public sort(other: Data, criteria: string): number {
+        const me: Map<string, Label> | Text | Url | Markdown | Array<Rating> = this.criteria.get(criteria);
+        const ot: Map<string, Label> | Text | Url | Markdown | Array<Rating> = other.criteria.get(criteria);
+        if (me.constructor.name === 'Map') {
+            let key1: string = null;
+            let key2: string = null;
+            for (const key of (<Map<string, Label>>me).keys()) {
+                if (key1 === null) {
+                    key1 = key;
+                    continue;
+                }
+                if (key1.localeCompare(key) > 0) {
+                    key1 = key;
+                }
+            }
+            for (const key of (<Map<string, Label>>ot).keys()) {
+                if (key2 === null) {
+                    key2 = key;
+                    continue;
+                }
+                if (key2.localeCompare(key) > 0) {
+                    key2 = key;
+                }
+            }
+            if (key1 === null && key2 !== null) {
+                return 1;
+            } else if (key2 === null && key1 !== null) {
+                return -1;
+            }
+            return key1.localeCompare(key2);
+        } else if (me.constructor.name === 'Text') {
+            return (<Text>me).content.localeCompare((<Text>ot).content);
+        } else if (me.constructor.name === 'Url') {
+            return (<Url>me).link.localeCompare((<Url>ot).link);
+        } else if (me.constructor.name === 'Markdown') {
+            return (<Markdown>me).content.localeCompare((<Markdown>ot).content);
+        } else if (me.constructor.name === 'Array') {
+            const mer = (<Array<Rating>>me);
+            const otr = (<Array<Rating>>ot);
+            if (mer.length === 0 && otr.length > 0) {
+                return 1;
+            } else if (otr.length === 0 && mer.length > 0) {
+                return -1;
+            } else if (mer.length === 0) {
+                return 0;
+            } else {
+                return (<Array<Rating>>me)[0].stars - (<Array<Rating>>ot)[0].stars;
+            }
+        }
+        return 0;
+    }
 }
 
 export class Label {
