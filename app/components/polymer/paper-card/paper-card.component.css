@@ -1,7 +1,7 @@
 :host {
     display: grid;
     grid-template-columns: auto 25px;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto 1fr;
     grid-template-areas: "header symbol" "content content";
     padding: 16px;
     box-sizing: border-box;

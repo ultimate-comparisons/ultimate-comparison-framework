@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Data, Label, Markdown, Text, Url } from "../../comparison/components/data/data";
-import { Configuration, Criteria, CriteriaType } from "../../comparison/components/configuration/configuration";
+import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
+import { Label, Markdown, Text, Url } from "../../comparison/components/data/data";
+import { CriteriaType } from "../../comparison/components/configuration/configuration";
 
 @Component({
     selector: 'latextable',
@@ -8,16 +8,12 @@ import { Configuration, Criteria, CriteriaType } from "../../comparison/componen
     styleUrls: ['./latex-table.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LatexTableComponent implements OnChanges {
+export class LatexTableComponent {
 
     @Input() changeNum;
     @Input() showTableTooltips = true;
     @Input() tableTooltipsAsFootnotes = true;
 
-    @Input() data: Array<Data> = [];
-    @Input() configuration: Configuration = new Configuration.Builder().build();
-
-    // TODO new inputs: (move to redux store)
     @Input() columns: Array<string> = [];
     @Input() types: Array<CriteriaType> = [];
     @Input() items: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
@@ -27,45 +23,6 @@ export class LatexTableComponent implements OnChanges {
 
     constructor(public element: ElementRef) {
 
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        let columns: Array<string> = [];
-        let types: Array<CriteriaType> = [];
-        let items: Array<Array<Array<Label> | Text | Url | Markdown | number>> = [];
-        let index: Array<number> = [];
-        const criteriaMap: Map<string, Criteria> = this.configuration.criteria;
-        criteriaMap.forEach((criteria) => {
-            if (criteria.table) {
-                columns.push(criteria.name);
-                types.push(criteria.type);
-            }
-
-        });
-        this.data.forEach((data, i) => {
-            let item: Array<Array<Label> | Text | Url | Markdown | number> = [];
-            criteriaMap.forEach((criteria, key) => {
-                if (criteria.table) {
-                    const obj: any = data.criteria.get(key);
-                    if (criteria.type === CriteriaType.label) {
-                        const labelMap: Map<string, Label> = obj || new Map;
-                        let labels: Array<Label> = [];
-                        labelMap.forEach(label => labels.push(label));
-                        item.push(labels);
-                    } else if (criteria.type === CriteriaType.rating) {
-                        item.push(data.averageRating);
-                    } else {
-                        item.push(obj);
-                    }
-                }
-            });
-            items.push(item);
-            index.push(i);
-        });
-        this.columns = columns;
-        this.items = items;
-        this.types = types;
-        this.index = index;
     }
 
     public getFootnotes() {

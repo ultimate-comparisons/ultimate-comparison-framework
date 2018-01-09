@@ -25,10 +25,10 @@ iterate over data rows
     iterate over data columns
     --><ng-template ngFor let-entry [ngForOf]="item" let-last="last" let-i="index"><!--
         print url (only print the text and not the link)
-        --><ng-template [ngIf]="types[i] === 0 && entry">{{entry.text}}</ng-template><!--
+        --><ng-template [ngIf]="types[i] === 'url' && entry">{{entry.text}}</ng-template><!--
 
         print labels
-        --><ng-template [ngIf]="types[i] === 1 && entry"><!--
+        --><ng-template [ngIf]="types[i] === 'label' && entry"><!--
             iterate over labels
             --><ng-template ngFor let-label [ngForOf]="entry" let-lastItem="last"><!--
                 print label
@@ -48,10 +48,10 @@ iterate over data rows
         --></ng-template><!--
 
         print text
-        --><ng-template [ngIf]="types[i] === 2">{{entry.content}}</ng-template><!--
+        --><ng-template [ngIf]="types[i] === 'text'">{{entry.content}}</ng-template><!--
 
         print markdown
-        --><ng-template [ngIf]="types[i] === 3"><!--
+        --><ng-template [ngIf]="types[i] === 'markdown'"><!--
             --><span class="ltInline" [innerHtml]="entry.htmlContent|sanitizeHtml"></span><!--
         --></ng-template><!--
        --><ng-template [ngIf]="!last"> &#38; </ng-template><!--

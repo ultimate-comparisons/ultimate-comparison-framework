@@ -13,7 +13,7 @@ details:
     bodyRef: Description
 citation:
   csl: acm-siggraph.csl
-  bib: default.bib
+  bib: literature.bib
 criteria:
   - id:
       name: Name

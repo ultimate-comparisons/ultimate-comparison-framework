@@ -26,7 +26,7 @@ details:
 
 citation:
   csl: acm-siggraph.csl
-  bib: default.bib
+  bib: literature.bib
 
 # Criteria is a 'omap (=ordered map)' specifying the comparison criteria
 # => List items are important

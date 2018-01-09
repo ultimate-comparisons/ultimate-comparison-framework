@@ -38,13 +38,13 @@
                         </ptooltip>
                     </ng-template>
                 </td>
-                <td *ngIf="types[i] === 2">
+                <td *ngIf="types[i] === criteriaTypes.text">
                     {{entry.content}}
                 </td>
-                <td *ngIf="types[i] === 3">
+                <td *ngIf="types[i] === criteriaTypes.markdown">
                     <div [innerHtml]="entry?.htmlContent | sanitizeHtml"></div>
                 </td>
-                <td *ngIf="types[i] === 4">
+                <td *ngIf="types[i] === criteriaTypes.rating">
                     <iicon icon="star" *ngIf="entry">{{entry}}
                     </iicon>
                 </td>

@@ -13,17 +13,17 @@
     </h2>
 </div>
 <div class="grid-content">
-    <pcard heading="{{bodyTitle}}" class="description">
+    <pcard *ngIf="displayDescription" heading="{{bodyTitle}}" class="description">
         <div [innerHTML]="description | sanitizeHtml" class="description"></div>
     </pcard>
 
     <ng-template ngFor let-entry [ngForOf]="tags" let-i="index">
         <pcard heading="{{headers[i]}}">
             <p class="card-content">
-                <a *ngIf="types[i] === 0" class="anchored"
+                <a *ngIf="types[i] === 'url'" class="anchored"
                    href="{{entry.link}}"
                    target="_blank">{{entry.text}}</a>
-                <ng-template *ngIf="types[i] === 1" ngFor let-label [ngForOf]="entry">
+                <ng-template *ngIf="types[i] === 'label'" ngFor let-label [ngForOf]="entry">
                     <ptooltip *ngIf="!tooltipAsText"
                               [tooltip]="label.tooltip.text"
                               [tooltipHtml]="label.tooltip.html" [position]="'n'">
@@ -45,9 +45,9 @@
                     </div>
                 </ng-template>
 
-                <span *ngIf="types[i] === 2">{{entry.content}}</span>
+                <span *ngIf="types[i] === 'text'">{{entry.content}}</span>
 
-                <span *ngIf="types[i] === 3" [innerHtml]="entry?.htmlContent | sanitizeHtml"></span>
+                <span *ngIf="types[i] === 'markdown'" [innerHtml]="entry?.htmlContent | sanitizeHtml"></span>
             </p>
         </pcard>
     </ng-template>

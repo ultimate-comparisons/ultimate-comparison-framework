@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ConfigurationService } from "../configuration/configuration.service";
 import { Data, Label, Markdown, Rating, Text, Url } from "../data/data";
 import { Criteria } from "../configuration/configuration";
+import { isNullOrUndefined } from "util";
 
 @Component({
     selector: 'comparison-details',
@@ -13,6 +14,7 @@ export class ComparisonDetailsComponent implements OnChanges {
 
     @Input() headerLabels: Array<Label> = [];
     @Input() description: string = "";
+    @Input() displayDescription: boolean = true;
     @Input() bodyTitle: string = "";
     @Input() tags: Array<Array<Label> | Markdown | Text | Url> = [];
     @Input() types: Array<number>;
@@ -40,10 +42,19 @@ export class ComparisonDetailsComponent implements OnChanges {
             this.bodyTitle = this.configurationService.configuration.details.body.title || "";
 
             let description: any = this.data.criteria.get(this.configurationService.configuration.details.body.bodyRef);
-            if (description instanceof Markdown) {
-                this.description = description.htmlContent;
-            } else if (description instanceof Text) {
-                this.description = description.content;
+            const descriptionCriteria = this.configurationService.configuration.criteria.get(this.configurationService.configuration.details.body.bodyRef);
+
+            if (!isNullOrUndefined(descriptionCriteria) && descriptionCriteria.detail) {
+                this.displayDescription = true;
+                if (descriptionCriteria.type === 'markdown') {
+                    this.description = description.htmlContent;
+                } else if (descriptionCriteria.type === 'text') {
+                    this.description = description.content;
+                } else {
+                    this.displayDescription = false;
+                }
+            } else {
+                this.displayDescription = false;
             }
 
             let tags: Array<Array<Label> | Markdown | Text | Url> = [];
@@ -53,7 +64,7 @@ export class ComparisonDetailsComponent implements OnChanges {
             const criteriaMap: Map<string, Criteria> = this.configurationService.configuration.criteria;
             this.data.criteria.forEach((criteria, key) => {
                 const criteriaConf = criteriaMap.get(key);
-                if (criteriaConf.detail) {
+                if (criteriaConf.detail && this.configurationService.configuration.details.body.bodyRef !== key) {
                     if (criteria instanceof Map) {
                         let labels: Array<Label> = [];
                         criteria.forEach(c => labels.push(c));

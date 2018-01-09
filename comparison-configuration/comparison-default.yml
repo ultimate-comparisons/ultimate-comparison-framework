@@ -22,7 +22,7 @@ details:
 
 citation:
   csl: acm-siggraph.csl
-  bib: default.bib
+  bib: literature.bib
 
 criteria:
   - Example:
