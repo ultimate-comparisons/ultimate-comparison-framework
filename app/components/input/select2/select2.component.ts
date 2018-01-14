@@ -21,7 +21,7 @@ import { InputInterface } from "../input-interface";
 export class Select2Component implements InputInterface {
     public static components: Array<Select2Component> = [];
     private ops = [{value: 't1', label: 't2'}];
-    @Input() options: Array<string> = [];
+    @Input() options: Array<Object> = [];
     @Input() maximumSelectionLength = 0;
     @Input() placeholder: string;
     @Input() tag: string;
@@ -31,7 +31,7 @@ export class Select2Component implements InputInterface {
 
     @Output() result: EventEmitter<any> = new EventEmitter();
 
-    private value: Array<string> = [];
+    public value: Array<string> = [];
 
     public constructor(private cd: ChangeDetectorRef) {
         Select2Component.components.push(this);

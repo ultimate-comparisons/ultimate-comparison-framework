@@ -1,33 +1,38 @@
 import { RouterStateSerializer } from '@ngrx/router-store';
 import { Params, RouterStateSnapshot } from '@angular/router';
 import { IUCAppState } from './uc.app-state';
+import { query } from '@angular/core/src/animation/dsl';
 
 export interface RouterStateUrl {
     url: string;
     queryParams: Params;
-    params: Params;
 }
 
 export class CustomRouterStateSerializer implements RouterStateSerializer<RouterStateUrl> {
     serialize(routerState: RouterStateSnapshot): RouterStateUrl {
-        const { url } = routerState;
-        const queryParams = routerState.root.queryParams;
+        let { url } = routerState;
+        const queryParams = {};
         let route = routerState.root;
 
         while (route.firstChild) {
             route = route.firstChild;
         }
-
-        const params = route.params;
-
-        for (const u of routerState.url.split('&')) {
-            if (u.match(/state=.+/)) {
-                const state: IUCAppState = <IUCAppState>JSON.parse(decodeURIComponent(u.split('=')[1]));
-                break;
-            }
+        if (url.startsWith('/')) {
+            url = url.substr(1);
+        }
+        if (url.startsWith('#')) {
+            url = url.substr(1);
         }
 
-        return { url, queryParams, params };
+        for (const u of url.split('&')) {
+            const regex = /(.+)=(.*)/.exec(u);
+            if (regex === null) {
+                continue;
+            }
+            queryParams[regex[1]] = regex[2];
+        }
+
+        return { url, queryParams };
     }
 
 }

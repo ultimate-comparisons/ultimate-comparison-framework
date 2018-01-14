@@ -1,6 +1,6 @@
 {
   "name": "ultimate-comparison-framework",
-  "version": "1.0.0",
+  "version": "0.5.1",
   "scripts": {
     "start": "npm run gulp:compile && npm run webpack:start",
     "webpack:start": "webpack-dev-server --open --inline --progress --port 3000",
@@ -14,6 +14,9 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:ultimate-comparisons/ultimate-comparison-BASE.git"
+  },
+  "bin": {
+    "ultimate-comparison": "bin/uc"
   },
   "dependencies": {
     "@angular/common": "^5.0.4",

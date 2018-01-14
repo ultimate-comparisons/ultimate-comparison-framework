@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ComparisonComponent } from "../../comparison/components/component/comparison.component";
 import { InputInterface } from "../input-interface";
 import { isNullOrUndefined } from "util";
@@ -16,14 +16,15 @@ export class NumberInputComponent implements InputInterface {
     @Input() tag: string;
     @Input() name: string;
     @Input() active: Array<string> = [];
-    @ViewChild('content') content: any;
+    @ViewChild('content') content: ElementRef;
+    @Output() result: EventEmitter<Array<string>> = new EventEmitter<Array<string>>();
 
     public constructor() {
         NumberInputComponent.components.push(this);
     }
 
     public criteriaChanged(value: Array<String> | KeyboardEvent | { target: { value: string } }) {
-        //this.comparisonComponent.criteriaChanged(value, this.criteria);
+        this.result.emit([this.content.nativeElement.value]);
     }
 
     public addToGui(item: string): void {

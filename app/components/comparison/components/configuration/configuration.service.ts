@@ -44,6 +44,7 @@ export class ConfigurationService {
         this.http.get('comparison-configuration/comparison.yml', {responseType: 'text'})
             .subscribe(res => {
                 const comparisonObject: any = yaml.safeLoad(res) || {};
+                console.log(comparisonObject)
                 const detailsObject: any = comparisonObject.details || {};
                 const headerObject: any = detailsObject.header || {};
                 const bodyObject: any = detailsObject.body || {};
