@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
     selector: 'picon-button',
@@ -9,4 +9,5 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 export class PaperIconButtonComponent {
     @Input() icon: string;
     @Input() title: string;
+    @Input() showTooltip: boolean = true;
 }

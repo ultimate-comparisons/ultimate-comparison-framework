@@ -20,6 +20,8 @@
     grid-column-gap: 10px;
     grid-auto-flow: row;
     width: 180px;
+
+    word-break: break-word; /* works for chromium and google chrome*/
 }
 
 :host .ptooltiptext /deep/ a {
@@ -97,5 +99,5 @@
     left: 100%;
     margin-top: -5px;
     border-color: transparent transparent transparent black;
-}   
+}
 

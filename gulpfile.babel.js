@@ -19,10 +19,10 @@ const Cite = require('citation-js');
 const paths = {
     src: 'app',
     dev: 'www',
-    json: 'comparison-elements-json',
-    markdown: 'comparison-elements',
-    data: 'app/components/comparison/data/',
-    config: './comparison-configuration/'
+    json: 'tmp/comparison-elements-json',
+    dataJson: 'app/components/comparison/data/',
+    data: 'data',
+    config: './configuration/'
 };
 
 const files = {
@@ -33,10 +33,10 @@ const files = {
         './favicon.ico'
     ],
     markdown: [
-        './comparison-elements/*.md'
+        './data/*.md'
     ],
     json: [
-        './comparison-elements-json/*.json'
+        './tmp/comparison-elements-json/*.json'
     ],
     config: paths.config.concat('comparison.yml'),
     defaultConfig: paths.config.concat('comparison-default.yml')
@@ -246,13 +246,13 @@ gulp.task('update-data', function () {
 gulp.task('markdown', function (callback) {
     const isWin = /^win/i.test(process.platform);
     if (isWin) {
-        execSimple("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.markdown + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
+        execSimple("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.data + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
             callback(err);
         });
     } else {
-        execSimple("./gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.markdown + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
+        execSimple("./gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.data + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
             callback(err);
@@ -266,7 +266,7 @@ gulp.task('json', function () {
         .pipe(jsontransform(function (data) {
             return data;
         }, 2))
-        .pipe(gulp.dest(paths.data))
+        .pipe(gulp.dest(paths.dataJson))
 });
 
 gulp.task('citation', function (done) {
@@ -278,7 +278,7 @@ gulp.task('citation', function (done) {
     const bib = citation.bib || citationDefault.bib;
 
     if (csl) {
-        readFile(paths.config.concat(csl), "utf8", function (err, cslString) {
+        readFile(paths.data.concat('/', csl), "utf8", function (err, cslString) {
             if (err) {
                 return console.error("Could not read File: ".concat(err.toString()));
             }
@@ -292,7 +292,7 @@ gulp.task('citation', function (done) {
 
     function readBib(done) {
         if (bib) {
-            readFile(paths.config.concat(bib), "utf8", function (err, data) {
+            readFile(paths.data.concat('/', bib), "utf8", function (err, data) {
                 let changed;
                 if (err) {
                     return console.error("Could not read File: ".concat(err.toString()));
@@ -314,7 +314,7 @@ gulp.task('citation', function (done) {
                 }
 
                 if (changed) {
-                    let data = readFileSync(paths.data.concat("/data.json"), "utf8");
+                    let data = readFileSync(paths.dataJson.concat("/data.json"), "utf8");
                     data = data.concat(readFileSync(paths.config.concat("description.md"), "utf8"));
                     let keys = new Set();
                     let keyReg = /\[@(.*?)]/g;
@@ -363,7 +363,7 @@ gulp.task('criteria', function (done) {
         criteria.set(key, {type: valueObject.type || defaultConfig.criteria[0].Example.type, values: values});
     }));
 
-    const data = JSON.parse(readFileSync(paths.data.concat("/data.json"), "utf8")) || [];
+    const data = JSON.parse(readFileSync(paths.dataJson.concat("/data.json"), "utf8")) || [];
 
     let autoCriteria = Object.create(null);
     data.forEach(entry => Object.keys(entry).forEach(entryKey => {

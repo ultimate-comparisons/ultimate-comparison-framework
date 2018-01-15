@@ -22,6 +22,7 @@ Default short description (with bibkey: [@esper-reference])
     - more properties
 - grey
 - light blue
+    - Super_long_tooltip_without_separators_which_should_not_extend_the_tooltip_area
 
 ## Description
 Default long description in __markdown__.

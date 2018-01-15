@@ -9,7 +9,6 @@ import { CriteriaType } from "../../comparison/components/configuration/configur
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LatexTableComponent {
-
     @Input() changeNum;
     @Input() showTableTooltips = true;
     @Input() tableTooltipsAsFootnotes = true;

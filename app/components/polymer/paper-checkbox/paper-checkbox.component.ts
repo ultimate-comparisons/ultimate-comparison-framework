@@ -1,4 +1,7 @@
-import { Component, Input, Output, EventEmitter, ElementRef, HostListener, OnChanges, Renderer, ChangeDetectionStrategy } from "@angular/core";
+import {
+    ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output,
+    Renderer
+} from "@angular/core";
 
 @Component({
     selector: 'pcheckbox',
@@ -25,9 +28,6 @@ export class PaperCheckboxComponent implements OnChanges {
         this.el.nativeElement.checked = this.checked;
     }
 
-    private toogleCheck() {
-    }
-
     @HostListener('click', ['$event'])
     onChange(e) {
         this.checked = !this.checked;
@@ -40,5 +40,8 @@ export class PaperCheckboxComponent implements OnChanges {
         }
         this.el.nativeElement.checked = this.checked;
         this.checkedChange.emit(this.checked);
+    }
+
+    private toogleCheck() {
     }
 }

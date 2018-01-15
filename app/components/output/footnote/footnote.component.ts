@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, Output } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, Output,
+    SimpleChanges
+} from '@angular/core';
 
 @Component({
     selector: 'footnote',
@@ -14,9 +17,8 @@ export class FootnoteComponent implements OnChanges, OnDestroy {
     public refPrefix = '\\footref&#123';
     public refSuffix = '&#125';
 
-    ngOnChanges() {
-        // TODO check for FootnoteChange
-        if (this.footnote) {
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.footnote) {
             if (this.footnotes.has(this.footnote)) {
                 this.footnotes.set(this.footnote, {
                     ref: this.footnotes.get(this.footnote).ref,

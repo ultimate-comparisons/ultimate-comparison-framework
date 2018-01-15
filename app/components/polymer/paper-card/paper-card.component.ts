@@ -9,11 +9,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 export class PaperCardComponent {
     @Input() heading: string;
     @Input() symbol = false;
-    @Output() shrinkExpandEmitter: EventEmitter<any> = new EventEmitter();
-    public shrinked = false;
-
-    public shrinkExpand() {
-        this.shrinked = !this.shrinked;
-        this.shrinkExpandEmitter.emit();
-    }
+    @Input() expand = false;
+    @Output() expandChange: EventEmitter<any> = new EventEmitter();
 }

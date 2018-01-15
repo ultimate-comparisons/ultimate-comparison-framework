@@ -8,19 +8,20 @@
 %\usepackage&#123;hyperref&#125;<br/>
 %\usepackage&#123;footnote&#125;<br/>
 %\usepackage&#123;scrextend&#125;<br/>
+%\usepackage&#123;amssymb&#125;<br/>
 %\makesavenoteenv&#123;tabular&#125;<br/>
 %\makesavenoteenv&#123;tabule&#125;<br/>
 \begin&#123;tabular&#125;&#123;&#64;&#123;&#125;<!--
---><ng-template ngFor let-item [ngForOf]="items">p&#123;\linewidth/{{items.length}}&#125;<!--
+--><ng-template ngFor let-column [ngForOf]="columns">p&#123;\linewidth/{{columns.length}}&#125;<!--
 --></ng-template>&#64;&#123;&#125;&#125;<br/>
 \toprule<br/>
-   <ng-template ngFor let-item [ngForOf]="items" let-last="last" let-i="index">{{columns[i]}} <!--
+<!--
+--><ng-template ngFor let-column [ngForOf]="columns" let-last="last" let-i="index">{{columns[i]}} <!--
     --><ng-template [ngIf]="!last">&#38; </ng-template><!--
     --><ng-template [ngIf]="last">\\<br/></ng-template><!--
---></ng-template><!--
--->\midrule<br/><!--
-
-iterate over data rows
+--></ng-template>
+\midrule<br/>
+<!-- iterate over data rows
 --><ng-template ngFor let-item [ngForOf]="items"><!--
     iterate over data columns
     --><ng-template ngFor let-entry [ngForOf]="item" let-last="last" let-i="index"><!--
@@ -50,12 +51,16 @@ iterate over data rows
         print text
         --><ng-template [ngIf]="types[i] === 'text'">{{entry.content}}</ng-template><!--
 
+        print rating
+        --><ng-template [ngIf]="types[i] === 'rating' && entry">{{'$' + entry+'\\bigstar$'}}</ng-template><!--
+
         print markdown
         --><ng-template [ngIf]="types[i] === 'markdown'"><!--
-            --><span class="ltInline" [innerHtml]="entry.htmlContent|sanitizeHtml"></span><!--
+            --><span class="ltInline" [innerHtml]="entry.latex|sanitizeHtml"></span><!--
         --></ng-template><!--
        --><ng-template [ngIf]="!last"> &#38; </ng-template><!--
-       --><ng-template [ngIf]="last">\\<br/></ng-template><!--
+       --><ng-template [ngIf]="last">\\<br/>
+<!--   --></ng-template><!--
     --></ng-template><!--
 --></ng-template>\bottomrule<br/><!--
 
@@ -67,7 +72,7 @@ footnotes
     --><br/>\newcommand\snum&#123;0&#125;<!--
     --><ng-template ngFor let-item [ngForOf]="getFootnotes()" let-i="index"><!--
         --><br/>\footnotetext&#91;\numexpr\snum+{{i}}&#93;&#123;<!--
-            --><div [innerHtml]="item.text|sanitizeHtml"></div><!--
+            --><span class="ltInline" [innerHtml]="item.text|sanitizeHtml"></span><!--
             -->\label{{('{'+item.ref+'}')}}<!--
         -->&#125;<!--
     --></ng-template><!--

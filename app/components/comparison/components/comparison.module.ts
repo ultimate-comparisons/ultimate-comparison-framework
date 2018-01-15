@@ -9,6 +9,7 @@ import { InputModule } from '../../input/input.module';
 import { OutputModule } from '../../output/output.module';
 import { ConfigurationService } from "./configuration/configuration.service";
 import { DataService } from "./data/data.service";
+import { ComparisonSettingsComponent } from "./settings/comparison.settings.component";
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { DataService } from "./data/data.service";
     ],
     declarations: [
         ComparisonComponent,
-        ComparisonDetailsComponent
+        ComparisonDetailsComponent,
+        ComparisonSettingsComponent
     ],
     providers: [
         ConfigurationService,

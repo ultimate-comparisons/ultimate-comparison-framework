@@ -180,10 +180,12 @@ export class Url {
 export class Markdown {
     public content: string;
     public htmlContent: string;
+    public latex: string;
 
-    constructor(content: string, htmlContent: string) {
+    constructor(content: string, htmlContent: string, latex: string) {
         this.content = isNullOrUndefined(content) ? "" : content;
         this.htmlContent = isNullOrUndefined(htmlContent) ? "" : htmlContent;
+        this.latex = isNullOrUndefined(latex) ? "" : latex;
     }
 }
 

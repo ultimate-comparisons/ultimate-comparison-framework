@@ -24,6 +24,17 @@
     border: solid black 1px;
 }
 
+th {
+    padding: 0 2px 2px 4px;
+    vertical-align: bottom;
+}
+
+td {
+    padding: 2px 2px 0 4px;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
 th > button {
     border: none;
     padding: 0;
@@ -37,6 +48,7 @@ th > button {
 
 table tr {
     white-space: normal;
+    line-height: 1em;
 }
 
 table {
@@ -46,8 +58,8 @@ table {
 .anchored::before {
     content: '';
     display: block;
-    height:48px;
-    margin:-48px 0 0;
+    height: 48px;
+    margin: -48px 0 0;
 }
 
 .unknown {

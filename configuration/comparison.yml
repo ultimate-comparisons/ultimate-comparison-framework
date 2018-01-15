@@ -24,6 +24,7 @@ criteria:
   - Rating:
       name: ''
       search: false
+      table: false
       type: rating
   - Repository:
       search: false
@@ -57,11 +58,11 @@ criteria:
       andSearch: false
       values:
         Apache-2.0:
-          description: 'https://spdx.org/licenses/Apache-2.0.html'
+          description: '[Apache-2.0](https://spdx.org/licenses/Apache-2.0.html)'
         MIT:
-          description: 'https://spdx.org/licenses/MIT.html'
+          description: '[MIT](https://spdx.org/licenses/MIT.html)'
         MPL-2.0:
-          description: 'https://spdx.org/licenses/MPL-2.0.html'
+          description: '[MPL-2.0](https://spdx.org/licenses/MPL-2.0.html)'
   - Showcase 2.0:
       values:
         dark blue:

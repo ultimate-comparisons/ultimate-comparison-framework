@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -39,7 +42,7 @@ public class Md2Json {
         }
 
         if (args.length > 1) {
-            md2json.dirToJSON(args[0], args[1]);
+            md2json.dirToJSON(args[0], Paths.get(args[1]));
         }
     }
 
@@ -71,11 +74,16 @@ public class Md2Json {
         return true;
     }
 
-    private void dirToJSON(String inputDir, String outputDir) throws IOException {
+    private void dirToJSON(String inputDir, Path outputPath) throws IOException {
         File folder = new File(inputDir);
         if (folder.isDirectory()) {
             for (final File entry : folder.listFiles()) {
-                writeFile(outputDir + "/" + entry.getName().substring(0, entry.getName().lastIndexOf(".")) + ".json", toJSON(readFile(entry)));
+                if (entry.getName().endsWith(".md")) {
+                    if (!Files.exists(outputPath)) {
+                        Files.createDirectories(outputPath);
+                    }
+                    writeFile(outputPath.resolve(entry.getName().substring(0, entry.getName().lastIndexOf(".")) + ".json").toString(), toJSON(readFile(entry)));
+                }
             }
         }
     }

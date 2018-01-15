@@ -45,6 +45,20 @@
     }
 
     .grid-content {
-        grid-template-columns: auto auto;
+        grid-template-columns: 1fr 1fr;
     }
+}
+
+.tt-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.tt-label {
+    grid-column: 1;
+    margin: 1px 2px auto 2px;
+}
+
+tt-tooltip {
+    grid-column: 2;
 }

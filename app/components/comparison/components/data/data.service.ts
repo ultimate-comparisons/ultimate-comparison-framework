@@ -197,6 +197,11 @@ export class DataService {
 
                 DataService.data = data;
                 dataService.store.dispatch(new UCDataUpdateAction(configuration.criteria));
+                dataService.store.dispatch({
+                    type: 'UPDATE_SETTINGS',
+                    enable: configuration.details.body.tooltipAsText,
+                    operation: 'DetailsDisplayTooltips'
+                });
                 cd.markForCheck();
             });
     }

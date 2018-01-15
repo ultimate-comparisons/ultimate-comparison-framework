@@ -1,0 +1,72 @@
+<div class="grid-content">
+    <pcard [heading]="'Columns'">
+        <div class="pcard">
+            <pitem>
+                <pcheckbox [checked]="columnDisplayAll"
+                           (checkedChange)="columnsDisplayAllChange.emit($event)"
+                           [label]="'All'"></pcheckbox>
+            </pitem>
+            <ng-template ngFor let-name [ngForOf]="columnNames" let-i="index">
+                <pitem>
+                    <pcheckbox [checked]="columnsEnabled[i]"
+                               (checkedChange)="columnChange.emit(i)"
+                               [label]="name"></pcheckbox>
+                </pitem>
+            </ng-template>
+        </div>
+    </pcard>
+
+    <pcard [heading]="'Elements'">
+        <div class="pcard">
+            <pitem>
+                <pcheckbox [checked]="elementDisplayAll"
+                           (checkedChange)="elementsDisplayAllChange.emit($event)"
+                           [label]="'All'"></pcheckbox>
+            </pitem>
+            <ng-template ngFor let-name [ngForOf]="elementNames" let-i="index">
+                <pitem>
+                    <pcheckbox [checked]="elementsEnabled[i]"
+                               (checkedChange)="elementChange.emit(i)"
+                               [label]="name"></pcheckbox>
+                </pitem>
+            </ng-template>
+        </div>
+    </pcard>
+
+    <pcard [heading]="'Other'">
+        <h5>Latex</h5>
+        <pitem>
+            <pbutton (click)="latexDownload.emit($event)">
+                <div class="icon">
+                    <svg viewBox="0 0 433.5 433.5" width="11" height="11">
+                        <path fill="#fff" xmlns="http://www.w3.org/2000/svg"
+                              d="M395.25,153h-102V0h-153v153h-102l178.5,178.5L395.25,153z M38.25,382.5v51h357v-51H38.25z"/>
+                    </svg>
+                </div>
+                <span>Download latex table</span>
+            </pbutton>
+        </pitem>
+        <pitem>
+            <pcheckbox [checked]="latexDisplayTable"
+                       (checkedChange)="latexDisplayTableChange.emit($event)"
+                       [label]="'Display Latex table'"></pcheckbox>
+        </pitem>
+        <pitem>
+            <pcheckbox [checked]="latexEnableTooltips"
+                       (checkedChange)="latexEnableTooltipsChange.emit($event)"
+                       [label]="'Enable tooltips for Latex table'"></pcheckbox>
+        </pitem>
+        <pitem *ngIf="latexEnableTooltips">
+            <pcheckbox [checked]="latexTooltipsAsFootnotes"
+                       (checkedChange)="latexTooltipsAsFootnotesChange.emit($event)"
+                       [label]="'Display tooltips as footnotes'"></pcheckbox>
+        </pitem>
+
+        <h5>Details</h5>
+        <pitem>
+            <pcheckbox [checked]="detailsDisplayTooltips"
+                       (checkedChange)="detailsDisplayTooltipsChange.emit($event)"
+                       [label]="'Display tooltips next to labels'"></pcheckbox>
+        </pitem>
+    </pcard>
+</div>

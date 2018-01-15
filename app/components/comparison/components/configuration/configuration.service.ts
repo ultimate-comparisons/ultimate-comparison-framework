@@ -3,13 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import * as yaml from 'js-yaml';
 import {
-    Body,
-    Citation,
-    Configuration,
-    Criteria,
-    CriteriaValue,
-    Details,
-    getCriteriaType,
+    Body, Citation, Configuration, Criteria, CriteriaValue, Details, getCriteriaType,
     Header
 } from "./configuration";
 import * as Showdown from "showdown";
@@ -23,9 +17,8 @@ export class ConfigurationService {
     public criteria: Array<Criteria> = [];
     // TODO move to redux
     public tableColumns: Array<string> = [];
-    private converter: Showdown.Converter;
-
     public initializeData: EventEmitter<any> = new EventEmitter();
+    private converter: Showdown.Converter;
 
     constructor(public title: Title,
                 private http: HttpClient,
@@ -35,13 +28,21 @@ export class ConfigurationService {
     }
 
     static getHtml(converter: Showdown.Converter, citation: Map<string, Citation>, markdown: string): string {
-        return converter.makeHtml(markdown).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
+        if (isNullOrUndefined(markdown)) return null;
+        return converter.makeHtml(markdown.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
             return '<a class="cite-link" href="#' + dec + '">[' + citation.get(dec).index + ']</a>';
         });
     }
 
+    static getLatex(converter: Showdown.Converter, text: string): string {
+        return converter.makeHtml(text).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
+            return '\\cite{' + dec + '}';
+        });
+    }
+
+
     public loadComparison(cd: ChangeDetectorRef) {
-        this.http.get('comparison-configuration/comparison.yml', {responseType: 'text'})
+        this.http.get('configuration/comparison.yml', {responseType: 'text'})
             .subscribe(res => {
                 const comparisonObject: any = yaml.safeLoad(res) || {};
                 console.log(comparisonObject)
@@ -69,6 +70,19 @@ export class ConfigurationService {
                     .setHeader(detailsHeader)
                     .setBody(detailsBody)
                     .build();
+
+                const citation: Map<string, Citation> = new Map<string, Citation>();
+                Object.keys(citationObject).forEach(
+                    citationKey => {
+                        const value = citationObject[citationKey];
+                        citation.set(citationKey, new Citation.Builder()
+                            .setIndex(value.index)
+                            .setKey(citationKey)
+                            .setText(value.value)
+                            .build()
+                        )
+                    }
+                );
 
                 const criteria: Map<string, Criteria> = new Map<string, Criteria>();
                 criteriaArray.forEach((obj) => Object.keys(obj).forEach((key) => {
@@ -100,7 +114,7 @@ export class ConfigurationService {
                         values.set(objKey, new CriteriaValue.Builder()
                             .setCriteria(key)
                             .setName(objKey)
-                            .setDescription(value.description)
+                            .setDescription(ConfigurationService.getHtml(this.converter, citation, value.description))
                             .setClazz(value.class)
                             .setColor(isNullOrUndefined(value.color) ? autoColorValue.color : value.color)
                             .setBackgroundColor(isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor)
@@ -154,7 +168,7 @@ export class ConfigurationService {
                                 values.set(valueKey, new CriteriaValue.Builder()
                                     .setCriteria(key)
                                     .setName(valueKey)
-                                    .setDescription(value.description)
+                                    .setDescription(ConfigurationService.getHtml(this.converter, citation, value.description))
                                     .setClazz(value.class)
                                     .setWeight(value.weight)
                                     .setMinAge(value.minAge)
@@ -191,7 +205,7 @@ export class ConfigurationService {
                                 values.set(valueKey, new CriteriaValue.Builder()
                                     .setCriteria(key)
                                     .setName(valueKey)
-                                    .setDescription(value.description)
+                                    .setDescription(ConfigurationService.getHtml(this.converter, citation, value.description))
                                     .setClazz(value.class)
                                     .setWeight(value.weight)
                                     .setMinAge(value.minAge)
@@ -218,19 +232,6 @@ export class ConfigurationService {
                             .build());
                     }
                 });
-
-                const citation: Map<string, Citation> = new Map<string, Citation>();
-                Object.keys(citationObject).forEach(
-                    citationKey => {
-                        const value = citationObject[citationKey];
-                        citation.set(citationKey, new Citation.Builder()
-                            .setIndex(value.index)
-                            .setKey(citationKey)
-                            .setText(value.value)
-                            .build()
-                        )
-                    }
-                );
 
                 this.configuration = new Configuration.Builder()
                     .setTitle(comparisonObject.title)
@@ -261,7 +262,7 @@ export class ConfigurationService {
     }
 
     public loadDescription(citation: Map<string, Citation>) {
-        this.http.get('comparison-configuration/description.md', {responseType: 'text'})
+        this.http.get('configuration/description.md', {responseType: 'text'})
             .subscribe(res => {
                 this.description = ConfigurationService.getHtml(this.converter, citation, res);
             });

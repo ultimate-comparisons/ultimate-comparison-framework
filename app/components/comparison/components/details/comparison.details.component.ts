@@ -20,9 +20,6 @@ export class ComparisonDetailsComponent implements OnChanges {
     @Input() types: Array<number>;
     @Input() headers: Array<string> = [];
     @Input() ratings: Array<Rating> = [];
-
-
-    // TODO move to redux
     @Input() tooltipAsText: boolean = true;
 
     constructor(public configurationService: ConfigurationService) {
@@ -94,8 +91,5 @@ export class ComparisonDetailsComponent implements OnChanges {
             this.headers = headers;
             this.ratings = ratings;
         }
-
-        // TODO (re)move to redux
-        this.tooltipAsText = this.configurationService.configuration.details.body.tooltipAsText;
     }
 }

@@ -67,9 +67,9 @@ pdialog {
     display: grid;
     grid-column-gap: 10px;
     grid-row-gap: 15px;
-    grid-template-columns: 80px auto 1fr;
+    grid-template-columns: 80px auto 1fr 80px;
     grid-template-rows: 60px auto;
-    grid-template-areas: "corner header ." ". content ." ". large large" ". content-end ." ". latex ." "footer footer footer"
+    grid-template-areas: "corner header . ." ". content . ." ". large large ." ". content-end . ." ". latex . ." "footer footer footer ."
 
 }
 
@@ -138,13 +138,13 @@ pdialog {
 
 @media only screen and (min-width: 800px) {
     .grid-container {
-        grid-template-columns: 82px 720px 1fr;
+        grid-template-columns: 82px 840px 1fr 78px;
     }
 }
 
 @media only screen and (min-width: 1160px) {
     .grid-container {
-        grid-template-columns: 82px 980px 1fr;
+        grid-template-columns: 82px 980px 1fr 80px;
     }
 }
 
