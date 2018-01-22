@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE.svg?branch=master)](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE)
 [![Issue Count](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE/badges/issue_count.svg)](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE)
+[![Code Triagers Badge](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base/badges/users.svg)](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base)
 
 This is an ultimate comparison framework written in [Angular](https://angular.io/).
 
@@ -125,12 +126,12 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
 - [ADR Index](docs/adr)
 
 # PRs
-- [issue27](prs/issue27)
 - [issue86](prs/issue86)
-- [rewrite](prs/rewrite)
 - [initialLoadProblem](prs/initialLoadProblem)
-- [issue127](prs/issue127)
+- [rewrite](prs/rewrite)
+- [issue27](prs/issue27)
 - [travis_test](prs/travis_test)
+- [issue127](prs/issue127)
 
 # Current Master
 - [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
