@@ -4,37 +4,30 @@
 [![Issue Count](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE/badges/issue_count.svg)](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE)
 
 This is an ultimate comparison framework written in [Angular](https://angular.io/).
+It can also be found here: [npm](https://www.npmjs.com/package/ultimate-comparison)
 
-## Create your own ultimate comparison 
-1. Create a new repository on GitHub. In the following called "ultimate-THING-comparison" and located at https://github.com/example.com/ultimate-THING-comparison, replace `THING` by your comparison (e.g., `web-framework`).
-2. Create local repository (in a git bash, Windows shell does not work)
+## Create your own ultimate comparison
+1. Install the **ultimate-comparison**-package globally in your system via `npm install --global ultimate-comparison`.
+2. Create a directory for your new comparison, e. g. via `mkdir My_Comparison`.
+3. Run `uc setup` to create the skeleton of your comparison
+4. Enter the name, the [semantic version](https://semver.org/), and a description of your comparison and confirm every step with return.
+5. Run `uc start` to start your comparison.
 
-        mkdir ultimate-THING-comparison
-        cd ultimate-THING-comparison
-        git init
-        git fetch --depth=1 -n https://github.com/ultimate-comparisons/ultimate-comparison-BASE.git
-        git reset --hard $(git commit-tree FETCH_HEAD^{tree} -m "initial commit")
-
-3. Create push to your GitHub repository
-        
-        git remote add origin git@github.com:example.com/ultimate-THING-comparison.git
-        git push -u origin master
-        
 ### Setup comparison
 1. The initial installation should be done via the `master` branch and updates should be pulled from the `update` branch.
 This is the save route because the `update` branch does not include configuration files.
 2. The file `comparison-configuration/comparison.json` defines the main properties of the comparison and the details dialog.
-  
+
   ![comparison.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/comparison.svg)
-  
-  In the details dialog the values of the keys `header-label`, `body`, and `body-attachment-tags` matches level 2 headers in the comparison-elements files. The type of the `body-attachment-tags` must be labels and `body` will be parsed as markdown formated text. 
-3. The file `comparison-configuration/table.json` defines the table columns. 
+
+  In the details dialog the values of the keys `header-label`, `body`, and `body-attachment-tags` matches level 2 headers in the comparison-elements files. The type of the `body-attachment-tags` must be labels and `body` will be parsed as markdown formated text.
+3. The file `comparison-configuration/table.json` defines the table columns.
   - `tag:` References a level 2 header of the comparison elements (`Performance`, `Description`, `License`, `Showcase`) or the level 1 header and its content (`tag`, `url`, `descr`).
   - `display:` Allows the user to hide a colum by default. It is possible to dynamically hide or display column by clicking on the configuration button and toggle the columns on/off.
   - `name:` Allows the user to change the display name (default display name is defined by `tag`).
   - `order`: Sorts the column ascending or descending, allowed values: `asc`, `desc`
   - `type:` Style of the content.
-  - `type.tag:` Either a label, a text, or a url. 
+  - `type.tag:` Either a label, a text, or a url.
   - `type.class:` Set a label class (e. g. `label label-info`). Will be ignored if value class is set.
   - `type.values:`
   ```json
@@ -53,7 +46,7 @@ This is the save route because the `update` branch does not include configuratio
   - The `weight` allows sorting of attributes, if multiple values are allowed. Ascending and descending is set by the `order` attribute in the column. Without weight, the name is used for sorting.
   - `repo`: Signals that the column is dependent on a read repository (up to now only GitHub ones).
 
-  ![table.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/table.svg) 
+  ![table.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/table.svg)
 4. The file `comparison-configuration/criteria.json` defines filter criterias for the table data.
   - `tag:` References a level 2 header of the comparison elements (`Performance`, `Description`, `License`, `Showcase`)
   - `name:` Display name (replaces `tag`).
@@ -63,7 +56,7 @@ This is the save route because the `update` branch does not include configuratio
   - `number_search`: Allow range searches. Ignores given values.
 
   ![criteria.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/criteria.svg)       
-        
+
 
 ### Define comparison elements
 For each thing, create a markdown file in `comparison-elements`.

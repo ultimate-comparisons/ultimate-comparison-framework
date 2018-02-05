@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Introduction of Angular 5 [#30](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/30)
+- Introduction of Redux [#117](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/117)
+- Restructured comparison configuration [#128](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/128)
+- Published `ultimate-comparison` on npmjs.org [#67](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/67)
+- Added extraction of missing information from comparison data [#89](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/89)
+- Added permanent display of all references [#18](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/18)
+- Added references to details page [#16](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/16)
+- Added tooltips for details page
+- Added word-break property for tooltips
+- Changed some styles
+- Changed output directory location
+- Fixed moving content when modal opened [#26](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/26)
+- Removed pandoc dependency [#113](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/113)
 
 ### Added
 - Enabling and disabling elements
