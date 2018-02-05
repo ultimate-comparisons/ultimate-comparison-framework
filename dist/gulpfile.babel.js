@@ -17,20 +17,20 @@ const execSimple = require('child_process').exec;
 const Cite = require('citation-js');
 
 const paths = {
-    src: 'app',
-    dev: 'www',
-    json: 'tmp/comparison-elements-json',
-    dataJson: 'app/components/comparison/data/',
+    src: './node_modules/ultimate-comparison-framework/app',
+    dev: 'node_modules/ultimate-comparison-framework/www',
+    json: './tmp/comparison-elements-json',
+    dataJson: './tmp/',
     data: 'data',
     config: './configuration/'
 };
 
 const files = {
     data: [
-        './app/components/comparison/data/*.json',
-        './comparison-configuration/*',
-        './citation/output/*',
-        './favicon.ico'
+        './node_modules/ultimate-comparison-framework/app/components/comparison/data/*.json',
+        './node_modules/ultimate-comparison-framework/comparison-configuration/*',
+        './node_modules/ultimate-comparison-framework/citation/output/*',
+        './node_modules/ultimate-comparison-framework/favicon.ico'
     ],
     markdown: [
         './data/*.md'
@@ -39,11 +39,12 @@ const files = {
         './tmp/comparison-elements-json/*.json'
     ],
     config: paths.config.concat('comparison.yml'),
-    defaultConfig: paths.config.concat('comparison-default.yml')
+    defaultConfig: paths.config.concat('comparison-default.yml'),
+    description: paths.config.concat('description.md')
 };
 
 const destfiles = {
-    index: './www'
+    index: './node_modules/ultimate-comparison-framework/www'
 };
 
 // BUILD / UPDATE data files -------------------------------------<
@@ -228,8 +229,8 @@ gulp.task('determinecolors', function () {
 });
 
 gulp.task('versioninfo', function () {
-    let versionfile = './app/VersionInformation.ts.example';
-    let output = './app/VersionInformation.ts';
+    let versionfile = './node_modules/ultimate-comparison-framework/app/VersionInformation.ts.example';
+    let output = './node_modules/ultimate-comparison-framework/app/VersionInformation.ts';
     let revision = sh('git rev-parse HEAD');
     let date = sh('git log -1 --format=%cd --date=short');
     return gulp.src(versionfile)
@@ -243,17 +244,31 @@ gulp.task('update-data', function () {
     gulp.watch(files.markdown, ['build-data']);
 });
 
+function deleteFolderRecursive(path) {
+    if (existsSync(path)) {
+        readdirSync(path).forEach(function(file, index){
+            var curPath = path + "/" + file;
+            if (lstatSync(curPath).isDirectory()) { // recurse
+                deleteFolderRecursive(curPath);
+            } else { // delete file
+                unlinkSync(curPath);
+            }
+        });
+        rmdirSync(path);
+    }
+};
+
 gulp.task('markdown', function (callback) {
     deleteFolderRecursive(paths.json);
     const isWin = /^win/i.test(process.platform);
     if (isWin) {
-        execSimple("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.data + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
+        execSimple("gradlew -q -b ./node_modules/ultimate-comparison-framework/app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.data + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
             callback(err);
         });
     } else {
-        execSimple("./gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.data + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
+        execSimple("./node_modules/ultimate-comparison-framework/gradlew -q -b ./node_modules/ultimate-comparison-framework/app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.data + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
             callback(err);
@@ -299,7 +314,6 @@ gulp.task('citation', function (done) {
                     return console.error("Could not read File: ".concat(err.toString()));
                 }
                 const cite = new Cite(data.toString().replace(/^%.*\n?/gm, ''), {forceType: 'string/bibtex'});
-
                 let map = new Map();
                 for (let item of cite.data) {
                     let itemData = new Cite(item);
@@ -446,7 +460,7 @@ gulp.task('update-www', function () {
 });
 
 gulp.task('data', function () {
-    return gulp.src(files.data, {base: '.'})
+    return gulp.src(files.data)
         .pipe(gulp.dest(destfiles.index));
 });
 // --------------------------------------------------------------->
@@ -467,19 +481,3 @@ gulp.task('dev', ['default'], function (callback) {
     run('update-data', 'update-www', callback);
 });
 // --------------------------------------------------------------->
-
-
-
-function deleteFolderRecursive(path) {
-    if (existsSync(path)) {
-        readdirSync(path).forEach(function(file, index){
-            var curPath = path + "/" + file;
-            if (lstatSync(curPath).isDirectory()) { // recurse
-                deleteFolderRecursive(curPath);
-            } else { // delete file
-                unlinkSync(curPath);
-            }
-        });
-        rmdirSync(path);
-    }
-};
