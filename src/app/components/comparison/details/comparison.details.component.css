@@ -3,6 +3,12 @@
     padding: 0;
 }
 
+:host h2 ptooltip {
+    font-family: Roboto, Noto, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
 .mylabel {
     margin: 2px;
     display: inline-block !important;
