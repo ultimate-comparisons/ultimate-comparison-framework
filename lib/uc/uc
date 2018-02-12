@@ -6,17 +6,17 @@ DIR="$(dirname "$(readlink -f "$0")")"
 setup () {
   cp ${DIR}/package.json ${CWD}/package.json
   echo "What is the name of your comparison?"
-  read NAME
+  read -e NAME
   if [[ ${NAME} == "" ]]; then
       NAME="ultimate-comparison-project"
   fi
   echo "What is the version of your comparison?"
-  read VERS
+  read -e VERS
   if [[ ${VERS} == "" ]]; then
       VERS="0.0.0"
   fi
   echo "How would you describe your comparison?"
-  read DESC
+  read -e DESC
   sed -i "s/##asdfn/${NAME}/" ${CWD}/package.json
   sed -i "s/##asdfv/${VERS}/" ${CWD}/package.json
   sed -i "s/##asdfd/${DESC}/" ${CWD}/package.json
@@ -25,6 +25,7 @@ setup () {
   cp ${DIR}/webpack.config.js ${CWD}/
   cp ${DIR}/README.md ${CWD}/
   cp ${DIR}/.gitignore ${CWD}/
+  cp ${DIR}/.travis.yml ${CWD}/
   cp ${DIR}/../../gulpfile.babel.js ${CWD}/
   cp ${DIR}/../../.babelrc ${CWD}/
   cp ${DIR}/../../tsconfig.json ${CWD}/

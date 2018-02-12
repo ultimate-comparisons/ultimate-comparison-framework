@@ -18,8 +18,8 @@ repository: >-                                              # default: none
 details:
   header:
     nameRef: id                                             # default: id
-      labelRef: Performance                                 # default: none
-      urlRef: inline                                        # default: inline (Example # 'id' - 'url' <= Entry 1 - http://entry-1.example.com)
+    labelRef: Performance                                   # default: none
+    urlRef: inline                                          # default: inline (Example # 'id' - 'url' <= Entry 1 - http://entry-1.example.com)
   body:
     title: Description                                      # default: Description
     bodyRef: Description                                    # default: Description
@@ -65,7 +65,7 @@ criteria:
       search: false
       table: false
       detail: false
-      type: repositor
+      type: repository
   - Development:
       description: Is the software in active development?
       placeholder: Select activity state of ...

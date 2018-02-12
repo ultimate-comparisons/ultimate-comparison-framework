@@ -8,7 +8,7 @@
         "gulp:compile": "node ./node_modules/gulp/bin/gulp.js default --dir=./",
         "gulp:development": "node ./node_modules/gulp/bin/gulp.js dev --dir=./",
         "dev": "concurrently \"npm run gulp:development\" \"npm run webpack:start\" ",
-        "test": "npm run gult:compile && npm run webpack:build"
+        "build": "npm run gult:compile && npm run webpack:build"
     },
     "bin": {
         "uc": "./lib/uc/uc"

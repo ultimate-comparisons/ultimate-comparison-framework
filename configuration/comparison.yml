@@ -59,6 +59,7 @@ criteria:
       values:
         Apache-2.0:
           description: '[Apache-2.0](https://spdx.org/licenses/Apache-2.0.html)'
+          class: label-success
         MIT:
           description: '[MIT](https://spdx.org/licenses/MIT.html)'
         MPL-2.0:
