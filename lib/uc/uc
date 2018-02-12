@@ -24,6 +24,7 @@ setup () {
   cp -r ${DIR}/../../configuration ${CWD}/
   cp ${DIR}/webpack.config.js ${CWD}/
   cp ${DIR}/README.md ${CWD}/
+  cp ${DIR}/.gitignore ${CWD}/
   cp ${DIR}/../../gulpfile.babel.js ${CWD}/
   cp ${DIR}/../../.babelrc ${CWD}/
   cp ${DIR}/../../tsconfig.json ${CWD}/

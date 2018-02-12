@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
-import { Label, Markdown, Text, Url } from "../../comparison/components/data/data";
-import { CriteriaType } from "../../comparison/components/configuration/configuration";
+import { Label, Markdown, Text, Url } from "../../comparison/data/data";
+import { CriteriaType } from "../../comparison/configuration/configuration";
 
 @Component({
     selector: 'latextable',

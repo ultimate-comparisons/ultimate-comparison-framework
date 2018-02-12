@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Citation } from "../../comparison/components/configuration/configuration";
+import { Citation } from "../../comparison/configuration/configuration";
 
 @Component({
     selector: 'referencestable',
