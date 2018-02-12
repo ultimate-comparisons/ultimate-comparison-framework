@@ -86,6 +86,9 @@ criteria:
         yellow:
           description: Show case for yellow label
           class: label-warning
+        black:
+          description: Show case for black label
+          class: label-black
   - Uncolored:
       description: Tags that were originally uncolored.
       values:
