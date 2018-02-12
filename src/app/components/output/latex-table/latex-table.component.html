@@ -49,13 +49,13 @@
         --></ng-template><!--
 
         print text
-        --><ng-template [ngIf]="types[i] === 'text'">{{entry.content}}</ng-template><!--
+        --><ng-template [ngIf]="types[i] === 'text' && entry">{{entry.content}}</ng-template><!--
 
         print rating
         --><ng-template [ngIf]="types[i] === 'rating' && entry">{{'$' + entry+'\\bigstar$'}}</ng-template><!--
 
         print markdown
-        --><ng-template [ngIf]="types[i] === 'markdown'"><!--
+        --><ng-template [ngIf]="types[i] === 'markdown' && entry"><!--
             --><span class="ltInline" [innerHtml]="entry.latex|sanitizeHtml"></span><!--
         --></ng-template><!--
        --><ng-template [ngIf]="!last"> &#38; </ng-template><!--
