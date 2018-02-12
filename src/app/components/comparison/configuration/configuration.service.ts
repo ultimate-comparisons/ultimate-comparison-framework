@@ -83,6 +83,9 @@ export class ConfigurationService {
                     }
                 );
 
+                /**
+                 * Construct map of criteria from 'comparison.yml'.criteria
+                 */
                 const criteria: Map<string, Criteria> = new Map<string, Criteria>();
                 criteriaArray.forEach((obj) => Object.keys(obj).forEach((key) => {
                     const value = obj[key];
@@ -94,6 +97,10 @@ export class ConfigurationService {
                     const autoColorCriteria = isNullOrUndefined(autoColor[key]) ? {} : autoColor[key];
                     const valuesObject = isNullOrUndefined(value.values) ? {} : value.values;
 
+                    /**
+                     * Construct map of criteria values
+                     * If criteria value is undefined use autoColorCriteria information
+                     */
                     const values: Map<string, CriteriaValue> = new Map<string, CriteriaValue>();
                     Object.keys(valuesObject).forEach(objKey => {
                         const value = valuesObject[objKey];
@@ -115,8 +122,8 @@ export class ConfigurationService {
                             .setName(objKey)
                             .setDescription(ConfigurationService.getHtml(this.converter, citation, value.description))
                             .setClazz(value.class)
-                            .setColor(isNullOrUndefined(value.color) ? autoColorValue.color : value.color)
-                            .setBackgroundColor(isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor)
+                            .setColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.color) ? autoColorValue.color : value.color) : null)
+                            .setBackgroundColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor) : null)
                             .setWeight(value.weight)
                             .setMinAge(value.minAge)
                             .setMaxAge(value.maxAge)
@@ -141,21 +148,35 @@ export class ConfigurationService {
                     );
                 }));
 
+                /**
+                 * Complete map of criteria with 'comparison.yml'.autoCriteria
+                 */
                 Object.keys(autoCriteria).forEach((key) => {
                     const autoCriteriaObject = autoCriteria[key];
                     const valuesObject = autoCriteriaObject.values || {};
                     const autoColorCriteria = isNullOrUndefined(autoColor[key]) ? {} : autoColor[key];
 
-                    // If autoCriteria is already defined
+                    /**
+                     * If criteria is already defined by 'comparison.yml'.criteria
+                     * complete criteria fields
+                     */
                     if (criteria.get(key)) {
                         let old: Criteria = criteria.get(key);
                         let values: Map<string, CriteriaValue> = old.values;
+                        /**
+                         * Check each element CriteriaValue
+                         * oldValue from 'comparison.yml'.criteria
+                         * value from 'comparison.yml'.autoCriteria
+                         * color information from 'comparison.yml'.autoColorCriteria
+                         */
                         Object.keys(valuesObject).forEach(valueKey => {
                             const oldValue: CriteriaValue = old.values.get(valueKey);
                             const autoColorValue = isNullOrUndefined(autoColorCriteria[valueKey]) ? {} : autoColorCriteria[valueKey];
                             const value = valuesObject[valueKey];
+                            // 1) old value undefined
                             if (!isNullOrUndefined(oldValue)) {
                                 values.set(valueKey, old.values.get(valueKey));
+                                // 2) auto value defined but null
                             } else if (isNullOrUndefined(value)) {
                                 values.set(valueKey, new CriteriaValue.Builder()
                                     .setCriteria(key)
@@ -163,6 +184,7 @@ export class ConfigurationService {
                                     .setColor(autoColorValue.color)
                                     .setBackgroundColor(autoColorValue.backgroundColor)
                                     .build());
+                                // 3) old and auto value defined
                             } else if (!isNullOrUndefined(value)) {
                                 values.set(valueKey, new CriteriaValue.Builder()
                                     .setCriteria(key)
@@ -172,8 +194,9 @@ export class ConfigurationService {
                                     .setWeight(value.weight)
                                     .setMinAge(value.minAge)
                                     .setMaxAge(value.maxAge)
-                                    .setColor(isNullOrUndefined(value.color) ? autoColorValue.color : value.color)
-                                    .setBackgroundColor(isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor)
+                                    // !! autoColor is applied if no class defined
+                                    .setColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.color) ? autoColorValue.color : value.color) : null)
+                                    .setBackgroundColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor) : null)
                                     .setMinAgeUnit(value.minAgeUnit)
                                     .setMaxAgeUnit(value.maxAgeUnit)
                                     .build());
@@ -192,8 +215,10 @@ export class ConfigurationService {
                             .setRangeSearch(old.rangeSearch)
                             .setValues(values)
                             .build());
+                        /**
+                         * If criteria is not defined by 'comparison.yml'.criteria use 'comparison.yml'.autoCriteria
+                         */
                     } else {
-                        // if autoCriteria is not already defined
                         let values: Map<string, CriteriaValue> = new Map<string, CriteriaValue>();
                         Object.keys(valuesObject).forEach(valueKey => {
                             const value = valuesObject[valueKey];
