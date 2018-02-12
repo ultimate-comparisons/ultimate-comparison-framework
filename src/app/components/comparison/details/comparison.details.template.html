@@ -67,7 +67,7 @@
         </div>
     </pcard>
 
-    <pcard heading="References" [hidden]="configurationService.configuration.citation.length === 0" class="description">
+    <pcard heading="References" *ngIf="configurationService.configuration.citation.size != 0" class="description">
         <referencestable [changeNum]="configurationService.configuration.citation.length"
                          [citationMap]="configurationService.configuration.citation"></referencestable>
     </pcard>
