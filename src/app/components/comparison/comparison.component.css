@@ -63,7 +63,6 @@ pdialog {
 }
 
 .grid-container {
-    min-height: 100%;
     display: grid;
     grid-column-gap: 10px;
     grid-row-gap: 15px;
