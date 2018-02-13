@@ -8,6 +8,9 @@
     "webpack:start": "./node_modules/.bin/webpack-dev-server --open --inline --progress --port 3000"
   },
   "dependencies": {
-      "ultimate-comparison": "2.0.0-alpha.4"
+      "gulp": "^4.0.0",
+      "gulp-exec": "^3.0.1",
+      "typescript": "2.6.2",
+      "ultimate-comparison": "2.0.0-alpha.8"
   }
 }
