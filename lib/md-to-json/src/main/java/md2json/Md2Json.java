@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.pegdown.PegDownProcessor;
@@ -36,16 +37,16 @@ public class Md2Json {
 
     public static void main(String args[]) throws IOException {
         Md2Json md2json = new Md2Json();
-        if (args.length > 2) {
-            md2json.level = parseInt(args[2].trim());
-        }
-
         if (args.length > 3) {
-            md2json.prettyPrinting = Boolean.parseBoolean(args[3].trim());
+            md2json.level = parseInt(args[3].trim());
         }
 
-        if (args.length > 1) {
-            md2json.dirToJSON(args[0], Paths.get(args[1]));
+        if (args.length > 4) {
+            md2json.prettyPrinting = Boolean.parseBoolean(args[4].trim());
+        }
+
+        if (args.length > 2) {
+            md2json.dirToJSON(args[0], Paths.get(args[1]), Paths.get(args[2]));
         }
     }
 
@@ -57,8 +58,7 @@ public class Md2Json {
         return new String(bytes);
     }
 
-    private static void writeFile(String fileName, String msg) throws IOException {
-        Path path = Paths.get(fileName);
+    private static void writeFile(Path path, String msg) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(path.toFile()));
         bw.write(msg);
         bw.close();
@@ -76,21 +76,31 @@ public class Md2Json {
         return true;
     }
 
-    private void dirToJSON(String inputDir, Path outputPath) throws IOException {
+    private void dirToJSON(String inputDir, Path outputPathTmp, Path outputPath) throws IOException {
         File folder = new File(inputDir);
+        JsonArray jsonArray = new JsonArray();
         if (folder.isDirectory()) {
             for (final File entry : folder.listFiles()) {
                 if (entry.getName().endsWith(".md")) {
-                    if (!Files.exists(outputPath)) {
-                        Files.createDirectories(outputPath);
+                    if (!Files.exists(outputPathTmp)) {
+                        Files.createDirectories(outputPathTmp);
                     }
-                    writeFile(outputPath.resolve(entry.getName().substring(0, entry.getName().lastIndexOf(".")) + ".json").toString(), toJSON(readFile(entry)));
+                    JsonObject jsonObject = toJSON(readFile(entry));
+                    jsonArray.add(jsonObject);
+                    String jsonString = "";
+                    if (prettyPrinting) {
+                        jsonString = new GsonBuilder().setPrettyPrinting().create().toJson(jsonObject);
+                    } else {
+                        jsonString = jsonObject.toString();
+                    }
+                    writeFile(outputPathTmp.resolve(entry.getName().substring(0, entry.getName().lastIndexOf(".")) + ".json"), jsonString);
                 }
             }
         }
+        writeFile(outputPath, jsonArray.toString());
     }
 
-    private String toJSON(String md) {
+    private JsonObject toJSON(String md) {
         StringBuffer newMd = new StringBuffer();
         if (Objects.nonNull(md) && !md.isEmpty()) {
             // Escape '"' => '\"' but do not escape '\"'
@@ -107,11 +117,7 @@ public class Md2Json {
         Logger.debug("toJSON string >{}<", json);
         JsonParser jsonParser = new JsonParser();
         try {
-            JsonObject jsonObject = (JsonObject) jsonParser.parse(json);
-            if (prettyPrinting) {
-                return new GsonBuilder().setPrettyPrinting().create().toJson(jsonObject);
-            }
-            return jsonObject.toString();
+            return (JsonObject) jsonParser.parse(json);
         } catch (Exception e) {
             Logger.error("invalid JSON >{}<", json);
             Logger.error(e);
