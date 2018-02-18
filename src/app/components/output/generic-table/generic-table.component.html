@@ -28,7 +28,7 @@
                                   [tooltipHtml]="label.tooltip.html" [position]="'n'">
                             <div class="label mylabel {{label.clazz}}" [style.color]="label.color"
                                  [style.background-color]="label.backgroundColor"
-                                 (click)="labelClick(label, i)">
+                                 (click)="labelClick($event, label, i)">
                                 {{label.name}}
                             </div>
                         </ptooltip>
