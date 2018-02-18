@@ -126,12 +126,6 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
 - [ADR Index](docs/adr)
 
 # PRs
-- [issue86](prs/issue86)
-- [initialLoadProblem](prs/initialLoadProblem)
-- [rewrite](prs/rewrite)
-- [issue27](prs/issue27)
-- [travis_test](prs/travis_test)
-- [issue127](prs/issue127)
 
 # Current Master
 - [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
