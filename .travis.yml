@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - '6'
 env:
-- GIT_DEPLOY_DIR: www
+- GIT_DEPLOY_DIR: dist
 script: npm run build
 after_success:
 - git remote set-url origin git@github.com:ultimate-comparisons/ultimate-comparison-BASE.git

@@ -65,9 +65,10 @@ build_master () {
   git commit -m "Travis commit for docs on master"
   git checkout -f master
 
-  if [[ ! -d demo ]]; then
-    mkdir demo
+  if [[ -d demo ]]; then
+    rm -rf demo
   fi
+  mkdir demo
 
   cp -r dist/* demo
 
@@ -121,9 +122,9 @@ build_master () {
 git remote add SSH git@github.com:ultimate-comparisons/ultimate-comparison-BASE.git
 git fetch --all
 # decide which functions should be called
-if [[ ${TRAVIS_BRANCH} != "master" ]]; then
-  CURRENT_BRANCH=${TRAVIS_BRANCH}
-  build_branch ${TRAVIS_BRANCH}
+if [[ ${TRAVIS_PULL_REQUEST} != false ]]; then
+  CURRENT_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH}
+  build_branch ${TRAVIS_TRAVIS_PULL_REQUEST_BRANCH}
 else
   if [[ ${TRAVIS_BRANCH} != "master" ]]; then
     echo "or not..."
