@@ -3,55 +3,60 @@
 import gulp from 'gulp'
 import rename from 'gulp-rename';
 import _ from 'lodash';
-
-import jsontransform from 'gulp-json-transform';
-import concatjson from 'gulp-concat-json';
-import clean from 'gulp-clean';
-import run from 'run-sequence';
 import exec from 'gulp-exec';
 import {existsSync, lstatSync, readdirSync, readFile, readFileSync, rmdirSync, unlinkSync, writeFileSync} from 'fs';
 import sh from 'sync-exec';
 import yaml2json from 'js-yaml';
 
-const execSimple = require('child_process').exec;
+import * as path from 'path';
+import {exec as execSimple} from 'child_process';
+
 const Cite = require('citation-js');
+const argv = require('minimist')(process.argv.slice(2));
+
+argv.dir = argv.dir || "";
+
+// convert 'dir' to absolute path assuming that 'dir' was relative to the absolute folder '__dirname'
+argv.dir = path.join(__dirname, argv.dir);
+
+const tmp = path.join(argv.dir, 'tmp');
 
 const paths = {
-    src: 'app',
-    dev: 'www',
-    json: 'tmp/comparison-elements-json',
-    dataJson: 'app/components/comparison/data/',
-    data: 'data',
-    config: './configuration/'
+    json: path.join(tmp, 'data'),
+    assets: path.join(argv.dir, 'src/assets'),
+    lib: path.join(argv.dir, 'lib'),
+    data: path.join(__dirname, 'data'),
+    config: path.join(__dirname, 'configuration'),
+};
+
+const names = {
+    data: 'data.json'
 };
 
 const files = {
-    data: [
-        './app/components/comparison/data/*.json',
-        './comparison-configuration/*',
-        './citation/output/*',
-        './favicon.ico'
-    ],
     markdown: [
-        './data/*.md'
+        path.join(paths.data, '*.md')
     ],
     json: [
-        './tmp/comparison-elements-json/*.json'
+        path.join(tmp, 'data', '*.json')
     ],
-    config: paths.config.concat('comparison.yml'),
-    defaultConfig: paths.config.concat('comparison-default.yml')
-};
-
-const destfiles = {
-    index: './www'
+    config: path.join(paths.config, 'comparison.yml'),
+    style: path.join(paths.config, 'style.css'),
+    defaultConfig: path.join(paths.config, 'comparison-default.yml'),
+    description: path.join(paths.config, 'description.md'),
+    mdToJsonGradle: path.join(paths.lib, 'md-to-json/build.gradle'),
+    dataJson: path.join(paths.assets, names.data),
+    versionInformationExample: path.join(paths.assets, 'VersionInformation.ts.example'),
+    versionInformation: path.join(paths.assets, 'VersionInformation.ts')
 };
 
 // BUILD / UPDATE data files -------------------------------------<
-gulp.task('build-data', function (callback) {
-    run('markdown', 'json', 'criteria', 'determinecolors', 'citation', callback);
+gulp.task('assets', function () {
+    return gulp.src([files.description, files.config, files.style])
+        .pipe(gulp.dest(paths.assets));
 });
 
-gulp.task('determinecolors', function () {
+gulp.task('determineColors', function (done) {
     const config = files.config;
     const colorArray = [
         'hsl(15, 100%, 70%)',
@@ -224,15 +229,15 @@ gulp.task('determinecolors', function () {
     if (changed) {
         writeFileSync(config, yaml2json.safeDump(input), "utf8");
     }
-    return true;
+    done();
 });
 
-gulp.task('versioninfo', function () {
-    let versionfile = './app/VersionInformation.ts.example';
-    let output = './app/VersionInformation.ts';
+gulp.task('versionInfo', function () {
+    let versionFile = files.versionInformationExample;
+    let output = files.versionInformation;
     let revision = sh('git rev-parse HEAD');
     let date = sh('git log -1 --format=%cd --date=short');
-    return gulp.src(versionfile)
+    return gulp.src(versionFile)
         .pipe(rename(output))
         .pipe(gulp.dest('.'))
         .pipe(exec('sed -i\'.bak\' "s/§§date§§/' + date.stdout.trim() + '/" ' + output))
@@ -245,41 +250,47 @@ gulp.task('update-data', function () {
 
 gulp.task('markdown', function (callback) {
     deleteFolderRecursive(paths.json);
-    const isWin = /^win/i.test(process.platform);
-    if (isWin) {
-        execSimple("gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.data + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
+    const gradlew = path.join(argv.dir, 'gradlew');
+    execSimple(gradlew + " -q -b "
+        + files.mdToJsonGradle
+        + " md2json -PappArgs=\""
+        + paths.data
+        + ","
+        + paths.json
+        + ","
+        + files.dataJson
+        + ", 1, true\"",
+        function (err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
             callback(err);
         });
-    } else {
-        execSimple("./gradlew -q -b ./app/java/md-to-json/build.gradle md2json -PappArgs=\"" + __dirname + "/" + paths.data + "/," + __dirname + "/" + paths.json + "/, 1, true\"", function (err, stdout, stderr) {
-            console.log(stdout);
-            console.log(stderr);
-            callback(err);
-        });
-    }
-});
 
-gulp.task('json', function () {
-    return gulp.src(files.json)
-        .pipe(concatjson("data.json"))
-        .pipe(jsontransform(function (data) {
-            return data;
-        }, 2))
-        .pipe(gulp.dest(paths.dataJson))
+    function deleteFolderRecursive(folder) {
+        if (existsSync(folder)) {
+            readdirSync(folder).forEach(function (file) {
+                const curPath = path.join(folder, file);
+                if (lstatSync(curPath).isDirectory()) { // recurse
+                    deleteFolderRecursive(curPath);
+                } else { // delete file
+                    unlinkSync(curPath);
+                }
+            });
+            rmdirSync(folder);
+        }
+    }
 });
 
 gulp.task('citation', function (done) {
     let input = yaml2json.safeLoad(readFileSync(files.config, "utf8"));
-    let defaults = yaml2json.safeLoad(readFileSync(paths.config.concat("comparison-default.yml"), "utf8"));
+    let defaults = yaml2json.safeLoad(readFileSync(files.defaultConfig, "utf8"));
     const citation = input.citation || {};
     const citationDefault = defaults.citation;
-    const csl = citation.csl || citationDefault.csl;
-    const bib = citation.bib || citationDefault.bib;
+    const csl = path.join(paths.data, (citation.csl || citationDefault.csl));
+    const bib = path.join(paths.data, (citation.bib || citationDefault.bib));
 
     if (csl) {
-        readFile(paths.data.concat('/', csl), "utf8", function (err, cslString) {
+        readFile(csl, "utf8", function (err, cslString) {
             if (err) {
                 return console.error("Could not read File: ".concat(err.toString()));
             }
@@ -293,13 +304,12 @@ gulp.task('citation', function (done) {
 
     function readBib(done) {
         if (bib) {
-            readFile(paths.data.concat('/', bib), "utf8", function (err, data) {
+            readFile(bib, "utf8", function (err, data) {
                 let changed;
                 if (err) {
                     return console.error("Could not read File: ".concat(err.toString()));
                 }
                 const cite = new Cite(data.toString().replace(/^%.*\n?/gm, ''), {forceType: 'string/bibtex'});
-
                 let map = new Map();
                 for (let item of cite.data) {
                     let itemData = new Cite(item);
@@ -315,8 +325,8 @@ gulp.task('citation', function (done) {
                 }
 
                 if (changed) {
-                    let data = readFileSync(paths.dataJson.concat("/data.json"), "utf8");
-                    data = data.concat(readFileSync(paths.config.concat("description.md"), "utf8"));
+                    let data = readFileSync(files.dataJson, "utf8");
+                    data = data.concat(readFileSync(files.description, "utf8"));
                     let keys = new Set();
                     let keyReg = /\[@(.*?)]/g;
                     let match;
@@ -364,7 +374,7 @@ gulp.task('criteria', function (done) {
         criteria.set(key, {type: valueObject.type || defaultConfig.criteria[0].Example.type, values: values});
     }));
 
-    const data = JSON.parse(readFileSync(paths.dataJson.concat("/data.json"), "utf8")) || [];
+    const data = JSON.parse(readFileSync(files.dataJson, "utf8")) || [];
 
     let autoCriteria = Object.create(null);
     data.forEach(entry => Object.keys(entry).forEach(entryKey => {
@@ -432,54 +442,13 @@ gulp.task('criteria', function (done) {
     writeFileSync(files.config, yaml2json.safeDump(config), "utf8");
 
     done();
-})
-;
-// --------------------------------------------------------------->
-
-
-// BUILD / UPDATE www folder -------------------------------------<
-gulp.task('build-www', ['data'], function () {
 });
 
-gulp.task('update-www', function () {
-    gulp.watch(files.data, ['data']);
-});
-
-gulp.task('data', function () {
-    return gulp.src(files.data, {base: '.'})
-        .pipe(gulp.dest(destfiles.index));
-});
-// --------------------------------------------------------------->
-
-// DELETE www folder ---------------------------------------------<
-gulp.task('delete-www', function () {
-    return gulp.src(paths.dev, {read: false})
-        .pipe(clean());
-});
+gulp.task('build-data', gulp.series('markdown', 'criteria', 'determineColors', 'citation', 'assets'));
 // --------------------------------------------------------------->
 
 // DEFAULT and DEV tasks -----------------------------------------<
-gulp.task('default', function (callback) {
-    run('build-data', 'delete-www', 'build-www', callback);
-});
+gulp.task('default', gulp.series('build-data'));
 
-gulp.task('dev', ['default'], function (callback) {
-    run('update-data', 'update-www', callback);
-});
+gulp.task('dev', gulp.series('default', 'update-data'));
 // --------------------------------------------------------------->
-
-
-
-function deleteFolderRecursive(path) {
-    if (existsSync(path)) {
-        readdirSync(path).forEach(function(file, index){
-            var curPath = path + "/" + file;
-            if (lstatSync(curPath).isDirectory()) { // recurse
-                deleteFolderRecursive(curPath);
-            } else { // delete file
-                unlinkSync(curPath);
-            }
-        });
-        rmdirSync(path);
-    }
-};

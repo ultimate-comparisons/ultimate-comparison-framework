@@ -1,16 +1,22 @@
-<table class="table table-hover">
+<table class="table-hover">
     <thead style="background-color: white;">
     <tr>
-        <ng-template ngFor let-column [ngForOf]="columns">
+        <ng-template ngFor let-column [ngForOf]="columns" let-i="index">
             <th>
-                <button (click)="orderClick($event, column)">{{column}}
-                    <iicon icon="keyboard-arrow-up" *ngIf="displayOrder(column.tag, -1)"></iicon>
-                    <iicon icon="keyboard-arrow-down" *ngIf="displayOrder(column.tag, 1)"></iicon>
+                <button (click)="orderClick($event, i)">
+                    <iicon icon="keyboard-arrow-up" *ngIf="order[i]===-1; else elseif1">{{column}}</iicon>
+                    <ng-template #elseif1>
+                        <iicon icon="keyboard-arrow-down" *ngIf="order[i]===1; else elseif2">{{column}}</iicon>
+                    </ng-template>
+                    <ng-template #elseif2>
+                        <iicon>{{column}}</iicon>
+                    </ng-template>
                 </button>
             </th>
         </ng-template>
-        <th style="width: 3%" name="details">
-            <picon-button icon="settings" title="Settings" (click)="settingsCallback.emit()"></picon-button>
+        <th name="details" width="30px">
+            <picon-button icon="settings" [showTooltip]="false" title="Settings"
+                          (click)="settingsCallback.emit()"></picon-button>
         </th>
     </tr>
     </thead>
@@ -18,11 +24,11 @@
     <ng-template ngFor let-item [ngForOf]="items" let-i="index"><!-- Do not remove this index here! -->
         <tr>
             <ng-template ngFor let-entry [ngForOf]="item" let-i="index">
-                <td *ngIf="types[i] === 0"><a class="anchored"
-                                              href="{{entry.link}}"
-                                              target="_blank">{{entry.text}}</a>
+                <td *ngIf="types[i] === 'url'"><a class="anchored"
+                                                  href="{{entry.link}}"
+                                                  target="_blank">{{entry.text}}</a>
                 </td>
-                <td *ngIf="types[i] ===  1">
+                <td *ngIf="types[i] ===  'label'">
                     <ng-template ngFor let-label [ngForOf]="entry">
                         <ptooltip [tooltip]="label.tooltip.text"
                                   [tooltipHtml]="label.tooltip.html" [position]="'n'">
@@ -38,22 +44,26 @@
                         </ptooltip>
                     </ng-template>
                 </td>
-                <td *ngIf="types[i] === criteriaTypes.text">
+                <td *ngIf="types[i] === 'text'">
                     {{entry.content}}
                 </td>
-                <td *ngIf="types[i] === criteriaTypes.markdown">
+                <td *ngIf="types[i] === 'markdown'">
                     <div [innerHtml]="entry?.htmlContent | sanitizeHtml"></div>
                 </td>
-                <td *ngIf="types[i] === criteriaTypes.rating">
+                <td *ngIf="types[i] === 'rating'">
                     <iicon icon="star" *ngIf="entry">{{entry}}
                     </iicon>
                 </td>
+                <td *ngIf="types[i] === 'repository'">
+                    <!-- TODO -->
+                </td>
             </ng-template>
             <td>
-                <picon-button icon="info" title="Details" (click)="showDetails.emit(index[i])"></picon-button>
+                <picon-button icon="info" [showTooltip]="false" title="Details"
+                              (click)="showDetails.emit(index[i])"></picon-button>
             </td>
         </tr>
     </ng-template>
     </tbody>
 </table>
-        
+

@@ -124,7 +124,7 @@ git fetch --all
 # decide which functions should be called
 if [[ ${TRAVIS_PULL_REQUEST} != false ]]; then
   CURRENT_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH}
-  build_branch ${TRAVIS_TRAVIS_PULL_REQUEST_BRANCH}
+  build_branch ${TRAVIS_PULL_REQUEST_BRANCH}
 else
   if [[ ${TRAVIS_BRANCH} != "master" ]]; then
     echo "or not..."

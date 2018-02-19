@@ -1,17 +1,17 @@
-import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
-import { VersionInformation } from '../../../../VersionInformation';
-import { PaperCardComponent } from "../../../polymer/paper-card/paper-card.component";
-import { LatexTableComponent } from '../../../output/latex-table/latex-table.component';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { VersionInformation } from '../../../assets/VersionInformation';
+import { PaperCardComponent } from "../polymer/paper-card/paper-card.component";
+import { LatexTableComponent } from '../output/latex-table/latex-table.component';
 import { Store } from '@ngrx/store';
-import { IUCAppState } from '../../../../redux/uc.app-state';
-import { Router } from '@angular/router';
-import { ConfigurationService } from "../configuration/configuration.service";
-import { Criteria } from "../configuration/configuration";
-import { DataService } from "../data/data.service";
-import { Data } from "../data/data";
+import { IUCAppState } from '../../redux/uc.app-state';
+import { ConfigurationService } from "./configuration/configuration.service";
+import { Criteria } from "./configuration/configuration";
+import { DataService } from "./data/data.service";
+import { Data, Label } from './data/data';
+import { UCClickAction, UCSearchUpdateAction, UCTableOrderAction } from '../../redux/uc.action';
+import { isNullOrUndefined } from "util";
 
-// TODO evaluate how winery saves files
-const FileSaver = require('file-saver');
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'comparison',
@@ -19,27 +19,19 @@ const FileSaver = require('file-saver');
     styleUrls: ['./comparison.component.css']
 })
 export class ComparisonComponent {
-    private changed = 0;
-
-    private versionInformation: VersionInformation = new VersionInformation();
-
     @ViewChild(LatexTableComponent) latexTable: LatexTableComponent;
-    @ViewChild('settings') settingsModal: any;
     @ViewChild('genericTableHeader') genericTableHeader: PaperCardComponent;
-
-    // TODO move to redux
-    public expanded = true;
     public activeRow: Data = new Data.Builder().build();
-    @Input() public detailsOpen: boolean = false;
 
+    public detailsOpen: boolean = false;
+    public settingsOpen: boolean = false;
 
-    public state: Observable<PaperDialogComponent>;
-    public showLatexTable = true;
+    public changed = 0;
+    private versionInformation: VersionInformation = new VersionInformation();
 
     constructor(public configurationService: ConfigurationService,
                 private cd: ChangeDetectorRef,
-                public store: Store<IUCAppState>,
-                private router: Router) {
+                public store: Store<IUCAppState>) {
         this.configurationService.loadComparison(this.cd);
     }
 
@@ -47,68 +39,60 @@ export class ComparisonComponent {
         return this.versionInformation;
     }
 
-    public criteriaChanged(value: Array<String> | KeyboardEvent | { target: { value: string } }, crit: Criteria) {
-        if (value) {
-            //this.store.dispatch({type: UPDATE_SEARCH, value: new CriteriaSelection(value, crit)});
-        }
+    public criteriaChanged(value: string, crit: Criteria) {
+        const map = new Map<string, string>();
+        map.set(crit.name, value || null);
+        this.store.dispatch(new UCSearchUpdateAction(map));
         this.cd.markForCheck();
-
-        this.change();
     }
 
-    public changeEnabled(item: Data) {
-        //this.store.dispatch({type: UPDATE_FILTER, value: item, operation: item.enabled ? 1 : -1});
-        this.change();
-    }
-
-    private showTableProperties() {
-        this.settingsModal.open();
-    }
-
-    private downloadLatexTable() {
-        let content: string = this.latexTable.element.nativeElement.textContent;
-        content = content.substr(content.indexOf('%'), content.length);
-        const blob: Blob = new Blob([content], {type: 'plain/text'});
-        FileSaver.saveAs(blob, 'latextable.tex');
-        return window.URL.createObjectURL(blob);
-    }
-
-    private previewLatexTable() {
-        this.showLatexTable = !this.showLatexTable;
-    }
-
-    public change() {
-        if (this.changed === 1) {
-            this.changed = 0;
-        } else {
-            this.changed = 1;
+    public getActive(state: { state: IUCAppState }, crit: Criteria) {
+        if (isNullOrUndefined(state)) {
+            return [];
         }
-    }
+        const active = state.state.currentSearch.get(crit.name);
 
-    public getActive(state: IUCAppState, crit: Criteria): Array<string> {
-        /* for (const el in state.currentSearch) {
-             if (state.currentSearch.hasOwnProperty(el) && (crit.name === el || crit.tag === el)) {
-                 if (crit.range_search) {
-                     return [(<any>state.currentSearch[el].values).target.value];
-                 } else {
-                     return <Array<string>>state.currentSearch[el].values;
-                 }
-             }
-         }*/
+        if (!isNullOrUndefined(active)) {
+            return active.map(name => {
+                return {
+                    id: name,
+                    text: name
+                }
+            });
+        }
+
         return [];
     }
 
     public showDetails(index: number) {
-        this.activeRow = this.dataService.data[index];
+        this.activeRow = DataService.data[index];
         this.detailsOpen = true;
     }
 
-    public shrinkExpand() {
-        if (this.expanded) {
-            // TODO dispatch this.shrink();
-        } else {
-            //this.expand();
+    public deferredUpdate() {
+        setTimeout(() => {
+            this.changed > 0 ? (this.changed = this.changed - 100) : (this.changed = this.changed + 100);
+        }, 100);
+    }
+
+    public latexDownload() {
+        let content: string = this.latexTable.element.nativeElement.textContent;
+        content = content.substr(content.indexOf('%'), content.length);
+        const blob: Blob = new Blob([content], {type: 'plain/text'});
+        saveAs(blob, 'latextable.tex');
+        return window.URL.createObjectURL(blob);
+    }
+
+    /**
+     * Callback functions dispatching to redux store
+     */
+    public changeOrder(change: { index: number, ctrl: boolean }) {
+        if (!isNullOrUndefined(change)) {
+            this.store.dispatch(new UCTableOrderAction(change.index, change.ctrl));
         }
-        this.expanded = !this.expanded;
+    }
+
+    public criteriaClicked(val: { event: MouseEvent, key: Label, index: number }) {
+        this.store.dispatch(new UCClickAction(val.key.name, val.index));
     }
 }

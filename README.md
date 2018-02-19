@@ -5,102 +5,89 @@
 [![Code Triagers Badge](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base/badges/users.svg)](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base)
 
 This is an ultimate comparison framework written in [Angular](https://angular.io/).
-It can also be found here: [npm](https://www.npmjs.com/package/ultimate-comparison)
+It is released on [npm](https://www.npmjs.com/package/ultimate-comparison) under **ultimate-comparison**.
 
-## Create your own ultimate comparison
-1. Install the **ultimate-comparison**-package globally in your system via `npm install --global ultimate-comparison`.
-2. Create a directory for your new comparison, e. g. via `mkdir My_Comparison`.
-3. Run `uc setup` to create the skeleton of your comparison
-4. Enter the name, the [semantic version](https://semver.org/), and a description of your comparison and confirm every step with return.
-5. Run `uc start` to start your comparison.
+## Create your own ultimate comparison 
+1. Install the **ultimate-comparison**-package globally on your system via `npm install --global ultimate-comparison`
+2. Create the directory which should contain the comparison and change into it, e. g. with `mkdir MY_COMPARISON && cd MY_COMPARISON`
+3. Set up your comparison with `uc setup`
+    1. Enter the name of your comparison press enter
+    2. Enter the [semantic version](https://semver.org/) of your comparison and press enter
+    3. Enter a short description of your comparison and press enter (not required)
+4. Make sure a `node_modules` directory exists in your current one.
+    - If it doesn't exist look at the error message and run `npm install` afterwards
+    - The error is most likely a malformed name or version of your comparison
+5. Run `uc start` to start the comparison.
 
-### Setup comparison
-1. The initial installation should be done via the `master` branch and updates should be pulled from the `update` branch.
-This is the save route because the `update` branch does not include configuration files.
-2. The file `comparison-configuration/comparison.json` defines the main properties of the comparison and the details dialog.
+### Configuration
 
-  ![comparison.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/comparison.svg)
+The configuration files are located in the **configuration** directory.
 
-  In the details dialog the values of the keys `header-label`, `body`, and `body-attachment-tags` matches level 2 headers in the comparison-elements files. The type of the `body-attachment-tags` must be labels and `body` will be parsed as markdown formated text.
-3. The file `comparison-configuration/table.json` defines the table columns.
-  - `tag:` References a level 2 header of the comparison elements (`Performance`, `Description`, `License`, `Showcase`) or the level 1 header and its content (`tag`, `url`, `descr`).
-  - `display:` Allows the user to hide a colum by default. It is possible to dynamically hide or display column by clicking on the configuration button and toggle the columns on/off.
-  - `name:` Allows the user to change the display name (default display name is defined by `tag`).
-  - `order`: Sorts the column ascending or descending, allowed values: `asc`, `desc`
-  - `type:` Style of the content.
-  - `type.tag:` Either a label, a text, or a url.
-  - `type.class:` Set a label class (e. g. `label label-info`). Will be ignored if value class is set.
-  - `type.values:`
-  ```json
-  {
-    "name": "slow",
-    "description": "Overall performance above 200ms",
-    "class": "label-danger",
-    "color": "red",
-    "foreground": "black",
-    "weight": 2
-  }
-  ```
-  - The label with the value "slow" has the tooltip "overall performance above 200ms", and will be red ("label-danger")
-  - You can choose between a specific color and class, classes are the preferred way. If both are missing, an automatic color is assigned.
-  - You can choose a specific foreground color if you chose a specific background color.
-  - The `weight` allows sorting of attributes, if multiple values are allowed. Ascending and descending is set by the `order` attribute in the column. Without weight, the name is used for sorting.
-  - `repo`: Signals that the column is dependent on a read repository (up to now only GitHub ones).
+**description.md**: It contains the description of your comparison which can be seen by visitors.
+It is located underneath the headline of your comparison.
+![Description location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/descritpion.png)
 
-  ![table.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/table.svg)
-4. The file `comparison-configuration/criteria.json` defines filter criterias for the table data.
-  - `tag:` References a level 2 header of the comparison elements (`Performance`, `Description`, `License`, `Showcase`)
-  - `name:` Display name (replaces `tag`).
-  - `placeholder:` Placeholder for the select box.
-  - `values:` Filter values.
-  - `and_search:` Defines if all filter value must match or at least one.
-  - `number_search`: Allow range searches. Ignores given values.
+**comparison-example.yml**: Example configuration file containing comments on fields to explain their meaning.
 
-  ![criteria.json](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/master/media/criteria.svg)       
+**comparison-default.yml**: Default configuration, intended as backup of your local comparison.
 
+**comparison.yml**: The used configuration. Missing values are taken from **comparison-default.yml** and written back into this file.
+A **comparison.yml** has following attributes:
+
+- *title*: The title of the comparison. It is the headline of the page.
+  ![Title location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/title.png)
+- *subtitle*: The subtitle of the comparison. It is next to the headline of the page.
+  ![Subtitle location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/subtitle.png)
+- *selectTitle*: It is the headline for the search criteria, meaning that the area meant to enter search parameters uses this as headline.
+- *tableTitle*: It is the headline for the table, meaning that the area containing the table uses this as headline.
+  ![Title of the table on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/tabletitle.png)
+- *repository*: The link to the repository containing the comparison.
+- *header*: The heading of the details page
+    - *nameRef*: Heading of details page (field name) (1)
+    - *labelRef*: Which label to add to the heading of the details page (field name) (2)
+    - *urlRef*: Which url to show next to the heading of the details page (field name) (3)
+  ![Details header construction](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/detailsheader.png)
+- *body*: The body of the details page
+    - *title*: The heading of the used field (1)
+    - *bodyRef*: The field to use as content of the body (2)
+  ![Details body construction](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/detailsbody.png)
+- *citation*: Configures the citation of sources
+    - *csl*: The style of the citation as [bibtex](http://www.bibtex.org/) class. Example classes: https://github.com/citation-style-language/styles
+    - *bib*: The file containing the used sources in [bibtex](http://www.bibtex.org/) style
+- *criteria*: List of fields that all comparison-elements use. The attributes for each criteria are:
+    - *name*: The display name of the criteria. Type: `string` (1)
+    - *search*: Whether a text box should be added to the search form. Allowed values: `true` (1), `false`
+    - *table*: Whether it should be included in the comparison table by default. Allowed values: `true` (2), `false`
+    - *detail*: Whether it is in the detail page. Allowed values: `true`, `false`
+    - *type*: The content type of the field. Allowed values: `url`, `markdown`, `text`, `label`, `rating`, `repository`
+    - *andSearch*: Whether the search should be **match all** (`true`) or **match one** (`false`). Allowed values: `true` (3), `false` (3)
+    - *values*: All allowed values the field can assume. Values can have the following attributes:
+        - *description*: Part of the tooltip for every instance of the value. Type: `string`
+        - *class*: CSS-class of the label. Type: `string` (label-only)
+        - *backgroundColor*: The background color of the label. Applies only if no class is given. Type: `string` (label-only)
+        - *color*: The text color of the label. Applies only if no class is given. Type: `string` (label-only)
+        - *minAge*: The minimum age of the last commit to apply this value. Type: `number` (repository-only)
+        - *minAgeUnit*: The unit to apply to the minAge attribute. Allowed values: https://momentjs.com/docs/#/durations/as-iso-string/ (repository-only)
+        - *maxAge*: The maximum age of the last commit to apply this value. Type: `number` (repository-only)
+        - *maxAgeUnit*: The unit to apply to the maxAge attribute. Allowed values: https://momentjs.com/docs/#/durations/as-iso-string/ (repository-only)
+    - *placeholder*: Text shown in the search bar if it is empty (4)
+    - *rangeSearch*: Changes search to allow searching for number ranges. It allows searching for numbers and ranges of numbers. Only supports integers. (5)
+    ![Various elements of criteria on the page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/variouselements.png)
 
 ### Define comparison elements
-For each thing, create a markdown file in `comparison-elements`.
-You can base it on `template.md`.
-If one column depends on a repository (`repo`-attribute in table.json true), you have to define a section (`## section title`) and add the repository as first list item, eg:
 
-```markdown
-## Repo
-- https://github.com/ultimate-comparisons/ultimate-comparison-BASE
-```
+For each thing, create a markdown file in comparison-elements.
+You can base it on template.md.
+If one column depends on a repository (repo-attribute in **comparison.yml** true), you have to define a `repo` section (## section title) and add the repository as first list item, eg:
 
-### Get notified for future framework updates
-If you have two possibilities to get notified for future updates:
-1. Tell us that you want to transfer ownership to us. We will keep the framework up-to-date.
-2. Add your repository to our list in the file `repos-to-update.list` (via PR) and give write access to the user `ultimate-comparison-genie`. You'll get a PR every time the master branch is updated.
-   The format for `repos-to-update.list` is `<your username>/<your repo name>`, eg. `ultimate-comparisons/ultimate-comparison-BASE`.
-
-## Test it
-1. Install [node.js](https://nodejs.org/en/)
-  - Windows: `choco install nodejs` via [chocolatey](https://chocolatey.org/)
-2. Windows: Install required tooling:
-  - In an adminstrative shell: `npm install --global --production windows-build-tools` [source](https://github.com/nodejs/node-gyp#option-1)
-3. Install [Java JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-  - Windows: `choco install jdk8`
-5. Install [pandoc](http://pandoc.org/installing.html) (Version 1.17.2) [pandoc-citeproc](https://hackage.haskell.org/package/pandoc-citeproc)
-   - Linux:
-     1. `wget https://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb`
-     2. `sudo dpkg -i pandoc-1.17.2-1-amd64.deb`
-   - Windows: `choco install pandoc`
-6. Update npm (sudo): `npm install -g npm`
-7. Test dependencies:
-
-        java -version
-        npm -version
-
-8. `npm install`
-9. `npm start` (starts the web page)
-10. [Setup automatic deployment of `www` directory using Travis CI](docs/Travis_Build_Deploy.md)
+    ## Repo
+    - https://github.com/ultimate-comparisons/ultimate-comparison-BASE
 
 ## Update your comparison
 
-See [docs/Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)
-
+To update the ultimate comparison framework that your comparison uses, just run `npm update` in the directory that contains your comparison.
+It installs the latest version with the same major version number (ie. `2.x.x`).
+ 
 ## License
 
 The code is licensed under [MIT], the content (located at `comparison-elements`) under [CC0-1.0].

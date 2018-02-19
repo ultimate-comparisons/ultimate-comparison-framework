@@ -313,12 +313,12 @@ export class Criteria {
 }
 
 export enum CriteriaType {
-    url = 0,
-    label = 1,
-    text = 2,
-    markdown = 3,
-    rating = 4,
-    repository = 5
+    url = 'url',
+    label = 'label',
+    text = 'text',
+    markdown = 'markdown',
+    rating = 'rating',
+    repository = 'repository'
 }
 
 export function getCriteriaType(value: string): CriteriaType {

@@ -1,8 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ComparisonComponent } from "../../comparison/components/component/comparison.component";
+import { ComparisonComponent } from "../../comparison/comparison.component";
 import { InputInterface } from "../input-interface";
 import { isNullOrUndefined } from "util";
-import { Criteria } from "../../comparison/components/configuration/configuration";
+import { Criteria } from "../../comparison/configuration/configuration";
+import { IUCAppState } from '../../../redux/uc.app-state';
 
 @Component({
     templateUrl: './number-input.template.html',
@@ -15,7 +16,7 @@ export class NumberInputComponent implements InputInterface {
     @Input() criteria: Criteria;
     @Input() tag: string;
     @Input() name: string;
-    @Input() active: Array<string> = [];
+    @Input() active: Array<{ id: string, text: string }> = [];
     @ViewChild('content') content: ElementRef;
     @Output() result: EventEmitter<Array<string>> = new EventEmitter<Array<string>>();
 
@@ -23,8 +24,12 @@ export class NumberInputComponent implements InputInterface {
         NumberInputComponent.components.push(this);
     }
 
-    public criteriaChanged(value: Array<String> | KeyboardEvent | { target: { value: string } }) {
-        this.result.emit([this.content.nativeElement.value]);
+    public criteriaChanged() {
+        this.result.emit(this.content.nativeElement.value);
+    }
+
+    public getActive(state: IUCAppState, crit: Criteria) {
+        return state.currentSearch.get(crit.name);
     }
 
     public addToGui(item: string): void {
@@ -50,12 +55,12 @@ export class NumberInputComponent implements InputInterface {
             item = ', ' + item;
         }
         this.content.nativeElement.value += item;
-        this.criteriaChanged({target: {value: this.content.nativeElement.value}});
+        this.criteriaChanged();
     }
 
     public getValue() {
-        if (this.active.length > 0) {
-            return this.active[0];
+        if (!isNullOrUndefined(this.active) && this.active.length > 0) {
+            return this.active[0].text;
         }
         return '';
     }
