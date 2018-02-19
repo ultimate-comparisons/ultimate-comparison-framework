@@ -1,0 +1,6 @@
+<div class="reference-container">
+    <ng-template ngFor let-entry [ngForOf]="citations">
+        <div>{{'[' + entry.index + ']'}}:</div>
+        <div [id]="entry.key" [innerHtml]="entry.text|sanitizeHtml"></div>
+    </ng-template>
+</div>

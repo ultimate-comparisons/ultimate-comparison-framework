@@ -1,0 +1,16 @@
+{
+  "name": "##asdfn",
+  "description": "##asdfd",
+  "version": "##asdfv",
+  "scripts": {
+    "start": "npm run gulp:compile && npm run webpack:start",
+      "gulp:compile": "./node_modules/.bin/gulp default --dir=node_modules/ultimate-comparison",
+    "webpack:start": "./node_modules/.bin/webpack-dev-server --open --inline --progress --port 3000"
+  },
+  "dependencies": {
+      "gulp": "^4.0.0",
+      "gulp-exec": "^3.0.1",
+      "typescript": "2.6.2",
+      "ultimate-comparison": "2.0.0-alpha.8"
+  }
+}

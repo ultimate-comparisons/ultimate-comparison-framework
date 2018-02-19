@@ -1,0 +1,9 @@
+<div class="paper-header" *ngIf="heading">{{heading}}</div>
+<div class="paper-symbol" *ngIf="symbol">
+    <iicon *ngIf="!expand" icon="resize-full" class="shrink-expand" (click)="expandChange.emit(true)"></iicon>
+    <iicon *ngIf="expand" icon="resize-small" class="shrink-expand" (click)="expandChange.emit(false)"></iicon>
+</div>
+
+<div class="paper-content">
+    <ng-content></ng-content>
+</div>

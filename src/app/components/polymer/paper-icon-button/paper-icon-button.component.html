@@ -1,0 +1,5 @@
+<ptooltip *ngIf="showTooltip" [tooltip]="title" [position]="'w'">
+    <iicon [icon]="icon"></iicon>
+</ptooltip>
+
+<iicon *ngIf="!showTooltip" [icon]="icon"></iicon>

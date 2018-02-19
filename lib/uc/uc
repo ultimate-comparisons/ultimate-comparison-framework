@@ -1,0 +1,43 @@
+#! /bin/bash
+
+CWD=$(pwd)
+DIR="$(dirname "$(readlink -f "$0")")"
+
+setup () {
+  cp ${DIR}/package.json ${CWD}/package.json
+  echo "What is the name of your comparison?"
+  read -e NAME
+  if [[ ${NAME} == "" ]]; then
+      NAME="ultimate-comparison-project"
+  fi
+  echo "What is the version of your comparison?"
+  read -e VERS
+  if [[ ${VERS} == "" ]]; then
+      VERS="0.0.0"
+  fi
+  echo "How would you describe your comparison?"
+  read -e DESC
+  sed -i "s/##asdfn/${NAME}/" ${CWD}/package.json
+  sed -i "s/##asdfv/${VERS}/" ${CWD}/package.json
+  sed -i "s/##asdfd/${DESC}/" ${CWD}/package.json
+  cp -r ${DIR}/../../data ${CWD}/
+  cp -r ${DIR}/../../configuration ${CWD}/
+  cp ${DIR}/webpack.config.babel.js ${CWD}/
+  cp ${DIR}/README.md ${CWD}/
+  cp ${DIR}/.gitignore ${CWD}/
+  cp ${DIR}/.travis.yml ${CWD}/
+  cp ${DIR}/../../gulpfile.babel.js ${CWD}/
+  cp ${DIR}/../../.babelrc ${CWD}/
+  cp ${DIR}/../../tsconfig.json ${CWD}/
+  npm install
+}
+
+start () {
+  npm start
+}
+
+if [[ "$1" != "setup" ]] &&  [[ "$1" != "start" ]]; then
+    echo "Invalid command, please use 'uc setup' or 'uc start'"
+else
+    eval ${1}
+fi

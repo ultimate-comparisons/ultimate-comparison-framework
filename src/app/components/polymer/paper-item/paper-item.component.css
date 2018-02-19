@@ -1,0 +1,39 @@
+:host {
+    display: block;
+    position: relative;
+    padding: 0px 16px;
+}
+
+:host(.item-selected) {
+    font-weight: bold;
+}
+
+:host ::ng-deep pbutton {
+    display: inline-block;
+    padding: 0;
+    font-size: 1em;
+    text-transform: none;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    box-shadow: none;
+    margin: 0;
+}
+
+:host ::ng-deep pbutton:active {
+    box-shadow: none;
+}
+
+:host ::ng-deep .icon {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 18px;
+    width: 18px;
+    border-radius: 2px;
+    border: 2px solid rgb(63, 81, 181);
+    margin-right: 8px;
+    background-color: rgb(63, 81, 181);
+}
+
+:host ::ng-deep .icon > svg {
+    margin: 1px auto;
+}

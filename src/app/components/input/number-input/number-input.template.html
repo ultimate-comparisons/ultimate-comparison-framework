@@ -1,0 +1,4 @@
+<input #content
+       type="text" [placeholder]="criteria.placeholder"
+       (keyup)="criteriaChanged($event, crit)"
+       [value]="getValue()">

@@ -1,0 +1,31 @@
+:host {
+    display: grid;
+    padding: 0;
+}
+
+.grid-content {
+    display: grid;
+    grid-template-columns: auto;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-auto-flow: row;
+    margin-bottom: 10px;
+}
+
+.pcard {
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-flow: row;
+}
+
+@media only screen and (min-width: 400px) {
+    .pcard {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .pcard {
+        grid-template-columns: auto auto auto;
+    }
+}

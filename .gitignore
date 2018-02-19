@@ -1,14 +1,7 @@
-www
-comparison-elements-json/*.json
-app/components/comparison/data/data.json
-citation/output/
-
 .idea/
 
 id_rsa
 id_rsa.pub
-
-
 
 # Created by https://www.gitignore.io/api/eclipse,gradle,intellij+iml,node,grunt,typings,visualstudiocode,windows,linux,macos,vim,jabref
 
@@ -122,6 +115,9 @@ atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
 .idea/replstate.xml
+
+# Ruby plugin and RubyMine
+/.rakeTasks
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
@@ -250,10 +246,8 @@ typings
 
 ### Vim ###
 # swap
-[._]*.s[a-v][a-z]
-[._]*.sw[a-p]
-[._]s[a-v][a-z]
-[._]sw[a-p]
+.sw[a-p]
+.*.sw[a-p]
 # session
 Session.vim
 # temporary
@@ -267,6 +261,7 @@ tags
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+.history
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -291,7 +286,7 @@ $RECYCLE.BIN/
 
 ### Gradle ###
 .gradle
-/build/
+**/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -304,5 +299,6 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+
 
 # End of https://www.gitignore.io/api/eclipse,gradle,intellij+iml,node,grunt,typings,visualstudiocode,windows,linux,macos,vim,jabref
