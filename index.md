@@ -25,7 +25,7 @@ The configuration files are located in the **configuration** directory.
 
 **description.md**: It contains the description of your comparison which can be seen by visitors.
 It is located underneath the headline of your comparison.
-![Description location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/descritpion.png)
+![Description location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/85cc1e93/docs/images/descritpion.png)
 
 **comparison-example.yml**: Example configuration file containing comments on fields to explain their meaning.
 
@@ -35,22 +35,22 @@ It is located underneath the headline of your comparison.
 A **comparison.yml** has following attributes:
 
 - *title*: The title of the comparison. It is the headline of the page.
-  ![Title location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/title.png)
+  ![Title location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/85cc1e93/docs/images/title.png)
 - *subtitle*: The subtitle of the comparison. It is next to the headline of the page.
-  ![Subtitle location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/subtitle.png)
+  ![Subtitle location on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/85cc1e93/docs/images/subtitle.png)
 - *selectTitle*: It is the headline for the search criteria, meaning that the area meant to enter search parameters uses this as headline.
 - *tableTitle*: It is the headline for the table, meaning that the area containing the table uses this as headline.
-  ![Title of the table on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/tabletitle.png)
+  ![Title of the table on page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/85cc1e93/docs/images/tabletitle.png)
 - *repository*: The link to the repository containing the comparison.
 - *header*: The heading of the details page
     - *nameRef*: Heading of details page (field name) (1)
     - *labelRef*: Which label to add to the heading of the details page (field name) (2)
     - *urlRef*: Which url to show next to the heading of the details page (field name) (3)
-  ![Details header construction](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/detailsheader.png)
+  ![Details header construction](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/85cc1e93/docs/images/detailsheader.png)
 - *body*: The body of the details page
     - *title*: The heading of the used field (1)
     - *bodyRef*: The field to use as content of the body (2)
-  ![Details body construction](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/detailsbody.png)
+  ![Details body construction](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/85cc1e93/docs/images/detailsbody.png)
 - *citation*: Configures the citation of sources
     - *csl*: The style of the citation as [bibtex](http://www.bibtex.org/) class. Example classes: https://github.com/citation-style-language/styles
     - *bib*: The file containing the used sources in [bibtex](http://www.bibtex.org/) style
@@ -72,7 +72,7 @@ A **comparison.yml** has following attributes:
         - *maxAgeUnit*: The unit to apply to the maxAge attribute. Allowed values: https://momentjs.com/docs/#/durations/as-iso-string/ (repository-only)
     - *placeholder*: Text shown in the search bar if it is empty (4)
     - *rangeSearch*: Changes search to allow searching for number ranges. It allows searching for numbers and ranges of numbers. Only supports integers. (5)
-    ![Various elements of criteria on the page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/rewrite/docs/images/variouselements.png)
+    ![Various elements of criteria on the page](https://cdn.rawgit.com/ultimate-comparisons/ultimate-comparison-BASE/85cc1e93/docs/images/variouselements.png)
 
 ### Define comparison elements
 
