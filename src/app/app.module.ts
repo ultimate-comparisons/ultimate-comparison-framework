@@ -26,7 +26,7 @@ import { CustomRouterStateSerializer } from './redux/custom-router-state-seriali
         AppComponent,
     ],
     providers: [
-        {provide: APP_BASE_HREF, useValue: '/'},
+        {provide: APP_BASE_HREF, useValue: window['_app_base'] || '/'},
         {provide: RouterStateSerializer, useClass: CustomRouterStateSerializer}
     ],
     bootstrap: [AppComponent]
