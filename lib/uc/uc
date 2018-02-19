@@ -22,7 +22,7 @@ setup () {
   sed -i "s/##asdfd/${DESC}/" ${CWD}/package.json
   cp -r ${DIR}/../../data ${CWD}/
   cp -r ${DIR}/../../configuration ${CWD}/
-  cp ${DIR}/webpack.config.js ${CWD}/
+  cp ${DIR}/webpack.config.babel.js ${CWD}/
   cp ${DIR}/README.md ${CWD}/
   cp ${DIR}/.gitignore ${CWD}/
   cp ${DIR}/.travis.yml ${CWD}/
