@@ -22,7 +22,7 @@ export class UCDataUpdateAction extends UCAction {
 export class UCSearchUpdateAction extends UCAction {
     type = UPDATE_SEARCH;
 
-    constructor(public criterias: Map<string, Array<string>>) {
+    constructor(public criterias: Map<string, string>) {
         super();
     }
 }
