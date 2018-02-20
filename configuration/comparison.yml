@@ -65,6 +65,7 @@ criteria:
         MPL-2.0:
           description: '[MPL-2.0](https://spdx.org/licenses/MPL-2.0.html)'
   - Showcase 2.0:
+      andSearch: false
       values:
         dark blue:
           description: Showcase for dark blue label

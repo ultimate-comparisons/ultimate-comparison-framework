@@ -404,8 +404,9 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                     includeData = includeData && includeElement;
                 }
             } else {
-                let fulfillsField = criteria.andSearch;
-                for (const query of state.currentSearch.get(columnName)) {
+                const searchArray = state.currentSearch.get(columnName);
+                let fulfillsField = criteria.andSearch || isNullOrUndefined(searchArray) || searchArray.length === 0;
+                for (const query of searchArray) {
                     let fulfillsQuery = false;
                     for (const key of (<Map<string, any>>data[i].criteria.get(criteria.name)).keys()) {
                         fulfillsQuery = fulfillsQuery || (key === query);
