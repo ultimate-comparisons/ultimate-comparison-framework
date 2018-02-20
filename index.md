@@ -107,6 +107,7 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
 
 # PRs
 - [rewrite](prs/rewrite)
+- [fixRoutes](prs/fixRoutes)
 
 # Current Master
 - [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
