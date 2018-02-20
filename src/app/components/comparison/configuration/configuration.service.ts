@@ -41,7 +41,7 @@ export class ConfigurationService {
     }
 
     static getLatex(converter: Showdown.Converter, text: string): string {
-        return converter.makeHtml(text).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
+        return converter.makeHtml(text.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
             return '\\cite{' + dec + '}';
         });
     }
