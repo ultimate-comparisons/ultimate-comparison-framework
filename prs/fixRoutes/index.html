@@ -1,6 +1,11 @@
 <html>
 
-<script>document.write('<base href="' + document.location + '" />');</script>
+<script>
+    (function () {
+        window['_app_base'] = '/' + window.location.pathname.split('/')[1];
+    })();
+    console.log(window['_app_base']);
+</script>
 
 <head>
     <title>Ultimate Comparison</title>
@@ -16,6 +21,6 @@
 
 <body>
     <myapp>Loading...</myapp>
-<script type="text/javascript" src="inline.b6f6b7674a9af9d0f938.bundle.js"></script><script type="text/javascript" src="polyfills.b6f6b7674a9af9d0f938.bundle.js"></script><script type="text/javascript" src="styles.b6f6b7674a9af9d0f938.bundle.js"></script><script type="text/javascript" src="vendor.b6f6b7674a9af9d0f938.bundle.js"></script><script type="text/javascript" src="main.b6f6b7674a9af9d0f938.bundle.js"></script></body>
+<script type="text/javascript" src="inline.fc0396f9e90bb3ca6754.bundle.js"></script><script type="text/javascript" src="polyfills.fc0396f9e90bb3ca6754.bundle.js"></script><script type="text/javascript" src="styles.fc0396f9e90bb3ca6754.bundle.js"></script><script type="text/javascript" src="vendor.fc0396f9e90bb3ca6754.bundle.js"></script><script type="text/javascript" src="main.fc0396f9e90bb3ca6754.bundle.js"></script></body>
 
 </html>
