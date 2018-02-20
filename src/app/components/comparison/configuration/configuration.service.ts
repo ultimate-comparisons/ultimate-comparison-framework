@@ -3,7 +3,13 @@ import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import * as yaml from 'js-yaml';
 import {
-    Body, Citation, Configuration, Criteria, CriteriaValue, Details, getCriteriaType,
+    Body,
+    Citation,
+    Configuration,
+    Criteria,
+    CriteriaValue,
+    Details,
+    getCriteriaType,
     Header
 } from "./configuration";
 import * as Showdown from "showdown";
@@ -286,7 +292,7 @@ export class ConfigurationService {
     }
 
     public loadDescription(citation: Map<string, Citation>) {
-        this.http.get('configuration/description.md', {responseType: 'text'})
+        this.http.get('description.md', {responseType: 'text'})
             .subscribe(res => {
                 this.description = ConfigurationService.getHtml(this.converter, citation, res);
             });
