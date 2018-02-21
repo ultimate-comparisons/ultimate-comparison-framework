@@ -1,0 +1,207 @@
+title: Ultimate-Comparison
+subtitle: Ultimate comparison framework
+selectTitle: Criteria
+tableTitle: Comparison of Examples
+repository: 'https://github.com/ultimate-comparisons/ultimate-comparison-BASE.git'
+details:
+  header:
+    nameRef: id
+    labelRef: Performance
+    urlRef: inline
+  body:
+    title: Description
+    bodyRef: Description
+citation:
+  csl: acm-siggraph.csl
+  bib: literature.bib
+criteria:
+  - id:
+      name: Name
+      search: false
+      table: true
+      detail: false
+      type: url
+  - Rating:
+      name: ''
+      search: false
+      table: false
+      type: rating
+  - Repository:
+      search: false
+      table: false
+      detail: false
+      type: repository
+  - description:
+      name: Short description
+      search: false
+      detail: false
+      type: markdown
+  - Description:
+      search: false
+      detail: true
+      type: markdown
+      table: false
+  - Performance:
+      description: Preformance of entry.
+      placeholder: Select performance of ...
+      andSearch: true
+      type: label
+      values:
+        fast:
+          description: Overall performance below 200ms.
+          class: label-success
+        slow:
+          description: Overall performance above 200ms.
+          class: label-danger
+  - License:
+      table: false
+      andSearch: false
+      values:
+        Apache-2.0:
+          description: '[Apache-2.0](https://spdx.org/licenses/Apache-2.0.html)'
+          class: label-success
+        MIT:
+          description: '[MIT](https://spdx.org/licenses/MIT.html)'
+        MPL-2.0:
+          description: '[MPL-2.0](https://spdx.org/licenses/MPL-2.0.html)'
+  - Showcase 2.0:
+      andSearch: false
+      values:
+        dark blue:
+          description: Showcase for dark blue label
+          class: label-primary
+        green:
+          description: Showcase for green label
+          class: label-success
+        grey:
+          description: Show case for grey label
+          class: label-default
+        light blue:
+          class: label-info
+        red 1:
+          description: Show case for red label 1
+          backgroundColor: '#d9534f'
+          color: '#fff'
+        red 2:
+          description: Show case for red label 2
+          class: label-danger
+        yellow:
+          description: Show case for yellow label
+          class: label-warning
+        black:
+          description: Show case for black label
+          class: label-black
+  - Uncolored:
+      description: Tags that were originally uncolored.
+      values:
+        Color 1:
+          weight: 1
+        Color 2:
+          weight: 2
+        Color 3:
+          weight: 3
+  - Development:
+      description: Is the software in active development?
+      placeholder: Select activity state of ...
+      andSearch: false
+      values:
+        Active:
+          minAge: -1
+          maxAge: 1
+          minAgeUnit: months
+          maxAgeUnit: months
+          class: label-success
+        Inactive:
+          minAge: 6
+          class: label-danger
+        Not Sure:
+          minAge: 1
+          maxAge: 6
+          class: label-warning
+  - NumberColumn:
+      name: Number Column
+      order: ASC
+      placeholder: Select number ranges ...
+      rangeSearch: true
+      values:
+        '199':
+          description: 199
+          weight: 1.99
+        '200':
+          description: 200
+          weight: 3
+        '250':
+          description: 250
+          weight: 3
+        '300':
+          description: 300
+          weight: 4
+autoCriteria:
+  NumberColumn:
+    values:
+      '100': {}
+autoColor:
+  License:
+    Apache-2.0:
+      color: '#ffff00'
+      backgroundColor: 'hsl(240, 100%, 70%)'
+    MIT:
+      color: '#ffff00'
+      backgroundColor: 'hsl(270, 100%, 70%)'
+    MPL-2.0:
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(300, 100%, 70%)'
+  Uncolored:
+    Color 1:
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(330, 100%, 70%)'
+    Color 2:
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(30, 100%, 70%)'
+    Color 3:
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(60, 100%, 70%)'
+  NumberColumn:
+    '100':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(210, 100%, 70%)'
+    '199':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(90, 100%, 70%)'
+    '200':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(120, 100%, 70%)'
+    '250':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(150, 100%, 70%)'
+    '300':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(180, 100%, 70%)'
+autoCitation:
+  'Adi:2004:ASM:988145.988150':
+    index: 0
+    value: >-
+      Adi, A. and Etzion, O. 2004. Amit – the Situation Manager. The VLDB
+      Journal 13, 2, 177–203.
+  Bry07towardsformal:
+    index: 1
+    value: >-
+      Bry, F. 2007. Towards formal foundations of event queries and rules. In
+      Proc. Int. Workshop on Event-Driven Architecture, Processing and Systems.
+  'Dayal:1988:ROT:60295.60304':
+    index: 2
+    value: >-
+      Dayal, U., Buchmann, A.P., and McCarthy, D.R. 1988. Rules Are Objects Too:
+      A Knowledge Model for an Active, Object-oriented Databasesystem. Lecture
+      Notes in Computer Science on Advances in Object-oriented Database Systems,
+      Springer-Verlag New York, Inc., 129–143.
+  eckertThesisCEP:
+    index: 3
+    value: >-
+      Eckert, M. 2008. Complex Event Processing with XChange EQ : Language
+      Design, Formal Semantics, and Incremental Evaluation for Querying Events.
+  esper-reference:
+    index: 4
+    value: >-
+      Team, E. Esper Reference documentation.
+      http://www.espertech.com/esper/release-5.1.0/esper-reference/pdf/esper_reference.pdf.
