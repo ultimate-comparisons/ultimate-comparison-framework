@@ -3,9 +3,11 @@
   "description": "##asdfd",
   "version": "##asdfv",
   "scripts": {
-    "start": "npm run gulp:compile && npm run webpack:start",
+      "start": "npm run gulp:compile && npm run webpack:start",
+      "build": "npm run gulp:compile && npm run webpack:build",
       "gulp:compile": "./node_modules/.bin/gulp default --dir=node_modules/ultimate-comparison",
-    "webpack:start": "./node_modules/.bin/webpack-dev-server --open --inline --progress --port 3000"
+      "webpack:start": "./node_modules/.bin/webpack-dev-server --open --inline --progress --port 3000",
+      "webpack:build": "webpack --progress --profile --bail"
   },
   "dependencies": {
       "gulp": "^4.0.0",
