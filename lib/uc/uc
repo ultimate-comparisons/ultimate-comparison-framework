@@ -26,7 +26,6 @@ setup () {
   cp ${DIR}/README.md ${CWD}/
   cp ${DIR}/.gitignore ${CWD}/
   cp ${DIR}/.travis.yml ${CWD}/
-  cp ${DIR}/../../gulpfile.babel.js ${CWD}/
   cp ${DIR}/../../.babelrc ${CWD}/
   cp ${DIR}/../../tsconfig.json ${CWD}/
   npm install
