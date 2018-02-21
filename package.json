@@ -18,6 +18,11 @@
         "type": "git",
         "url": "git@github.com:ultimate-comparisons/ultimate-comparison-BASE.git"
     },
+    "babel": {
+        "presets": [
+            "@babel/preset-env"
+        ]
+    },
     "dependencies": {
         "@angular/cli": "^1.7.0",
         "@angular/common": "^5.2.5",

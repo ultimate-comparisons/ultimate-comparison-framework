@@ -9,6 +9,11 @@
       "webpack:start": "./node_modules/.bin/webpack-dev-server --open --inline --progress --port 3000",
       "webpack:build": "webpack --progress --profile --bail"
   },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
   "dependencies": {
       "gulp": "^4.0.0",
       "gulp-exec": "^3.0.1",
