@@ -168,13 +168,25 @@ export class DataService {
                                             let tooltipArray = isNullOrUndefined(labelObject.childs) ? [] : labelObject.childs;
                                             let htmlTooltip = "";
                                             let latexTooltip = "";
-                                            if (tooltipArray.length == 1) {
+                                            if (criteriaKey === 'Development') {
+                                                for (let val of configuration.criteria.values()) {
+                                                    if (val.type === CriteriaType.repository) {
+                                                        let url = dataObject[val.name].plain.trim();
+                                                        if (url.startsWith('-')) {
+                                                            url = url.substr(1).trim();
+                                                        }
+                                                        htmlTooltip = `<a href="${url}">${url}</a>`;
+                                                        latexTooltip = '\\url{' + url + '}';
+                                                    }
+                                                }
+                                            }
+                                            if (tooltipArray.length == 1 && htmlTooltip.length === 0 && latexTooltip.length === 0) {
                                                 htmlTooltip = isNullOrUndefined(tooltipArray[0].plain) ? "" : tooltipArray[0].plain.trim();
                                                 latexTooltip = htmlTooltip.trim();
                                                 if (latexTooltip.startsWith('-') || latexTooltip.startsWith('*')) {
                                                     latexTooltip = latexTooltip.substring(1).trim();
                                                 }
-                                            } else {
+                                            } else if (htmlTooltip.length === 0 && latexTooltip.length === 0) {
                                                 htmlTooltip = labelObject.plainChilds.replace(/^[\s]{3}/gm, '');
                                                 if (htmlTooltip) {
                                                     latexTooltip = htmlTooltip.replace(/[\s]{2}/gm, ' ');
