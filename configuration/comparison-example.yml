@@ -72,10 +72,10 @@ criteria:
       andSearch: false
       values:
         Active:
-        minAge: -1                                          # default: -1
-          maxAge: 1                                         # default: -1
-        minAgeUnit: months                                  # default: months
-          maxAgeUnit: months                                # default: 'min-age-unit'
+          minAge: -1                                          # default: -1
+          maxAge: 1                                           # default: -1
+          minAgeUnit: months                                  # default: months
+          maxAgeUnit: months                                  # default: 'min-age-unit'
           class: label-success
         Inactive:
           minAge: 6

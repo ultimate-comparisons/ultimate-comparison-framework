@@ -113,10 +113,13 @@ criteria:
           class: label-success
         Inactive:
           minAge: 6
+          minAgeUnit: months
           class: label-danger
         Not Sure:
           minAge: 1
           maxAge: 6
+          minAgeUnit: months
+          maxAgeUnit: months
           class: label-warning
   - NumberColumn:
       name: Number Column
