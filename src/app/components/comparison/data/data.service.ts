@@ -153,6 +153,7 @@ export class DataService {
                                     criteria.set(criteriaKey, ratings);
                                     break;
                                 case CriteriaType.label:
+                                case CriteriaType.repository:
                                     let labels: Map<string, Label> = new Map<string, Label>();
 
                                     if (typeof childsArray !== 'string') {
@@ -202,8 +203,6 @@ export class DataService {
                                     }
 
                                     criteria.set(criteriaKey, labels);
-                                    break;
-                                case CriteriaType.repository:
                                     break;
                                 default:
                                     console.error("Could not resolve second level header CriteriaType: '".concat(criteriaKey, "'!"));

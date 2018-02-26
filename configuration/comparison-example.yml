@@ -66,16 +66,12 @@ criteria:
       table: false
       detail: false
       type: repository
-  - Development:
-      description: Is the software in active development?
-      placeholder: Select activity state of ...
-      andSearch: false
       values:
         Active:
-        minAge: -1                                          # default: -1
-          maxAge: 1                                         # default: -1
-        minAgeUnit: months                                  # default: months
-          maxAgeUnit: months                                # default: 'min-age-unit'
+          minAge: -1                                          # default: -1
+          maxAge: 1                                           # default: -1
+          minAgeUnit: months                                  # default: months
+          maxAgeUnit: months                                  # default: 'min-age-unit'
           class: label-success
         Inactive:
           minAge: 6
