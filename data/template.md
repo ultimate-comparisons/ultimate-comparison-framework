@@ -17,9 +17,13 @@ Default short description (with bibkey: [@esper-reference])
     - [@eckertThesisCEP]
 - yellow
     - yellow property
+        - n64
+        - n76
 - dark blue
     - [@eckertThesisCEP]
-    - more properties
+    - more properties:
+        - 3lvl Property
+        - t4
 - grey
 - light blue
     - Super_long_tooltip_without_separators_which_should_not_extend_the_tooltip_area
