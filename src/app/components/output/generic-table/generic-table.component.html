@@ -28,7 +28,7 @@
                                                   href="{{entry.link}}"
                                                   target="_blank">{{entry.text}}</a>
                 </td>
-                <td *ngIf="types[i] ===  'label' || types[i] === 'repository'">
+                <td *ngIf="types[i] ===  'label'">
                     <ng-template ngFor let-label [ngForOf]="entry">
                         <ptooltip [tooltip]="label.tooltip.text"
                                   [tooltipHtml]="label.tooltip.html" [position]="'n'">
@@ -53,9 +53,6 @@
                 <td *ngIf="types[i] === 'rating'">
                     <iicon icon="star" *ngIf="entry">{{entry}}
                     </iicon>
-                </td>
-                <td *ngIf="types[i] === 'repository'">
-                    <!-- TODO -->
                 </td>
             </ng-template>
             <td>
