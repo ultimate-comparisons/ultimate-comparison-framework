@@ -107,6 +107,7 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
 
 # PRs
 - [minorFeatures](prs/minorFeatures)
+- [developmentColumn](prs/developmentColumn)
 
 # Current Master
 - [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
