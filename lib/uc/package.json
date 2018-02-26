@@ -18,6 +18,6 @@
       "gulp": "^4.0.0",
       "gulp-exec": "^3.0.1",
       "typescript": "2.6.2",
-    "ultimate-comparison": "^2.0.0-alpha.12"
+    "ultimate-comparison": "^2.0.0-alpha.13"
   }
 }
