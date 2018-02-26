@@ -27,10 +27,27 @@ criteria:
       table: false
       type: rating
   - Repository:
-      search: false
+      search: true
       table: false
       detail: false
-      type: repository
+      type: label
+      values:
+        Active:
+          minAge: -1
+          maxAge: 1
+          minAgeUnit: months
+          maxAgeUnit: months
+          class: label-success
+        Inactive:
+          minAge: 6
+          minAgeUnit: months
+          class: label-danger
+        Not Sure:
+          minAge: 1
+          maxAge: 6
+          minAgeUnit: months
+          maxAgeUnit: months
+          class: label-warning
   - description:
       name: Short description
       search: false
@@ -100,24 +117,6 @@ criteria:
           weight: 2
         Color 3:
           weight: 3
-  - Development:
-      description: Is the software in active development?
-      placeholder: Select activity state of ...
-      andSearch: false
-      values:
-        Active:
-          minAge: -1
-          maxAge: 1
-          minAgeUnit: months
-          maxAgeUnit: months
-          class: label-success
-        Inactive:
-          minAge: 6
-          class: label-danger
-        Not Sure:
-          minAge: 1
-          maxAge: 6
-          class: label-warning
   - NumberColumn:
       name: Number Column
       order: ASC
