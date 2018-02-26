@@ -28,7 +28,7 @@
                                                   href="{{entry.link}}"
                                                   target="_blank">{{entry.text}}</a>
                 </td>
-                <td *ngIf="types[i] ===  'label'">
+                <td *ngIf="types[i] ===  'label' || types[i] === 'repository'">
                     <ng-template ngFor let-label [ngForOf]="entry">
                         <ptooltip [tooltip]="label.tooltip.text"
                                   [tooltipHtml]="label.tooltip.html" [position]="'n'">

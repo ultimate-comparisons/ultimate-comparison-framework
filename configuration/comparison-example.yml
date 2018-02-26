@@ -66,10 +66,6 @@ criteria:
       table: false
       detail: false
       type: repository
-  - Development:
-      description: Is the software in active development?
-      placeholder: Select activity state of ...
-      andSearch: false
       values:
         Active:
           minAge: -1                                          # default: -1
