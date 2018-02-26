@@ -5,7 +5,7 @@
         "start": "npm run gulp:compile && npm run webpack:start",
         "webpack:start": "webpack-dev-server --open --inline --progress --port 3000",
         "webpack:build": "webpack --config lib/webpack/webpack.common.js --progress --profile --bail",
-        "gulp:compile": "node ./node_modules/gulp/bin/gulp.js default",
+        "gulp:compile": "node ./node_modules/gulp/bin/gulp.js default --gulpfile=./lib/gulp/gulpfile.js",
         "gulp:development": "node ./node_modules/gulp/bin/gulp.js dev",
         "dev": "concurrently \"npm run gulp:development\" \"npm run webpack:start\" ",
         "build": "npm run gulp:compile && npm run webpack:build"
@@ -17,6 +17,11 @@
     "repository": {
         "type": "git",
         "url": "git@github.com:ultimate-comparisons/ultimate-comparison-BASE.git"
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-env"
+        ]
     },
     "dependencies": {
         "@angular/cli": "^1.7.0",

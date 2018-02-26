@@ -36,7 +36,11 @@ export class ConfigurationService {
     static getHtml(converter: Showdown.Converter, citation: Map<string, Citation>, markdown: string): string {
         if (isNullOrUndefined(markdown)) return null;
         return converter.makeHtml(markdown.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
-            return '<a class="cite-link" href="#' + dec + '">[' + citation.get(dec).index + ']</a>';
+            if (citation.has(dec)) {
+                return '<a class="cite-link" href="#' + dec + '">[' + citation.get(dec).index + ']</a>';
+            } else {
+                return '<a class="cite-link">[Missing Reference for "' + match + '"]</a>';
+            }
         });
     }
 
