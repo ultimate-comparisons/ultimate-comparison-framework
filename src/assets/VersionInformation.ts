@@ -1,5 +1,5 @@
 export class VersionInformation {
-    public date: string = "2017-08-10";
-    public commit: string = "1.0.0";
-    public link: string = "https://github.com/ultimate-comparisons/ultimate-comparison-BASE/releases/tag/v1.0.0";
+    public date = "2018-02-26";
+    public commit = "1.0.0";
+    public link = "https://github.com/ultimate-comparisons/ultimate-comparison-BASE/commit/1.0.0";
 }
