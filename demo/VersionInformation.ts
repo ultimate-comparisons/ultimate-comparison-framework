@@ -1,5 +1,5 @@
 export class VersionInformation {
-    public commit = "71177b27071d4f0ba3785b325823584a2539f034";
+    public commit = "f7dd9f64de4489378424324285f9d7f4c57f997a";
     public commitDate = "2018-02-27";
     public tag = "v2.0.0-alpha.14";
     public tagDate = "2018-02-27";
