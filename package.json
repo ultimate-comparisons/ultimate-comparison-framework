@@ -1,6 +1,6 @@
 {
     "name": "ultimate-comparison",
-    "version": "2.0.0-alpha.14",
+    "version": "2.0.0-alpha.15",
     "scripts": {
         "start": "npm run gulp:compile && npm run webpack:start",
         "webpack:start": "webpack-dev-server --open --inline --progress --port 3000",
