@@ -1,7 +1,7 @@
 export class VersionInformation {
-    public commit = "fe0f3e8920be5085c5ecb5ae1f4a5b919dc012d8";
+    public commit = "71177b27071d4f0ba3785b325823584a2539f034";
     public commitDate = "2018-02-27";
-    public tag = "1.0.0";
-    public tagDate = "2017-08-31";
-    public link = "https://github.com/ultimate-comparisons/ultimate-comparison-BASE/tree/1.0.0";
+    public tag = "v2.0.0-alpha.14";
+    public tagDate = "2018-02-27";
+    public link = "https://github.com/ultimate-comparisons/ultimate-comparison-BASE/tree/v2.0.0-alpha.14";
 }
