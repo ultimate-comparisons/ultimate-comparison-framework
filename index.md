@@ -106,6 +106,7 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
 - [ADR Index](docs/adr)
 
 # PRs
+- [updatePackages](prs/updatePackages)
 - [minorFeatures](prs/minorFeatures)
 - [developmentColumn](prs/developmentColumn)
 
