@@ -125,8 +125,8 @@
                 rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img
                 alt="Creative Commons License CC-BY-SA 4.0" style="border-width:0"
                 src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a> | <a
-            [href]="getVersionInformation()?.link">{{getVersionInformation()?.commit?.substr(0,
-            8) + " (" + (getVersionInformation()?.date | date: ("yyyy-MM-dd")) + ")"}}</a>
+            [href]="getVersionInformation()?.link">{{getVersionInformation()?.tag + " (" +
+            (getVersionInformation()?.tagDate | date: ("yyyy-MM-dd")) + ")"}}</a>
         </div>
     </div>
 </div>
