@@ -18,6 +18,12 @@ build_branch () {
   git commit -m "Travis commit for ${BRANCH}"
   git checkout -b "${BRANCH}_2"
   git checkout -f gh-pages
+
+  if [[ -d prs/${BRANCH} ]]; then
+    rm -rf prs/${BRANCH}
+  fi
+  mkdir prs/${BRANCH}
+
   git checkout -f "${BRANCH}_2" prs/${BRANCH}
   git add prs
 
@@ -77,6 +83,12 @@ build_master () {
   git commit -m "Travis commit for master"
   git checkout -f gh-pages
   git pull SSH
+
+  if [[ -d demo ]]; then
+    rm -rf demo
+  fi
+  mkdir demo
+
   git checkout -f master demo
   git add demo
   git commit -m "Travis commit for demo on master"
@@ -84,6 +96,17 @@ build_master () {
   git pull
 
   git checkout -f master README.md
+
+# remove closed prs
+  RESULT="`curl -s https://api.github.com/repos/ultimate-comparisons/ultimate-comparison-BASE/pulls?state=open`"
+  LIST="`echo $RESULT | grep -Po '\"ref\": \"([^\"]*)\"' | awk -F':' '{if(match($2, /\"master\"/)){}else{print $2}}'`"
+  cd prs
+  for folder in *; do
+    if [ $(echo "$LIST" | grep -c -E "\"$folder\"") -ne 1 ]; then
+      rm -Rf "$folder"
+    fi
+  done
+  cd ..
 
 # add index.md
   echo "Create index.md"
