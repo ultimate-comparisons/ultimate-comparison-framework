@@ -30,7 +30,7 @@ criteria:
       search: true
       table: false
       detail: false
-      type: repository
+      type: label
       values:
         Active:
           minAge: -1
@@ -138,3 +138,75 @@ criteria:
         '300':
           description: 300
           weight: 4
+autoCriteria:
+  NumberColumn:
+    values:
+      '100': {}
+autoColor:
+  License:
+    MIT:
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(210, 100%, 70%)'
+    MPL-2.0:
+      color: '#ffff00'
+      backgroundColor: 'hsl(240, 100%, 70%)'
+  Uncolored:
+    Color 1:
+      color: '#ffff00'
+      backgroundColor: 'hsl(270, 100%, 70%)'
+    Color 2:
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(300, 100%, 70%)'
+    Color 3:
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(330, 100%, 70%)'
+    Color 4:
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(105, 100%, 70%)'
+  NumberColumn:
+    '100':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(150, 100%, 70%)'
+    '199':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(30, 100%, 70%)'
+    '200':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(60, 100%, 70%)'
+    '233':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(210, 100%, 70%)'
+    '250':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(90, 100%, 70%)'
+    '300':
+      color: '#0d0d0d'
+      backgroundColor: 'hsl(120, 100%, 70%)'
+autoCitation:
+  'Adi:2004:ASM:988145.988150':
+    index: 0
+    value: >-
+      Adi, A. and Etzion, O. 2004. Amit – the Situation Manager. The VLDB
+      Journal 13, 2, 177–203.
+  Bry07towardsformal:
+    index: 1
+    value: >-
+      Bry, F. 2007. Towards formal foundations of event queries and rules. In
+      Proc. Int. Workshop on Event-Driven Architecture, Processing and Systems.
+  'Dayal:1988:ROT:60295.60304':
+    index: 2
+    value: >-
+      Dayal, U., Buchmann, A.P., and McCarthy, D.R. 1988. Rules Are Objects Too:
+      A Knowledge Model for an Active, Object-oriented Databasesystem. Lecture
+      Notes in Computer Science on Advances in Object-oriented Database Systems,
+      Springer-Verlag New York, Inc., 129–143.
+  eckertThesisCEP:
+    index: 3
+    value: >-
+      Eckert, M. 2008. Complex Event Processing with XChange EQ : Language
+      Design, Formal Semantics, and Incremental Evaluation for Querying Events.
+  esper-reference:
+    index: 4
+    value: >-
+      Team, E. Esper Reference documentation.
+      http://www.espertech.com/esper/release-5.1.0/esper-reference/pdf/esper_reference.pdf.
