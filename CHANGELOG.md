@@ -21,10 +21,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Introduction of Angular 5 [#30](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/30)
 - Introduction of Redux [#117](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/117)
-- Restructure comparison configuration [#128](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/128)
 - Change some styles
 - Change output directory location
 - Replaced angular2-select with ng2-select
+
+### Breaking Changes
+- Restructure comparison configuration [#128](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/128)
 
 ### Fixed
 - Improved foreground colors when auto assigning
