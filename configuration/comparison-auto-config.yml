@@ -142,6 +142,7 @@ autoCriteria:
   NumberColumn:
     values:
       '100': {}
+      '233': {}
 autoColor:
   License:
     MIT:
