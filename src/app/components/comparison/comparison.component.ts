@@ -41,7 +41,7 @@ export class ComparisonComponent {
 
     public criteriaChanged(value: string, crit: Criteria) {
         const map = new Map<string, string>();
-        map.set(crit.name, value || null);
+        map.set(crit.key, value || null);
         this.store.dispatch(new UCSearchUpdateAction(map));
         this.cd.markForCheck();
     }
@@ -50,7 +50,7 @@ export class ComparisonComponent {
         if (isNullOrUndefined(state)) {
             return [];
         }
-        const active = state.state.currentSearch.get(crit.name);
+        const active = state.state.currentSearch.get(crit.key);
 
         if (!isNullOrUndefined(active)) {
             return active.map(name => {

@@ -62,6 +62,7 @@ criteria:
       type: markdown
       table: false
   - Performance:
+      name: Awesome Performance
       description: Preformance of entry.
       placeholder: Select performance of ...
       andSearch: true
@@ -74,6 +75,7 @@ criteria:
           description: Overall performance above 200ms.
           class: label-danger
   - License:
+      name: SPDX License
       table: false
       andSearch: false
       values:

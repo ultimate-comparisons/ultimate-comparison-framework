@@ -338,9 +338,7 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
         }
         let includeData = true;
         for (const field of state.currentSearch.keys()) {
-            const columnIndex = state.columnNames.indexOf(field);
-            const columnName = state.columnKeys[columnIndex];
-            const criteria = state.criterias.get(columnName);
+            const criteria = state.criterias.get(field);
             if (criteria.rangeSearch) {
                 if (state.currentSearch.get(field).length > 0) {
                     const queries = (state.currentSearch.get(field)[0] || '').trim().replace(' ', '')
@@ -392,7 +390,7 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                                 a = c;
                             }
                         }
-                        const labelMap: Map<string, Label> = <Map<string, Label>>value.criteria.get(columnName);
+                        const labelMap: Map<string, Label> = <Map<string, Label>>value.criteria.get(field);
                         for (const val of labelMap.keys()) {
                             const numberVal = Number.parseInt(val);
                             if (a <= numberVal && numberVal <= b) {
@@ -404,11 +402,11 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                     includeData = includeData && includeElement;
                 }
             } else {
-                const searchArray = state.currentSearch.get(columnName);
+                const searchArray = state.currentSearch.get(field);
                 let fulfillsField = criteria.andSearch || isNullOrUndefined(searchArray) || searchArray.length === 0;
                 for (const query of searchArray) {
                     let fulfillsQuery = false;
-                    for (const key of (<Map<string, any>>data[i].criteria.get(criteria.name)).keys()) {
+                    for (const key of (<Map<string, any>>data[i].criteria.get(criteria.key)).keys()) {
                         fulfillsQuery = fulfillsQuery || (key === query);
                     }
                     if (criteria.andSearch) {
@@ -660,9 +658,7 @@ function searchReducer(state: IUCAppState = new UcAppState(), action: UCSearchUp
     for (const [key, value] of action.criterias) {
         const elements = state.currentSearch.get(key) || [];
         const index = elements.indexOf(value);
-        const columnKeyIndex = state.columnNames.indexOf(key);
-        const columnKey = state.columnKeys[columnKeyIndex];
-        if (state.criterias.get(columnKey).rangeSearch) {
+        if (state.criterias.get(key).rangeSearch) {
             state.currentSearch.set(key, [value]);
         } else {
             if (value !== null && index > -1) {

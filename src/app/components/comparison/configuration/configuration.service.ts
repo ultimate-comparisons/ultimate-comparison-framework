@@ -144,6 +144,7 @@ export class ConfigurationService {
                     });
 
                     criteria.set(key, new Criteria.Builder()
+                        .setKey(key)
                         .setName(value.name || key)
                         .setSearch(value.search)
                         .setTable(value.table)
@@ -214,6 +215,7 @@ export class ConfigurationService {
                         });
 
                         criteria.set(key, new Criteria.Builder()
+                            .setKey(key)
                             .setName(old.name)
                             .setSearch(old.search)
                             .setTable(old.table)
@@ -253,6 +255,7 @@ export class ConfigurationService {
                         });
 
                         criteria.set(key, new Criteria.Builder()
+                            .setKey(key)
                             .setName(isNullOrUndefined(autoCriteriaObject.name) ? key : autoCriteriaObject.name)
                             .setSearch(autoCriteriaObject.search)
                             .setTable(autoCriteriaObject.table)

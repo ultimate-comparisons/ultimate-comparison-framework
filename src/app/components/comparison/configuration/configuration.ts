@@ -197,6 +197,7 @@ export class Body {
 }
 
 export class Criteria {
+    public key: string;
     public name: string;
     public search: boolean;
     public table: boolean;
@@ -210,6 +211,7 @@ export class Criteria {
     public items: Array<string>;
 
     constructor(builder) {
+        this.key = builder.key;
         let name: string = isNullOrUndefined(builder.name) ? "" : builder.name;
         this.name = name;
         this.search = isNullOrUndefined(builder.search) ? true : builder.search;
@@ -232,6 +234,7 @@ export class Criteria {
 
     static get Builder() {
         class Builder {
+            private key: string;
             private name: string;
             private search: boolean;
             private table: boolean;
@@ -242,6 +245,11 @@ export class Criteria {
             private andSearch: boolean;
             private rangeSearch: boolean;
             private values: Map<string, CriteriaValue>;
+
+            public setKey(key: string): Builder {
+                this.key = key;
+                return this;
+            }
 
             public setSearch(search: boolean): Builder {
                 this.search = search;

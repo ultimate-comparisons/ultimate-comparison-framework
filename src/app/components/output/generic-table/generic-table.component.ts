@@ -1,5 +1,10 @@
 import {
-    AfterViewChecked, ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges,
+    AfterViewChecked,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
     Output
 } from '@angular/core';
 import { Label, Markdown, Text, Url } from "../../comparison/data/data";
@@ -20,7 +25,6 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     @Output() searchFor: EventEmitter<any> = new EventEmitter();
     @Output() orderChange: EventEmitter<any> = new EventEmitter();
 
-    // TODO new inputs: (move to redux store)
     @Input() columns: Array<string> = [];
     @Input() types: Array<string> = [];
     @Input() items: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];

@@ -5,8 +5,6 @@ almost everything unknown
 
 ## License
 
-## Showcase 2.0
-
 ## Description
 This element has almost no values to test unknown
 
