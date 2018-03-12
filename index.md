@@ -108,7 +108,6 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
 
 # PRs
 - [changelogFlavorChange](prs/changelogFlavorChange)
-- [developmentModus](prs/developmentModus)
 
 # Current Master
 - [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
