@@ -91,7 +91,7 @@ It installs the latest version with the same major version number (ie. `2.x.x`).
  
 ## License
 
-The code is licensed under [MIT], the content (located at `comparison-elements`) under [CC0-1.0].
+The code is licensed under [MIT], the content (located at `data`) under [CC0-1.0].
 
   [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
 
