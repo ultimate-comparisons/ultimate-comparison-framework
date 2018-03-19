@@ -107,6 +107,7 @@ See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-com
 - [ADR Index](docs/adr)
 
 # PRs
+- [cleanup](prs/cleanup)
 - [readmeUpdate](prs/readmeUpdate)
 
 # Current Master
