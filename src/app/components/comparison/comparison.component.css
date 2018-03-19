@@ -160,7 +160,7 @@ pdialog {
     margin-bottom: 0;
 }
 
-.form-group:hover /deep/ input.ui-select-search {
+.form-group:hover ::ng-deep input.ui-select-search {
     position: relative;
     height: 26px !important;
     margin-bottom: 2px !important;

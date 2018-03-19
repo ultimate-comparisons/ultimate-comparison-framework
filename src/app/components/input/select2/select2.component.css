@@ -1,39 +1,39 @@
-:host /deep/ ng-select {
+:host ::ng-deep ng-select {
     display: table !important;
     table-layout: fixed !important;
     width: 100% !important;
 }
 
-:host /deep/ div {
+:host ::ng-deep div {
     z-index: 3001;
 }
 
-:host /deep/ input {
+:host ::ng-deep input {
     width: 100%;
 }
 
-:host /deep/ .below {
+:host ::ng-deep .below {
     border: 0;
     border-bottom: 1px solid #aaa;
     border-radius: 0;
 }
 
-:host /deep/ .option {
+:host ::ng-deep .option {
     background-color: #777;
     color: #fff;
     font-weight: bold;
     border-radius: 4px;
 }
 
-:host /deep/ .deselect-option {
+:host ::ng-deep .deselect-option {
     color: #fff;
 }
 
-:host /deep/ li[role="menuitem"] {
+:host ::ng-deep li[role="menuitem"] {
     z-index: 5000;
 }
 
-:host /deep/ .ui-select-container.ui-select-multiple.dropdown.form-control.open {
+:host ::ng-deep .ui-select-container.ui-select-multiple.dropdown.form-control.open {
     z-index: initial;
     line-height: 20px;
     min-height: 32px;
@@ -47,7 +47,7 @@
     box-shadow: initial;
 }
 
-:host /deep/ span.ui-select-match-item.btn.btn-default.btn-secondary.btn-xs {
+:host ::ng-deep span.ui-select-match-item.btn.btn-default.btn-secondary.btn-xs {
     background-color: rgb(119, 119, 119);
     color: white;
     -webkit-border-radius: 4px;
@@ -59,7 +59,7 @@
     margin: 0 5px 3px 0;
 }
 
-:host /deep/ span.ui-select-match-item.btn.btn-default.btn-secondary.btn-xs a.close {
+:host ::ng-deep span.ui-select-match-item.btn.btn-default.btn-secondary.btn-xs a.close {
     color: white;
     margin-top: 1px;
     float: left;
@@ -69,21 +69,21 @@
     font-weight: initial;
 }
 
-:host /deep/ span.ui-select-match-item.btn.btn-default.btn-secondary.btn-xs a.close:hover {
+:host ::ng-deep span.ui-select-match-item.btn.btn-default.btn-secondary.btn-xs a.close:hover {
     opacity: 0.5;
 }
 
-:host /deep/ span.ui-select-match {
+:host ::ng-deep span.ui-select-match {
     position: relative;
     z-index: 1;
 }
 
-:host /deep/ span.ui-select-match {
+:host ::ng-deep span.ui-select-match {
     position: relative;
     z-index: 1;
 }
 
-:host /deep/ .ui-select-multiple input.ui-select-search {
+:host ::ng-deep .ui-select-multiple input.ui-select-search {
     position: absolute;
     top: 0;
     width: 100%;
@@ -92,7 +92,7 @@
     z-index: 0;
 }
 
-:host /deep/ .ui-select-multiple input.ui-select-search:focus {
+:host ::ng-deep .ui-select-multiple input.ui-select-search:focus {
     position: relative;
     height: 26px !important;
     margin-bottom: 2px !important;
