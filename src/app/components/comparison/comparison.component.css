@@ -149,10 +149,6 @@ pdialog {
 
 .shrink-expand {
     justify-self: right;
-    -webkit-transform: translate(0, -50px);
-    -moz-transform: translate(0, -50px);
-    -ms-transform: translate(0, -50px);
-    -o-transform: translate(0, -50px);
     transform: translate(0, -50px);
 }
 
@@ -162,4 +158,10 @@ pdialog {
 
 .description > :last-child {
     margin-bottom: 0;
+}
+
+.form-group:hover /deep/ input.ui-select-search {
+    position: relative;
+    height: 26px !important;
+    margin-bottom: 2px !important;
 }
