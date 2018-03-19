@@ -94,21 +94,14 @@ It installs the latest version with the same major version number (ie. `2.x.x`).
 The code is licensed under [MIT], the content (located at `comparison-elements`) under [CC0-1.0].
 
   [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
-
-<hr />
-
-See [README-THING.template](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/blob/master/README-THING.template.md) for a README skeletton for your ultimate-THING-comparison.
-
-  [MIT]: https://opensource.org/licenses/MIT
   [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
+  [MIT]: https://opensource.org/licenses/MIT
 # Docs
 - [Travis_Build_Deploy](docs/Travis_Build_Deploy.md)
 - [Update_YOUR_Comparison.md](docs/Update_YOUR_Comparison.md)
 - [ADR Index](docs/adr)
 
 # PRs
-- [cleanup](prs/cleanup)
-- [readmeUpdate](prs/readmeUpdate)
 
 # Current Master
 - [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
