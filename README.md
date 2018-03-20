@@ -94,7 +94,5 @@ It installs the latest version with the same major version number (ie. `2.x.x`).
 The code is licensed under [MIT], the content (located at `data`) under [CC0-1.0].
 
   [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
-
-
-  [MIT]: https://opensource.org/licenses/MIT
   [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
+  [MIT]: https://opensource.org/licenses/MIT

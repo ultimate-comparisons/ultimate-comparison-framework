@@ -24,11 +24,11 @@
     word-break: break-word; /* works for chromium and google chrome*/
 }
 
-:host .ptooltiptext /deep/ a {
+:host .ptooltiptext ::ng-deep a {
     color: lightgray;
 }
 
-:host .ptooltiptext /deep/ ul, :host .ptooltiptext /deep/ ol {
+:host .ptooltiptext ::ng-deep ul, :host .ptooltiptext ::ng-deep ol {
     text-align: left;
     padding-left: 20px;
 }

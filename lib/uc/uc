@@ -12,7 +12,6 @@ setup () {
   cp ${DIR}/gitignore.template ${CWD}/.gitignore
   cp ${DIR}/package.json ${CWD}/package.json
   cp ${DIR}/README.md ${CWD}/
-  cp ${DIR}/webpack.config.babel.js ${CWD}/
 
   cp ${DIR}/../../tsconfig.json ${CWD}/
 

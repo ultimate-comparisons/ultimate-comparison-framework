@@ -8,8 +8,7 @@ import {
     Output
 } from '@angular/core';
 import { Label, Markdown, Text, Url } from "../../comparison/data/data";
-
-declare const anchors;
+import * as AnchorJS from 'anchor-js';
 
 @Component({
     selector: 'generictable',
@@ -32,6 +31,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     @Input() order: Array<number> = [];
 
     private table;
+    private anchor;
 
     public labelClick(event: MouseEvent, key: Label, index: number) {
         this.searchFor.emit({event, key, index});
@@ -42,12 +42,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
     }
 
     ngAfterViewChecked(): void {
-        this.table = (<any>$('table.table-hover'));
-        this.table.floatThead();
-        anchors.options = {
-            placement: 'right'
-        };
-        anchors.add('.anchored');
+        this.anchor = new AnchorJS({placement: 'right'}).add('.anchored');
     }
 
     ngOnChanges(changes): void {

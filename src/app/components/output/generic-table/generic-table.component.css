@@ -46,6 +46,13 @@ th > button {
 
 }
 
+table th {
+    position: sticky;
+    top: 0px;
+    background: white;
+    z-index: 4998;
+}
+
 table tr {
     white-space: normal;
     line-height: 1em;

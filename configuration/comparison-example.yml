@@ -40,7 +40,6 @@ criteria:
       search: false                                         # default true
       table: true                                           # default true
       detail: false                                         # default true
-      type: url                                             # default label
   # description references the text after the first level header
   # (With type=text) e.g. '# Default 1 - www.example.com\nThis is the long description for ...'
   #   => description: 'This is the long description for ...'
