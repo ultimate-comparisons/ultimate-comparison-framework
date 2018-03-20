@@ -59,6 +59,7 @@ public class Md2Json {
     }
 
     private static void writeFile(Path path, String msg) throws IOException {
+        Files.createDirectories(path.getParent());
         BufferedWriter bw = new BufferedWriter(new FileWriter(path.toFile()));
         bw.write(msg);
         bw.close();
