@@ -27,13 +27,6 @@ export class ConfigurationService {
     public initializeData: EventEmitter<any> = new EventEmitter();
     private converter: Showdown.Converter;
 
-    constructor(public title: Title,
-                private http: HttpClient,
-                private dataService: DataService) {
-        this.converter = new Showdown.Converter();
-        this.dataService.setSubscriber(this);
-    }
-
     static getHtml(converter: Showdown.Converter, citation: Map<string, Citation>, markdown: string): string {
         if (isNullOrUndefined(markdown)) return null;
         return converter.makeHtml(markdown.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
@@ -46,12 +39,20 @@ export class ConfigurationService {
     }
 
     static getLatex(converter: Showdown.Converter, text: string): string {
-        if (isNullOrUndefined(text)) return null;
+        if (isNullOrUndefined(text)) {
+            return null;
+        }
         return converter.makeHtml(text.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
             return '\\cite{' + dec + '}';
         });
     }
 
+    constructor(public title: Title,
+                private http: HttpClient,
+                private dataService: DataService) {
+        this.converter = new Showdown.Converter();
+        this.dataService.setSubscriber(this);
+    }
 
     public loadComparison(cd: ChangeDetectorRef) {
         this.http.get('comparison.json')
@@ -147,7 +148,7 @@ export class ConfigurationService {
 
                     // Add type url to criteria id if undefined
                     // Type Url is only supported yet for the first level header
-                    if (key == "id" && isNullOrUndefined(value.type)) {
+                    if (key === 'id' && isNullOrUndefined(value.type)) {
                         value.type = CriteriaType.url;
                     }
 
@@ -264,7 +265,7 @@ export class ConfigurationService {
 
                         // Add type url to criteria id if undefined
                         // Type Url is only supported yet for the first level header
-                        if (key == "id" && isNullOrUndefined(autoCriteriaObject.type)) {
+                        if (key === 'id' && isNullOrUndefined(autoCriteriaObject.type)) {
                             autoCriteriaObject.type = CriteriaType.url;
                         }
 
