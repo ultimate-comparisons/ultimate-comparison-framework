@@ -13,8 +13,6 @@ setup () {
   cp ${DIR}/package.json ${CWD}/package.json
   cp ${DIR}/README.md ${CWD}/
 
-  cp ${DIR}/../../tsconfig.json ${CWD}/
-
   echo "What is the name of your comparison?"
   read -e NAME
   if [[ ${NAME} == "" ]]; then
