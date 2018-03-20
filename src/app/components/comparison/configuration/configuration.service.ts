@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, EventEmitter, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-import * as yaml from 'js-yaml';
+
 import {
     Body,
     Citation,
     Configuration,
     Criteria,
+    CriteriaType,
     CriteriaValue,
     Details,
     getCriteriaType,
@@ -26,13 +27,6 @@ export class ConfigurationService {
     public initializeData: EventEmitter<any> = new EventEmitter();
     private converter: Showdown.Converter;
 
-    constructor(public title: Title,
-                private http: HttpClient,
-                private dataService: DataService) {
-        this.converter = new Showdown.Converter();
-        this.dataService.setSubscriber(this);
-    }
-
     static getHtml(converter: Showdown.Converter, citation: Map<string, Citation>, markdown: string): string {
         if (isNullOrUndefined(markdown)) return null;
         return converter.makeHtml(markdown.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
@@ -45,16 +39,25 @@ export class ConfigurationService {
     }
 
     static getLatex(converter: Showdown.Converter, text: string): string {
+        if (isNullOrUndefined(text)) {
+            return null;
+        }
         return converter.makeHtml(text.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
             return '\\cite{' + dec + '}';
         });
     }
 
+    constructor(public title: Title,
+                private http: HttpClient,
+                private dataService: DataService) {
+        this.converter = new Showdown.Converter();
+        this.dataService.setSubscriber(this);
+    }
 
     public loadComparison(cd: ChangeDetectorRef) {
-        this.http.get('comparison-auto-config.yml', {responseType: 'text'})
+        this.http.get('comparison.json')
             .subscribe(res => {
-                const comparisonObject: any = yaml.safeLoad(res) || {};
+                const comparisonObject: any = res || {};
                 const detailsObject: any = comparisonObject.details || {};
                 const headerObject: any = detailsObject.header || {};
                 const bodyObject: any = detailsObject.body || {};
@@ -142,6 +145,12 @@ export class ConfigurationService {
                             .build()
                         );
                     });
+
+                    // Add type url to criteria id if undefined
+                    // Type Url is only supported yet for the first level header
+                    if (key === 'id' && isNullOrUndefined(value.type)) {
+                        value.type = CriteriaType.url;
+                    }
 
                     criteria.set(key, new Criteria.Builder()
                         .setKey(key)
@@ -254,6 +263,12 @@ export class ConfigurationService {
                             }
                         });
 
+                        // Add type url to criteria id if undefined
+                        // Type Url is only supported yet for the first level header
+                        if (key === 'id' && isNullOrUndefined(autoCriteriaObject.type)) {
+                            autoCriteriaObject.type = CriteriaType.url;
+                        }
+
                         criteria.set(key, new Criteria.Builder()
                             .setKey(key)
                             .setName(isNullOrUndefined(autoCriteriaObject.name) ? key : autoCriteriaObject.name)
@@ -294,6 +309,7 @@ export class ConfigurationService {
                         this.tableColumns.push(key);
                     }
                 });
+
                 cd.markForCheck();
             });
     }

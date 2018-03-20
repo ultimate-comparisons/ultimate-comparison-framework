@@ -3,13 +3,12 @@
   "description": "##asdfd",
   "version": "##asdfv",
   "scripts": {
-    "start": "npm run gulp:compile && npm run webpack:start",
-    "build": "npm run gulp:compile && npm run webpack:build",
-    "dev": "concurrently \"npm run gulp:development\" \"npm run webpack:start\" ",
+    "start": "npm run gulp:compile && npm run server:start",
+    "build": "npm run gulp:compile",
+    "dev": "concurrently \"npm run gulp:development\" \"npm run server:start\" ",
     "gulp:compile": "./node_modules/.bin/gulp default --gulpfile=./node_modules/ultimate-comparison/lib/gulp/gulpfile.js --dir=node_modules/ultimate-comparison",
     "gulp:development": "node ./node_modules/gulp/bin/gulp.js dev --gulpfile=./node_modules/ultimate-comparison/lib/gulp/gulpfile.js --dir=node_modules/ultimate-comparison",
-    "webpack:start": "./node_modules/.bin/webpack-dev-server --open --inline --progress --port 3000",
-    "webpack:build": "webpack --progress --profile --bail"
+    "server:start": "./node_modules/.bin/angular-http-server --path dist --p 3001"
   },
   "babel": {
     "presets": [

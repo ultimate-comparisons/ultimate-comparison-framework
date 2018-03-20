@@ -39,7 +39,6 @@ autoCriteria:
     search: false
     table: true
     detail: false
-    type: url
   description:
     name: Short Description
     search: false

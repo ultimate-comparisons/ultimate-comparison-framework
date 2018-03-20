@@ -20,7 +20,11 @@ criteria:
       search: false
       table: true
       detail: false
-      type: url
+  - description:
+      name: Short description
+      search: false
+      detail: false
+      type: markdown
   - Rating:
       name: ''
       search: false
@@ -51,11 +55,6 @@ criteria:
           maxAgeUnit: months
           class: label-warning
           description: The state of the repository is not sure.
-  - description:
-      name: Short description
-      search: false
-      detail: false
-      type: markdown
   - Description:
       search: false
       detail: true
