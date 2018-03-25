@@ -611,6 +611,9 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
     }
     const params = action.payload.routerState.queryParams;
     const search = decodeURIComponent(params.search || params['?search'] || '');
+    if (isNullOrUndefined(search) || search === '') {
+        return state;
+    }
     const filter = params.filter || params['?filter'] || '';
     const detailsDialog = Number.parseInt(params.details || params['?details'] || -1);
     const optionsDialog = params.hasOwnProperty('options') || params.hasOwnProperty('?options');
@@ -636,9 +639,10 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
         .map(x => Number.parseInt(x.trim()));
     if (state.currentColumns.length === 0 && state.criterias) {
         const values = state.criterias.values();
-        let crit;
-        while ((crit = values.next()) !== null) {
+        let crit = values.next().value;
+        while (crit !== null) {
             state.currentColumns.push(crit.name);
+            crit = values.next().value;
         }
     }
     state.currentlyMaximized = maximized;
