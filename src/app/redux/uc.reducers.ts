@@ -104,8 +104,12 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
                     break;
             }
     }
-    state = filterElements(state);
-    state = sortElements(state);
+    if (action.type !== '@ngrx/store/init') {
+        state.currentChanged = false;
+        state = filterElements(state);
+        state = sortElements(state);
+        state = updateElements(state);
+    }
     return state;
 }
 
@@ -169,13 +173,10 @@ function changeOrder(state: IUCAppState, action: UCTableOrderAction): IUCAppStat
 }
 
 function updateElements(state: IUCAppState): IUCAppState {
-    state.currentChanged = false;
-    state = filterElements(state, state.criterias);
-    state = sortElements(state);
-    if (!state.currentChanged) {
-        return state;
+    if (state.currentChanged || !state.currentSaved) {
+        putStateIntoURL(state);
+        state.currentSaved = true;
     }
-    putStateIntoURL(state);
     return state;
 }
 
@@ -328,6 +329,9 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
         return state;
     }
     const data: Array<Data> = DataService.data;
+    if (isNullOrUndefined(data)) {
+        return state;
+    }
     const elements: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
     const indexes: Array<number> = [];
 
@@ -610,15 +614,50 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
         return state;
     }
     const params = action.payload.routerState.queryParams;
+    if (params.search && params.search.indexOf('#') > -1) {
+        params.search = params.search.split('#')[0];
+    } else if (params['?search'] && params['?search'].indexOf('#') > -1) {
+        params.search = params['?search'].split('#')[0];
+    }
     const search = decodeURIComponent(params.search || params['?search'] || '');
     if (isNullOrUndefined(search) || search === '') {
         return state;
     }
+    if (params.filter && params.filter.indexOf('#') > -1) {
+        params.filter = params.filter.split('#')[0];
+    } else if (params['?filter'] && params['?filter'].indexOf('#') > -1) {
+        params.filter = params['?filter'].split('#')[0];
+    }
     const filter = params.filter || params['?filter'] || '';
+    if (params.details && params.details.indexOf('#') > -1) {
+        params.details = params.details.split('#')[0];
+    } else if (params['?details'] && params['?details'].indexOf('#') > -1) {
+        params.details = params['?details'].split('#')[0];
+    }
     const detailsDialog = Number.parseInt(params.details || params['?details'] || -1);
+    if (params.options && params.options.indexOf('#') > -1) {
+        params.options = params.options.split('#')[0];
+    } else if (params['?options'] && params['?options'].indexOf('#') > -1) {
+        params.search = params['?options'].split('#')[0];
+    }
     const optionsDialog = params.hasOwnProperty('options') || params.hasOwnProperty('?options');
+    if (params.columns && params.columns.indexOf('#') > -1) {
+        params.columns = params.columns.split('#')[0];
+    } else if (params['?columns'] && params['?columns'].indexOf('#') > -1) {
+        params.search = params['?columns'].split('#')[0];
+    }
     const columns = params.columns || params['?columns'] || '';
+    if (params.maximized && params.maximized.indexOf('#') > -1) {
+        params.maximized = params.maximized.split('#')[0];
+    } else if (params['?maximized'] && params['?maximized'].indexOf('#') > -1) {
+        params.maximized = params['?maximized'].split('#')[0];
+    }
     const maximized = params.hasOwnProperty('maximized') || params.hasOwnProperty('?maximized');
+    if (params.order && params.order.indexOf('#') > -1) {
+        params.order = params.order.split('#')[0];
+    } else if (params['?order'] && params['?order'].indexOf('#') > -1) {
+        params.order = params['?order'].split('#')[0];
+    }
     const order = params.order || params['?order'] || '+id';
 
     search.split(';').map(x => x.trim()).forEach(x => {
@@ -640,7 +679,7 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
     if (state.currentColumns.length === 0 && state.criterias) {
         const values = state.criterias.values();
         let crit = values.next().value;
-        while (crit !== null) {
+        while (!isNullOrUndefined(crit)) {
             state.currentColumns.push(crit.name);
             crit = values.next().value;
         }
