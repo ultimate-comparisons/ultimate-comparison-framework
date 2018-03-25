@@ -92,26 +92,28 @@ export interface IUCAppState {
     detailsDisplayTooltips: boolean;
 
     tableExpand: boolean;
+    currentSaved: boolean;
 }
 
 export class UcAppState implements IUCAppState {
+    currentSaved = false;
     elementNames: Array<string> = [];
     elementsEnabled: Array<boolean> = [];
-    elementDisplayAll: boolean = false;
+    elementDisplayAll = false;
 
     columnKeys: Array<string> = [];
     columnNames: Array<string> = [];
     columnsEnabled: Array<boolean> = [];
     columnsEnabledCache: Array<boolean> = [];
-    columnDisplayAll: boolean = false;
+    columnDisplayAll = false;
 
-    latexDisplayTable: boolean = false;
-    latexEnableTooltips: boolean = false;
-    latexTooltipsAsFootnotes: boolean = false;
+    latexDisplayTable = false;
+    latexEnableTooltips = false;
+    latexTooltipsAsFootnotes = false;
 
-    detailsDisplayTooltips: boolean = false;
+    detailsDisplayTooltips = false;
 
-    tableExpand: boolean = false;
+    tableExpand = false;
 
     currentSearch: Map<string, Array<string>> = new Map<string, Array<string>>();
     currentDetails = -1;
