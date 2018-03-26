@@ -1,12 +1,12 @@
 # Ultimate Comparison BASE
 
+This is an ultimate comparison framework written in [Angular](https://angular.io/).
+It is released on [npm](https://www.npmjs.com/package/ultimate-comparison) under **ultimate-comparison**.
+
 [![Build Status](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE.svg?branch=master)](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE)
 [![Issue Count](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE/badges/issue_count.svg)](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE)
 [![Code Triagers Badge](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base/badges/users.svg)](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base)
 [![dependencies Status](https://david-dm.org/ultimate-comparisons/ultimate-comparison-BASE/status.svg)](https://david-dm.org/ultimate-comparisons/ultimate-comparison-BASE)
-
-This is an ultimate comparison framework written in [Angular](https://angular.io/).
-It is released on [npm](https://www.npmjs.com/package/ultimate-comparison) under **ultimate-comparison**.
 
 ## Create your own ultimate comparison 
 1. Install the **ultimate-comparison**-package globally on your system via `npm install --global ultimate-comparison`
