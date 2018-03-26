@@ -1,4 +1,4 @@
-# Default 4 - http://default-4-entry.example.com
+# Default 4 (0.0.1 alpha) - http://default-4-entry.example.com
 slow, MIT, green, green, grey
 
 ## Performance

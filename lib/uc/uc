@@ -36,8 +36,12 @@ start () {
   npm start
 }
 
-if [[ "$1" != "setup" ]] &&  [[ "$1" != "start" ]]; then
-    echo "Invalid command, please use 'uc setup' or 'uc start'"
+dev () {
+  npm run dev
+}
+
+if [[ "$1" != "setup" ]] &&  [[ "$1" != "start" ]] &&  [[ "$1" != "dev" ]]; then
+    echo "Invalid command, please use 'uc setup' or 'uc start' or 'uc dev"
 else
     eval ${1}
 fi

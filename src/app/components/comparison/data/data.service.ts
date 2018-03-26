@@ -36,7 +36,7 @@ export class DataService {
                 dataArrayObject.forEach(dataObject => {
                     // Split markdown first level header (e.g. Default 1 - www.example.com) into 'name' and 'url'
                     const regArray =
-                        /^((?:(?:\w+\s*)(?:-?\s*\w+.)*)+)\s*-?\s*((?:(?:http|ftp|https)(?::\/\/)(?:[\w_-]+(?:(?:\.[\w_-]+)+))|(?:www.))(?:[\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)$/gi
+                        /^((?:.*?)+?(?:-?.*?)+?)\s*-?\s*((?:(?:http|ftp|https)(?::\/\/)(?:[\w_-]+(?:(?:\.[\w_-]+)+))|(?:www.))(?:[\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)$/gi
                             .exec(dataObject.tag);
                     const name: string = ((regArray && regArray.length > 1) ? regArray[1] : dataObject.tag || "").trim();
                     let url: string = ((regArray && regArray.length > 2) ? regArray[2] : dataObject.tag || "").trim();
