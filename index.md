@@ -102,6 +102,7 @@ The code is licensed under [MIT], the content (located at `comparison-elements`)
 - [ADR Index](docs/adr)
 
 # PRs
+- [readmeUpdate](prs/readmeUpdate)
 
 # Current Master
 - [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
