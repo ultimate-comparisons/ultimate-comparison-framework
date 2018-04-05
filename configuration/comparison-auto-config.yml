@@ -78,13 +78,42 @@ criteria:
       table: false
       andSearch: false
       values:
+        EPL-1.0:
+          description: '[EPL-1.0](https://spdx.org/licenses/EPL-1.0.html)'
+          class: label-blue
+        LGPL-3.0:
+          description: '[LGPL-3.0](https://spdx.org/licenses/LGPL-3.0.html)'
+          class: label-blue
+        LGPL-2.0+:
+          description: '[LGPL-2.0+](https://spdx.org/licenses/LGPL-2.0+.html)'
+          class: label-blue
         Apache-2.0:
           description: '[Apache-2.0](https://spdx.org/licenses/Apache-2.0.html)'
-          class: label-success
+          class: label-blue
         MIT:
           description: '[MIT](https://spdx.org/licenses/MIT.html)'
+          class: label-blue
         MPL-2.0:
           description: '[MPL-2.0](https://spdx.org/licenses/MPL-2.0.html)'
+          class: label-blue
+        BSD-2-Clause:
+          description: '[BSD-2-Clause](https://spdx.org/licenses/BSD-2-Clause.html)'
+          class: label-blue
+        BSD-3-Clause:
+          description: '[BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html)'
+          class: label-blue
+        MPL-1.1:
+          description: '[MPL-1.1](https://spdx.org/licenses/MPL-1.1.html)'
+          class: label-blue
+        AGPL-3.0:
+          description: '[AGPL-3.0](https://spdx.org/licenses/AGPL-3.0.html)'
+          class: label-blue
+        GPL-3.0-or-later:
+          description: '[GPL-3.0-or-later](https://spdx.org/licenses/GPL-3.0-or-later.html)'
+          class: label-blue
+        GPL-2.0-only:
+          description: '[GPL-2.0-only](https://spdx.org/licenses/GPL-2.0-only.html)'
+          class: label-blue
   - Showcase 2.0:
       andSearch: false
       values:
