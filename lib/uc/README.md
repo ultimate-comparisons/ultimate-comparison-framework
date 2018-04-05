@@ -27,19 +27,19 @@ The code below shows a sample element.
 
     ## Description
     Element long __markdown__ description ...
-    
+
     ## Property 1
     - Label 1
         - Tooltip for label 1
     - Label 2
         - Itemized tooltip for label 1
         - Second tooltip item
-    
+
     ## Property 2
     - Label 3
     - Label 4
     - Label 5
-    
+
     ## Rating
     - [1] Bad THING
     - [3] It is ok
@@ -47,7 +47,6 @@ The code below shows a sample element.
 
 ## License
 
-The code is licensed under [MIT], the content (located at `data`) under [CC-BY-SA-4.0].
+The content is licensed under [CC0-1.0].
 
-  [MIT]: https://opensource.org/licenses/MIT
-  [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
+  [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
