@@ -9,7 +9,7 @@
         "gulp:development": "node ./node_modules/gulp/bin/gulp.js dev --gulpfile=./lib/gulp/gulpfile.js",
         "dev": "concurrently \"npm run gulp:development\" \"npm run webpack:start\" ",
         "build": "npm run gulp:compile && npm run webpack:build",
-        "release": "npm run build && node ./lib/gulp/publish.js"
+        "release": "node ./lib/gulp/publish.js"
     },
     "files": [
         "dist",

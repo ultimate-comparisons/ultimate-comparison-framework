@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '6'
+- '8'
 env:
 - GIT_DEPLOY_DIR: dist
 script: npm run build
@@ -15,9 +15,5 @@ after_success:
 - echo $TRAVIS_BRANCH
 - echo $TRAVIS_PULL_REQUEST
 - ./lib/travis/deploy.sh
-before_install:
-- npm install -g npm
-- java -version
-- npm -version
 sudo: required
 dist: trusty
