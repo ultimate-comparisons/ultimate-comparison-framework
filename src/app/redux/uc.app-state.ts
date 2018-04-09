@@ -5,7 +5,7 @@ export interface IUCAppState {
     /**
      * Which criteria has to fulfill which condition (set at the top of the page in the boxes)
      */
-    currentSearch: Map<string, Array<string>>;
+    currentSearch: Map<string, Set<string>>;
 
     /**
      * Which element's details page should be shown. -1 if none.
@@ -115,7 +115,7 @@ export class UcAppState implements IUCAppState {
 
     tableExpand = false;
 
-    currentSearch: Map<string, Array<string>> = new Map<string, Array<string>>();
+    currentSearch: Map<string, Set<string>> = new Map<string, Set<string>>();
     currentDetails = -1;
     currentFilter: Array<number> = [];
     currentColumns: Array<string> = [];

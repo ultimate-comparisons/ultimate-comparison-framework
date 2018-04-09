@@ -53,7 +53,7 @@ export class ComparisonComponent {
         const active = state.state.currentSearch.get(crit.key);
 
         if (!isNullOrUndefined(active)) {
-            return active.map(name => {
+            return Array.from(active).map(name => {
                 return {
                     id: name,
                     text: name

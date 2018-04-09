@@ -11,7 +11,7 @@ import {
 import { DataService } from '../components/comparison/data/data.service';
 import { Criteria, CriteriaType } from '../components/comparison/configuration/configuration';
 import { Data, Label, Markdown, Text, Url } from '../components/comparison/data/data';
-import { isNullOrUndefined } from 'util';
+import { isArray, isNullOrUndefined } from 'util';
 
 export const UPDATE_SEARCH = 'UPDATE_SEARCH';
 export const UPDATE_MODAL = 'UPDATE_MODAL';
@@ -115,22 +115,24 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
 
 function clickReducer(state: IUCAppState, action: UCClickAction) {
     const column = state.currentColumns[action.index];
-    const map = new Map<string, Array<string>>();
     const criteria = state.criterias.get(column);
-    map.set(criteria.name, [action.val]);
-    const search = state.currentSearch.get(criteria.name);
+    const search = state.currentSearch.get(criteria.key);
     if (criteria.rangeSearch) {
         if (search === undefined) {
-            state.currentSearch.set(criteria.name, [action.val]);
+            state.currentSearch.set(criteria.key, new Set([action.val]));
         } else {
-            state.currentSearch.set(criteria.name, [search[0] + ',' + action.val]);
+            const s = search.values().next().value;
+            if (s.trim() === action.val || s.trim().startsWith(action.val + ',') || s.indexOf(',' + action.val + ',') > -1 || s.endsWith(',' + action.val)) {
+                return state;
+            }
+            state.currentSearch.set(criteria.key, new Set([s + ',' + action.val]));
         }
     } else {
         if (search === undefined) {
-            state.currentSearch.set(criteria.name, [action.val]);
+            state.currentSearch.set(criteria.key, new Set([action.val]));
         } else {
-            search.push(action.val);
-            state.currentSearch.set(criteria.name, search);
+            search.add(action.val);
+            state.currentSearch.set(criteria.key, search);
         }
     }
     return state;
@@ -343,10 +345,16 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
         let includeData = true;
         for (const field of state.currentSearch.keys()) {
             const criteria = state.criterias.get(field);
+            if (isNullOrUndefined(criteria)) {
+                console.log(state.currentSearch)
+                console.log(field);
+                console.log(state.criterias)
+                continue;
+            }
             if (criteria.rangeSearch) {
-                if (state.currentSearch.get(field).length > 0) {
-                    const queries = (state.currentSearch.get(field)[0] || '').trim().replace(' ', '')
-                        .replace(/,.*[a-zA-Z].*|.*[a-zA-Z].*,|.*[a-zA-Z].*/g, '').split(',');
+                if (state.currentSearch.get(field).size > 0) {
+                    const queries = (state.currentSearch.get(field).values().next().value || '').trim().replace(' ', '')
+                        .replace(/,[^,]*[a-zA-Z][^,]*|[^,]*[a-zA-Z][^,]*,|[^,]*[a-zA-Z][^,]*/g, '').split(',');
                     if (queries.length === 0 || queries.map(y => y.length === 0).reduce((p, c) => p && c)) {
                         continue;
                     }
@@ -407,7 +415,7 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                 }
             } else {
                 const searchArray = state.currentSearch.get(field);
-                let fulfillsField = criteria.andSearch || isNullOrUndefined(searchArray) || searchArray.length === 0;
+                let fulfillsField = criteria.andSearch || isNullOrUndefined(searchArray) || searchArray.size === 0;
                 for (const query of searchArray) {
                     let fulfillsQuery = false;
                     for (const key of (<Map<string, any>>data[i].criteria.get(criteria.key)).keys()) {
@@ -431,7 +439,11 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                 if (state.columnTypes[index] === CriteriaType.label) {
                     const labelMap: Map<string, Label> = obj || new Map;
                     const labels: Array<Label> = [];
-                    labelMap.forEach(label => labels.push(label));
+                    if (labelMap.constructor.name === 'Map') {
+                        labelMap.forEach((k, label) => labels.push(k));
+                    } else if (labelMap.constructor.name === CriteriaType.url) {
+                        console.log(labelMap)
+                    }
                     item.push(labels);
                 } else if (state.columnTypes[index] === CriteriaType.rating) {
                     item.push(dataElement.averageRating);
@@ -665,7 +677,7 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
         if (splits.length > 1) {
             // at least one filter is active
             const key = splits.splice(0, 1);
-            state.currentSearch.set(key[0], splits);
+            state.currentSearch.set(key[0], new Set(splits));
         }
     });
     state.currentFilter = filter.split(',')
@@ -699,21 +711,18 @@ function detailsReducer(state: IUCAppState = new UcAppState(), action: UCAction)
 
 function searchReducer(state: IUCAppState = new UcAppState(), action: UCSearchUpdateAction) {
     for (const [key, value] of action.criterias) {
-        const elements = state.currentSearch.get(key) || [];
-        const index = elements.indexOf(value);
+        const elements = state.currentSearch.get(key) || new Set<string>();
         if (state.criterias.get(key).rangeSearch) {
-            state.currentSearch.set(key, [value]);
+            state.currentSearch.set(key, new Set([value]));
         } else {
-            if (value !== null && index > -1) {
-                if (index > -1) {
-                    elements.splice(index, 1);
-                }
+            if (value !== null && elements.has(value)) {
+                elements.delete(value);
             } else if (value !== null) {
                 const elements = state.currentSearch.get(key);
                 if (isNullOrUndefined(elements)) {
-                    state.currentSearch.set(key, [value]);
+                    state.currentSearch.set(key, new Set([value]));
                 } else {
-                    elements.push(value);
+                    elements.add(value);
                 }
             }
         }
