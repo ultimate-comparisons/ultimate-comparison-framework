@@ -101,7 +101,6 @@ The code is licensed under [MIT], the content (located at `data`) under [CC0-1.0
 - [ADR Index](docs/adr)
 
 # PRs
-- [fix-redux](prs/fix-redux)
 
 # Current Master
 - [Demo](https://ultimate-comparisons.github.io/ultimate-comparison-BASE/demo/)
