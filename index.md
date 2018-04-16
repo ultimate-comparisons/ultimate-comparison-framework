@@ -8,7 +8,7 @@ It is released on [npm](https://www.npmjs.com/package/ultimate-comparison) under
 [![Code Triagers Badge](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base/badges/users.svg)](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base)
 [![dependencies Status](https://david-dm.org/ultimate-comparisons/ultimate-comparison-BASE/status.svg)](https://david-dm.org/ultimate-comparisons/ultimate-comparison-BASE)
 
-## Create your own ultimate comparison 
+## Create your own ultimate comparison
 1. Install the **ultimate-comparison**-package globally on your system via `npm install --global ultimate-comparison`
 2. Create the directory which should contain the comparison and change into it, e. g. with `mkdir MY_COMPARISON && cd MY_COMPARISON`
 3. Set up your comparison with `uc setup`
@@ -88,13 +88,12 @@ If one column depends on a repository (repo-attribute in **comparison.yml** true
 
 To update the ultimate comparison framework that your comparison uses, just run `npm update` in the directory that contains your comparison.
 It installs the latest version with the same major version number (ie. `2.x.x`).
- 
+
 ## License
 
 The code is licensed under [MIT], the content (located at `data`) under [CC0-1.0].
 
   [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
-  [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
   [MIT]: https://opensource.org/licenses/MIT
 # Docs
 - [Travis_Build_Deploy](docs/Travis_Build_Deploy.md)
