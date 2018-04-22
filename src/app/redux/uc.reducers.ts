@@ -215,7 +215,7 @@ function initColumn(state: IUCAppState): IUCAppState {
     const columnsEnabled: Array<boolean> = [];
     const columnsEnabledCache: Array<boolean> = [];
     state.criterias.forEach((value, key) => {
-        const name: string = value.name.length === 0 ? key : value.name;
+        const name: string = value.key.length !== 0 ? key : value.name;
         columnKeys.push(key);
         columnNames.push(name);
         columnsEnabled.push(value.table);
@@ -416,7 +416,7 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
             } else {
                 const searchArray = state.currentSearch.get(field);
                 let fulfillsField = criteria.andSearch || isNullOrUndefined(searchArray) || searchArray.size === 0;
-                for (const query of searchArray) {
+                searchArray.forEach(query => {
                     let fulfillsQuery = false;
                     for (const key of (<Map<string, any>>data[i].criteria.get(criteria.key)).keys()) {
                         fulfillsQuery = fulfillsQuery || (key === query);
@@ -426,7 +426,7 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                     } else {
                         fulfillsField = fulfillsField || fulfillsQuery;
                     }
-                }
+                });
                 includeData = includeData && fulfillsField;
             }
         }
@@ -670,7 +670,7 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
     } else if (params['?order'] && params['?order'].indexOf('#') > -1) {
         params.order = params['?order'].split('#')[0];
     }
-    const order = params.order || params['?order'] || '+id';
+    const order = decodeURIComponent(params.order) || decodeURIComponent(params['?order']) || '+id';
 
     search.split(';').map(x => x.trim()).forEach(x => {
         const splits = x.split(':');
