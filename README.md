@@ -1,14 +1,14 @@
 # Ultimate Comparison BASE
 
+This is an ultimate comparison framework written in [Angular](https://angular.io/).
+It is released on [npm](https://www.npmjs.com/package/ultimate-comparison) under **ultimate-comparison**.
+
 [![Build Status](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE.svg?branch=master)](https://travis-ci.org/ultimate-comparisons/ultimate-comparison-BASE)
 [![Issue Count](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE/badges/issue_count.svg)](https://codeclimate.com/github/ultimate-comparisons/ultimate-comparison-BASE)
 [![Code Triagers Badge](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base/badges/users.svg)](https://www.codetriage.com/ultimate-comparisons/ultimate-comparison-base)
 [![dependencies Status](https://david-dm.org/ultimate-comparisons/ultimate-comparison-BASE/status.svg)](https://david-dm.org/ultimate-comparisons/ultimate-comparison-BASE)
 
-This is an ultimate comparison framework written in [Angular](https://angular.io/).
-It is released on [npm](https://www.npmjs.com/package/ultimate-comparison) under **ultimate-comparison**.
-
-## Create your own ultimate comparison 
+## Create your own ultimate comparison
 1. Install the **ultimate-comparison**-package globally on your system via `npm install --global ultimate-comparison`
 2. Create the directory which should contain the comparison and change into it, e. g. with `mkdir MY_COMPARISON && cd MY_COMPARISON`
 3. Set up your comparison with `uc setup`
@@ -88,11 +88,10 @@ If one column depends on a repository (repo-attribute in **comparison.yml** true
 
 To update the ultimate comparison framework that your comparison uses, just run `npm update` in the directory that contains your comparison.
 It installs the latest version with the same major version number (ie. `2.x.x`).
- 
+
 ## License
 
-The code is licensed under [MIT], the content (located at `comparison-elements`) under [CC0-1.0].
+The code is licensed under [MIT], the content (located at `data`) under [CC0-1.0].
 
   [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
-  [CC-BY-SA-4.0]: http://creativecommons.org/licenses/by-sa/4.0/
   [MIT]: https://opensource.org/licenses/MIT

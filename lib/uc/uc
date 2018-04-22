@@ -7,6 +7,7 @@ setup () {
   cp -r ${DIR}/../../data ${CWD}/
   cp -r ${DIR}/../../configuration ${CWD}/
 
+  cp ${DIR}/LICENSE ${CWD}/
   cp ${DIR}/.editorconfig ${CWD}/
   cp ${DIR}/.travis.yml ${CWD}/
   cp ${DIR}/gitignore.template ${CWD}/.gitignore
