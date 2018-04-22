@@ -8,7 +8,7 @@ import { ConfigurationService } from "./configuration/configuration.service";
 import { Criteria } from "./configuration/configuration";
 import { DataService } from "./data/data.service";
 import { Data, Label } from './data/data';
-import { UCClickAction, UCSearchUpdateAction, UCTableOrderAction } from '../../redux/uc.action';
+import { UCClickAction, UCNewStateAction, UCSearchUpdateAction, UCTableOrderAction } from '../../redux/uc.action';
 import { isNullOrUndefined } from "util";
 
 import { saveAs } from 'file-saver';
@@ -19,6 +19,8 @@ import { saveAs } from 'file-saver';
     styleUrls: ['./comparison.component.css']
 })
 export class ComparisonComponent {
+    static instance;
+
     @ViewChild(LatexTableComponent) latexTable: LatexTableComponent;
     @ViewChild('genericTableHeader') genericTableHeader: PaperCardComponent;
     public activeRow: Data = new Data.Builder().build();
@@ -32,6 +34,9 @@ export class ComparisonComponent {
     constructor(public configurationService: ConfigurationService,
                 private cd: ChangeDetectorRef,
                 public store: Store<IUCAppState>) {
+        if (isNullOrUndefined(ComparisonComponent.instance)) {
+            ComparisonComponent.instance = this;
+        }
         this.configurationService.loadComparison(this.cd);
     }
 
@@ -94,5 +99,9 @@ export class ComparisonComponent {
 
     public criteriaClicked(val: { event: MouseEvent, key: Label, index: number }) {
         this.store.dispatch(new UCClickAction(val.key.name, val.index));
+    }
+
+    public dispatchNewState(newState: any) {
+        this.store.dispatch(new UCNewStateAction(<IUCAppState>newState));
     }
 }

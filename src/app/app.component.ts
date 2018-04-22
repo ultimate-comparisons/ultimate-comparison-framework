@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ComparisonComponent } from './components/comparison/comparison.component';
 
 @Component({
     selector: 'myapp',
@@ -9,7 +10,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
     }
 })
 export class AppComponent {
-    popState(ev: any) {
-        console.log(ev);
+    popState(ev: PopStateEvent) {
+        ComparisonComponent.instance.dispatchNewState(ev.state);
     }
 }

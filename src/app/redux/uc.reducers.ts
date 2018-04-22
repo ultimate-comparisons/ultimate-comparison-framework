@@ -2,7 +2,7 @@ import { IUCAppState, UcAppState } from './uc.app-state';
 import {
     UCAction,
     UCClickAction,
-    UCDataUpdateAction,
+    UCDataUpdateAction, UCNewStateAction,
     UCRouterAction,
     UCSearchUpdateAction,
     UCSettingsUpdateAction,
@@ -21,6 +21,9 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 const UPDATE_ROUTE = 'ROUTER_NAVIGATION';
 export const CLICK_ACTION = 'CLICK_ACTION';
+export const NEW_STATE_ACTION = 'NEW_STATE_ACTION';
+
+let reloadedState = false;
 
 export function masterReducer(state: IUCAppState = new UcAppState(), action: UCAction) {
     if (action.type === UPDATE_ROUTE) {
@@ -103,11 +106,20 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
                     state.detailsDisplayTooltips = act.enable;
                     break;
             }
+            break;
+        case NEW_STATE_ACTION:
+            state = (<UCNewStateAction>action).newState;
+            reloadedState = true;
+            // allow changes to take effect 0.2 seconds after a state was reloaded.
+            setTimeout(() => reloadedState = false, 200);
+            break;
     }
     if (action.type !== '@ngrx/store/init') {
-        state.currentChanged = false;
-        state = filterElements(state);
-        state = sortElements(state);
+        if (!reloadedState) {
+            state.currentChanged = false;
+            state = filterElements(state);
+            state = sortElements(state);
+        }
         state = updateElements(state);
     }
     return state;
@@ -346,9 +358,6 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
         for (const field of state.currentSearch.keys()) {
             const criteria = state.criterias.get(field);
             if (isNullOrUndefined(criteria)) {
-                console.log(state.currentSearch)
-                console.log(field);
-                console.log(state.criterias)
                 continue;
             }
             if (criteria.rangeSearch) {
