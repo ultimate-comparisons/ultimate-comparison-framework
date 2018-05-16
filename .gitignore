@@ -302,3 +302,17 @@ gradle-app.setting
 
 
 # End of https://www.gitignore.io/api/eclipse,gradle,intellij+iml,node,grunt,typings,visualstudiocode,windows,linux,macos,vim,jabref
+
+src/app/**/*.js
+src/app/**/*.js.map
+src/environments/**/*.js
+src/environments/**/*.js.map
+src/assets/**/*.js
+src/assets/**/*.js.map
+src/main.js
+src/main.js.map
+src/polyfills.js
+src/polyfills.js.map
+src/vendor.js
+src/vendor.js.map
+out-tsc

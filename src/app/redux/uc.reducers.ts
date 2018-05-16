@@ -108,10 +108,12 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
             }
             break;
         case NEW_STATE_ACTION:
-            state = (<UCNewStateAction>action).newState;
-            reloadedState = true;
-            // allow changes to take effect 0.2 seconds after a state was reloaded.
-            setTimeout(() => reloadedState = false, 200);
+            if (!isNullOrUndefined((<UCNewStateAction>action).newState)) {
+                state = (<UCNewStateAction>action).newState;
+                reloadedState = true;
+                // allow changes to take effect 0.2 seconds after a state was reloaded.
+                setTimeout(() => reloadedState = false, 200);
+            }
             break;
     }
     if (action.type !== '@ngrx/store/init') {
@@ -694,14 +696,12 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
         .filter(x => Number.isInteger(x.trim()))
         .map(x => Number.parseInt(x.trim()));
     state.currentColumns = columns.split(',')
-        .filter(x => x.trim().length > 0)
-        .filter(x => Number.isInteger(x.trim()))
-        .map(x => Number.parseInt(x.trim()));
+        .filter(x => x.trim().length > 0);
     if (state.currentColumns.length === 0 && state.criterias) {
         const values = state.criterias.values();
         let crit = values.next().value;
         while (!isNullOrUndefined(crit)) {
-            state.currentColumns.push(crit.name);
+            state.currentColumns.push(crit.key);
             crit = values.next().value;
         }
     }
@@ -722,7 +722,11 @@ function searchReducer(state: IUCAppState = new UcAppState(), action: UCSearchUp
     for (const [key, value] of action.criterias) {
         const elements = state.currentSearch.get(key) || new Set<string>();
         if (state.criterias.get(key).rangeSearch) {
-            state.currentSearch.set(key, new Set([value]));
+            if (isNullOrUndefined(value) || value.length === 0) {
+                state.currentSearch.delete(key);
+            } else {
+                state.currentSearch.set(key, new Set([value]));
+            }
         } else {
             if (value !== null && elements.has(value)) {
                 elements.delete(value);
