@@ -3,6 +3,7 @@ import { ConfigurationService } from "../configuration/configuration.service";
 import { Data, Label, Markdown, Rating, Text, Url } from "../data/data";
 import { Criteria } from "../configuration/configuration";
 import { isNullOrUndefined } from "util";
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
     selector: 'comparison-details',
@@ -91,5 +92,16 @@ export class ComparisonDetailsComponent implements OnChanges {
             this.headers = headers;
             this.ratings = ratings;
         }
+    }
+
+    public prefixInternalLink(safeHtml: SafeHtml): SafeHtml {
+        const regex = RegExp('<a[^>]*href="#([^"]*)"[^>]*>\\[\\d+\\]</a>', 'g');
+        let match;
+        const html = safeHtml['changingThisBreaksApplicationSecurity'];
+        while ((match = regex.exec(html)) !== null) {
+            safeHtml['changingThisBreaksApplicationSecurity'] =
+                safeHtml['changingThisBreaksApplicationSecurity'].replace(match[1], 'details-' + match[1])
+        }
+        return safeHtml;
     }
 }

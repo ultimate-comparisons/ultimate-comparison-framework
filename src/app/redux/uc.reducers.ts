@@ -2,7 +2,7 @@ import { IUCAppState, UcAppState } from './uc.app-state';
 import {
     UCAction,
     UCClickAction,
-    UCDataUpdateAction, UCNewStateAction,
+    UCDataUpdateAction, UCDetailsAction, UCNewStateAction,
     UCRouterAction,
     UCSearchUpdateAction,
     UCSettingsUpdateAction,
@@ -22,6 +22,7 @@ export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 const UPDATE_ROUTE = 'ROUTER_NAVIGATION';
 export const CLICK_ACTION = 'CLICK_ACTION';
 export const NEW_STATE_ACTION = 'NEW_STATE_ACTION';
+export const TOGGLE_DETAILS_ACTION = 'TOGGLE_DETAILS_ACTION';
 
 let reloadedState = false;
 
@@ -32,7 +33,11 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
         state.currentFilter = [];
         state.currentDetails = -1;
     }
+    debugger;
     switch (action.type) {
+        case TOGGLE_DETAILS_ACTION:
+            state = toggleDetailsReducer(state, <UCDetailsAction>action);
+            break;
         case CLICK_ACTION:
             state = clickReducer(state, <UCClickAction>action);
             break;
@@ -52,6 +57,7 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
             state.criterias = (<UCDataUpdateAction>action).criterias;
             state = initSettings(state);
             state = filterColumns(state);
+            state = setDetails(state);
             break;
         case UPDATE_ORDER:
             state = changeOrder(state, <UCTableOrderAction>action);
@@ -152,6 +158,19 @@ function clickReducer(state: IUCAppState, action: UCClickAction) {
     return state;
 }
 
+function setDetails(state: IUCAppState): IUCAppState {
+    if (!state.detailsOpen && typeof state.detailsData !== 'string') {
+        return state;
+    }
+    for (const element of DataService.data) {
+        if (element.name === state.detailsData) {
+            state.detailsData = element;
+            break;
+        }
+    }
+    return state;
+}
+
 
 function columnDisplayChange(state: IUCAppState, index: number): IUCAppState {
     state.columnsEnabled[index] = !state.columnsEnabled[index];
@@ -200,10 +219,13 @@ function initSettings(state: IUCAppState): IUCAppState {
     // Set elements settings
     const elementNames: Array<string> = [];
     const elementsEnabled: Array<boolean> = [];
-    DataService.data.forEach(value => {
+    for (let index = 0; index < DataService.data.length; index++) {
+        const value = DataService.data[index];
         elementNames.push(value.name);
         if (value.name === "Template") {
             elementsEnabled.push(false);
+        } else if (state.loadedElementsEnabled.length > 0) {
+            elementsEnabled.push(!isNullOrUndefined(state.loadedElementsEnabled[index]));
         } else {
             elementsEnabled.push(true);
         }
@@ -256,6 +278,18 @@ function putStateIntoURL(state: IUCAppState) {
         }
         query = query.substr(0, query.length - 1);
     }
+    if (state.currentElements.length > 0) {
+        if (query.length > 0) {
+            query += '&';
+        }
+        query += 'elements=';
+        for (let index = 0; index < DataService.data.length; index++) {
+            if (state.elementsEnabled[index]) {
+                query += `${index};`;
+            }
+        }
+        query = query.substr(0, query.length - 1);
+    }
     if (state.currentFilter.length > 0) {
         if (query.length > 0) {
             query += '&';
@@ -292,8 +326,19 @@ function putStateIntoURL(state: IUCAppState) {
         }
         query = query.substr(0, query.length - 1);
     }
+    if (state.detailsOpen && !isNullOrUndefined(state.detailsData)) {
+        if (query.length > 0) {
+            query += '&';
+        }
+        query += 'details=';
+        query += (<Data>state.detailsData).name;
+    }
+    const questionMark = query.length > 0;
+    if (window.location.hash.length > 1) {
+        query += window.location.hash;
+    }
     if (query.length > 0) {
-        window.history.pushState(state, '', '?' + query);
+        window.history.pushState(state, '', (questionMark ? '?' : '') + query);
     }
 }
 
@@ -639,47 +684,65 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
     const params = action.payload.routerState.queryParams;
     if (params.search && params.search.indexOf('#') > -1) {
         params.search = params.search.split('#')[0];
+        state.internalLink = params.search.split('#')[1];
     } else if (params['?search'] && params['?search'].indexOf('#') > -1) {
         params.search = params['?search'].split('#')[0];
+        state.internalLink = params['?search'].split('#')[1];
+    }
+    const indices = decodeURIComponent(params.elements || params['?elements']);
+    if (params.elements && params.elements.indexOf('#') > -1) {
+        params.elements = params.elements.split('#')[0];
+        state.internalLink = params.elements.split('#')[1];
+    } else if (params['?elements'] && params['?elements'].indexOf('#') > -1) {
+        params.elements = params['?elements'].split('#')[0];
+        state.internalLink = params['?elements'].split('#')[1];
     }
     const search = decodeURIComponent(params.search || params['?search'] || '');
-    if (isNullOrUndefined(search) || search === '') {
-        return state;
-    }
     if (params.filter && params.filter.indexOf('#') > -1) {
         params.filter = params.filter.split('#')[0];
+        state.internalLink = params.filter.split('#')[1];
     } else if (params['?filter'] && params['?filter'].indexOf('#') > -1) {
         params.filter = params['?filter'].split('#')[0];
+        state.internalLink = params['?filter'].split('#')[1];
     }
     const filter = params.filter || params['?filter'] || '';
     if (params.details && params.details.indexOf('#') > -1) {
         params.details = params.details.split('#')[0];
+        state.internalLink = params.details.split('#')[1];
     } else if (params['?details'] && params['?details'].indexOf('#') > -1) {
         params.details = params['?details'].split('#')[0];
+        state.internalLink = params['?details'].split('#')[1];
     }
-    const detailsDialog = Number.parseInt(params.details || params['?details'] || -1);
     if (params.options && params.options.indexOf('#') > -1) {
         params.options = params.options.split('#')[0];
+        state.internalLink = params.options.split('#')[1];
     } else if (params['?options'] && params['?options'].indexOf('#') > -1) {
         params.search = params['?options'].split('#')[0];
+        state.internalLink = params['?options'].split('#')[1];
     }
     const optionsDialog = params.hasOwnProperty('options') || params.hasOwnProperty('?options');
     if (params.columns && params.columns.indexOf('#') > -1) {
         params.columns = params.columns.split('#')[0];
+        state.internalLink = params.columns.split('#')[1];
     } else if (params['?columns'] && params['?columns'].indexOf('#') > -1) {
         params.search = params['?columns'].split('#')[0];
+        state.internalLink = params['?columns'].split('#')[1];
     }
     const columns = params.columns || params['?columns'] || '';
     if (params.maximized && params.maximized.indexOf('#') > -1) {
         params.maximized = params.maximized.split('#')[0];
+        state.internalLink = params.maximized.split('#')[1];
     } else if (params['?maximized'] && params['?maximized'].indexOf('#') > -1) {
         params.maximized = params['?maximized'].split('#')[0];
+        state.internalLink = params['?maximized'].split('#')[1];
     }
     const maximized = params.hasOwnProperty('maximized') || params.hasOwnProperty('?maximized');
     if (params.order && params.order.indexOf('#') > -1) {
         params.order = params.order.split('#')[0];
+        state.internalLink = params.order.split('#')[1];
     } else if (params['?order'] && params['?order'].indexOf('#') > -1) {
         params.order = params['?order'].split('#')[0];
+        state.internalLink = params['?order'].split('#')[1];
     }
     const order = decodeURIComponent(params.order) || decodeURIComponent(params['?order']) || '+id';
 
@@ -705,6 +768,32 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
             crit = values.next().value;
         }
     }
+    if (!isNullOrUndefined(indices)) {
+        for (let i = 0; i < state.elementsEnabled.length; i++) {
+            state.loadedElementsEnabled[i] = false;
+        }
+        indices.split(';').forEach(i => {
+            state.loadedElementsEnabled[i] = true;
+        });
+    }
+    if (params.details) {
+        const detailsKey = decodeURIComponent(params.details);
+
+        if (!isNullOrUndefined(detailsKey) && detailsKey.length > 0) {
+            state.detailsOpen = true;
+            if (isNullOrUndefined(DataService.data) || DataService.data.length === 0) {
+                state.detailsData = detailsKey;
+            } else {
+                for (const element of DataService.data) {
+                    if (element.name === detailsKey) {
+                        state.detailsData = element;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     state.currentlyMaximized = maximized;
     state.currentOrder = order.split(',').map(x => decodeURIComponent(x));
     return state;
@@ -739,6 +828,14 @@ function searchReducer(state: IUCAppState = new UcAppState(), action: UCSearchUp
                 }
             }
         }
+    }
+    return state;
+}
+
+function toggleDetailsReducer(state: IUCAppState = new UcAppState(), action: UCDetailsAction) {
+    state.detailsOpen = !isNullOrUndefined(action.data);
+    if (state.detailsOpen) {
+        state.detailsData = action.data;
     }
     return state;
 }

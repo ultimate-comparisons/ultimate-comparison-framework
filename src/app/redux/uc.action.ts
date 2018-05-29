@@ -1,7 +1,16 @@
 import { Action } from '@ngrx/store';
-import { CLICK_ACTION, NEW_STATE_ACTION, UPDATE_DATA, UPDATE_ORDER, UPDATE_SEARCH, UPDATE_SETTINGS } from './uc.reducers';
+import {
+    CLICK_ACTION,
+    NEW_STATE_ACTION,
+    TOGGLE_DETAILS_ACTION,
+    UPDATE_DATA,
+    UPDATE_ORDER,
+    UPDATE_SEARCH,
+    UPDATE_SETTINGS
+} from './uc.reducers';
 import { Criteria } from '../components/comparison/configuration/configuration';
 import { IUCAppState } from './uc.app-state';
+import { Data } from '../components/comparison/data/data';
 
 export class UCAction implements Action {
     type: string;
@@ -56,6 +65,14 @@ export class UCNewStateAction extends UCAction {
     type = NEW_STATE_ACTION;
 
     constructor(public newState: IUCAppState) {
+        super();
+    }
+}
+
+export class UCDetailsAction extends UCAction {
+    type = TOGGLE_DETAILS_ACTION;
+
+    constructor(public data: Data) {
         super();
     }
 }

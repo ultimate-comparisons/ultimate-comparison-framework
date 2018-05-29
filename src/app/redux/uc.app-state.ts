@@ -1,4 +1,4 @@
-import { Label, Markdown, Text, Url } from '../components/comparison/data/data';
+import { Data, Label, Markdown, Text, Url } from '../components/comparison/data/data';
 import { Criteria, CriteriaType } from '../components/comparison/configuration/configuration';
 
 export interface IUCAppState {
@@ -77,6 +77,7 @@ export interface IUCAppState {
      */
     elementNames: Array<string>;
     elementsEnabled: Array<boolean>;
+    loadedElementsEnabled: Array<boolean>;
     elementDisplayAll: boolean;
 
     columnKeys: Array<string>;
@@ -89,16 +90,22 @@ export interface IUCAppState {
     latexEnableTooltips: boolean;
     latexTooltipsAsFootnotes: boolean;
 
+    detailsOpen: boolean;
+    detailsData: Data | string;
+
     detailsDisplayTooltips: boolean;
 
     tableExpand: boolean;
     currentSaved: boolean;
+
+    internalLink: string;
 }
 
 export class UcAppState implements IUCAppState {
     currentSaved = false;
     elementNames: Array<string> = [];
     elementsEnabled: Array<boolean> = [];
+    loadedElementsEnabled = [];
     elementDisplayAll = false;
 
     columnKeys: Array<string> = [];
@@ -110,6 +117,9 @@ export class UcAppState implements IUCAppState {
     latexDisplayTable = false;
     latexEnableTooltips = false;
     latexTooltipsAsFootnotes = false;
+
+    detailsOpen = false;
+    detailsData = null;
 
     detailsDisplayTooltips = false;
 
@@ -128,4 +138,6 @@ export class UcAppState implements IUCAppState {
     rowIndexes: Array<number> = [];
     currentElements: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
     currentChanged = false;
+
+    internalLink = '';
 }

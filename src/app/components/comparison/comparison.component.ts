@@ -8,7 +8,7 @@ import { ConfigurationService } from "./configuration/configuration.service";
 import { Criteria } from "./configuration/configuration";
 import { DataService } from "./data/data.service";
 import { Data, Label } from './data/data';
-import { UCClickAction, UCNewStateAction, UCSearchUpdateAction, UCTableOrderAction } from '../../redux/uc.action';
+import { UCClickAction, UCDetailsAction, UCNewStateAction, UCSearchUpdateAction, UCTableOrderAction } from '../../redux/uc.action';
 import { isNullOrUndefined } from "util";
 
 import { saveAs } from 'file-saver';
@@ -70,8 +70,7 @@ export class ComparisonComponent {
     }
 
     public showDetails(index: number) {
-        this.activeRow = DataService.data[index];
-        this.detailsOpen = true;
+        this.store.dispatch(new UCDetailsAction(DataService.data[index]));
     }
 
     public deferredUpdate() {
@@ -103,5 +102,9 @@ export class ComparisonComponent {
 
     public dispatchNewState(newState: any) {
         this.store.dispatch(new UCNewStateAction(<IUCAppState>newState));
+    }
+
+    public closeDetails() {
+        this.store.dispatch(new UCDetailsAction(null));
     }
 }

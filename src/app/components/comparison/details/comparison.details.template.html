@@ -2,7 +2,7 @@
     <h2>{{data.name}}
         <ng-template ngFor let-label [ngForOf]="headerLabels">
             <ptooltip [tooltip]="label.tooltip.text"
-                      [tooltipHtml]="label.tooltip.html" [position]="'s'">
+                      [tooltipHtml]="prefixInternalLink(label.tooltip.html)" [position]="'s'">
                 <div class="label mylabel {{label.clazz}}" [style.color]="label.color"
                      [style.background-color]="label.backgroundColor">
                     {{label.name}}
@@ -26,7 +26,7 @@
                 <ng-template *ngIf="types[i] === 'label'" ngFor let-label [ngForOf]="entry">
                     <ptooltip *ngIf="!tooltipAsText"
                               [tooltip]="label.tooltip.text"
-                              [tooltipHtml]="label.tooltip.html" [position]="'n'">
+                              [tooltipHtml]="prefixInternalLink(label.tooltip.html)" [position]="'n'">
                         <div class="label mylabel {{label.clazz}}" [style.color]="label.color"
                              [style.background-color]="label.backgroundColor"
                              (click)="labelClick(label, i)">
@@ -41,13 +41,13 @@
                         </span>
                         <span class="tooltip-text tt-tooltip" [innerHtml]="label.tooltip.text|sanitizeHtml"></span>
                         <br *ngIf="label.tooltip.text && label.tooltip.html">
-                        <span class="tooltip-text tt-tooltip" [innerHtml]="label.tooltip.html|sanitizeHtml"></span>
+                        <span class="tooltip-text tt-tooltip" [innerHtml]="prefixInternalLink(label.tooltip.html|sanitizeHtml)"></span>
                     </div>
                 </ng-template>
 
                 <span *ngIf="types[i] === 'text'">{{entry.content}}</span>
 
-                <span *ngIf="types[i] === 'markdown'" [innerHtml]="entry?.htmlContent | sanitizeHtml"></span>
+                <span *ngIf="types[i] === 'markdown'" [innerHtml]="prefixInternalLink(entry?.htmlContent | sanitizeHtml)"></span>
             </p>
         </pcard>
     </ng-template>
@@ -69,6 +69,6 @@
 
     <pcard heading="References" *ngIf="configurationService.configuration.citation.size != 0" class="description">
         <referencestable [changeNum]="configurationService.configuration.citation.length"
-                         [citationMap]="configurationService.configuration.citation"></referencestable>
+                         [citationMap]="configurationService.configuration.citation" [prefix]="'details-'"></referencestable>
     </pcard>
 </div>

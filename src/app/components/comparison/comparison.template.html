@@ -71,7 +71,7 @@
     <div class="grid-content-end">
         <pcard heading="References" *ngIf="configurationService.configuration.citation.size != 0">
             <referencestable [changeNum]="configurationService.configuration.citation.length"
-                             [citationMap]="configurationService.configuration.citation"></referencestable>
+                             [citationMap]="configurationService.configuration.citation" [prefix]=""></referencestable>
         </pcard>
     </div>
 
@@ -85,8 +85,8 @@
                 [tableTooltipsAsFootnotes]="(store | async).state.latexTooltipsAsFootnotes"
                 #latexTable></latextable>
 
-    <pdialog [(opened)]="detailsOpen" *ngIf="detailsOpen">
-        <comparison-details [data]="activeRow"
+    <pdialog [opened]="(store | async).state.detailsOpen" *ngIf="(store | async).state.detailsOpen" (openedChange)="closeDetails()">
+        <comparison-details [data]="(store | async).state.detailsData"
                             [tooltipAsText]="(store | async).state.detailsDisplayTooltips"></comparison-details>
     </pdialog>
 
