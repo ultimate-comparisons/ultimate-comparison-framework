@@ -222,14 +222,14 @@ function initSettings(state: IUCAppState): IUCAppState {
     for (let index = 0; index < DataService.data.length; index++) {
         const value = DataService.data[index];
         elementNames.push(value.name);
-        if (value.name === "Template") {
-            elementsEnabled.push(false);
-        } else if (state.loadedElementsEnabled.length > 0) {
+        if (state.loadedElementsEnabled.length > 0) {
             elementsEnabled.push(!isNullOrUndefined(state.loadedElementsEnabled[index]));
+        } else if (value.name === "Template") {
+            elementsEnabled.push(false);
         } else {
             elementsEnabled.push(true);
         }
-    });
+    }
     state.elementNames = elementNames;
     state.elementsEnabled = elementsEnabled;
     state.elementDisplayAll = false;
