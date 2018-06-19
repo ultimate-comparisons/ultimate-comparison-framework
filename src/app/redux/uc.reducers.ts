@@ -12,6 +12,7 @@ import { DataService } from '../components/comparison/data/data.service';
 import { Criteria, CriteriaType } from '../components/comparison/configuration/configuration';
 import { Data, Label, Markdown, Text, Url } from '../components/comparison/data/data';
 import { isArray, isNullOrUndefined } from 'util';
+import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 
 export const UPDATE_SEARCH = 'UPDATE_SEARCH';
 export const UPDATE_MODAL = 'UPDATE_MODAL';
@@ -24,16 +25,11 @@ export const CLICK_ACTION = 'CLICK_ACTION';
 export const NEW_STATE_ACTION = 'NEW_STATE_ACTION';
 export const TOGGLE_DETAILS_ACTION = 'TOGGLE_DETAILS_ACTION';
 
+const update_actions = [ UPDATE_SEARCH, UPDATE_MODAL, UPDATE_FILTER, UPDATE_DATA, UPDATE_ORDER, UPDATE_SETTINGS, CLICK_ACTION, UPDATE_ROUTE ];
+
 let reloadedState = false;
 
 export function masterReducer(state: IUCAppState = new UcAppState(), action: UCAction) {
-    if (action.type === UPDATE_ROUTE) {
-        state.currentElements = [];
-        state.currentSearch = new Map();
-        state.currentFilter = [];
-        state.currentDetails = -1;
-    }
-    debugger;
     switch (action.type) {
         case TOGGLE_DETAILS_ACTION:
             state = toggleDetailsReducer(state, <UCDetailsAction>action);
@@ -122,12 +118,16 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
             }
             break;
     }
-    if (action.type !== '@ngrx/store/init') {
-        if (!reloadedState) {
-            state.currentChanged = false;
-            state = filterElements(state);
-            state = sortElements(state);
+    if (update_actions.indexOf(action.type) > -1 || action.type === UPDATE_ROUTE && !reloadedState) {
+        if (action.type === UPDATE_ROUTE) {
+            state.currentElements = [];
+            state.currentSearch = new Map();
+            state.currentFilter = [];
+            state.currentDetails = -1;
         }
+        state.currentChanged = false;
+        state = filterElements(state);
+        state = sortElements(state);
         state = updateElements(state);
     }
     return state;
@@ -142,7 +142,9 @@ function clickReducer(state: IUCAppState, action: UCClickAction) {
             state.currentSearch.set(criteria.key, new Set([action.val]));
         } else {
             const s = search.values().next().value;
-            if (s.trim() === action.val || s.trim().startsWith(action.val + ',') || s.indexOf(',' + action.val + ',') > -1 || s.endsWith(',' + action.val)) {
+            if (s.trim() === action.val || s.trim().startsWith(action.val + ',') ||
+                s.indexOf(',' + action.val + ',') > -1 ||
+                s.endsWith(',' + action.val)) {
                 return state;
             }
             state.currentSearch.set(criteria.key, new Set([s + ',' + action.val]));
@@ -682,69 +684,14 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
         return state;
     }
     const params = action.payload.routerState.queryParams;
-    if (params.search && params.search.indexOf('#') > -1) {
-        params.search = params.search.split('#')[0];
-        state.internalLink = params.search.split('#')[1];
-    } else if (params['?search'] && params['?search'].indexOf('#') > -1) {
-        params.search = params['?search'].split('#')[0];
-        state.internalLink = params['?search'].split('#')[1];
-    }
-    const indices = decodeURIComponent(params.elements || params['?elements']);
-    if (params.elements && params.elements.indexOf('#') > -1) {
-        params.elements = params.elements.split('#')[0];
-        state.internalLink = params.elements.split('#')[1];
-    } else if (params['?elements'] && params['?elements'].indexOf('#') > -1) {
-        params.elements = params['?elements'].split('#')[0];
-        state.internalLink = params['?elements'].split('#')[1];
-    }
+    const indices = decodeURIComponent(params.elements || '');
     const search = decodeURIComponent(params.search || params['?search'] || '');
-    if (params.filter && params.filter.indexOf('#') > -1) {
-        params.filter = params.filter.split('#')[0];
-        state.internalLink = params.filter.split('#')[1];
-    } else if (params['?filter'] && params['?filter'].indexOf('#') > -1) {
-        params.filter = params['?filter'].split('#')[0];
-        state.internalLink = params['?filter'].split('#')[1];
-    }
-    const filter = params.filter || params['?filter'] || '';
-    if (params.details && params.details.indexOf('#') > -1) {
-        params.details = params.details.split('#')[0];
-        state.internalLink = params.details.split('#')[1];
-    } else if (params['?details'] && params['?details'].indexOf('#') > -1) {
-        params.details = params['?details'].split('#')[0];
-        state.internalLink = params['?details'].split('#')[1];
-    }
-    if (params.options && params.options.indexOf('#') > -1) {
-        params.options = params.options.split('#')[0];
-        state.internalLink = params.options.split('#')[1];
-    } else if (params['?options'] && params['?options'].indexOf('#') > -1) {
-        params.search = params['?options'].split('#')[0];
-        state.internalLink = params['?options'].split('#')[1];
-    }
-    const optionsDialog = params.hasOwnProperty('options') || params.hasOwnProperty('?options');
-    if (params.columns && params.columns.indexOf('#') > -1) {
-        params.columns = params.columns.split('#')[0];
-        state.internalLink = params.columns.split('#')[1];
-    } else if (params['?columns'] && params['?columns'].indexOf('#') > -1) {
-        params.search = params['?columns'].split('#')[0];
-        state.internalLink = params['?columns'].split('#')[1];
-    }
-    const columns = params.columns || params['?columns'] || '';
-    if (params.maximized && params.maximized.indexOf('#') > -1) {
-        params.maximized = params.maximized.split('#')[0];
-        state.internalLink = params.maximized.split('#')[1];
-    } else if (params['?maximized'] && params['?maximized'].indexOf('#') > -1) {
-        params.maximized = params['?maximized'].split('#')[0];
-        state.internalLink = params['?maximized'].split('#')[1];
-    }
+    const filter = decodeURIComponent(params.filter || '');
+    const optionsDialog = params.hasOwnProperty('options');
+    const columns = params.columns || '';
     const maximized = params.hasOwnProperty('maximized') || params.hasOwnProperty('?maximized');
-    if (params.order && params.order.indexOf('#') > -1) {
-        params.order = params.order.split('#')[0];
-        state.internalLink = params.order.split('#')[1];
-    } else if (params['?order'] && params['?order'].indexOf('#') > -1) {
-        params.order = params['?order'].split('#')[0];
-        state.internalLink = params['?order'].split('#')[1];
-    }
     const order = decodeURIComponent(params.order) || decodeURIComponent(params['?order']) || '+id';
+    state.internalLink = params.sectionLink;
 
     search.split(';').map(x => x.trim()).forEach(x => {
         const splits = x.split(':');
@@ -756,7 +703,7 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
     });
     state.currentFilter = filter.split(',')
         .filter(x => x.trim().length > 0)
-        .filter(x => Number.isInteger(x.trim()))
+        .filter(x => Number.isInteger(Number.parseFloat(x.trim())))
         .map(x => Number.parseInt(x.trim()));
     state.currentColumns = columns.split(',')
         .filter(x => x.trim().length > 0);
