@@ -500,7 +500,7 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
             const dataElement: Data = data[i];
             const item: Array<Array<Label> | Text | Url | Markdown | number> = [];
             state.currentColumns.forEach((key, index) => {
-                const obj: any = dataElement.criteria.get(key);
+                const obj: any = dataElement.criteria.get(decodeURIComponent(key));
                 if (state.columnTypes[index] === CriteriaType.label) {
                     const labelMap: Map<string, Label> = obj || new Map;
                     const labels: Array<Label> = [];
