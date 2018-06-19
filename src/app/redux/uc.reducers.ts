@@ -507,7 +507,6 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                     if (labelMap.constructor.name === 'Map') {
                         labelMap.forEach((k, label) => labels.push(k));
                     } else if (labelMap.constructor.name === CriteriaType.url) {
-                        console.log(labelMap)
                     }
                     item.push(labels);
                 } else if (state.columnTypes[index] === CriteriaType.rating) {
