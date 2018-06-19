@@ -25,7 +25,8 @@ export const CLICK_ACTION = 'CLICK_ACTION';
 export const NEW_STATE_ACTION = 'NEW_STATE_ACTION';
 export const TOGGLE_DETAILS_ACTION = 'TOGGLE_DETAILS_ACTION';
 
-const update_actions = [ UPDATE_SEARCH, UPDATE_MODAL, UPDATE_FILTER, UPDATE_DATA, UPDATE_ORDER, UPDATE_SETTINGS, CLICK_ACTION, UPDATE_ROUTE ];
+const update_actions =
+    [ UPDATE_SEARCH, UPDATE_MODAL, UPDATE_FILTER, UPDATE_DATA, UPDATE_ORDER, UPDATE_SETTINGS, CLICK_ACTION, UPDATE_ROUTE ];
 
 let reloadedState = false;
 
@@ -221,8 +222,7 @@ function initSettings(state: IUCAppState): IUCAppState {
     // Set elements settings
     const elementNames: Array<string> = [];
     const elementsEnabled: Array<boolean> = [];
-    for (let index = 0; index < DataService.data.length; index++) {
-        const value = DataService.data[index];
+    DataService.data.forEach((value, index) => {
         elementNames.push(value.name);
         if (state.loadedElementsEnabled.length > 0) {
             elementsEnabled.push(!isNullOrUndefined(state.loadedElementsEnabled[index]));
@@ -231,7 +231,7 @@ function initSettings(state: IUCAppState): IUCAppState {
         } else {
             elementsEnabled.push(true);
         }
-    }
+    });
     state.elementNames = elementNames;
     state.elementsEnabled = elementsEnabled;
     state.elementDisplayAll = false;
@@ -411,7 +411,14 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
             }
             if (criteria.rangeSearch) {
                 if (state.currentSearch.get(field).size > 0) {
-                    const queries = (state.currentSearch.get(field).values().next().value || '').trim().replace(' ', '')
+                    // take the field or an empty string (to prevent null pointer errors)
+                    const queries = (state.currentSearch.get(field).values().next().value || '').trim()
+                        // replace spaces with empty strings
+                        .replace(' ', '')
+                        // remove elements that contain letters.
+                        // first group is a comma followed by some characters (not comma) that contains a letter
+                        // the second group is the same only with a comma at the end
+                        // the third group is if there is no comma at all
                         .replace(/,[^,]*[a-zA-Z][^,]*|[^,]*[a-zA-Z][^,]*,|[^,]*[a-zA-Z][^,]*/g, '').split(',');
                     if (queries.length === 0 || queries.map(y => y.length === 0).reduce((p, c) => p && c)) {
                         continue;
@@ -731,12 +738,7 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
             if (isNullOrUndefined(DataService.data) || DataService.data.length === 0) {
                 state.detailsData = detailsKey;
             } else {
-                for (const element of DataService.data) {
-                    if (element.name === detailsKey) {
-                        state.detailsData = element;
-                        break;
-                    }
-                }
+                state.detailsData = searchElement(state, detailsKey);
             }
         }
     }
@@ -744,6 +746,14 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
     state.currentlyMaximized = maximized;
     state.currentOrder = order.split(',').map(x => decodeURIComponent(x));
     return state;
+}
+
+function searchElement(state: IUCAppState, detailsKey: string): Data {
+    for (const element of DataService.data) {
+        if (element.name === detailsKey) {
+            return element;
+        }
+    }
 }
 
 function filterReducer(state: IUCAppState = new UcAppState(), action: UCAction) {

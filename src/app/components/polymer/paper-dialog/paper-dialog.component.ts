@@ -13,20 +13,18 @@ export class PaperDialogComponent {
 
     @HostListener('click', ['$event.target']) onClick(target) {
         if (target.localName === 'pdialog') {
-            this.opened = false;
-            this.openedChange.emit();
+            this.close();
         }
     }
 
     public close() {
         this.opened = false;
-        this.openedChange.emit(false);
+        this.openedChange.emit();
     }
 
     @HostListener('window:keydown', ['$event']) onKeydown(event) {
         if (this.opened && event.key.toLowerCase() === 'escape') {
-            this.opened = false;
-            this.openedChange.emit();
+            this.close();
         }
     }
 }
