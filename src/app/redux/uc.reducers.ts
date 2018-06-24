@@ -125,11 +125,26 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
             state.currentSearch = new Map();
             state.currentFilter = [];
             state.currentDetails = -1;
+            extractSearchFromUrl(state, (<any>action).payload.routerState.queryParams.search || '');
         }
         state.currentChanged = false;
         state = filterElements(state);
         state = sortElements(state);
         state = updateElements(state);
+    }
+    return state;
+}
+
+function extractSearchFromUrl(state: IUCAppState, searchString: string) {
+    const search = searchString.split(';');
+    for (const ss of search) {
+        if (isNullOrUndefined(ss) || ss.length === 0) {
+            continue;
+        }
+        const values = ss.split(':');
+        const key = values[0];
+        values.splice(0, 1);
+        state.currentSearch.set(key, new Set<string>(values));
     }
     return state;
 }

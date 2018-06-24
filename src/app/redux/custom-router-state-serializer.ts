@@ -36,6 +36,12 @@ export class CustomRouterStateSerializer implements RouterStateSerializer<Router
                 [value, sectionLink] = value.split('#');
             }
 
+            let v = value;
+            do {
+                value = v;
+                v = decodeURIComponent(v);
+            } while (value !== v);
+
             queryParams[key] = value;
         }
 
