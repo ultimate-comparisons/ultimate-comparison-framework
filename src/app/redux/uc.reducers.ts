@@ -2,7 +2,9 @@ import { IUCAppState, UcAppState } from './uc.app-state';
 import {
     UCAction,
     UCClickAction,
-    UCDataUpdateAction, UCDetailsAction, UCNewStateAction,
+    UCDataUpdateAction,
+    UCDetailsAction,
+    UCNewStateAction,
     UCRouterAction,
     UCSearchUpdateAction,
     UCSettingsUpdateAction,
@@ -11,7 +13,7 @@ import {
 import { DataService } from '../components/comparison/data/data.service';
 import { Criteria, CriteriaType } from '../components/comparison/configuration/configuration';
 import { Data, Label, Markdown, Text, Url } from '../components/comparison/data/data';
-import { isArray, isNullOrUndefined } from 'util';
+import { isNullOrUndefined } from 'util';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 
 export const UPDATE_SEARCH = 'UPDATE_SEARCH';
@@ -34,6 +36,7 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
     switch (action.type) {
         case TOGGLE_DETAILS_ACTION:
             state = toggleDetailsReducer(state, <UCDetailsAction>action);
+            state = updateElements(state);
             break;
         case CLICK_ACTION:
             state = clickReducer(state, <UCClickAction>action);
