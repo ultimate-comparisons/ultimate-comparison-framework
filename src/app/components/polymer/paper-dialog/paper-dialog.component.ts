@@ -19,7 +19,7 @@ export class PaperDialogComponent {
 
     public close() {
         this.opened = false;
-        this.openedChange.emit(false);
+        this.openedChange.emit();
     }
 
     @HostListener('window:keydown', ['$event']) onKeydown(event) {

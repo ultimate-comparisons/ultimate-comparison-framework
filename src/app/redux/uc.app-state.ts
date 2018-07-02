@@ -1,11 +1,11 @@
-import { Label, Markdown, Text, Url } from '../components/comparison/data/data';
+import { Data, Label, Markdown, Text, Url } from '../components/comparison/data/data';
 import { Criteria, CriteriaType } from '../components/comparison/configuration/configuration';
 
 export interface IUCAppState {
     /**
      * Which criteria has to fulfill which condition (set at the top of the page in the boxes)
      */
-    currentSearch: Map<string, Array<string>>;
+    currentSearch: Map<string, Set<string>>;
 
     /**
      * Which element's details page should be shown. -1 if none.
@@ -77,6 +77,7 @@ export interface IUCAppState {
      */
     elementNames: Array<string>;
     elementsEnabled: Array<boolean>;
+    loadedElementsEnabled: Array<boolean>;
     elementDisplayAll: boolean;
 
     columnKeys: Array<string>;
@@ -89,31 +90,42 @@ export interface IUCAppState {
     latexEnableTooltips: boolean;
     latexTooltipsAsFootnotes: boolean;
 
+    detailsOpen: boolean;
+    detailsData: Data | string;
+
     detailsDisplayTooltips: boolean;
 
     tableExpand: boolean;
+    currentSaved: boolean;
+
+    internalLink: string;
 }
 
 export class UcAppState implements IUCAppState {
+    currentSaved = false;
     elementNames: Array<string> = [];
     elementsEnabled: Array<boolean> = [];
-    elementDisplayAll: boolean = false;
+    loadedElementsEnabled = [];
+    elementDisplayAll = false;
 
     columnKeys: Array<string> = [];
     columnNames: Array<string> = [];
     columnsEnabled: Array<boolean> = [];
     columnsEnabledCache: Array<boolean> = [];
-    columnDisplayAll: boolean = false;
+    columnDisplayAll = false;
 
-    latexDisplayTable: boolean = false;
-    latexEnableTooltips: boolean = false;
-    latexTooltipsAsFootnotes: boolean = false;
+    latexDisplayTable = false;
+    latexEnableTooltips = false;
+    latexTooltipsAsFootnotes = false;
 
-    detailsDisplayTooltips: boolean = false;
+    detailsOpen = false;
+    detailsData = null;
 
-    tableExpand: boolean = false;
+    detailsDisplayTooltips = false;
 
-    currentSearch: Map<string, Array<string>> = new Map<string, Array<string>>();
+    tableExpand = false;
+
+    currentSearch: Map<string, Set<string>> = new Map<string, Set<string>>();
     currentDetails = -1;
     currentFilter: Array<number> = [];
     currentColumns: Array<string> = [];
@@ -126,4 +138,6 @@ export class UcAppState implements IUCAppState {
     rowIndexes: Array<number> = [];
     currentElements: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
     currentChanged = false;
+
+    internalLink = '';
 }

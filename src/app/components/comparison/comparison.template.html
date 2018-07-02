@@ -85,8 +85,8 @@
                 [tableTooltipsAsFootnotes]="(store | async).state.latexTooltipsAsFootnotes"
                 #latexTable></latextable>
 
-    <pdialog [(opened)]="detailsOpen" *ngIf="detailsOpen">
-        <comparison-details [data]="activeRow"
+    <pdialog [opened]="(store | async).state.detailsOpen" *ngIf="(store | async).state.detailsOpen" (openedChange)="closeDetails()">
+        <comparison-details [data]="(store | async).state.detailsData"
                             [tooltipAsText]="(store | async).state.detailsDisplayTooltips"></comparison-details>
     </pdialog>
 

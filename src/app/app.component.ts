@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
+import { ComparisonComponent } from './components/comparison/comparison.component';
 
 @Component({
     selector: 'myapp',
@@ -6,4 +7,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
+    @HostListener('window:popstate', ['$event'])
+    popState(ev: PopStateEvent) {
+        ComparisonComponent.instance.dispatchNewState(ev.state);
+    }
 }

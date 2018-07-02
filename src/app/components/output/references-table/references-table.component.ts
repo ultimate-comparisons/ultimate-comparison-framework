@@ -10,6 +10,7 @@ import { Citation } from "../../comparison/configuration/configuration";
 export class ReferencesTableComponent implements OnChanges {
     @Input() changeNum: number = 0;
     @Input() citationMap: Map<string, Citation> = new Map;
+    @Input() prefix = '';
 
     @Input() citations: Array<Citation> = [];
 

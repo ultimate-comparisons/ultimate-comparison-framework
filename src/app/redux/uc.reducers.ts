@@ -3,6 +3,8 @@ import {
     UCAction,
     UCClickAction,
     UCDataUpdateAction,
+    UCDetailsAction,
+    UCNewStateAction,
     UCRouterAction,
     UCSearchUpdateAction,
     UCSettingsUpdateAction,
@@ -12,6 +14,7 @@ import { DataService } from '../components/comparison/data/data.service';
 import { Criteria, CriteriaType } from '../components/comparison/configuration/configuration';
 import { Data, Label, Markdown, Text, Url } from '../components/comparison/data/data';
 import { isNullOrUndefined } from 'util';
+import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 
 export const UPDATE_SEARCH = 'UPDATE_SEARCH';
 export const UPDATE_MODAL = 'UPDATE_MODAL';
@@ -21,15 +24,20 @@ export const UPDATE_ORDER = 'UPDATE_ORDER';
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 const UPDATE_ROUTE = 'ROUTER_NAVIGATION';
 export const CLICK_ACTION = 'CLICK_ACTION';
+export const NEW_STATE_ACTION = 'NEW_STATE_ACTION';
+export const TOGGLE_DETAILS_ACTION = 'TOGGLE_DETAILS_ACTION';
+
+const update_actions =
+    [ UPDATE_SEARCH, UPDATE_MODAL, UPDATE_FILTER, UPDATE_DATA, UPDATE_ORDER, UPDATE_SETTINGS, CLICK_ACTION, UPDATE_ROUTE ];
+
+let reloadedState = false;
 
 export function masterReducer(state: IUCAppState = new UcAppState(), action: UCAction) {
-    if (action.type === UPDATE_ROUTE) {
-        state.currentElements = [];
-        state.currentSearch = new Map();
-        state.currentFilter = [];
-        state.currentDetails = -1;
-    }
     switch (action.type) {
+        case TOGGLE_DETAILS_ACTION:
+            state = toggleDetailsReducer(state, <UCDetailsAction>action);
+            state = updateElements(state);
+            break;
         case CLICK_ACTION:
             state = clickReducer(state, <UCClickAction>action);
             break;
@@ -49,6 +57,7 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
             state.criterias = (<UCDataUpdateAction>action).criterias;
             state = initSettings(state);
             state = filterColumns(state);
+            state = setDetails(state);
             break;
         case UPDATE_ORDER:
             state = changeOrder(state, <UCTableOrderAction>action);
@@ -103,30 +112,66 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
                     state.detailsDisplayTooltips = act.enable;
                     break;
             }
+            break;
+        case NEW_STATE_ACTION:
+            if (!isNullOrUndefined((<UCNewStateAction>action).newState)) {
+                state = (<UCNewStateAction>action).newState;
+                reloadedState = true;
+                // allow changes to take effect 0.2 seconds after a state was reloaded.
+                setTimeout(() => reloadedState = false, 200);
+            }
+            break;
     }
-    state = filterElements(state);
-    state = sortElements(state);
+    if (update_actions.indexOf(action.type) > -1 || action.type === UPDATE_ROUTE && !reloadedState) {
+        if (action.type === UPDATE_ROUTE) {
+            state.currentElements = [];
+            state.currentSearch = new Map();
+            state.currentFilter = [];
+            state.currentDetails = -1;
+        }
+        state.currentChanged = false;
+        state = filterElements(state);
+        state = sortElements(state);
+        state = updateElements(state);
+    }
     return state;
 }
 
 function clickReducer(state: IUCAppState, action: UCClickAction) {
     const column = state.currentColumns[action.index];
-    const map = new Map<string, Array<string>>();
     const criteria = state.criterias.get(column);
-    map.set(criteria.name, [action.val]);
-    const search = state.currentSearch.get(criteria.name);
+    const search = state.currentSearch.get(criteria.key);
     if (criteria.rangeSearch) {
         if (search === undefined) {
-            state.currentSearch.set(criteria.name, [action.val]);
+            state.currentSearch.set(criteria.key, new Set([action.val]));
         } else {
-            state.currentSearch.set(criteria.name, [search[0] + ',' + action.val]);
+            const s = search.values().next().value;
+            if (s.trim() === action.val || s.trim().startsWith(action.val + ',') ||
+                s.indexOf(',' + action.val + ',') > -1 ||
+                s.endsWith(',' + action.val)) {
+                return state;
+            }
+            state.currentSearch.set(criteria.key, new Set([s + ',' + action.val]));
         }
     } else {
         if (search === undefined) {
-            state.currentSearch.set(criteria.name, [action.val]);
+            state.currentSearch.set(criteria.key, new Set([action.val]));
         } else {
-            search.push(action.val);
-            state.currentSearch.set(criteria.name, search);
+            search.add(action.val);
+            state.currentSearch.set(criteria.key, search);
+        }
+    }
+    return state;
+}
+
+function setDetails(state: IUCAppState): IUCAppState {
+    if (!state.detailsOpen && typeof state.detailsData !== 'string') {
+        return state;
+    }
+    for (const element of DataService.data) {
+        if (element.name === state.detailsData) {
+            state.detailsData = element;
+            break;
         }
     }
     return state;
@@ -169,13 +214,10 @@ function changeOrder(state: IUCAppState, action: UCTableOrderAction): IUCAppStat
 }
 
 function updateElements(state: IUCAppState): IUCAppState {
-    state.currentChanged = false;
-    state = filterElements(state, state.criterias);
-    state = sortElements(state);
-    if (!state.currentChanged) {
-        return state;
+    if (state.currentChanged || !state.currentSaved) {
+        putStateIntoURL(state);
+        state.currentSaved = true;
     }
-    putStateIntoURL(state);
     return state;
 }
 
@@ -183,9 +225,11 @@ function initSettings(state: IUCAppState): IUCAppState {
     // Set elements settings
     const elementNames: Array<string> = [];
     const elementsEnabled: Array<boolean> = [];
-    DataService.data.forEach(value => {
+    DataService.data.forEach((value, index) => {
         elementNames.push(value.name);
-        if (value.name === "Template") {
+        if (state.loadedElementsEnabled.length > 0) {
+            elementsEnabled.push(!isNullOrUndefined(state.loadedElementsEnabled[index]));
+        } else if (value.name === "Template") {
             elementsEnabled.push(false);
         } else {
             elementsEnabled.push(true);
@@ -212,7 +256,7 @@ function initColumn(state: IUCAppState): IUCAppState {
     const columnsEnabled: Array<boolean> = [];
     const columnsEnabledCache: Array<boolean> = [];
     state.criterias.forEach((value, key) => {
-        const name: string = value.name.length === 0 ? key : value.name;
+        const name: string = value.key.length !== 0 ? key : value.name;
         columnKeys.push(key);
         columnNames.push(name);
         columnsEnabled.push(value.table);
@@ -236,6 +280,18 @@ function putStateIntoURL(state: IUCAppState) {
                 crit += `:${val}`;
             }
             query += `${encodeURIComponent(crit)};`;
+        }
+        query = query.substr(0, query.length - 1);
+    }
+    if (state.currentElements.length > 0) {
+        if (query.length > 0) {
+            query += '&';
+        }
+        query += 'elements=';
+        for (let index = 0; index < DataService.data.length; index++) {
+            if (state.elementsEnabled[index]) {
+                query += `${index};`;
+            }
         }
         query = query.substr(0, query.length - 1);
     }
@@ -275,8 +331,19 @@ function putStateIntoURL(state: IUCAppState) {
         }
         query = query.substr(0, query.length - 1);
     }
+    if (state.detailsOpen && !isNullOrUndefined(state.detailsData)) {
+        if (query.length > 0) {
+            query += '&';
+        }
+        query += 'details=';
+        query += (<Data>state.detailsData).name;
+    }
+    const questionMark = query.length > 0;
+    if (window.location.hash.length > 1) {
+        query += window.location.hash;
+    }
     if (query.length > 0) {
-        window.history.pushState(state, '', '?' + query);
+        window.history.pushState(state, '', (questionMark ? '?' : '') + query);
     }
 }
 
@@ -328,6 +395,9 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
         return state;
     }
     const data: Array<Data> = DataService.data;
+    if (isNullOrUndefined(data)) {
+        return state;
+    }
     const elements: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
     const indexes: Array<number> = [];
 
@@ -339,10 +409,20 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
         let includeData = true;
         for (const field of state.currentSearch.keys()) {
             const criteria = state.criterias.get(field);
+            if (isNullOrUndefined(criteria)) {
+                continue;
+            }
             if (criteria.rangeSearch) {
-                if (state.currentSearch.get(field).length > 0) {
-                    const queries = (state.currentSearch.get(field)[0] || '').trim().replace(' ', '')
-                        .replace(/,.*[a-zA-Z].*|.*[a-zA-Z].*,|.*[a-zA-Z].*/g, '').split(',');
+                if (state.currentSearch.get(field).size > 0) {
+                    // take the field or an empty string (to prevent null pointer errors)
+                    const queries = (state.currentSearch.get(field).values().next().value || '').trim()
+                        // replace spaces with empty strings
+                        .replace(' ', '')
+                        // remove elements that contain letters.
+                        // first group is a comma followed by some characters (not comma) that contains a letter
+                        // the second group is the same only with a comma at the end
+                        // the third group is if there is no comma at all
+                        .replace(/,[^,]*[a-zA-Z][^,]*|[^,]*[a-zA-Z][^,]*,|[^,]*[a-zA-Z][^,]*/g, '').split(',');
                     if (queries.length === 0 || queries.map(y => y.length === 0).reduce((p, c) => p && c)) {
                         continue;
                     }
@@ -403,8 +483,8 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                 }
             } else {
                 const searchArray = state.currentSearch.get(field);
-                let fulfillsField = criteria.andSearch || isNullOrUndefined(searchArray) || searchArray.length === 0;
-                for (const query of searchArray) {
+                let fulfillsField = criteria.andSearch || isNullOrUndefined(searchArray) || searchArray.size === 0;
+                searchArray.forEach(query => {
                     let fulfillsQuery = false;
                     for (const key of (<Map<string, any>>data[i].criteria.get(criteria.key)).keys()) {
                         fulfillsQuery = fulfillsQuery || (key === query);
@@ -414,7 +494,7 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                     } else {
                         fulfillsField = fulfillsField || fulfillsQuery;
                     }
-                }
+                });
                 includeData = includeData && fulfillsField;
             }
         }
@@ -423,11 +503,14 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
             const dataElement: Data = data[i];
             const item: Array<Array<Label> | Text | Url | Markdown | number> = [];
             state.currentColumns.forEach((key, index) => {
-                const obj: any = dataElement.criteria.get(key);
+                const obj: any = dataElement.criteria.get(decodeURIComponent(key));
                 if (state.columnTypes[index] === CriteriaType.label) {
                     const labelMap: Map<string, Label> = obj || new Map;
                     const labels: Array<Label> = [];
-                    labelMap.forEach(label => labels.push(label));
+                    if (labelMap.constructor.name === 'Map') {
+                        labelMap.forEach((k, label) => labels.push(k));
+                    } else if (labelMap.constructor.name === CriteriaType.url) {
+                    }
                     item.push(labels);
                 } else if (state.columnTypes[index] === CriteriaType.rating) {
                     item.push(dataElement.averageRating);
@@ -610,40 +693,69 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
         return state;
     }
     const params = action.payload.routerState.queryParams;
+    const indices = decodeURIComponent(params.elements || '');
     const search = decodeURIComponent(params.search || params['?search'] || '');
-    const filter = params.filter || params['?filter'] || '';
-    const detailsDialog = Number.parseInt(params.details || params['?details'] || -1);
-    const optionsDialog = params.hasOwnProperty('options') || params.hasOwnProperty('?options');
-    const columns = params.columns || params['?columns'] || '';
+    const filter = decodeURIComponent(params.filter || '');
+    const optionsDialog = params.hasOwnProperty('options');
+    const columns = params.columns || '';
     const maximized = params.hasOwnProperty('maximized') || params.hasOwnProperty('?maximized');
-    const order = params.order || params['?order'] || '+id';
+    const order = decodeURIComponent(params.order) || decodeURIComponent(params['?order']) || '+id';
+    state.internalLink = params.sectionLink;
 
     search.split(';').map(x => x.trim()).forEach(x => {
         const splits = x.split(':');
         if (splits.length > 1) {
             // at least one filter is active
             const key = splits.splice(0, 1);
-            state.currentSearch.set(key[0], splits);
+            state.currentSearch.set(key[0], new Set(splits));
         }
     });
     state.currentFilter = filter.split(',')
         .filter(x => x.trim().length > 0)
-        .filter(x => Number.isInteger(x.trim()))
+        .filter(x => Number.isInteger(Number.parseFloat(x.trim())))
         .map(x => Number.parseInt(x.trim()));
     state.currentColumns = columns.split(',')
-        .filter(x => x.trim().length > 0)
-        .filter(x => Number.isInteger(x.trim()))
-        .map(x => Number.parseInt(x.trim()));
+        .filter(x => x.trim().length > 0);
     if (state.currentColumns.length === 0 && state.criterias) {
         const values = state.criterias.values();
-        let crit;
-        while ((crit = values.next()) !== null) {
-            state.currentColumns.push(crit.name);
+        let crit = values.next().value;
+        while (!isNullOrUndefined(crit)) {
+            state.currentColumns.push(crit.key);
+            crit = values.next().value;
         }
     }
+    if (!isNullOrUndefined(indices)) {
+        for (let i = 0; i < state.elementsEnabled.length; i++) {
+            state.loadedElementsEnabled[i] = false;
+        }
+        indices.split(';').forEach(i => {
+            state.loadedElementsEnabled[i] = true;
+        });
+    }
+    if (params.details) {
+        const detailsKey = decodeURIComponent(params.details);
+
+        if (!isNullOrUndefined(detailsKey) && detailsKey.length > 0) {
+            state.detailsOpen = true;
+            if (isNullOrUndefined(DataService.data) || DataService.data.length === 0) {
+                state.detailsData = detailsKey;
+            } else {
+                state.detailsData = searchElement(state, detailsKey);
+            }
+        }
+    }
+
     state.currentlyMaximized = maximized;
     state.currentOrder = order.split(',').map(x => decodeURIComponent(x));
     return state;
+}
+
+function searchElement(state: IUCAppState, detailsKey: string): Data {
+    for (const element of DataService.data) {
+        if (element.name === detailsKey) {
+            return element;
+        }
+    }
 }
 
 function filterReducer(state: IUCAppState = new UcAppState(), action: UCAction) {
@@ -656,24 +768,33 @@ function detailsReducer(state: IUCAppState = new UcAppState(), action: UCAction)
 
 function searchReducer(state: IUCAppState = new UcAppState(), action: UCSearchUpdateAction) {
     for (const [key, value] of action.criterias) {
-        const elements = state.currentSearch.get(key) || [];
-        const index = elements.indexOf(value);
+        const elements = state.currentSearch.get(key) || new Set<string>();
         if (state.criterias.get(key).rangeSearch) {
-            state.currentSearch.set(key, [value]);
+            if (isNullOrUndefined(value) || value.length === 0) {
+                state.currentSearch.delete(key);
+            } else {
+                state.currentSearch.set(key, new Set([value]));
+            }
         } else {
-            if (value !== null && index > -1) {
-                if (index > -1) {
-                    elements.splice(index, 1);
-                }
+            if (value !== null && elements.has(value)) {
+                elements.delete(value);
             } else if (value !== null) {
                 const elements = state.currentSearch.get(key);
                 if (isNullOrUndefined(elements)) {
-                    state.currentSearch.set(key, [value]);
+                    state.currentSearch.set(key, new Set([value]));
                 } else {
-                    elements.push(value);
+                    elements.add(value);
                 }
             }
         }
+    }
+    return state;
+}
+
+function toggleDetailsReducer(state: IUCAppState = new UcAppState(), action: UCDetailsAction) {
+    state.detailsOpen = !isNullOrUndefined(action.data);
+    if (state.detailsOpen) {
+        state.detailsData = action.data;
     }
     return state;
 }
