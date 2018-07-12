@@ -15,7 +15,6 @@ import {
 } from "./configuration";
 import * as Showdown from "showdown";
 import { DataService } from "../data/data.service";
-import { isNullOrUndefined } from "util";
 
 @Injectable()
 export class ConfigurationService {
@@ -28,7 +27,7 @@ export class ConfigurationService {
     private converter: Showdown.Converter;
 
     static getHtml(converter: Showdown.Converter, citation: Map<string, Citation>, markdown: string): string {
-        if (isNullOrUndefined(markdown)) return null;
+        if (markdown === null || markdown === undefined) return null;
         return converter.makeHtml(markdown.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
             if (citation.has(dec)) {
                 return '<a class="cite-link" href="#' + dec + '">[' + citation.get(dec).index + ']</a>';
@@ -39,7 +38,7 @@ export class ConfigurationService {
     }
 
     static getLatex(converter: Showdown.Converter, text: string): string {
-        if (isNullOrUndefined(text)) {
+        if (text === null || text === undefined) {
             return null;
         }
         return converter.makeHtml(text.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
@@ -102,13 +101,13 @@ export class ConfigurationService {
                 const criteria: Map<string, Criteria> = new Map<string, Criteria>();
                 criteriaArray.forEach((obj) => Object.keys(obj).forEach((key) => {
                     const value = obj[key];
-                    if (isNullOrUndefined(value)) {
+                    if (value === null || value === undefined) {
                         criteria.set(key, new Criteria.Builder().build());
                         return;
                     }
 
-                    const autoColorCriteria = isNullOrUndefined(autoColor[key]) ? {} : autoColor[key];
-                    const valuesObject = isNullOrUndefined(value.values) ? {} : value.values;
+                    const autoColorCriteria = autoColor[key] === null || autoColor[key] === undefined ? {} : autoColor[key];
+                    const valuesObject = value.values === null || value.values === undefined ? {} : value.values;
 
                     /**
                      * Construct map of criteria values
@@ -117,10 +116,11 @@ export class ConfigurationService {
                     const values: Map<string, CriteriaValue> = new Map<string, CriteriaValue>();
                     Object.keys(valuesObject).forEach(objKey => {
                         const value = valuesObject[objKey];
-                        const autoColorValue = isNullOrUndefined(autoColorCriteria[objKey]) ? {} : autoColorCriteria[objKey];
+                        const autoColorValue = autoColorCriteria[objKey] === null || autoColorCriteria[objKey] === undefined
+                            ? {} : autoColorCriteria[objKey];
 
                         // Value defined as 'key': null
-                        if (isNullOrUndefined(value)) {
+                        if (value === null || value === undefined) {
                             values.set(objKey, new CriteriaValue.Builder()
                                 .setCriteria(key)
                                 .setName(objKey)
@@ -135,8 +135,12 @@ export class ConfigurationService {
                             .setName(objKey)
                             .setDescription(ConfigurationService.getHtml(this.converter, citation, value.description))
                             .setClazz(value.class)
-                            .setColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.color) ? autoColorValue.color : value.color) : null)
-                            .setBackgroundColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor) : null)
+                            .setColor(value.class === null || value.class === undefined ?
+                                (value.color === null || value.color === undefined ? autoColorValue.color : value.color)
+                                : null)
+                            .setBackgroundColor(value.class === null || value.class === undefined ?
+                                (value.backgroundColor === null || value.backgroundColor === undefined ?
+                                    autoColorValue.backgroundColor : value.backgroundColor) : null)
                             .setWeight(value.weight)
                             .setMinAge(value.minAge)
                             .setMaxAge(value.maxAge)
@@ -148,7 +152,7 @@ export class ConfigurationService {
 
                     // Add type url to criteria id if undefined
                     // Type Url is only supported yet for the first level header
-                    if (key === 'id' && isNullOrUndefined(value.type)) {
+                    if (key === 'id' && (value.type === null || value.type === undefined)) {
                         value.type = CriteriaType.url;
                     }
 
@@ -174,7 +178,7 @@ export class ConfigurationService {
                 Object.keys(autoCriteria).forEach((key) => {
                     const autoCriteriaObject = autoCriteria[key];
                     const valuesObject = autoCriteriaObject.values || {};
-                    const autoColorCriteria = isNullOrUndefined(autoColor[key]) ? {} : autoColor[key];
+                    const autoColorCriteria = autoColor[key] === null || autoColor[key] === undefined ? {} : autoColor[key];
 
                     /**
                      * If criteria is already defined by 'comparison-auto-config.yml'.criteria
@@ -191,13 +195,14 @@ export class ConfigurationService {
                          */
                         Object.keys(valuesObject).forEach(valueKey => {
                             const oldValue: CriteriaValue = old.values.get(valueKey);
-                            const autoColorValue = isNullOrUndefined(autoColorCriteria[valueKey]) ? {} : autoColorCriteria[valueKey];
+                            const autoColorValue = autoColorCriteria[valueKey] === null || autoColorCriteria[valueKey] === undefined ?
+                                {} : autoColorCriteria[valueKey];
                             const value = valuesObject[valueKey];
                             // 1) old value undefined
-                            if (!isNullOrUndefined(oldValue)) {
+                            if (oldValue !== null && oldValue !== undefined) {
                                 values.set(valueKey, old.values.get(valueKey));
                                 // 2) auto value defined but null
-                            } else if (isNullOrUndefined(value)) {
+                            } else if (value === null || value === undefined) {
                                 values.set(valueKey, new CriteriaValue.Builder()
                                     .setCriteria(key)
                                     .setName(valueKey)
@@ -205,7 +210,7 @@ export class ConfigurationService {
                                     .setBackgroundColor(autoColorValue.backgroundColor)
                                     .build());
                                 // 3) old and auto value defined
-                            } else if (!isNullOrUndefined(value)) {
+                            } else if (value !== null && value !== undefined) {
                                 values.set(valueKey, new CriteriaValue.Builder()
                                     .setCriteria(key)
                                     .setName(valueKey)
@@ -215,8 +220,11 @@ export class ConfigurationService {
                                     .setMinAge(value.minAge)
                                     .setMaxAge(value.maxAge)
                                     // !! autoColor is applied if no class defined
-                                    .setColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.color) ? autoColorValue.color : value.color) : null)
-                                    .setBackgroundColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor) : null)
+                                    .setColor(value.class === null || value.class === undefined ?
+                                        (value.color === null || value.color === undefined ? autoColorValue.color : value.color) : null)
+                                    .setBackgroundColor(value.class === null || value.class === undefined ?
+                                        (value.backgroundColor === null || value.backgroundColor === undefined
+                                            ? autoColorValue.backgroundColor : value.backgroundColor) : null)
                                     .setMinAgeUnit(value.minAgeUnit)
                                     .setMaxAgeUnit(value.maxAgeUnit)
                                     .build());
@@ -243,8 +251,9 @@ export class ConfigurationService {
                         let values: Map<string, CriteriaValue> = new Map<string, CriteriaValue>();
                         Object.keys(valuesObject).forEach(valueKey => {
                             const value = valuesObject[valueKey];
-                            const autoColorValue = isNullOrUndefined(autoColorCriteria[valueKey]) ? {} : autoColorCriteria[valueKey];
-                            if (isNullOrUndefined(value)) {
+                            const autoColorValue = autoColorCriteria[valueKey] === null || autoColorCriteria[valueKey] === undefined
+                                ? {} : autoColorCriteria[valueKey];
+                            if (value === null || value === undefined) {
                                 values.set(valueKey, new CriteriaValue.Builder().setCriteria(key).setName(valueKey).build());
                             } else {
                                 values.set(valueKey, new CriteriaValue.Builder()
@@ -265,13 +274,14 @@ export class ConfigurationService {
 
                         // Add type url to criteria id if undefined
                         // Type Url is only supported yet for the first level header
-                        if (key === 'id' && isNullOrUndefined(autoCriteriaObject.type)) {
+                        if (key === 'id' && (autoCriteriaObject.type === null || autoCriteriaObject.type === undefined)) {
                             autoCriteriaObject.type = CriteriaType.url;
                         }
 
                         criteria.set(key, new Criteria.Builder()
                             .setKey(key)
-                            .setName(isNullOrUndefined(autoCriteriaObject.name) ? key : autoCriteriaObject.name)
+                            .setName(autoCriteriaObject.name === null || autoCriteriaObject.name === undefined
+                                ? key : autoCriteriaObject.name)
                             .setSearch(autoCriteriaObject.search)
                             .setTable(autoCriteriaObject.table)
                             .setDetail(autoCriteriaObject.detail)

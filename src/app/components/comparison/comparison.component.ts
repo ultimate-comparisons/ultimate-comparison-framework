@@ -9,7 +9,6 @@ import { Criteria } from "./configuration/configuration";
 import { DataService } from "./data/data.service";
 import { Data, Label } from './data/data';
 import { UCClickAction, UCDetailsAction, UCNewStateAction, UCSearchUpdateAction, UCTableOrderAction } from '../../redux/uc.action';
-import { isNullOrUndefined } from "util";
 
 import { saveAs } from 'file-saver';
 
@@ -34,7 +33,7 @@ export class ComparisonComponent {
     constructor(public configurationService: ConfigurationService,
                 private cd: ChangeDetectorRef,
                 public store: Store<IUCAppState>) {
-        if (isNullOrUndefined(ComparisonComponent.instance)) {
+        if (ComparisonComponent.instance === null || ComparisonComponent.instance === undefined) {
             ComparisonComponent.instance = this;
         }
         this.configurationService.loadComparison(this.cd);
@@ -52,12 +51,12 @@ export class ComparisonComponent {
     }
 
     public getActive(state: { state: IUCAppState }, crit: Criteria) {
-        if (isNullOrUndefined(state)) {
+        if (state === null || state === undefined) {
             return [];
         }
         const active = state.state.currentSearch.get(crit.key);
 
-        if (!isNullOrUndefined(active)) {
+        if (active !== null && active !== undefined) {
             return Array.from(active).map(name => {
                 return {
                     id: name,
@@ -91,7 +90,7 @@ export class ComparisonComponent {
      * Callback functions dispatching to redux store
      */
     public changeOrder(change: { index: number, ctrl: boolean }) {
-        if (!isNullOrUndefined(change)) {
+        if (change !== null && change !== undefined) {
             this.store.dispatch(new UCTableOrderAction(change.index, change.ctrl));
         }
     }
