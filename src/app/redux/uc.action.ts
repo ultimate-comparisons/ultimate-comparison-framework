@@ -8,9 +8,8 @@ import {
     UPDATE_SEARCH,
     UPDATE_SETTINGS
 } from './uc.reducers';
-import { Criteria } from '../components/comparison/configuration/configuration';
 import { IUCAppState } from './uc.app-state';
-import { Data } from '../components/comparison/data/data';
+import { Criteria, DataElement } from '../../../lib/gulp/model/model.module';
 
 export class UCAction implements Action {
     type: string;
@@ -72,7 +71,7 @@ export class UCNewStateAction extends UCAction {
 export class UCDetailsAction extends UCAction {
     type = TOGGLE_DETAILS_ACTION;
 
-    constructor(public data: Data) {
+    constructor(public data: DataElement) {
         super();
     }
 }

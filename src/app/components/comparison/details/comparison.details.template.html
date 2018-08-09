@@ -13,8 +13,11 @@
     </h2>
 </div>
 <div class="grid-content">
-    <pcard *ngIf="displayDescription" heading="{{bodyTitle}}" class="description">
-        <div [innerHTML]="description | sanitizeHtml" class="description"></div>
+    <pcard *ngIf="descriptionData" heading="{{bodyTitle}}" class="description">
+        <div *ngIf="descriptionCriteria.type === 'MARKDOWN'" [innerHTML]="descriptionData.html | sanitizeHtml"
+             class="description"></div>
+        <div *ngIf="descriptionCriteria.type === 'TEXT'" [innerHTML]="descriptionData.text | sanitizeHtml"
+             class="description"></div>
     </pcard>
 
     <ng-template ngFor let-entry [ngForOf]="tags" let-i="index">
@@ -23,20 +26,18 @@
                 <a *ngIf="types[i] === 'url'" class="anchored"
                    href="{{entry.link}}"
                    target="_blank">{{entry.text}}</a>
-                <ng-template *ngIf="types[i] === 'label'" ngFor let-label [ngForOf]="entry">
+                <ng-template *ngIf="types[i] === 'LABEL'" ngFor let-label [ngForOf]="entry?.labelArray">
                     <ptooltip *ngIf="!tooltipAsText"
                               [tooltip]="label.tooltip.text"
                               [tooltipHtml]="prefixInternalLink(label.tooltip.html)" [position]="'n'">
                         <div class="label mylabel {{label.clazz}}" [style.color]="label.color"
-                             [style.background-color]="label.backgroundColor"
-                             (click)="labelClick(label, i)">
+                             [style.background-color]="label.backgroundColor">
                             {{label.name}}
                         </div>
                     </ptooltip>
                     <div *ngIf="tooltipAsText" class="tt-container">
                         <span class="label mylabel {{label.clazz}} tt-label" [style.color]="label.color"
-                              [style.background-color]="label.backgroundColor"
-                              (click)="labelClick(label, i)">
+                              [style.background-color]="label.backgroundColor">
                         {{label.name}}
                         </span>
                         <span class="tooltip-text tt-tooltip" [innerHtml]="label.tooltip.text|sanitizeHtml"></span>
@@ -45,27 +46,15 @@
                     </div>
                 </ng-template>
 
-                <span *ngIf="types[i] === 'text'">{{entry.content}}</span>
+                <span *ngIf="types[i] === 'TEXT'">{{entry.content}}</span>
 
-                <span *ngIf="types[i] === 'markdown'" [innerHtml]="prefixInternalLink(entry?.htmlContent | sanitizeHtml)"></span>
+                <span *ngIf="types[i] === 'MARKDOWN'"
+                      [innerHtml]="prefixInternalLink(entry?.html | sanitizeHtml)"></span>
+
+                <span *ngIf="types[i] === 'RATING'" [innerHtml]="prefixInternalLink(entry?.html | sanitizeHtml)"></span>
             </p>
         </pcard>
     </ng-template>
-
-    <pcard heading="Ratings" *ngIf="ratings.length > 0" style="display:block">
-        <div class="card-content">
-            <ng-template ngFor let-rating [ngForOf]="ratings">
-                <dl>
-                    <dt>
-                        <iicon icon="star">{{rating.stars}}</iicon>
-                    </dt>
-                    <dd>
-                        {{rating.comment}}
-                    </dd>
-                </dl>
-            </ng-template>
-        </div>
-    </pcard>
 
     <pcard heading="References" *ngIf="configurationService.configuration.citation.size != 0" class="description">
         <referencestable [changeNum]="configurationService.configuration.citation.length"

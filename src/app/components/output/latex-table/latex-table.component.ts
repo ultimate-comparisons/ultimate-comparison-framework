@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
-import { Label, Markdown, Text, Url } from "../../comparison/data/data";
-import { CriteriaType } from "../../comparison/configuration/configuration";
+import { CriteriaData, CriteriaTypes } from '../../../../../lib/gulp/model/model.module';
 
 @Component({
     selector: 'latextable',
@@ -14,8 +13,8 @@ export class LatexTableComponent {
     @Input() tableTooltipsAsFootnotes = true;
 
     @Input() columns: Array<string> = [];
-    @Input() types: Array<CriteriaType> = [];
-    @Input() items: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
+    @Input() types: Array<CriteriaTypes> = [];
+    @Input() items: Array<Array<CriteriaData>> = [];
     @Input() index: Array<number> = [];
 
     public footnotes: Map<string, { ref: string, count: number }> = new Map();

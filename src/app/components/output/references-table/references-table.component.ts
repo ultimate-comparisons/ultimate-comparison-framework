@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Citation } from "../../comparison/configuration/configuration";
+import { Citation } from '../../../../../lib/gulp/model/model.module';
 
 @Component({
     selector: 'referencestable',

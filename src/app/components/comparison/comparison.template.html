@@ -24,26 +24,34 @@
             <div [innerHTML]="configurationService.description | sanitizeHtml" class="description"></div>
         </pcard>
 
-        <pcard [heading]="configurationService.configuration?.selecttitle">
+        <pcard [heading]="configurationService.configuration?.selectTitle">
             <div class="select-grid">
-                <ng-template ngFor let-crit [ngForOf]="configurationService.criteria">
+                <ng-template ngFor let-criteria let-i="index" [ngForOf]="configurationService.criteria">
                     <div>
                         <div class="form-group">
-                            <ptooltip [tooltip]="crit.description">
+                            <ptooltip [tooltip]="criteria.description">
                                 <label>
-                                    {{crit.name}}
-                                    <span class="search-indicator">({{crit.getSearchIndicator()}})</span>
+                                    {{criteria.name}}
+                                    <span class="search-indicator">({{criteria.andSearch ? 'match all' : criteria.rangeSearch ? 'match range' : 'match one'}})</span>
                                 </label>
                             </ptooltip>
                             <br>
-                            <select2 [options]="crit.items" [placeholder]="crit.placeholder" [name]="crit.name"
-                                     [tag]="crit.tag"
-                                     [active]="getActive(store | async, crit)"
-                                     (result)="criteriaChanged($event, crit)" *ngIf="!crit.rangeSearch"></select2>
-                            <number-input *ngIf="crit.rangeSearch" [comparisonComponent]="this" [name]="crit.name"
-                                          [active]="getActive(store | async, crit)"
-                                          (result)="criteriaChanged($event, crit)"
-                                          [criteria]="crit" [tag]="crit.tag"></number-input>
+                            <select2 *ngIf="!criteria.rangeSearch"
+                                     [options]="configurationService.criteriaValues[i]"
+                                     [placeholder]="criteria.placeholder"
+                                     [name]="criteria.name"
+                                     [tag]="criteria.id"
+                                     [active]="getActive(store | async, criteria)"
+                                     (result)="criteriaChanged($event, criteria)">
+                            </select2>
+                            <number-input *ngIf="criteria.rangeSearch"
+                                          [comparisonComponent]="this"
+                                          [name]="criteria.name"
+                                          [active]="getActive(store | async, criteria)"
+                                          (result)="criteriaChanged($event, criteria)"
+                                          [criteria]="criteria"
+                                          [tag]="criteria.id">
+                            </number-input>
                         </div>
                     </div>
                 </ng-template>
@@ -65,7 +73,7 @@
                           (settingsCallback)="settingsOpen = true"
                           (showDetails)="showDetails($event)"
                           (orderChange)="changeOrder($event)"
-                          (searchFor)="criteriaClicked($event, key, index)"></generictable>
+                          (searchFor)="criteriaClicked($event)"></generictable>
         </pcard>
     </div>
     <div class="grid-content-end">
@@ -76,16 +84,17 @@
     </div>
 
     <latextable class="grid-content-latex" *ngIf="(store|async).state.latexDisplayTable || settingsOpen"
+                [hidden]="settingsOpen"
                 [items]="(store | async).state.currentElements"
                 [columns]="(store | async).state.currentColumnNames"
                 [types]="(store | async).state.columnTypes"
                 [index]="(store | async).state.rowIndexes"
-                [changeNum]="configurationService.tableColumns.length + (store | async).state.currentColumnNames.length"
                 [showTableTooltips]="(store | async).state.latexEnableTooltips"
                 [tableTooltipsAsFootnotes]="(store | async).state.latexTooltipsAsFootnotes"
                 #latexTable></latextable>
 
-    <pdialog [opened]="(store | async).state.detailsOpen" *ngIf="(store | async).state.detailsOpen" (openedChange)="closeDetails()">
+    <pdialog [opened]="(store | async).state.detailsOpen" *ngIf="(store | async).state.detailsOpen"
+             (openedChange)="closeDetails()">
         <comparison-details [data]="(store | async).state.detailsData"
                             [tooltipAsText]="(store | async).state.detailsDisplayTooltips"></comparison-details>
     </pdialog>

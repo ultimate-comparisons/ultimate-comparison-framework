@@ -1,0 +1,93 @@
+[
+    {
+        "type": "header",
+        "level": 1,
+        "content": "Blueflood - http://blueflood.io",
+        "children": [
+            {
+                "type": "text",
+                "content": "Test Description"
+            },
+            {
+                "type": "header",
+                "level": 2,
+                "content": "Properties",
+                "children": [
+                    {
+                        "type": "list",
+                        "level": 2,
+                        "children": [
+                            {
+                                "type": "item",
+                                "level": 1,
+                                "content": "1",
+                                "plainChildren": ""
+                            },
+                            {
+                                "type": "item",
+                                "level": 1,
+                                "content": "Alpha\nPart of alpha\n\nStill Part of alpha",
+                                "plainChildren": "- Alpha 2\n- Berta"
+                            },
+                            {
+                                "type": "item",
+                                "level": 1,
+                                "content": "beta",
+                                "plainChildren": ""
+                            },
+                            {
+                                "type": "item",
+                                "level": 1,
+                                "content": "gamma",
+                                "plainChildren": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "header",
+                "level": 2,
+                "content": "Description",
+                "children": [
+                    {
+                        "type": "text",
+                        "content": "this is complete nonsense!"
+                    },
+                    {
+                        "type": "list",
+                        "level": 2,
+                        "children": [
+                            {
+                                "type": "item",
+                                "level": 1,
+                                "content": "a",
+                                "plainChildren": ""
+                            },
+                            {
+                                "type": "item",
+                                "level": 1,
+                                "content": "b",
+                                "plainChildren": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "header",
+                "level": 2,
+                "content": "Test",
+                "children": [
+                ]
+            },
+            {
+                "type": "header",
+                "level": 2,
+                "content": "Features",
+                "children": [
+                ]
+            }
+        ]
+    }
+]

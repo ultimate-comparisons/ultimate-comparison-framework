@@ -10,6 +10,7 @@
 bin/
 gen/
 build/
+out/
 
 # local configuration file (for Android sdk path, etc)
 local.properties
@@ -24,7 +25,6 @@ local.properties
 # Android Studio
 *.iml
 .idea
-.gradle
 
 
 #NDK

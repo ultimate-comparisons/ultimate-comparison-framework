@@ -21,15 +21,18 @@
     </tr>
     </thead>
     <tbody>
-    <ng-template ngFor let-item [ngForOf]="items" let-i="index"><!-- Do not remove this index here! -->
+    <ng-template ngFor let-item [ngForOf]="items" let-itemIndex="index">
         <tr>
             <ng-template ngFor let-entry [ngForOf]="item" let-i="index">
-                <td *ngIf="types[i] === 'url'"><a class="anchored"
-                                                  href="{{entry.link}}"
-                                                  target="_blank">{{entry.text}}</a>
+                <td *ngIf="types[i] === 'NAME_URL'"><a class="anchored"
+                                                       href="{{entry.link}}"
+                                                       target="_blank">{{entry.text}}</a>
                 </td>
-                <td *ngIf="types[i] ===  'label'">
-                    <ng-template ngFor let-label [ngForOf]="entry">
+                <td *ngIf="types[i] === 'TEXT'">
+                    {{entry.content}}
+                </td>
+                <td *ngIf="types[i] ===  'LABEL' || types[i] === 'REPOSITORY'">
+                    <ng-template ngFor let-label [ngForOf]="entry?.labelArray">
                         <ptooltip [tooltip]="label.tooltip.text"
                                   [tooltipHtml]="label.tooltip.html" [position]="'n'">
                             <div class="label mylabel {{label.clazz}}" [style.color]="label.color"
@@ -44,20 +47,18 @@
                         </ptooltip>
                     </ng-template>
                 </td>
-                <td *ngIf="types[i] === 'text'">
-                    {{entry.content}}
+
+                <td *ngIf="types[i] === 'MARKDOWN'">
+                    <div [innerHtml]="entry?.html | sanitizeHtml"></div>
                 </td>
-                <td *ngIf="types[i] === 'markdown'">
-                    <div [innerHtml]="entry?.htmlContent | sanitizeHtml"></div>
-                </td>
-                <td *ngIf="types[i] === 'rating'">
-                    <iicon icon="star" *ngIf="entry">{{entry}}
+                <td *ngIf="types[i] === 'RATING'">
+                    <iicon icon="star" *ngIf="entry?.rating">{{entry.rating}}
                     </iicon>
                 </td>
             </ng-template>
             <td>
                 <picon-button icon="info" [showTooltip]="false" title="Details"
-                              (click)="showDetails.emit(index[i])"></picon-button>
+                              (click)="showDetails.emit(index[itemIndex])"></picon-button>
             </td>
         </tr>
     </ng-template>

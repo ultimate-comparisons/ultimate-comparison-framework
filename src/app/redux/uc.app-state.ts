@@ -1,5 +1,4 @@
-import { Data, Label, Markdown, Text, Url } from '../components/comparison/data/data';
-import { Criteria, CriteriaType } from '../components/comparison/configuration/configuration';
+import { Criteria, CriteriaData, CriteriaTypes, DataElement } from '../../../lib/gulp/model/model.module';
 
 export interface IUCAppState {
     /**
@@ -50,7 +49,7 @@ export interface IUCAppState {
     /**
      * List of the CriteriaTypes of the columns
      */
-    columnTypes: Array<CriteriaType>;
+    columnTypes: Array<CriteriaTypes>;
 
     /**
      * List of column order ( 1 = ascending, -1 = descending)
@@ -65,7 +64,7 @@ export interface IUCAppState {
     /**
      * Which elements should be shown after the filter and the search are applied.
      */
-    currentElements: Array<Array<String | Array<Label> | Text | Url | Markdown | number>>;
+    currentElements: Array<Array<CriteriaData>>;
 
     /**
      * True if one of the current* properties was changed
@@ -91,7 +90,7 @@ export interface IUCAppState {
     latexTooltipsAsFootnotes: boolean;
 
     detailsOpen: boolean;
-    detailsData: Data | string;
+    detailsData: DataElement;
 
     detailsDisplayTooltips: boolean;
 
@@ -133,10 +132,10 @@ export class UcAppState implements IUCAppState {
     currentOrder = ['+id'];
     criterias: Map<string, Criteria> = null;
     currentColumnNames: Array<string> = [];
-    columnTypes: Array<CriteriaType> = [];
+    columnTypes: Array<CriteriaTypes> = [];
     columnOrder: Array<number> = [];
     rowIndexes: Array<number> = [];
-    currentElements: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
+    currentElements: Array<Array<CriteriaData>> = [];
     currentChanged = false;
 
     internalLink = '';

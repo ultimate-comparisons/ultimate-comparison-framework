@@ -1,35 +1,36 @@
-import { ChangeDetectorRef, EventEmitter, Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
-import {
-    Body,
-    Citation,
-    Configuration,
-    Criteria,
-    CriteriaType,
-    CriteriaValue,
-    Details,
-    getCriteriaType,
-    Header
-} from "./configuration";
-import * as Showdown from "showdown";
-import { DataService } from "../data/data.service";
-import { isNullOrUndefined } from "util";
+import { Citation, Configuration, Criteria, CriteriaTypes, CriteriaValue, Data } from '../../../../../lib/gulp/model/model.module';
+
+import * as Showdown from 'showdown';
+import { isNullOrUndefined } from 'util';
+import { Store } from '@ngrx/store';
+import { IUCAppState } from '../../../redux/uc.app-state';
+import { UCDataUpdateAction } from '../../../redux/uc.action';
 
 @Injectable()
 export class ConfigurationService {
-    public configuration: Configuration = new Configuration.Builder().build();
+    public static data: Data = new Data([]);
+    public static converter: Showdown.Converter;
     public description = '';
     public criteria: Array<Criteria> = [];
-    // TODO move to redux
+    public configuration: Configuration = Configuration.empty();
+    public citation: Map<string, Citation> = new Map();
+
     public tableColumns: Array<string> = [];
-    public initializeData: EventEmitter<any> = new EventEmitter();
-    private converter: Showdown.Converter;
+    public criteriaValues: Array<Array<{ id: string, text: string, criteriaValue: CriteriaValue }>>;
+
+    constructor(public title: Title,
+                private http: HttpClient,
+                private store: Store<IUCAppState>) {
+        ConfigurationService.converter = new Showdown.Converter();
+    }
 
     static getHtml(converter: Showdown.Converter, citation: Map<string, Citation>, markdown: string): string {
         if (isNullOrUndefined(markdown)) return null;
-        return converter.makeHtml(markdown.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
+        return ConfigurationService.converter.makeHtml(markdown.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
             if (citation.has(dec)) {
                 return '<a class="cite-link" href="#' + dec + '">[' + citation.get(dec).index + ']</a>';
             } else {
@@ -42,282 +43,104 @@ export class ConfigurationService {
         if (isNullOrUndefined(text)) {
             return null;
         }
-        return converter.makeHtml(text.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
+        return ConfigurationService.converter.makeHtml(text.toString()).replace(/(?:\[@)([^\]]*)(?:\])/g, (match, dec) => {
             return '\\cite{' + dec + '}';
         });
     }
 
-    constructor(public title: Title,
-                private http: HttpClient,
-                private dataService: DataService) {
-        this.converter = new Showdown.Converter();
-        this.dataService.setSubscriber(this);
-    }
-
     public loadComparison(cd: ChangeDetectorRef) {
-        this.http.get('comparison.json')
-            .subscribe(res => {
-                const comparisonObject: any = res || {};
-                const detailsObject: any = comparisonObject.details || {};
-                const headerObject: any = detailsObject.header || {};
-                const bodyObject: any = detailsObject.body || {};
-                const criteriaArray = comparisonObject.criteria || [];
-                const citationObject = comparisonObject.autoCitation || {};
-                const autoCriteria = comparisonObject.autoCriteria || {};
-                const autoColor = comparisonObject.autoColor || {};
+        Promise.all(
+            [
+                this.http.get('comparison.json'),
+                this.http.get('data.json'),
+                this.http.get('description.md', {responseType: 'text'})
+            ].map(res => res.toPromise())
+        ).then((result) => {
+            // Set configuration model
+            this.configuration = Configuration.load(result[0]);
+            this.criteria = this.configuration.criteria.filter(criteria => criteria.search);
+            this.criteriaValues = this.criteria.map(criteria =>
+                Array.from(criteria.values).map(([key, value]) => {
+                    return {
+                        id: value.name,
+                        text: value.name,
+                        criteriaValue: value
+                    };
+                })
+            );
+            this.citation = this.configuration.citation.reduce((map, obj) => {
+                map.set(obj.key, obj);
+                return map;
+            }, new Map());
 
-                const detailsHeader: Header = new Header.Builder()
-                    .setNameRef(headerObject.nameRef)
-                    .setLabelRef(headerObject.labelRef)
-                    .setUrlRef(headerObject.urlRef)
-                    .build();
-
-                const detailsBody: Body = new Body.Builder()
-                    .setTitle(bodyObject.title)
-                    .setBodyRef(bodyObject.bodyRef)
-                    .setTooltipAsText(bodyObject.tooltipAsText)
-                    .build();
-
-                const details: Details = new Details.Builder()
-                    .setHeader(detailsHeader)
-                    .setBody(detailsBody)
-                    .build();
-
-                const citation: Map<string, Citation> = new Map<string, Citation>();
-                Object.keys(citationObject).forEach(
-                    citationKey => {
-                        const value = citationObject[citationKey];
-                        citation.set(citationKey, new Citation.Builder()
-                            .setIndex(value.index)
-                            .setKey(citationKey)
-                            .setText(value.value)
-                            .build()
-                        )
-                    }
-                );
-
-                /**
-                 * Construct map of criteria from 'comparison-auto-config.yml'.criteria
-                 */
-                const criteria: Map<string, Criteria> = new Map<string, Criteria>();
-                criteriaArray.forEach((obj) => Object.keys(obj).forEach((key) => {
-                    const value = obj[key];
-                    if (isNullOrUndefined(value)) {
-                        criteria.set(key, new Criteria.Builder().build());
-                        return;
-                    }
-
-                    const autoColorCriteria = isNullOrUndefined(autoColor[key]) ? {} : autoColor[key];
-                    const valuesObject = isNullOrUndefined(value.values) ? {} : value.values;
-
-                    /**
-                     * Construct map of criteria values
-                     * If criteria value is undefined use autoColorCriteria information
-                     */
-                    const values: Map<string, CriteriaValue> = new Map<string, CriteriaValue>();
-                    Object.keys(valuesObject).forEach(objKey => {
-                        const value = valuesObject[objKey];
-                        const autoColorValue = isNullOrUndefined(autoColorCriteria[objKey]) ? {} : autoColorCriteria[objKey];
-
-                        // Value defined as 'key': null
-                        if (isNullOrUndefined(value)) {
-                            values.set(objKey, new CriteriaValue.Builder()
-                                .setCriteria(key)
-                                .setName(objKey)
-                                .setColor(autoColorValue.color)
-                                .setBackgroundColor(autoColorValue.backgroundColor)
-                                .build());
-                            return;
-                        }
-
-                        values.set(objKey, new CriteriaValue.Builder()
-                            .setCriteria(key)
-                            .setName(objKey)
-                            .setDescription(ConfigurationService.getHtml(this.converter, citation, value.description))
-                            .setClazz(value.class)
-                            .setColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.color) ? autoColorValue.color : value.color) : null)
-                            .setBackgroundColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor) : null)
-                            .setWeight(value.weight)
-                            .setMinAge(value.minAge)
-                            .setMaxAge(value.maxAge)
-                            .setMinAgeUnit(value.minAgeUnit)
-                            .setMaxAgeUnit(value.maxAgeUnit)
-                            .build()
-                        );
-                    });
-
-                    // Add type url to criteria id if undefined
-                    // Type Url is only supported yet for the first level header
-                    if (key === 'id' && isNullOrUndefined(value.type)) {
-                        value.type = CriteriaType.url;
-                    }
-
-                    criteria.set(key, new Criteria.Builder()
-                        .setKey(key)
-                        .setName(value.name || key)
-                        .setSearch(value.search)
-                        .setTable(value.table)
-                        .setDetail(value.detail)
-                        .setType(getCriteriaType(value.type))
-                        .setDescription(value.description)
-                        .setPlaceholder(value.placeholder)
-                        .setAndSearch(value.andSearch)
-                        .setRangeSearch(value.rangeSearch)
-                        .setValues(values)
-                        .build()
+            // Set data model
+            ConfigurationService.data = Data.loadJson(result[1], this.configuration);
+            ConfigurationService.data.dataElements = ConfigurationService.data.dataElements.map(dataElement => {
+                    // Build html strings and labelArrays
+                    dataElement.html = ConfigurationService.getHtml(
+                        ConfigurationService.converter, this.citation, dataElement.description
                     );
-                }));
-
-                /**
-                 * Complete map of criteria with 'comparison-auto-config.yml'.autoCriteria
-                 */
-                Object.keys(autoCriteria).forEach((key) => {
-                    const autoCriteriaObject = autoCriteria[key];
-                    const valuesObject = autoCriteriaObject.values || {};
-                    const autoColorCriteria = isNullOrUndefined(autoColor[key]) ? {} : autoColor[key];
-
-                    /**
-                     * If criteria is already defined by 'comparison-auto-config.yml'.criteria
-                     * complete criteria fields
-                     */
-                    if (criteria.get(key)) {
-                        let old: Criteria = criteria.get(key);
-                        let values: Map<string, CriteriaValue> = old.values;
-                        /**
-                         * Check each element CriteriaValue
-                         * oldValue from 'comparison-auto-config.yml'.criteria
-                         * value from 'comparison-auto-config.yml'.autoCriteria
-                         * color information from 'comparison-auto-config.yml'.autoColorCriteria
-                         */
-                        Object.keys(valuesObject).forEach(valueKey => {
-                            const oldValue: CriteriaValue = old.values.get(valueKey);
-                            const autoColorValue = isNullOrUndefined(autoColorCriteria[valueKey]) ? {} : autoColorCriteria[valueKey];
-                            const value = valuesObject[valueKey];
-                            // 1) old value undefined
-                            if (!isNullOrUndefined(oldValue)) {
-                                values.set(valueKey, old.values.get(valueKey));
-                                // 2) auto value defined but null
-                            } else if (isNullOrUndefined(value)) {
-                                values.set(valueKey, new CriteriaValue.Builder()
-                                    .setCriteria(key)
-                                    .setName(valueKey)
-                                    .setColor(autoColorValue.color)
-                                    .setBackgroundColor(autoColorValue.backgroundColor)
-                                    .build());
-                                // 3) old and auto value defined
-                            } else if (!isNullOrUndefined(value)) {
-                                values.set(valueKey, new CriteriaValue.Builder()
-                                    .setCriteria(key)
-                                    .setName(valueKey)
-                                    .setDescription(ConfigurationService.getHtml(this.converter, citation, value.description))
-                                    .setClazz(value.class)
-                                    .setWeight(value.weight)
-                                    .setMinAge(value.minAge)
-                                    .setMaxAge(value.maxAge)
-                                    // !! autoColor is applied if no class defined
-                                    .setColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.color) ? autoColorValue.color : value.color) : null)
-                                    .setBackgroundColor(isNullOrUndefined(value.class) ? (isNullOrUndefined(value.backgroundColor) ? autoColorValue.backgroundColor : value.backgroundColor) : null)
-                                    .setMinAgeUnit(value.minAgeUnit)
-                                    .setMaxAgeUnit(value.maxAgeUnit)
-                                    .build());
-                            }
-                        });
-
-                        criteria.set(key, new Criteria.Builder()
-                            .setKey(key)
-                            .setName(old.name)
-                            .setSearch(old.search)
-                            .setTable(old.table)
-                            .setDetail(old.detail)
-                            .setType(old.type)
-                            .setDescription(old.description)
-                            .setPlaceholder(old.placeholder)
-                            .setAndSearch(old.andSearch)
-                            .setRangeSearch(old.rangeSearch)
-                            .setValues(values)
-                            .build());
-                        /**
-                         * If criteria is not defined by 'comparison-auto-config.yml'.criteria use 'comparison-auto-config.yml'.autoCriteria
-                         */
-                    } else {
-                        let values: Map<string, CriteriaValue> = new Map<string, CriteriaValue>();
-                        Object.keys(valuesObject).forEach(valueKey => {
-                            const value = valuesObject[valueKey];
-                            const autoColorValue = isNullOrUndefined(autoColorCriteria[valueKey]) ? {} : autoColorCriteria[valueKey];
-                            if (isNullOrUndefined(value)) {
-                                values.set(valueKey, new CriteriaValue.Builder().setCriteria(key).setName(valueKey).build());
-                            } else {
-                                values.set(valueKey, new CriteriaValue.Builder()
-                                    .setCriteria(key)
-                                    .setName(valueKey)
-                                    .setDescription(ConfigurationService.getHtml(this.converter, citation, value.description))
-                                    .setClazz(value.class)
-                                    .setWeight(value.weight)
-                                    .setMinAge(value.minAge)
-                                    .setMaxAge(value.maxAge)
-                                    .setMinAgeUnit(value.minAgeUnit)
-                                    .setMaxAgeUnit(value.maxAgeUnit)
-                                    .setColor(autoColorValue.color)
-                                    .setBackgroundColor(autoColorValue.backgroundColor)
-                                    .build());
-                            }
-                        });
-
-                        // Add type url to criteria id if undefined
-                        // Type Url is only supported yet for the first level header
-                        if (key === 'id' && isNullOrUndefined(autoCriteriaObject.type)) {
-                            autoCriteriaObject.type = CriteriaType.url;
+                    dataElement.latex = ConfigurationService.getLatex(
+                        ConfigurationService.converter, dataElement.description
+                    );
+                    dataElement.criteriaData = Array.from(dataElement.criteriaData).map(([key, criteriaData]) => {
+                        switch (criteriaData.type) {
+                            case CriteriaTypes.MARKDOWN:
+                            case CriteriaTypes.RATING:
+                                criteriaData.html = ConfigurationService.getHtml(
+                                    ConfigurationService.converter,
+                                    this.citation,
+                                    criteriaData.text
+                                );
+                                criteriaData.latex = ConfigurationService.getLatex(
+                                    ConfigurationService.converter,
+                                    criteriaData.text
+                                );
+                                break;
+                            case CriteriaTypes.LABEL:
+                            case CriteriaTypes.REPOSITORY:
+                                criteriaData.labels.forEach(label => label.tooltip.html = ConfigurationService.getHtml(
+                                    ConfigurationService.converter,
+                                    this.citation,
+                                    label.tooltip.plain
+                                ));
+                                criteriaData.labelArray = Array.from(criteriaData.labels).map(([key, value]) => value);
+                                break;
                         }
+                        return criteriaData;
+                    }).reduce((map, obj) => {
+                        map.set(obj.name, obj);
+                        return map;
+                    }, new Map());
+                    return dataElement;
+                }
+            );
 
-                        criteria.set(key, new Criteria.Builder()
-                            .setKey(key)
-                            .setName(isNullOrUndefined(autoCriteriaObject.name) ? key : autoCriteriaObject.name)
-                            .setSearch(autoCriteriaObject.search)
-                            .setTable(autoCriteriaObject.table)
-                            .setDetail(autoCriteriaObject.detail)
-                            .setType(getCriteriaType(autoCriteriaObject.type))
-                            .setDescription(autoCriteriaObject.description)
-                            .setPlaceholder(autoCriteriaObject.placeholder)
-                            .setAndSearch(autoCriteriaObject.andSearch)
-                            .setRangeSearch(autoCriteriaObject.rangeSearch)
-                            .setValues(values)
-                            .build());
-                    }
-                });
+            // Set description
+            this.description = ConfigurationService.getHtml(
+                ConfigurationService.converter,
+                this.citation,
+                String(result[2]));
 
-                this.configuration = new Configuration.Builder()
-                    .setTitle(comparisonObject.title)
-                    .setSubtitle(comparisonObject.subtitle)
-                    .setSelectTitle(comparisonObject.selectTitle)
-                    .setTableTitle(comparisonObject.tableTitle)
-                    .setRepository(comparisonObject.repository)
-                    .setDetails(details)
-                    .setCriteria(criteria)
-                    .setCitation(citation)
-                    .build();
+            // Dispatch redux store action
+            this.store.dispatch(
+                new UCDataUpdateAction(
+                    this.configuration.criteria.reduce((map, obj) => {
+                            map.set(obj.id, obj);
+                            return map;
+                        },
+                        new Map())
+                )
+            );
+            this.store.dispatch(
+                {
+                    type: 'UPDATE_SETTINGS',
+                    enable: this.configuration.details.tooltipAsText,
+                    operation: 'DetailsDisplayTooltips'
+                }
+            );
 
-                this.initializeData.emit({configuration: this.configuration, dataService: this.dataService, cd: cd});
-
-                this.title.setTitle(this.configuration.title);
-                this.loadDescription(citation);
-
-                criteria.forEach((value, key) => {
-                    if (value.search) {
-                        this.criteria.push(value);
-                    }
-                    if (value.table) {
-                        this.tableColumns.push(key);
-                    }
-                });
-
-                cd.markForCheck();
-            });
-    }
-
-    public loadDescription(citation: Map<string, Citation>) {
-        this.http.get('description.md', {responseType: 'text'})
-            .subscribe(res => {
-                this.description = ConfigurationService.getHtml(this.converter, citation, res);
-            });
+            cd.detectChanges();
+        });
     }
 }

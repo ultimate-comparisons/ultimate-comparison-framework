@@ -1,14 +1,6 @@
-import {
-    AfterViewChecked,
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    Output
-} from '@angular/core';
-import { Label, Markdown, Text, Url } from "../../comparison/data/data";
+import { AfterViewChecked, ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import * as AnchorJS from 'anchor-js';
+import { CriteriaData, Label } from '../../../../../lib/gulp/model/model.module';
 
 @Component({
     selector: 'generictable',
@@ -26,7 +18,7 @@ export class GenericTableComponent implements AfterViewChecked, OnChanges {
 
     @Input() columns: Array<string> = [];
     @Input() types: Array<string> = [];
-    @Input() items: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
+    @Input() items: Array<Array<CriteriaData>> = [];
     @Input() index: Array<number> = [];
     @Input() order: Array<number> = [];
 
