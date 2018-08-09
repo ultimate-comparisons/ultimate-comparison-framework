@@ -10,11 +10,10 @@ import {
     UCSettingsUpdateAction,
     UCTableOrderAction
 } from './uc.action';
-import { DataService } from '../components/comparison/data/data.service';
-import { Criteria, CriteriaType } from '../components/comparison/configuration/configuration';
-import { Data, Label, Markdown, Text, Url } from '../components/comparison/data/data';
 import { isNullOrUndefined } from 'util';
+import { ConfigurationService } from '../components/comparison/configuration/configuration.service';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
+import { Criteria, CriteriaData, CriteriaTypes, DataElement, Label } from '../../../lib/gulp/model/model.module';
 
 export const UPDATE_SEARCH = 'UPDATE_SEARCH';
 export const UPDATE_MODAL = 'UPDATE_MODAL';
@@ -28,7 +27,7 @@ export const NEW_STATE_ACTION = 'NEW_STATE_ACTION';
 export const TOGGLE_DETAILS_ACTION = 'TOGGLE_DETAILS_ACTION';
 
 const update_actions =
-    [ UPDATE_SEARCH, UPDATE_MODAL, UPDATE_FILTER, UPDATE_DATA, UPDATE_ORDER, UPDATE_SETTINGS, CLICK_ACTION, UPDATE_ROUTE ];
+    [UPDATE_SEARCH, UPDATE_MODAL, UPDATE_FILTER, UPDATE_DATA, UPDATE_ORDER, UPDATE_SETTINGS, CLICK_ACTION, UPDATE_ROUTE];
 
 let reloadedState = false;
 
@@ -140,10 +139,10 @@ export function masterReducer(state: IUCAppState = new UcAppState(), action: UCA
 function clickReducer(state: IUCAppState, action: UCClickAction) {
     const column = state.currentColumns[action.index];
     const criteria = state.criterias.get(column);
-    const search = state.currentSearch.get(criteria.key);
+    const search = state.currentSearch.get(criteria.id);
     if (criteria.rangeSearch) {
         if (search === undefined) {
-            state.currentSearch.set(criteria.key, new Set([action.val]));
+            state.currentSearch.set(criteria.id, new Set([action.val]));
         } else {
             const s = search.values().next().value;
             if (s.trim() === action.val || s.trim().startsWith(action.val + ',') ||
@@ -151,29 +150,28 @@ function clickReducer(state: IUCAppState, action: UCClickAction) {
                 s.endsWith(',' + action.val)) {
                 return state;
             }
-            state.currentSearch.set(criteria.key, new Set([s + ',' + action.val]));
+            state.currentSearch.set(criteria.id, new Set([s + ',' + action.val]));
         }
     } else {
         if (search === undefined) {
-            state.currentSearch.set(criteria.key, new Set([action.val]));
+            state.currentSearch.set(criteria.id, new Set([action.val]));
         } else {
             search.add(action.val);
-            state.currentSearch.set(criteria.key, search);
+            state.currentSearch.set(criteria.id, search);
         }
     }
     return state;
 }
 
 function setDetails(state: IUCAppState): IUCAppState {
-    if (!state.detailsOpen && typeof state.detailsData !== 'string') {
+    if (!state.detailsOpen) {
         return state;
     }
-    for (const element of DataService.data) {
-        if (element.name === state.detailsData) {
-            state.detailsData = element;
-            break;
+    ConfigurationService.data.dataElements.forEach(dataElement => {
+        if (state.detailsData && dataElement.name === state.detailsData.name) {
+            state.detailsData = dataElement;
         }
-    }
+    });
     return state;
 }
 
@@ -225,11 +223,11 @@ function initSettings(state: IUCAppState): IUCAppState {
     // Set elements settings
     const elementNames: Array<string> = [];
     const elementsEnabled: Array<boolean> = [];
-    DataService.data.forEach((value, index) => {
+    ConfigurationService.data.dataElements.forEach((value, index) => {
         elementNames.push(value.name);
         if (state.loadedElementsEnabled.length > 0) {
             elementsEnabled.push(!isNullOrUndefined(state.loadedElementsEnabled[index]));
-        } else if (value.name === "Template") {
+        } else if (value.name === 'Template') {
             elementsEnabled.push(false);
         } else {
             elementsEnabled.push(true);
@@ -256,7 +254,7 @@ function initColumn(state: IUCAppState): IUCAppState {
     const columnsEnabled: Array<boolean> = [];
     const columnsEnabledCache: Array<boolean> = [];
     state.criterias.forEach((value, key) => {
-        const name: string = value.key.length !== 0 ? key : value.name;
+        const name: string = value.id.length !== 0 ? key : value.name;
         columnKeys.push(key);
         columnNames.push(name);
         columnsEnabled.push(value.table);
@@ -288,7 +286,7 @@ function putStateIntoURL(state: IUCAppState) {
             query += '&';
         }
         query += 'elements=';
-        for (let index = 0; index < DataService.data.length; index++) {
+        for (let index = 0; index < ConfigurationService.data.dataElements.length; index++) {
             if (state.elementsEnabled[index]) {
                 query += `${index};`;
             }
@@ -336,7 +334,7 @@ function putStateIntoURL(state: IUCAppState) {
             query += '&';
         }
         query += 'details=';
-        query += (<Data>state.detailsData).name;
+        query += (<DataElement>state.detailsData).name;
     }
     const questionMark = query.length > 0;
     if (window.location.hash.length > 1) {
@@ -387,36 +385,45 @@ function filterColumns(state: IUCAppState, columns: Map<string, boolean> = new M
 }
 
 function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = null) {
+    // Initialize state.criteria if null
     if (state.criterias === null && criterias !== null) {
         state.criterias = criterias;
         state.currentChanged = true;
     }
+
+    // Stop filtering if criteria is null
     if (state.criterias === null) {
         return state;
     }
-    const data: Array<Data> = DataService.data;
+
+    // Get data elements if null return
+    const data: Array<DataElement> = ConfigurationService.data.dataElements;
     if (isNullOrUndefined(data)) {
         return state;
     }
-    const elements: Array<Array<String | Array<Label> | Text | Url | Markdown | number>> = [];
+
+    // Start building array used for table
+    const dataElements: Array<Array<CriteriaData>> = [];
     const indexes: Array<number> = [];
 
-
-    DataService.data.forEach((value, i) => {
+    data.forEach((dataElement, i) => {
         if (state.currentFilter.indexOf(i) !== -1 || !state.elementsEnabled[i]) {
             return;
         }
+
         let includeData = true;
-        for (const field of state.currentSearch.keys()) {
-            const criteria = state.criterias.get(field);
-            if (isNullOrUndefined(criteria)) {
-                continue;
+        state.currentSearch.forEach((filterValueSet, filterCriteriaKey) => {
+            const filterCriteria = state.criterias.get(filterCriteriaKey);
+            if (isNullOrUndefined(filterCriteria)) {
+                return;
             }
-            if (criteria.rangeSearch) {
-                if (state.currentSearch.get(field).size > 0) {
+
+            // Filter for number label columns
+            if (filterCriteria.rangeSearch) {
+                if (state.currentSearch.get(filterCriteriaKey).size > 0) {
                     // take the field or an empty string (to prevent null pointer errors)
-                    const queries = (state.currentSearch.get(field).values().next().value || '').trim()
-                        // replace spaces with empty strings
+                    const queries = (state.currentSearch.get(filterCriteriaKey).values().next().value || '').trim()
+                    // replace spaces with empty strings
                         .replace(' ', '')
                         // remove elements that contain letters.
                         // first group is a comma followed by some characters (not comma) that contains a letter
@@ -424,7 +431,7 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                         // the third group is if there is no comma at all
                         .replace(/,[^,]*[a-zA-Z][^,]*|[^,]*[a-zA-Z][^,]*,|[^,]*[a-zA-Z][^,]*/g, '').split(',');
                     if (queries.length === 0 || queries.map(y => y.length === 0).reduce((p, c) => p && c)) {
-                        continue;
+                        return;
                     }
                     let includeElement = false;
                     for (const query of queries) {
@@ -470,26 +477,39 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                                 a = c;
                             }
                         }
-                        const labelMap: Map<string, Label> = <Map<string, Label>>value.criteria.get(field);
-                        for (const val of labelMap.keys()) {
-                            const numberVal = Number.parseInt(val);
-                            if (a <= numberVal && numberVal <= b) {
-                                includeElement = true;
-                                break;
-                            }
+                        const criteriaData = dataElement.criteriaData.get(filterCriteriaKey);
+                        if (isNullOrUndefined(criteriaData)) {
+                            includeElement = includeElement = false;
+                        } else {
+                            criteriaData.labels.forEach(label => {
+                                const numberValue = Number.parseInt(label.name);
+                                if (a <= numberValue && numberValue <= b) {
+                                    includeElement = true;
+                                }
+                            });
                         }
                     }
                     includeData = includeData && includeElement;
                 }
-            } else {
-                const searchArray = state.currentSearch.get(field);
-                let fulfillsField = criteria.andSearch || isNullOrUndefined(searchArray) || searchArray.size === 0;
-                searchArray.forEach(query => {
+            }
+            // filter for Label columns
+            else {
+                // fulfills query if filter set is empty
+                let fulfillsField = filterCriteria.andSearch || isNullOrUndefined(filterValueSet) || filterValueSet.size === 0;
+                // Check for each value in filter if
+                filterValueSet.forEach(filterValue => {
+                    // if criteria data has one label
                     let fulfillsQuery = false;
-                    for (const key of (<Map<string, any>>data[i].criteria.get(criteria.key)).keys()) {
-                        fulfillsQuery = fulfillsQuery || (key === query);
+                    const criteriaData = dataElement.criteriaData.get(filterCriteriaKey);
+                    if (isNullOrUndefined(criteriaData)) {
+                        fulfillsQuery = false;
+                    } else {
+                        criteriaData.labels.forEach((label, labelKey) => {
+                            fulfillsQuery = fulfillsQuery || (labelKey === filterValue)
+                        });
                     }
-                    if (criteria.andSearch) {
+
+                    if (filterCriteria.andSearch) {
                         fulfillsField = fulfillsField && fulfillsQuery;
                     } else {
                         fulfillsField = fulfillsField || fulfillsQuery;
@@ -497,33 +517,16 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
                 });
                 includeData = includeData && fulfillsField;
             }
-        }
+        });
 
         if (includeData) {
-            const dataElement: Data = data[i];
-            const item: Array<Array<Label> | Text | Url | Markdown | number> = [];
-            state.currentColumns.forEach((key, index) => {
-                const obj: any = dataElement.criteria.get(decodeURIComponent(key));
-                if (state.columnTypes[index] === CriteriaType.label) {
-                    const labelMap: Map<string, Label> = obj || new Map;
-                    const labels: Array<Label> = [];
-                    if (labelMap.constructor.name === 'Map') {
-                        labelMap.forEach((k, label) => labels.push(k));
-                    } else if (labelMap.constructor.name === CriteriaType.url) {
-                    }
-                    item.push(labels);
-                } else if (state.columnTypes[index] === CriteriaType.rating) {
-                    item.push(dataElement.averageRating);
-                } else if (state.columnTypes[index] === CriteriaType.repository) {
-                    item.push(obj);
-                } else {
-                    item.push(obj);
-                }
+            const dataElement: DataElement = data[i];
+            const criteriaDataArray = [];
+            state.currentColumns.forEach(key => {
+                criteriaDataArray.push(dataElement.getCriteriaData(decodeURIComponent(key)));
             });
-
-            elements.push(item);
+            dataElements.push(criteriaDataArray);
             indexes.push(i);
-
         }
     });
 
@@ -535,14 +538,14 @@ function filterElements(state: IUCAppState, criterias: Map<string, Criteria> = n
         }
     }
     state.rowIndexes = indexes;
-    if (state.currentElements.length !== elements.length) {
+    if (state.currentElements.length !== dataElements.length) {
         state.currentChanged = true;
     } else {
-        for (let i = 0; i < elements.length; i++) {
-            state.currentChanged = state.currentChanged || elements[i] === state.currentElements[i];
+        for (let i = 0; i < dataElements.length; i++) {
+            state.currentChanged = state.currentChanged || dataElements[i] === state.currentElements[i];
         }
     }
-    state.currentElements = elements;
+    state.currentElements = dataElements;
     return state;
 }
 
@@ -570,7 +573,7 @@ function sortElements(state: IUCAppState): IUCAppState {
     });
 
     const combined: Array<{
-        currentElements: Array<String | Array<Label> | Text | Url | Markdown | number>,
+        currentElements: Array<CriteriaData>,
         indexes: number
     }> = [];
     state.currentElements.forEach((value, index) => combined.push({
@@ -593,9 +596,12 @@ function sortElements(state: IUCAppState): IUCAppState {
     return state;
 }
 
-function sort(first: Array<String | Array<Label> | Text | Url | Markdown | number>,
-              second: Array<String | Array<Label> | Text | Url | Markdown | number>,
-              types: Array<CriteriaType>,
+/*
+ * Sort two dataElements based on a list of criteria (keys) in ascending/descending (direction) order
+ */
+function sort(first: Array<CriteriaData>,
+              second: Array<CriteriaData>,
+              types: Array<CriteriaTypes>,
               keys: Array<number>,
               directions: Array<number>) {
     const stringCompare = (s1: string, s2: string) => {
@@ -625,48 +631,34 @@ function sort(first: Array<String | Array<Label> | Text | Url | Markdown | numbe
     let result = 0;
     let index = 0;
     while (result === 0 && index < keys.length) {
-        const a = first[keys[index]];
-        const b = second[keys[index]];
-        if (isNullOrUndefined(a) && isNullOrUndefined(b)) {
+        const criteriaDataFirst = first[keys[index]];
+        const criteriaDataSecond = second[keys[index]];
+        if (isNullOrUndefined(criteriaDataFirst) && isNullOrUndefined(criteriaDataSecond)) {
             result = 0;
-        } else if (isNullOrUndefined(a)) {
+        } else if (isNullOrUndefined(criteriaDataFirst)) {
             result = 1;
-        } else if (isNullOrUndefined(b)) {
+        } else if (isNullOrUndefined(criteriaDataSecond)) {
             result = -1;
         } else {
             switch (types[keys[index]]) {
-                case 'repository':
-                    const s1: string = <string>a;
-                    const s2: string = <string>b;
-                    result = stringCompare(s1, s2);
+                case CriteriaTypes.NAME_URL:
+                    // TODO
+                    result = stringCompare(criteriaDataFirst.name, criteriaDataSecond.name);
                     break;
-                case 'url':
-                    const u1: Url = <Url>a;
-                    const u2: Url = <Url>b;
-                    result = stringCompare(u1.text, u2.text);
+                case CriteriaTypes.TEXT:
+                case CriteriaTypes.MARKDOWN:
+                    result = stringCompare(criteriaDataFirst.text, criteriaDataSecond.text);
                     break;
-                case 'text':
-                    const t1: Text = <Text>a;
-                    const t2: Text = <Text>b;
-                    result = stringCompare(t1.content, t2.content);
-                    break;
-                case 'markdown':
-                    const md1: Markdown = <Markdown>a;
-                    const md2: Markdown = <Markdown>b;
-                    result = stringCompare(md1.content, md2.content);
-                    break;
-                case 'rating':
-                    const r1: number = <number>a;
-                    const r2: number = <number>b;
+                case CriteriaTypes.RATING:
+                    const r1: number = <number>criteriaDataFirst.rating;
+                    const r2: number = <number>criteriaDataSecond.rating;
                     result = numberCompare(r1, r2);
                     break;
-                case 'label':
-                    const la1: Array<Label> = <Array<Label>>a;
-                    const la2: Array<Label> = <Array<Label>>b;
-
+                case CriteriaTypes.REPOSITORY:
+                case CriteriaTypes.LABEL:
                     // TODO improve label sorting (label weighting...)
-                    const l1: Label = la1[0];
-                    const l2: Label = la2[0];
+                    const l1: Label = criteriaDataFirst.getFirstLabel();
+                    const l2: Label = criteriaDataSecond.getFirstLabel();
                     if (isNullOrUndefined(l1) && isNullOrUndefined(l2)) {
                         result = 0;
                     } else if (isNullOrUndefined(l1)) {
@@ -699,7 +691,7 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
     const optionsDialog = params.hasOwnProperty('options');
     const columns = params.columns || '';
     const maximized = params.hasOwnProperty('maximized') || params.hasOwnProperty('?maximized');
-    const order = decodeURIComponent(params.order) || decodeURIComponent(params['?order']) || '+id';
+    const order = decodeURIComponent(params.order || params['?order'] || '+id');
     state.internalLink = params.sectionLink;
 
     search.split(';').map(x => x.trim()).forEach(x => {
@@ -720,7 +712,7 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
         const values = state.criterias.values();
         let crit = values.next().value;
         while (!isNullOrUndefined(crit)) {
-            state.currentColumns.push(crit.key);
+            state.currentColumns.push(crit.id);
             crit = values.next().value;
         }
     }
@@ -737,8 +729,8 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
 
         if (!isNullOrUndefined(detailsKey) && detailsKey.length > 0) {
             state.detailsOpen = true;
-            if (isNullOrUndefined(DataService.data) || DataService.data.length === 0) {
-                state.detailsData = detailsKey;
+            if (isNullOrUndefined(ConfigurationService.data.dataElements) || ConfigurationService.data.dataElements.length === 0) {
+                state.detailsData = new DataElement(detailsKey, '', '', new Map());
             } else {
                 state.detailsData = searchElement(state, detailsKey);
             }
@@ -746,12 +738,12 @@ function routeReducer(state: IUCAppState = new UcAppState(), action: UCRouterAct
     }
 
     state.currentlyMaximized = maximized;
-    state.currentOrder = order.split(',').map(x => decodeURIComponent(x));
+    state.currentOrder = order.split(',');
     return state;
 }
 
-function searchElement(state: IUCAppState, detailsKey: string): Data {
-    for (const element of DataService.data) {
+function searchElement(state: IUCAppState, detailsKey: string): DataElement {
+    for (const element of ConfigurationService.data.dataElements) {
         if (element.name === detailsKey) {
             return element;
         }

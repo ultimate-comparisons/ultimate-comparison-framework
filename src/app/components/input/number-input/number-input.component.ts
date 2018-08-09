@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ComparisonComponent } from "../../comparison/comparison.component";
-import { InputInterface } from "../input-interface";
-import { isNullOrUndefined } from "util";
-import { Criteria } from "../../comparison/configuration/configuration";
+import { ComparisonComponent } from '../../comparison/comparison.component';
+import { InputInterface } from '../input-interface';
+import { isNullOrUndefined } from 'util';
 import { IUCAppState } from '../../../redux/uc.app-state';
+import { Criteria } from '../../../../../lib/gulp/model/model.module';
 
 @Component({
     templateUrl: './number-input.template.html',
@@ -29,7 +29,7 @@ export class NumberInputComponent implements InputInterface {
     }
 
     public getActive(state: IUCAppState, crit: Criteria) {
-        return state.currentSearch.get(crit.name);
+        return state.currentSearch.get(crit.id);
     }
 
     public addToGui(item: string): void {

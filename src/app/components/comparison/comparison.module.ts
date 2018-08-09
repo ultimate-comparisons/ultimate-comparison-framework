@@ -7,9 +7,8 @@ import { ComparisonComponent } from './comparison.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { InputModule } from '../input/input.module';
 import { OutputModule } from '../output/output.module';
-import { ConfigurationService } from "./configuration/configuration.service";
-import { DataService } from "./data/data.service";
-import { ComparisonSettingsComponent } from "./settings/comparison.settings.component";
+import { ConfigurationService } from './configuration/configuration.service';
+import { ComparisonSettingsComponent } from './settings/comparison.settings.component';
 
 @NgModule({
     imports: [
@@ -29,7 +28,6 @@ import { ComparisonSettingsComponent } from "./settings/comparison.settings.comp
     ],
     providers: [
         ConfigurationService,
-        DataService,
         Title,
         HttpClient
     ]

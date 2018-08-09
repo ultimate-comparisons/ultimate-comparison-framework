@@ -1,9 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ConfigurationService } from "../configuration/configuration.service";
-import { Data, Label, Markdown, Rating, Text, Url } from "../data/data";
-import { Criteria } from "../configuration/configuration";
-import { isNullOrUndefined } from "util";
+import { ConfigurationService } from '../configuration/configuration.service';
 import { SafeHtml } from '@angular/platform-browser';
+import { Criteria, CriteriaData, CriteriaTypes, DataElement, Label } from '../../../../../lib/gulp/model/model.module';
 
 @Component({
     selector: 'comparison-details',
@@ -11,86 +9,64 @@ import { SafeHtml } from '@angular/platform-browser';
     styleUrls: ['./comparison.details.component.css']
 })
 export class ComparisonDetailsComponent implements OnChanges {
-    @Input() data: Data = new Data.Builder().build();
-
+    @Input() data: DataElement = new DataElement('placeholder', '', '', new Map());
     @Input() headerLabels: Array<Label> = [];
-    @Input() description: string = "";
-    @Input() displayDescription: boolean = true;
-    @Input() bodyTitle: string = "";
-    @Input() tags: Array<Array<Label> | Markdown | Text | Url> = [];
-    @Input() types: Array<string>;
+
+    @Input() descriptionData: CriteriaData;
+    @Input() descriptionCriteria: Criteria;
+
+    @Input() bodyTitle: string = ''
+
+    @Input() tags: Array<CriteriaData> = [];
+    @Input() types: Array<CriteriaTypes>;
     @Input() headers: Array<string> = [];
-    @Input() ratings: Array<Rating> = [];
+    //@Input() ratings: Array<number> = [];
     @Input() tooltipAsText: boolean = true;
 
     constructor(public configurationService: ConfigurationService) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.data && this.data && this.data.criteria) {
-            let headerLabels: Array<Label> = [];
-            let cS = this.configurationService.configuration;
-            let cD = this.data.criteria;
-            const criteria: any = cD.get(cS.details.header.labelRef);
-            if (criteria instanceof Map) {
-                criteria.forEach(label => headerLabels.push(label));
-            }
-            this.headerLabels = headerLabels;
+        if (changes.data && this.data && this.data.criteriaData) {
+            const configuration = this.configurationService.configuration;
+            const details = configuration.details;
+            const header = details.header;
+            const body = details.body;
+            const criteriaDataMap = this.data.criteriaData;
 
-            this.bodyTitle = this.configurationService.configuration.details.body.title || "";
+            // Set header labels
+            this.headerLabels = (criteriaDataMap.get(header.labelRef)
+                || {labelArray: []}).labelArray;
 
-            let description: any = this.data.criteria.get(this.configurationService.configuration.details.body.bodyRef);
-            const descriptionCriteria = this.configurationService.configuration.criteria.get(this.configurationService.configuration.details.body.bodyRef);
+            // Set body title
+            this.bodyTitle = body.title || '';
 
-            if (!isNullOrUndefined(descriptionCriteria) && descriptionCriteria.detail) {
-                this.displayDescription = true;
-                if (descriptionCriteria.type === 'markdown') {
-                    this.description = description.htmlContent;
-                } else if (descriptionCriteria.type === 'text') {
-                    this.description = description.content;
-                } else {
-                    this.displayDescription = false;
-                }
-            } else {
-                this.displayDescription = false;
-            }
+            // Set body description
+            this.descriptionData = this.data.getCriteriaData(body.bodyRef);
+            this.descriptionCriteria = configuration.getCriteria(body.bodyRef);
 
-            let tags: Array<Array<Label> | Markdown | Text | Url> = [];
-            let types: Array<string> = [];
-            let headers: Array<string> = [];
-            let ratings: Array<Rating> = [];
-            const criteriaMap: Map<string, Criteria> = this.configurationService.configuration.criteria;
-            this.data.criteria.forEach((criteria, key) => {
-                const criteriaConf = criteriaMap.get(key);
-                if (criteriaConf.detail && this.configurationService.configuration.details.body.bodyRef !== key) {
-                    if (criteria instanceof Map) {
-                        let labels: Array<Label> = [];
-                        criteria.forEach(c => labels.push(c));
-                        tags.push(labels);
-                        types.push(criteriaConf.type);
-                        headers.push(criteriaConf.name);
-                    } else if (criteria instanceof Array) {
-                        let labels: Array<Label> = [];
-                        criteria.forEach(item => {
-                            if (item instanceof Label) labels.push(item);
-                            if (item instanceof Rating) ratings.push(item);
-                        });
-                        if (labels.length > 0) {
-                            this.tags.push(labels);
-                            types.push(criteriaConf.type);
-                            headers.push(criteriaConf.name);
-                        }
+
+            // Set tags (remaining criteriaData)
+            const tags: Array<CriteriaData> = [];
+            const types: Array<CriteriaTypes> = [];
+            const headers: Array<string> = [];
+
+
+            criteriaDataMap.forEach((criteriaData, key) => {
+                const criteria = configuration.getCriteria(key);
+                if (criteria && criteria.id !== body.bodyRef && criteria.detail) {
+                    tags.push(criteriaData);
+                    types.push(criteria.type);
+                    if (criteriaData.type !== CriteriaTypes.RATING) {
+                        headers.push(criteria.name);
                     } else {
-                        tags.push(criteria);
-                        types.push(criteriaConf.type);
-                        headers.push(criteriaConf.name);
+                        headers.push(criteria.name && criteria.name.length > 0 ? criteria.name : criteria.id);
                     }
                 }
             });
             this.tags = tags;
             this.types = types;
             this.headers = headers;
-            this.ratings = ratings;
         }
     }
 

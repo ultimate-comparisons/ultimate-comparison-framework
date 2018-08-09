@@ -1,14 +1,14 @@
 {
-  "name": "##asdfn",
-  "description": "##asdfd",
-  "version": "##asdfv",
+  "name": "##name",
+  "description": "##description",
+  "version": "##version",
   "scripts": {
     "start": "npm run gulp:compile && npm run server:start",
     "build": "npm run gulp:compile",
     "dev": "concurrently \"npm run gulp:development\" \"npm run server:start\" ",
     "gulp:compile": "./node_modules/.bin/gulp default --gulpfile=./node_modules/ultimate-comparison/lib/gulp/gulpfile.js --dir=node_modules/ultimate-comparison",
     "gulp:development": "node ./node_modules/gulp/bin/gulp.js dev --gulpfile=./node_modules/ultimate-comparison/lib/gulp/gulpfile.js --dir=node_modules/ultimate-comparison",
-    "server:start": "./node_modules/.bin/angular-http-server --path dist --p 3001"
+    "server:start": "./node_modules/.bin/angular-http-server --path dist --p 3001 --open"
   },
   "babel": {
     "presets": [

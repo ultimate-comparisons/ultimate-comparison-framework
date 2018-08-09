@@ -26,37 +26,40 @@
     iterate over data columns
     --><ng-template ngFor let-entry [ngForOf]="item" let-last="last" let-i="index"><!--
         print url (only print the text and not the link)
-        --><ng-template [ngIf]="types[i] === 'url' && entry">{{entry.text}}</ng-template><!--
+        --><ng-template [ngIf]="types[i] === 'URL' && entry">{{entry.text}}</ng-template><!--
 
         print labels
-        --><ng-template [ngIf]="types[i] === 'label' && entry"><!--
+        --><ng-template [ngIf]="types[i] === 'LABEL' || types[i] === 'REPOSITORY' && entry"><!--
             iterate over labels
-            --><ng-template ngFor let-label [ngForOf]="entry" let-lastItem="last"><!--
+            --><ng-template ngFor let-label [ngForOf]="entry?.labelArray" let-lastItem="last"><!--
                 print label
                 -->{{label.name}}<!--
                     tooltip
-                    --><ng-template [ngIf]="label.tooltip"><!--
+                    --><ng-template [ngIf]="label.tooltip && label.tooltip.latex && label.tooltip.latex.length > 0"><!--
                         print tooltips?
                         --><ng-template [ngIf]="showTableTooltips"><!--
                             print tooltips in footnotes
-                            --><footnote *ngIf="tableTooltipsAsFootnotes&&label.tooltip.latex" [footnote]="label.tooltip.latex" [(footnotes)]="footnotes"></footnote><!--
+                            --><footnote *ngIf="tableTooltipsAsFootnotes && label.tooltip.latex && label.tooltip.latex.length > 0" [footnote]="label.tooltip.latex" [(footnotes)]="footnotes"></footnote><!--
                             print tooltips after labels
-                            --><div *ngIf="!tableTooltipsAsFootnotes" [innerHtml]="label.tooltip.latex|sanitizeHtml"></div><!--
+                            --> (<span *ngIf="!tableTooltipsAsFootnotes" [innerHtml]="label.tooltip.latex | sanitizeHtml"></span>)<!--
                         --></ng-template><!--
                     --></ng-template><!--
-                    label seperator --><ng-template [ngIf]="!lastItem">, </ng-template><!--
+                    label separator --><ng-template [ngIf]="!lastItem">, </ng-template><!--
             --></ng-template><!--
         --></ng-template><!--
 
+        print name-url
+        --><ng-template [ngIf]="types[i] === 'NAME_URL'">{{entry.text}}</ng-template><!--
+
         print text
-        --><ng-template [ngIf]="types[i] === 'text' && entry">{{entry.content}}</ng-template><!--
+        --><ng-template [ngIf]="types[i] === 'TEXT' && entry">{{entry.content}}</ng-template><!--
 
         print rating
-        --><ng-template [ngIf]="types[i] === 'rating' && entry">{{'$' + entry+'\\bigstar$'}}</ng-template><!--
+        --><ng-template [ngIf]="types[i] === 'RATING' && entry?.rating">{{'$' + entry.rating+'\\bigstar$'}}</ng-template><!--
 
         print markdown
-        --><ng-template [ngIf]="types[i] === 'markdown' && entry"><!--
-            --><span class="ltInline" [innerHtml]="entry.latex|sanitizeHtml"></span><!--
+        --><ng-template [ngIf]="types[i] === 'MARKDOWN' && entry?.latex"><!--
+            --><span class="ltInline" [innerHtml]="entry?.latex | sanitizeHtml"></span><!--
         --></ng-template><!--
        --><ng-template [ngIf]="!last"> &#38; </ng-template><!--
        --><ng-template [ngIf]="last">\\<br/>
