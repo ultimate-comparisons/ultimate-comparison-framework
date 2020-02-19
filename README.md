@@ -80,7 +80,7 @@ A `comparison.yml` has following attributes:
 
 For each thing, create a markdown file in comparison-elements.
 You can base it on template.md.
-If one column depends on a repository (repo-attribute in `comparison.yml` true), you have to define a `repo` section (`## section title`) and add the repository as first list item, eg:
+If one column depends on a repository (repo-attribute in `comparison.yml` true), you have to define a `## Repo` section and add the repository as first list item, eg:
 
 ```markdown
 ## Repo
