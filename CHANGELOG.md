@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Fix insertion of version and description in generated `package.json`
+- md-to-json part at Java 11 (by updating gradle to 6.2)
 
 ## [v2.0.0-alpha.31]
 
