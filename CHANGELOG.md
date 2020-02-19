@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v2.0.0-alpha.31]
+
 ### Added
 
 - Publish `ultimate-comparison` on npmjs.org [#67](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/67)
@@ -62,4 +64,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Rate Limit exceeded for GitHub for up to 60 elements.
 
-[Unreleased]: https://github.com/ultimate-comparisons/ultimate-comparison-BASE/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/ultimate-comparisons/ultimate-comparison-BASE/compare/v2.0.0-alpha.31...HEAD
+[v2.0.0-alpha.31]: https://github.com/ultimate-comparisons/ultimate-comparison-BASE/compare/1.0.0...v2.0.0-alpha.31
