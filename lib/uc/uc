@@ -27,8 +27,8 @@ setup () {
   echo "How would you describe your comparison?"
   read -e DESC
   sed -i "s/##name/${NAME}/" ${CWD}/package.json
-  sed -i "s/##description/${VERS}/" ${CWD}/package.json
-  sed -i "s/##version/${DESC}/" ${CWD}/package.json
+  sed -i "s/##description/${DESC}/" ${CWD}/package.json
+  sed -i "s/##version/${VERS}/" ${CWD}/package.json
   npm install
   npm i ultimate-comparison@next
 }

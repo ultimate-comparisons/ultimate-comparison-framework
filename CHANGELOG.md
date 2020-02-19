@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix insertion of version and description in generated `package.json`
+
 ## [v2.0.0-alpha.31]
 
 ### Added
