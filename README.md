@@ -10,7 +10,7 @@
 
 ## Create your own ultimate comparison
 
-1. Install the **ultimate-comparison**-package globally on your system using `npm install --global ultimate-comparison`
+1. Install the **ultimate-comparison** package globally on your system using `npm install --global ultimate-comparison`
 2. Create the directory which should contain the comparison and change into it, e. g. with `mkdir MY_COMPARISON && cd MY_COMPARISON`
 3. Set up your comparison with `uc setup`
     1. Enter the name of your comparison and press <kbd>Enter</kbd>
