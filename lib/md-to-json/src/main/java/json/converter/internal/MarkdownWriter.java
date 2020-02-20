@@ -1,7 +1,6 @@
 package json.converter.internal;
 
 import com.vladsch.flexmark.html.HtmlWriter;
-import jdk.nashorn.internal.parser.JSONParser;
 
 import java.util.stream.Stream;
 
@@ -90,7 +89,7 @@ public class MarkdownWriter {
     }
 
     public MarkdownWriter value(String value) {
-        this.html.raw(JSONParser.quote(value));
+        this.html.raw(value);
         return this;
     }
 
