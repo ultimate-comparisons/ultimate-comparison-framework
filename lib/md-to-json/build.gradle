@@ -1,6 +1,7 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.2'
     id 'java'
+    id 'application'
 }
 
 repositories {
@@ -42,4 +43,8 @@ task mdToJson(type: JavaExec, dependsOn: classes) {
     }
     main = "wrapper.Converter"
     classpath = sourceSets.main.runtimeClasspath
+}
+
+application {
+    mainClassName = 'wrapper.Converter'
 }
