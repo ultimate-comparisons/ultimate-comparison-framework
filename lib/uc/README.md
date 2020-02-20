@@ -1,13 +1,11 @@
-# Ultimate THING Comparison
-
-[![Build Status](https://travis-ci.org/example.com/ultimate-THING-comparison.svg?branch=master)](https://travis-ci.org/example.com/ultimate-THING-comparison)
+# Ultimate THING Comparison [![Build Status](https://travis-ci.org/example.com/ultimate-THING-comparison.svg?branch=master)](https://travis-ci.org/example.com/ultimate-THING-comparison)
 
 This is an ultimate comparison of THINGs.
 
 ## Start the comparison
 
 1. Install dependencies `npm install`
-2. Start webserver `npm start`
+2. Start web server `npm start`
 3. Alternatively start development mode `npm run dev`
 
 ## Deploy comparison with github and travis
@@ -22,31 +20,33 @@ This is an ultimate comparison of THINGs.
 
 The code below shows a sample element.
 
-    # THING Element - http://example.com
-    Element short description ...
+```markdown
+# THING Element - http://example.com
+Element short description ...
 
-    ## Description
-    Element long __markdown__ description ...
+## Description
+Element long __markdown__ description ...
 
-    ## Property 1
-    - Label 1
-        - Tooltip for label 1
-    - Label 2
-        - Itemized tooltip for label 1
-        - Second tooltip item
+## Property 1
+- Label 1
+    - Tooltip for label 1
+- Label 2
+    - Itemized tooltip for label 1
+    - Second tooltip item
 
-    ## Property 2
-    - Label 3
-    - Label 4
-    - Label 5
+## Property 2
+- Label 3
+- Label 4
+- Label 5
 
-    ## Rating
-    - [1] Bad THING
-    - [3] It is ok
-    - [5] Good THING
+## Rating
+- [1] Bad THING
+- [3] It is ok
+- [5] Good THING
+```
 
 ## License
 
 The content is licensed under [CC0-1.0].
 
-  [CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
+[CC0-1.0]: https://creativecommons.org/publicdomain/zero/1.0/
