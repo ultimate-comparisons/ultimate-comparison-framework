@@ -87,6 +87,22 @@ If one column depends on a repository (repo-attribute in `comparison.yml` true),
 To update the ultimate comparison framework that your comparison uses, just run `npm update` in the directory that contains your comparison.
 It installs the latest version with the same major version number (ie. `2.x.x`).
 
+## Development hints
+
+When developing on the framework itself, these might be helpful hints:
+
+### Linux
+
+Use node 12.
+
+### Windows
+
+Development on Windows currently does not work.
+
+- `npm install --global --production windows-build-tools`
+  - Alternative: - `choco install python2 vcredist2013` (currently does not fully work)
+- `node_modules/.bin/gulp default --gulpfile=/c/Users/login/git-repositories/uc/ultimate-comparison-BASE/lib/gulp/gulpfile.js --dir=node_modules/ultimate-comparison`
+
 ## License
 
 The code is licensed under [MIT], the content (located at `data`) under [CC0-1.0].
