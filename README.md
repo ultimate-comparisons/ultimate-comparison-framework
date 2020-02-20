@@ -51,7 +51,7 @@ A `comparison.yml` has following attributes:
 - `citation`: Configures the citation of sources
     - `csl`: The style of the citation as [bibtex](http://www.bibtex.org/) class. Example classes: https://github.com/citation-style-language/styles
     - `bib`: The file containing the used sources in [bibtex](http://www.bibtex.org/) style
-- `criteria`: List of fields that all comparison-elements use. The attributes for each criteria are:
+- `criteria`: List of fields that all comparison elements use. The attributes for each criteria are:
     - `name`: The display name of the criteria. Type: `string` (1)
     - `search`: Whether a text box should be added to the search form. Allowed values: `true` (1), `false`
     - `table`: Whether it should be included in the comparison table by default. Allowed values: `true` (2), `false`
@@ -73,8 +73,8 @@ A `comparison.yml` has following attributes:
 
 ### Define comparison elements
 
-For each thing, create a markdown file in comparison-elements.
-You can base it on template.md.
+For each thing, create a markdown file in `data`.
+You can base it on `template.md`.
 If one column depends on a repository (repo-attribute in `comparison.yml` true), you have to define a `## Repo` section and add the repository as first list item, eg:
 
 ```markdown
