@@ -34,14 +34,6 @@ test {
     }
 }
 
-task mdToJson(type: JavaExec, dependsOn: classes) {
-    if (project.hasProperty("appArgs")) {
-        args(appArgs.split(' '))
-    }
-    main = "wrapper.Converter"
-    classpath = sourceSets.main.runtimeClasspath
-}
-
 application {
     mainClassName = 'wrapper.Converter'
 }
