@@ -37,7 +37,19 @@ public class Converter {
     private Map<String, Map<String, Map<String, Boolean>>> options = Maps.mutable.with();
 
     private Converter(Path input) {
+        this.gson = new GsonBuilder().
+                                         registerTypeAdapter(Double.class, (JsonSerializer<Double>) (src, typeOfSrc, context) -> {
+                                             if (src == src.longValue())
+                                                 return new JsonPrimitive(src.longValue());
+                                             return new JsonPrimitive(src);
+                                         }).create();
+
         this.input = input;
+
+        if (!Files.exists(input)) {
+            Logger.error("File/Directory {} does not exist", input);
+            return;
+        }
 
         if (Files.isDirectory(input)) {
             this.multiple = true;
@@ -47,13 +59,6 @@ public class Converter {
             this.multiple = false;
             this.output = convertFileName(input);
         }
-
-        this.gson = new GsonBuilder().
-                registerTypeAdapter(Double.class, (JsonSerializer<Double>) (src, typeOfSrc, context) -> {
-                    if (src == src.longValue())
-                        return new JsonPrimitive(src.longValue());
-                    return new JsonPrimitive(src);
-                }).create();
     }
 
     public static void main(String args[]) {
@@ -196,8 +201,15 @@ public class Converter {
 
     private Path convertFileName(Path path) {
         String filename = path.getFileName().toString();
-        filename = filename.substring(0, filename.lastIndexOf("."));
-        return path.resolveSibling(filename + ".json");
+        int positionOfDot = filename.lastIndexOf(".");
+        String newFileName;
+        if (positionOfDot < 0) {
+            Logger.error("No dot in filename {}", filename);
+            newFileName = filename + ".json";
+        } else {
+            newFileName = filename.substring(0, positionOfDot) + ".json";
+        }
+        return path.resolveSibling(newFileName);
     }
 
     private String readFile(Path path) {
