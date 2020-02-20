@@ -12,15 +12,14 @@ import com.vladsch.flexmark.util.options.MutableDataSet;
 import json.converter.JsonConverterExtension;
 import json.converter.internal.JsonConverterNodeRenderer;
 import org.apache.commons.cli.*;
-import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.collections.impl.factory.Maps;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Converter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Converter.class);
 
     private final Path input;
     private final Boolean multiple;
@@ -39,8 +37,6 @@ public class Converter {
     private Map<String, Map<String, Map<String, Boolean>>> options = Maps.mutable.with();
 
     private Converter(Path input) {
-        PropertyConfigurator.configure(Converter.class.getClassLoader().getResource("log4j.properties"));
-
         this.input = input;
 
         if (Files.isDirectory(input)) {
@@ -122,7 +118,7 @@ public class Converter {
             converter.convert();
 
         } catch (ParseException e) {
-            LOGGER.error("Parse error ", e);
+            Logger.error(e, "Parse error");
         }
 
     }
@@ -133,7 +129,7 @@ public class Converter {
             try {
                 Files.createDirectories(tmp);
             } catch (IOException e) {
-                LOGGER.error("Could not create tmp directory: ", e);
+                Logger.error(e, "Could not create tmp directory");
             }
         }
     }
@@ -151,12 +147,12 @@ public class Converter {
         if (multiple) {
             createTmpDirectory(tmp);
 
-            List list = getMarkdownFiles(input)
-                    .map(this::convert)
-                    .map(value -> gson.fromJson(value, List.class))
-                    .flatMap(List::stream)
-                    .collect(Collectors.toList());
-            writeFile(output, gson.toJson(list));
+            Object collect = getMarkdownFiles(input)
+                .map(this::convert)
+                .map(value -> gson.fromJson(value, List.class))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+            writeFile(output, gson.toJson(collect, List.class));
         } else {
             convert(input, output);
         }
@@ -178,8 +174,15 @@ public class Converter {
 
         Node document = parser.parse(readFile(in));
         String result = renderer.render(document);
+        Logger.debug(result);
 
-        List list = gson.fromJson(result, List.class);
+        List list;
+        try {
+            list = gson.fromJson(result, List.class);
+        } catch (com.google.gson.JsonSyntaxException e) {
+            Logger.error(e, "Could not parse JSON");
+            return "";
+        }
         result = gson.toJson(list);
 
         if (!multiple) {
@@ -202,8 +205,8 @@ public class Converter {
         try {
             result = new String(Files.readAllBytes(path));
         } catch (IOException e) {
-            LOGGER.error("Could not read file {}", path);
-            LOGGER.error("Error: {}", e);
+            Logger.error("Could not read file {}", path);
+            Logger.error(e, "Error: {}");
         }
         return result;
     }
@@ -213,8 +216,8 @@ public class Converter {
             Files.createDirectories(path.getParent());
             Files.write(path, msg.getBytes());
         } catch (IOException e) {
-            LOGGER.error("Could not write file {}", path);
-            LOGGER.error("Error: {}", e);
+            Logger.error("Could not write file {}", path);
+            Logger.error(e);
         }
     }
 
@@ -223,16 +226,16 @@ public class Converter {
             try {
                 this.tmp = Files.createDirectories(path);
             } catch (IOException e) {
-                LOGGER.error("Could not create tmp directory {}", path);
-                LOGGER.error("Error: {}", e);
+                Logger.error("Could not create tmp directory {}", path);
+                Logger.error(e);
             }
         } else if (Objects.isNull(path)) {
             String prefix = "json-converter";
             try {
                 this.tmp = Files.createTempDirectory(prefix);
             } catch (IOException e) {
-                LOGGER.error("Could not create tmp directory with prefix {}", prefix);
-                LOGGER.error("Error: {}", e);
+                Logger.error("Could not create tmp directory with prefix {}", prefix);
+                Logger.error(e);
             }
         }
     }
@@ -244,8 +247,8 @@ public class Converter {
                     .filter(Objects::nonNull)
                     .filter(p -> p.toString().endsWith(".md"));
         } catch (IOException e) {
-            LOGGER.error("Could not get markdown files for path {}", path);
-            LOGGER.error("Error: ", e);
+            Logger.error("Could not get markdown files for path {}", path);
+            Logger.error(e);
         }
         return result;
     }
