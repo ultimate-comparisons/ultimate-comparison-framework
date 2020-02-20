@@ -16,6 +16,7 @@ dependencies {
     compile 'org.tinylog:tinylog-impl:2.1.0-RC3'
     compile 'org.eclipse.collections:eclipse-collections-api:9.2.0'
     compile 'org.eclipse.collections:eclipse-collections:9.2.0'
+    compile 'org.apache.commons:commons-text:1.8'
 
     testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
     testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')

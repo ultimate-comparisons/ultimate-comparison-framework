@@ -1,6 +1,7 @@
 package json.converter.internal;
 
 import com.vladsch.flexmark.html.HtmlWriter;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.stream.Stream;
 
@@ -89,7 +90,10 @@ public class MarkdownWriter {
     }
 
     public MarkdownWriter value(String value) {
-        this.html.raw(value);
+        // value needs to be escaped
+        // unescaped: results to following JSON
+        //   "content": Default 1 - http://default-1-entry.example.com,
+        this.html.raw('"' + StringEscapeUtils.escapeJson(value) + '"');
         return this;
     }
 
