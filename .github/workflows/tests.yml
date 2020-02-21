@@ -1,0 +1,36 @@
+name: Checks
+
+on: [push, pull_request]
+
+jobs:
+  javatests:
+    name: md-to-json unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+        with:
+          depth: 1
+          submodules: false
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 12
+      - name: Run java tests
+        run: |
+          cd lib/md-to-json
+          ./gradlew check
+  jstests:
+    name: js unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+        with:
+          depth: 1
+          submodules: false
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: npm install
+      - run: npm test
