@@ -5,14 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v2.0.0-alpha.32] – 2020-02-21
 
 ### Fixed
 
 - Fix insertion of version and description in generated `package.json`
 - md-to-json part at Java 11 (by updating gradle to 6.2)
 
-## [v2.0.0-alpha.31]
+## [v2.0.0-alpha.31] – 2018-08-09
 
 ### Added
 
@@ -50,9 +50,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
-- Remove pandoc dependency [#113](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/113)
+- Remove [pandoc](https://pandoc.org/) dependency [#113](https://github.com/ultimate-comparisons/ultimate-comparison-BASE/issues/113)
 
-## 1.0.0 - 2017-08-24
+## 1.0.0 – 2017-08-24
 
 ### Added
 
@@ -69,5 +69,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Rate Limit exceeded for GitHub for up to 60 elements.
 
-[Unreleased]: https://github.com/ultimate-comparisons/ultimate-comparison-BASE/compare/v2.0.0-alpha.31...HEAD
+[Unreleased]: https://github.com/ultimate-comparisons/ultimate-comparison-BASE/compare/v2.0.0-alpha.32...HEAD
+[v2.0.0-alpha.32]: https://github.com/ultimate-comparisons/ultimate-comparison-BASE/compare/v2.0.0-alpha.31...v2.0.0-alpha.32
 [v2.0.0-alpha.31]: https://github.com/ultimate-comparisons/ultimate-comparison-BASE/compare/1.0.0...v2.0.0-alpha.31
