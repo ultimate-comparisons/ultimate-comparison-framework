@@ -184,12 +184,12 @@ public class Converter {
 
         Node document = parser.parse(readFile(in));
         String result = renderer.render(document);
-        Logger.debug(result);
 
         List list;
         try {
             list = gson.fromJson(result, List.class);
         } catch (com.google.gson.JsonSyntaxException e) {
+            Logger.debug(result);
             Logger.error(e, "Could not parse JSON");
             return "";
         }
