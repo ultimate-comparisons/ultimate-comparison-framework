@@ -48,6 +48,7 @@ public class Converter {
 
         if (!Files.exists(input)) {
             Logger.error("File/Directory {} does not exist", input);
+            this.multiple = false;
             return;
         }
 
