@@ -8,8 +8,6 @@ import json.converter.internal.JsonConverterNodeRenderer;
 import org.eclipse.collections.impl.factory.Maps;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,13 +15,12 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class JsonConverterTest {
-    private static Logger LOGGER = LoggerFactory.getLogger(JsonConverterTest.class);
 
     private String loadResource(String name) throws Exception {
         Path path = Paths.get(this.getClass().getClassLoader().getResource(name).toURI());
         return new String(Files.readAllBytes(path));
     }
-    
+
     @Test
     public void test() throws Exception {
         MutableDataSet options = new MutableDataSet();
