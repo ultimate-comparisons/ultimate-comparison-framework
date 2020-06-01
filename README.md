@@ -3,6 +3,8 @@
 > This is the ultimate comparison framework written in [Angular](https://angular.io/).
 > It is released on npm as [ultimate-comparison](https://www.npmjs.com/package/ultimate-comparison).
 
+Scientifically interested? - Read on at our paper [The Ultimate Comparison Framework](http://ceur-ws.org/Vol-2575/paper9.pdf).
+
 ## Create your own ultimate comparison
 
 1. Install the **ultimate-comparison** package globally on your system using `npm install --global ultimate-comparison`
