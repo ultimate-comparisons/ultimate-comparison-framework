@@ -4,11 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class ConverterTest {
 
     private Path getResourcePath(String name) throws Exception {
-        return Paths.get(this.getClass().getClassLoader().getResource(name).toURI());
+        return Paths.get(Objects.requireNonNull(this.getClass().getClassLoader().getResource(name)).toURI());
     }
 
     @Test
